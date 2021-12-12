@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>windows下使用Kernel32.lib库,统一API | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="windows下使用Kernel32.lib库,统一APIwindows下使用Kernel32.lib库,统一API背景由于是统一API的前提下，做成了不同实现了这些API功能的动态链接库，然后根据需要，动态的做出选择去加载这些动态库，并且是在windows下，所以最终用Kernel32.lib库 要注意接口导出头文件如下：（要注意将接口导出） 12345678910111213141516171">
+<meta property="og:type" content="article">
+<meta property="og:title" content="windows下使用Kernel32.lib库,统一API">
+<meta property="og:url" content="http://example.com/2019/09/09/windows%E4%B8%8B%E4%BD%BF%E7%94%A8Kernel32.lib%E5%BA%93,%E7%BB%9F%E4%B8%80API/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="windows下使用Kernel32.lib库,统一APIwindows下使用Kernel32.lib库,统一API背景由于是统一API的前提下，做成了不同实现了这些API功能的动态链接库，然后根据需要，动态的做出选择去加载这些动态库，并且是在windows下，所以最终用Kernel32.lib库 要注意接口导出头文件如下：（要注意将接口导出） 12345678910111213141516171">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-09-09T03:21:39.000Z">
+<meta property="article:modified_time" content="2021-05-15T05:19:19.229Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-windows下使用Kernel32.lib库,统一API" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2019/09/09/windows%E4%B8%8B%E4%BD%BF%E7%94%A8Kernel32.lib%E5%BA%93,%E7%BB%9F%E4%B8%80API/" class="article-date">
+  <time class="dt-published" datetime="2019-09-09T03:21:39.000Z" itemprop="datePublished">2019-09-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      windows下使用Kernel32.lib库,统一API
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="windows下使用Kernel32-lib库-统一API"><a href="#windows下使用Kernel32-lib库-统一API" class="headerlink" title="windows下使用Kernel32.lib库,统一API"></a>windows下使用Kernel32.lib库,统一API</h1><h1 id="windows下使用Kernel32-lib库-统一API-1"><a href="#windows下使用Kernel32-lib库-统一API-1" class="headerlink" title="windows下使用Kernel32.lib库,统一API"></a>windows下使用Kernel32.lib库,统一API</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>由于是统一API的前提下，做成了不同实现了这些API功能的动态链接库，然后根据需要，动态的做出选择去加载这些动态库，并且是在windows下，所以最终用Kernel32.lib库</p>
+<h2 id="要注意接口导出"><a href="#要注意接口导出" class="headerlink" title="要注意接口导出"></a>要注意接口导出</h2><p>头文件如下：（要注意将接口导出）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;string&gt;</span><br><span class="line">#include &lt;iostream&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line"><span class="comment">//导出接口</span></span><br><span class="line">#ifdef DLLLIB </span><br><span class="line">#define DLLLIB _declspec(dllexport)</span><br><span class="line">#<span class="keyword">else</span></span><br><span class="line">#define DLLLIB _declspec(dllimport)</span><br><span class="line">#endif</span><br><span class="line"></span><br><span class="line">extern <span class="string">&quot;C&quot;</span>&#123;</span><br><span class="line">	DLLLIB short one_fun_api(<span class="keyword">const</span> string&amp;);</span><br><span class="line"></span><br><span class="line">	DLLLIB short two_fun_api(<span class="keyword">const</span> int&amp;);</span><br><span class="line"></span><br><span class="line">	DLLLIB short three_fun_api(<span class="keyword">const</span> string&amp;);</span><br><span class="line"></span><br><span class="line">	DLLLIB short four_fun_api(<span class="keyword">const</span> string&amp;);</span><br><span class="line"></span><br><span class="line">	DLLLIB bool  five_fun_api();</span><br><span class="line"></span><br><span class="line">	DLLLIB bool  six_fun_api();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>主要代码如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">short loadLibDemo::<span class="function"><span class="title">realLoadLib</span>(<span class="params"><span class="keyword">const</span> string&amp; libPath</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span>(libPath.length() &lt;= <span class="number">0</span>)</span><br><span class="line">		<span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">	libHandle = LoadLibrary(libPath.c_str());</span><br><span class="line">	<span class="keyword">if</span>(NULL==libHandle)</span><br><span class="line">	&#123;</span><br><span class="line">		printf(<span class="string">&quot;dlopen fail %s\n&quot;</span>, GetLastError());</span><br><span class="line">		<span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	pOne = (PFUN_APIOne)GetProcAddress(libHandle, <span class="string">&quot;one_fun_api&quot;</span>);</span><br><span class="line">	<span class="keyword">if</span>(NULL == pOne)</span><br><span class="line">	&#123;</span><br><span class="line">		printf(<span class="string">&quot;[PFUN_APIOne] dlsym fail %s\n&quot;</span>, GetLastError());</span><br><span class="line">		<span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	pTwo = (PFUN_APITwo)GetProcAddress(libHandle, <span class="string">&quot;two_fun_api&quot;</span>);</span><br><span class="line">	<span class="keyword">if</span>(NULL == pTwo)</span><br><span class="line">	&#123;</span><br><span class="line">		printf(<span class="string">&quot;[PFUN_APITwo] dlsym fail %s\n&quot;</span>, GetLastError());</span><br><span class="line">		<span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	pThree = (PFUN_APIThree)GetProcAddress(libHandle, <span class="string">&quot;three_fun_api&quot;</span>);</span><br><span class="line">	<span class="keyword">if</span>(NULL == pThree)</span><br><span class="line">	&#123;</span><br><span class="line">		printf(<span class="string">&quot;[PFUN_APIThree] dlsym fail %s\n&quot;</span>, GetLastError());</span><br><span class="line">		<span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	pFour = (PFUN_APIFour)GetProcAddress(libHandle, <span class="string">&quot;four_fun_api&quot;</span>);</span><br><span class="line">	<span class="keyword">if</span>(NULL == pFour)</span><br><span class="line">	&#123;</span><br><span class="line">		printf(<span class="string">&quot;[PFUN_APIFour] dlsym fail %s\n&quot;</span>, GetLastError());</span><br><span class="line">		<span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	pFive = (PFUN_APIFive)GetProcAddress(libHandle, <span class="string">&quot;five_fun_api&quot;</span>);</span><br><span class="line">	<span class="keyword">if</span>(NULL == pFive)</span><br><span class="line">	&#123;</span><br><span class="line">		printf(<span class="string">&quot;[PFUN_APIFive] dlsym fail %s\n&quot;</span>, GetLastError());</span><br><span class="line">		<span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	pSix = (PFUN_APISix)GetProcAddress(libHandle, <span class="string">&quot;six_fun_api&quot;</span>);</span><br><span class="line">	<span class="keyword">if</span>(NULL == pSix)</span><br><span class="line">	&#123;</span><br><span class="line">		printf(<span class="string">&quot;[PFUN_APISix] dlsym fail %s\n&quot;</span>, GetLastError());</span><br><span class="line">		<span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>完整代码已经放在了<a target="_blank" rel="noopener" href="https://github.com/TreeAndFlower/loadlibdemo-windows">https://github.com/TreeAndFlower/loadlibdemo-windows</a></p>
+<h2 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h2><p>要记得导出API接口！</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">如果没有导出接口，可能会报错，报错信息如下：</span><br><span class="line"></span><br><span class="line">GetProcAddress 出错，返回NULL(<span class="number">127</span>)</span><br><span class="line"></span><br><span class="line">这个错误原因，就是由于忘记了没有导出dll库的对外接口函数，</span><br><span class="line">是忘记了用 extern <span class="string">&quot;C&quot;</span> __declspec(dllexport) ，需要将接口导出，GetProcAddress才可以使用这些接口函数</span><br></pre></td></tr></table></figure>
+
+<p>windows下用Kernel32.lib库，头文件是Windows.h；</p>
+<p>PS：</p>
+<p>另外，linux版本的blog在这里：<a target="_blank" rel="noopener" href="https://treeandflower.github.io/2019/09/01/linux%E4%B8%8B%E4%BD%BF%E7%94%A8dl%E5%BA%93%EF%BC%8C%E7%BB%9F%E4%B8%80API/">https://treeandflower.github.io/2019/09/01/linux下使用dl库，统一API/</a></p>
+<p>如有描述不对之处，欢迎大家指正</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2019/09/09/windows%E4%B8%8B%E4%BD%BF%E7%94%A8Kernel32.lib%E5%BA%93,%E7%BB%9F%E4%B8%80API/" data-id="ckx3cs7r6000frov44diw2y7j" data-title="windows下使用Kernel32.lib库,统一API" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/09/22/map%E5%AD%98%E6%94%BE%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          map存放函数指针
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/09/05/mqtt%E8%BF%9E%E6%8E%A5%E6%97%B6%E6%8A%A5%E9%94%99-8/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">mqtt连接时报错-8</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/12/12/%E8%BF%81%E7%A7%BB%E4%B8%80%E4%B8%AA%E8%B4%A6%E5%8F%B7/">迁移一个账号</a>
+          </li>
+        
+          <li>
+            <a href="/2021/05/15/%E5%BC%80%E5%8F%91clickMouse%E9%BC%A0%E6%A0%87%E7%82%B9%E5%87%BB%E5%B0%8F%E5%B7%A5%E5%85%B7%E5%88%A0%E9%99%A4%E9%82%AE%E7%AE%B1%E9%87%8C%E7%9A%842w%E5%A4%9A%E5%9E%83%E5%9C%BE%E9%82%AE%E4%BB%B6/">开发clickMouse鼠标点击小工具删除邮箱里的2w多垃圾邮件</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/18/windows%E4%BC%9A%E8%AF%9Did/">windows会话id--穿透session隔离</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/08/%E4%BD%BF%E7%94%A8valgrind%E6%A3%80%E6%9F%A5%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2/">使用valgrind检查内存泄露</a>
+          </li>
+        
+          <li>
+            <a href="/2020/11/15/%E6%9F%A5%E7%9C%8B%E9%9D%99%E6%80%81%E5%BA%93-%E5%8A%A8%E6%80%81%E5%BA%93-%E6%89%A7%E8%A1%8C%E7%A8%8B%E5%BA%8F%E7%9A%84%E7%BC%96%E8%AF%91%E5%B7%A5%E5%85%B7%E9%93%BEgcc-g++%E7%89%88%E6%9C%AC%E5%91%BD%E4%BB%A4/">查看静态库-动态库-执行程序的编译工具链gcc-g++版本命令</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

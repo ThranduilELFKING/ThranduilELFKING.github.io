@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>在mac上配置dpkg | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="在mac上配置dpkg背景在mac上安装dpkg，从网上找了一个安装教程，基本跟着教程走就顺利安装完成啦～ 安装教程链接：https:&#x2F;&#x2F;mrmad.com.tw&#x2F;macos-dpkg-deb 根据教程走的时候，遇上的一些问题安装MacPorts卡住了，”正在运行软件包脚本”当在安装MacPort的时候卡住了很久的时候，可以先关闭正在安装的MacPort的进程，然后断开wifi，重新安装即可 1.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在mac上配置dpkg">
+<meta property="og:url" content="http://example.com/2019/08/13/%E5%9C%A8mac%E4%B8%8A%E9%85%8D%E7%BD%AEdpkg/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="在mac上配置dpkg背景在mac上安装dpkg，从网上找了一个安装教程，基本跟着教程走就顺利安装完成啦～ 安装教程链接：https:&#x2F;&#x2F;mrmad.com.tw&#x2F;macos-dpkg-deb 根据教程走的时候，遇上的一些问题安装MacPorts卡住了，”正在运行软件包脚本”当在安装MacPort的时候卡住了很久的时候，可以先关闭正在安装的MacPort的进程，然后断开wifi，重新安装即可 1.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/assets/blogImg/close_mac_port.jpg">
+<meta property="og:image" content="http://example.com/assets/blogImg/close_port_pid.jpg">
+<meta property="article:published_time" content="2019-08-13T03:21:39.000Z">
+<meta property="article:modified_time" content="2021-05-15T05:29:01.483Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/assets/blogImg/close_mac_port.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-在mac上配置dpkg" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2019/08/13/%E5%9C%A8mac%E4%B8%8A%E9%85%8D%E7%BD%AEdpkg/" class="article-date">
+  <time class="dt-published" datetime="2019-08-13T03:21:39.000Z" itemprop="datePublished">2019-08-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      在mac上配置dpkg
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="在mac上配置dpkg"><a href="#在mac上配置dpkg" class="headerlink" title="在mac上配置dpkg"></a>在mac上配置dpkg</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在mac上安装dpkg，从网上找了一个安装教程，基本跟着教程走就顺利安装完成啦～</p>
+<p>安装教程链接：<a target="_blank" rel="noopener" href="https://mrmad.com.tw/macos-dpkg-deb">https://mrmad.com.tw/macos-dpkg-deb</a></p>
+<h2 id="根据教程走的时候，遇上的一些问题"><a href="#根据教程走的时候，遇上的一些问题" class="headerlink" title="根据教程走的时候，遇上的一些问题"></a>根据教程走的时候，遇上的一些问题</h2><p>安装MacPorts卡住了，”正在运行软件包脚本”<br>当在安装MacPort的时候卡住了很久的时候，可以先关闭正在安装的MacPort的进程，然后断开wifi，重新安装即可</p>
+<p>1.关闭正在安装的MacPort的进程</p>
+<p>在终端输入以下指令，查找MacPort安装进程的进程PID</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps aux|grep install</span><br></pre></td></tr></table></figure>
+
+<p><img src="/assets/blogImg/close_mac_port.jpg" alt="close_mac_port.jpg"></p>
+<p>查找MacPort安装进程</p>
+<p>找到进程的PID以后，关掉它</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo kill PID进程号</span><br></pre></td></tr></table></figure>
+
+<p><img src="/assets/blogImg/close_port_pid.jpg" alt="close_port_pid.jpg"></p>
+<p>关闭安装进程</p>
+<p>2.关闭wifi</p>
+<p>3.重新安装下载的MacPort的pkg安装包即可安装成功</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2019/08/13/%E5%9C%A8mac%E4%B8%8A%E9%85%8D%E7%BD%AEdpkg/" data-id="ckx3cs7r9000orov4h4ho4yvk" data-title="在mac上配置dpkg" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/08/13/%E5%85%B3%E4%BA%8E%E6%9C%AC%E6%AC%A1%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          关于本次博客搭建
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/08/13/%E5%AD%A6%E4%B9%A0%E4%BD%BF%E7%94%A8libxml2%E5%BA%93/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">学习使用libxml2库</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/12/12/%E8%BF%81%E7%A7%BB%E4%B8%80%E4%B8%AA%E8%B4%A6%E5%8F%B7/">迁移一个账号</a>
+          </li>
+        
+          <li>
+            <a href="/2021/05/15/%E5%BC%80%E5%8F%91clickMouse%E9%BC%A0%E6%A0%87%E7%82%B9%E5%87%BB%E5%B0%8F%E5%B7%A5%E5%85%B7%E5%88%A0%E9%99%A4%E9%82%AE%E7%AE%B1%E9%87%8C%E7%9A%842w%E5%A4%9A%E5%9E%83%E5%9C%BE%E9%82%AE%E4%BB%B6/">开发clickMouse鼠标点击小工具删除邮箱里的2w多垃圾邮件</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/18/windows%E4%BC%9A%E8%AF%9Did/">windows会话id--穿透session隔离</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/08/%E4%BD%BF%E7%94%A8valgrind%E6%A3%80%E6%9F%A5%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2/">使用valgrind检查内存泄露</a>
+          </li>
+        
+          <li>
+            <a href="/2020/11/15/%E6%9F%A5%E7%9C%8B%E9%9D%99%E6%80%81%E5%BA%93-%E5%8A%A8%E6%80%81%E5%BA%93-%E6%89%A7%E8%A1%8C%E7%A8%8B%E5%BA%8F%E7%9A%84%E7%BC%96%E8%AF%91%E5%B7%A5%E5%85%B7%E9%93%BEgcc-g++%E7%89%88%E6%9C%AC%E5%91%BD%E4%BB%A4/">查看静态库-动态库-执行程序的编译工具链gcc-g++版本命令</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
