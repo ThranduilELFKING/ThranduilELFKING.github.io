@@ -59,7 +59,7 @@
 	        
 				<li><a href="/categories">分类</a></li>
 	        
-			总文章数 36
+			总文章数 37
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -158,6 +158,74 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-cjson库版本不一致，导致解析失败" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/15/cjson%E5%BA%93%E7%89%88%E6%9C%AC%E4%B8%8D%E4%B8%80%E8%87%B4%EF%BC%8C%E5%AF%BC%E8%87%B4%E8%A7%A3%E6%9E%90%E5%A4%B1%E8%B4%A5/">cjson库版本不一致，导致解析失败</a>
+    </h1>
+  
+
+        
+        <a href="/2019/12/15/cjson%E5%BA%93%E7%89%88%E6%9C%AC%E4%B8%8D%E4%B8%80%E8%87%B4%EF%BC%8C%E5%AF%BC%E8%87%B4%E8%A7%A3%E6%9E%90%E5%A4%B1%E8%B4%A5/" class="archive-article-date">
+  	<time datetime="2019-12-15T03:00:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="cjson库版本不一致，导致解析失败"><a href="#cjson库版本不一致，导致解析失败" class="headerlink" title="cjson库版本不一致，导致解析失败"></a>cjson库版本不一致，导致解析失败</h1><h1 id="cjson库版本不一致，导致解析失败-1"><a href="#cjson库版本不一致，导致解析失败-1" class="headerlink" title="cjson库版本不一致，导致解析失败"></a>cjson库版本不一致，导致解析失败</h1><h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><p>在编译一个程序demo的时候，需要继承一个第三方库libexample.so，第三方库用到了cjson，本身这个程序也用到了cjson，由于两者用的cjson的版本不一致，导致json解析失败……</p>
+<h2 id="旧版本cjson"><a href="#旧版本cjson" class="headerlink" title="旧版本cjson"></a>旧版本cjson</h2><p>第三方库libexample.so使用的旧版本的cjson，cjson-types截图如下：<br><img src="cjson_old_version.jpg" alt="cjson_old_version.jpg"></p>
+<h2 id="新版本cjson"><a href="#新版本cjson" class="headerlink" title="新版本cjson"></a>新版本cjson</h2><p>程序demo使用的是新版本的cjson，cjson-types截图如下：<br><img src="cjson_new_version.jpg" alt="cjson_new_version.jpg"></p>
+<h2 id="具体现象"><a href="#具体现象" class="headerlink" title="具体现象"></a>具体现象</h2><p>用旧版本的cJSON源码编译到自己的代码里，编译出libexample.so库；<br>程序demo已经使用过新版本的cJSON源码，但是又连接了上面编译出来的libexample.so的库，再次进行json解析，会发现libexample.so里面解析cJSON_Number类型的节点的值会失败；<br>然后重新用新版本的cJSON源码编译出libexample.so库，再集成到上面的demo里面，即可解析成功。</p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>可以从上面两个不同版本的cjson源码截图的cjosn-types看出来：<br>这两个版本的cJSON Types的值不一样，比如cJSON_Number类型节点的值，旧版本的值是3， 新版本的值是8，<br>所以用旧版本编译的libexample.so库，集成到demo里的时候，解析到cJSON_Number节点的时候，错误的使用值8而不是3，所以导致解析失败</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>代码里一定要保持一个版本的cjson；<br>版本混乱很容易造成奇怪的问题，而且这种问题往往还不容易排查！</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/12/15/cjson%E5%BA%93%E7%89%88%E6%9C%AC%E4%B8%8D%E4%B8%80%E8%87%B4%EF%BC%8C%E5%AF%BC%E8%87%B4%E8%A7%A3%E6%9E%90%E5%A4%B1%E8%B4%A5/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-map存放函数指针" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -779,86 +847,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2019/08/29/windows%E4%B8%8B%E7%94%A8VisualStudio%E7%BC%96%E8%AF%91libiconv%E5%BA%93/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-CMakeLists.txt学习记录1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/18/CMakeLists.txt%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%951/">CMakeLists.txt学习记录（一）</a>
-    </h1>
-  
-
-        
-        <a href="/2019/08/18/CMakeLists.txt%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%951/" class="archive-article-date">
-  	<time datetime="2019-08-18T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="CMakeLists-txt学习记录（一）"><a href="#CMakeLists-txt学习记录（一）" class="headerlink" title="CMakeLists.txt学习记录（一）"></a>CMakeLists.txt学习记录（一）</h1><h2 id="CMakeLists-txt-学习"><a href="#CMakeLists-txt-学习" class="headerlink" title="CMakeLists.txt 学习"></a>CMakeLists.txt 学习</h2><p>参考资料来自于官方：<a target="_blank" rel="noopener" href="https://cmake.org/cmake-tutorial/">https://cmake.org/cmake-tutorial/</a></p>
-<h2 id="官方代码如下："><a href="#官方代码如下：" class="headerlink" title="官方代码如下："></a>官方代码如下：</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//官方demo，求一个数的开方</span></span><br><span class="line"><span class="comment">//tutorial.xxx</span></span><br><span class="line"><span class="comment">// A simple program that computes the square root of a number</span></span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;math.h&gt;</span><br><span class="line">#include <span class="string">&quot;TutorialConfig.h&quot;</span></span><br><span class="line"> </span><br><span class="line">int main (int argc, char *argv[])</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">if</span> (argc &lt; <span class="number">2</span>)</span><br><span class="line">    &#123;</span><br><span class="line">    fprintf(stdout,<span class="string">&quot;%s Version %d.%d\n&quot;</span>,</span><br><span class="line">            argv[<span class="number">0</span>],</span><br><span class="line">            Tutorial_VERSION_MAJOR,</span><br><span class="line">            Tutorial_VERSION_MINOR);</span><br><span class="line">    fprintf(stdout,<span class="string">&quot;Usage: %s number\n&quot;</span>,argv[<span class="number">0</span>]);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  double inputValue = atof(argv[<span class="number">1</span>]);</span><br><span class="line">  double outputValue = sqrt(inputValue);</span><br><span class="line">  fprintf(stdout,<span class="string">&quot;The square root of %g is %g\n&quot;</span>,</span><br><span class="line">          inputValue, outputValue);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>对于这个demo，我们如果想通过写CMakeLists.txt文件来编译它，并且，想要给这个执行文件加上版本信息，可以通过以下的选项设置</p>
-<h2 id="1-增加版本信息的配置文件TutorialConfig-h-in"><a href="#1-增加版本信息的配置文件TutorialConfig-h-in" class="headerlink" title="1. 增加版本信息的配置文件TutorialConfig.h.in"></a>1. 增加版本信息的配置文件TutorialConfig.h.in</h2><p>内容如下：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//TutorialConfig.h.in</span></span><br><span class="line"><span class="comment">//官方源码如下：</span></span><br><span class="line"><span class="comment">// the configured options and settings for Tutorial</span></span><br><span class="line">#define Tutorial_VERSION_MAJOR @Tutorial_VERSION_MAJOR@</span><br><span class="line">#define Tutorial_VERSION_MINOR @Tutorial_VERSION_MINOR@</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-根据tutorial-cxx指定的头文件TutorialConfig-h来看，我们要将生成的配置信息保存在这个头文件里，我们可以利用CMakeLists-txt给我们生成这个文件"><a href="#2-根据tutorial-cxx指定的头文件TutorialConfig-h来看，我们要将生成的配置信息保存在这个头文件里，我们可以利用CMakeLists-txt给我们生成这个文件" class="headerlink" title="2. 根据tutorial.cxx指定的头文件TutorialConfig.h来看，我们要将生成的配置信息保存在这个头文件里，我们可以利用CMakeLists.txt给我们生成这个文件"></a>2. 根据tutorial.cxx指定的头文件TutorialConfig.h来看，我们要将生成的配置信息保存在这个头文件里，我们可以利用CMakeLists.txt给我们生成这个文件</h2><h2 id="3-以下是CMakeLists-txt的内容"><a href="#3-以下是CMakeLists-txt的内容" class="headerlink" title="3. 以下是CMakeLists.txt的内容"></a>3. 以下是CMakeLists.txt的内容</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//CMakeLists.txt</span></span><br><span class="line"><span class="comment">//官方内容如下：</span></span><br><span class="line">cmake_minimum_required (VERSION <span class="number">2.6</span>)</span><br><span class="line">project (Tutorial)</span><br><span class="line"># The version number.</span><br><span class="line">set (Tutorial_VERSION_MAJOR <span class="number">1</span>)</span><br><span class="line">set (Tutorial_VERSION_MINOR <span class="number">0</span>)</span><br><span class="line"> </span><br><span class="line"># configure a header file to pass some <span class="keyword">of</span> the CMake settings</span><br><span class="line"># to the source code</span><br><span class="line">configure_file (</span><br><span class="line">  <span class="string">&quot;$&#123;PROJECT_SOURCE_DIR&#125;/TutorialConfig.h.in&quot;</span></span><br><span class="line">  <span class="string">&quot;$&#123;PROJECT_BINARY_DIR&#125;/TutorialConfig.h&quot;</span></span><br><span class="line">  )</span><br><span class="line"> </span><br><span class="line"># add the binary tree to the search path <span class="keyword">for</span> include files</span><br><span class="line"># so that we will find TutorialConfig.h</span><br><span class="line">include_directories(<span class="string">&quot;$&#123;PROJECT_BINARY_DIR&#125;&quot;</span>)</span><br><span class="line"> </span><br><span class="line"># add the executable</span><br><span class="line">add_executable(Tutorial tutorial.cxx)</span><br></pre></td></tr></table></figure>
-
-<h2 id="4-接下来是跑一下官方的demo"><a href="#4-接下来是跑一下官方的demo" class="headerlink" title="4.接下来是跑一下官方的demo"></a>4.接下来是跑一下官方的demo</h2><p>根据官方教程搭建下来，目前，目录结构应该是这样的<br><img src="/assets/blogImg/cmake_1_01.jpg" alt="mulujiegou.jpg"></p>
-<p>然后cmake .编译一下，通过CMakeLists.txt生成TutorialConfig.h等后续依赖文件出来<br><img src="/assets/blogImg/cmake_1_02.jpg" alt="bianyi.jpg"></p>
-<p>浏览一下目录结构，可以看下，此时，目录结构应该是这样的<br><img src="/assets/blogImg/cmake_1_03.jpg" alt="bianyihoudemulu.jpg"></p>
-<p>开始make编译出最终生成的执行文件<br><img src="/assets/blogImg/cmake_1_04.jpg" alt="shengchengexe.jpg"></p>
-<p>执行一下，可以看版本信息</p>
-<p><img src="/assets/blogImg/cmake_1_05.jpg" alt="version.jpg"></p>
-<p>带参数的执行，可以看到，程序可以输出用户指定的数据的开方</p>
-<p><img src="/assets/blogImg/cmake_1_06.jpg" alt="result.jpg"></p>
-<p>由此，跟着官方走了一遍流程，实现了可以通过CMakeLists.txt指定程序的版本信息的程序<br>以上是本次follow官方demo的学习过程（一）</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/08/18/CMakeLists.txt%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%951/">展开全文 >></a>
         </p>
       
 

@@ -59,7 +59,7 @@
 	        
 				<li><a href="/categories">分类</a></li>
 	        
-			总文章数 36
+			总文章数 37
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -158,6 +158,79 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-mac下配置rar与unrar命令" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/06/29/mac%E4%B8%8B%E9%85%8D%E7%BD%AErar%E4%B8%8Eunrar%E5%91%BD%E4%BB%A4/">mac下配置rar与unrar命令</a>
+    </h1>
+  
+
+        
+        <a href="/2020/06/29/mac%E4%B8%8B%E9%85%8D%E7%BD%AErar%E4%B8%8Eunrar%E5%91%BD%E4%BB%A4/" class="archive-article-date">
+  	<time datetime="2020-06-29T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="mac下配置rar与unrar命令"><a href="#mac下配置rar与unrar命令" class="headerlink" title="mac下配置rar与unrar命令"></a>mac下配置rar与unrar命令</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>因为在mac下下载了rar文件，需要解压，然而mac上默认没有rar解压环境，于是配置了一下命令行rar/unrar环境</p>
+<h2 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h2><h3 id="1-下载RAR包"><a href="#1-下载RAR包" class="headerlink" title="1.下载RAR包"></a>1.下载RAR包</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//下载地址如下</span></span><br><span class="line"><span class="attr">https</span>:<span class="comment">//www.rarlab.com/download.htm</span></span><br><span class="line"><span class="comment">//然后选择for macOS的更新包，比如</span></span><br><span class="line">RAR <span class="number">5.91</span> beta <span class="number">1</span> <span class="keyword">for</span> macOS(<span class="number">64</span> bit)</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-解压下载后的更新包"><a href="#2-解压下载后的更新包" class="headerlink" title="2.解压下载后的更新包"></a>2.解压下载后的更新包</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//找到刚刚的更新包路径，然后cd到这个路径下，在命令行输入</span></span><br><span class="line">tar -zxvf rarosx-<span class="number">5.9</span>.1b1.tar</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-安装rar和unrar"><a href="#3-安装rar和unrar" class="headerlink" title="3.安装rar和unrar"></a>3.安装rar和unrar</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo install -c -o $USER rar /usr/local/bin</span><br><span class="line">sudo install -c -o $USER unrar /usr/local/bin</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-然后需要在安全与隐私里准许这个rar软件包"><a href="#4-然后需要在安全与隐私里准许这个rar软件包" class="headerlink" title="4.然后需要在安全与隐私里准许这个rar软件包"></a>4.然后需要在安全与隐私里准许这个rar软件包</h3><p>如下图所示，先点击解锁，然后输入密码，然后准许rar软件包<br>（因为我这边已经准许过了，所以这里现在是空，差不多就是这个位置）<br><img src="/assets/blogImg/rar_ok.jpg" alt="点击解锁，然后准许rar软件包"></p>
+<h3 id="5-然后就可以解压自己的rar文件了"><a href="#5-然后就可以解压自己的rar文件了" class="headerlink" title="5.然后就可以解压自己的rar文件了"></a>5.然后就可以解压自己的rar文件了</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//解压</span></span><br><span class="line">unrar x test.rar</span><br><span class="line"><span class="comment">//压缩</span></span><br><span class="line">rar a test.rar test/</span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>不得不说，mac下的安全管理还是严格的</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/06/29/mac%E4%B8%8B%E9%85%8D%E7%BD%AErar%E4%B8%8Eunrar%E5%91%BD%E4%BB%A4/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-简单工厂模式学习笔记" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -795,74 +868,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2019/12/15/linux%E4%B8%8B%E6%9F%A5%E7%9C%8B%E7%BC%96%E8%AF%91%E7%9A%84%E9%9D%99%E6%80%81%E5%BA%93%E5%92%8C%E5%8A%A8%E6%80%81%E5%BA%93%E6%98%AF32%E4%BD%8D%E8%BF%98%E6%98%AF64%E4%BD%8D/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-cjson库版本不一致，导致解析失败" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/12/15/cjson%E5%BA%93%E7%89%88%E6%9C%AC%E4%B8%8D%E4%B8%80%E8%87%B4%EF%BC%8C%E5%AF%BC%E8%87%B4%E8%A7%A3%E6%9E%90%E5%A4%B1%E8%B4%A5/">cjson库版本不一致，导致解析失败</a>
-    </h1>
-  
-
-        
-        <a href="/2019/12/15/cjson%E5%BA%93%E7%89%88%E6%9C%AC%E4%B8%8D%E4%B8%80%E8%87%B4%EF%BC%8C%E5%AF%BC%E8%87%B4%E8%A7%A3%E6%9E%90%E5%A4%B1%E8%B4%A5/" class="archive-article-date">
-  	<time datetime="2019-12-15T03:00:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="cjson库版本不一致，导致解析失败"><a href="#cjson库版本不一致，导致解析失败" class="headerlink" title="cjson库版本不一致，导致解析失败"></a>cjson库版本不一致，导致解析失败</h1><h1 id="cjson库版本不一致，导致解析失败-1"><a href="#cjson库版本不一致，导致解析失败-1" class="headerlink" title="cjson库版本不一致，导致解析失败"></a>cjson库版本不一致，导致解析失败</h1><h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><p>在编译一个程序demo的时候，需要继承一个第三方库libexample.so，第三方库用到了cjson，本身这个程序也用到了cjson，由于两者用的cjson的版本不一致，导致json解析失败……</p>
-<h2 id="旧版本cjson"><a href="#旧版本cjson" class="headerlink" title="旧版本cjson"></a>旧版本cjson</h2><p>第三方库libexample.so使用的旧版本的cjson，cjson-types截图如下：<br><img src="cjson_old_version.jpg" alt="cjson_old_version.jpg"></p>
-<h2 id="新版本cjson"><a href="#新版本cjson" class="headerlink" title="新版本cjson"></a>新版本cjson</h2><p>程序demo使用的是新版本的cjson，cjson-types截图如下：<br><img src="cjson_new_version.jpg" alt="cjson_new_version.jpg"></p>
-<h2 id="具体现象"><a href="#具体现象" class="headerlink" title="具体现象"></a>具体现象</h2><p>用旧版本的cJSON源码编译到自己的代码里，编译出libexample.so库；<br>程序demo已经使用过新版本的cJSON源码，但是又连接了上面编译出来的libexample.so的库，再次进行json解析，会发现libexample.so里面解析cJSON_Number类型的节点的值会失败；<br>然后重新用新版本的cJSON源码编译出libexample.so库，再集成到上面的demo里面，即可解析成功。</p>
-<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>可以从上面两个不同版本的cjson源码截图的cjosn-types看出来：<br>这两个版本的cJSON Types的值不一样，比如cJSON_Number类型节点的值，旧版本的值是3， 新版本的值是8，<br>所以用旧版本编译的libexample.so库，集成到demo里的时候，解析到cJSON_Number节点的时候，错误的使用值8而不是3，所以导致解析失败</p>
-<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>代码里一定要保持一个版本的cjson；<br>版本混乱很容易造成奇怪的问题，而且这种问题往往还不容易排查！</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/12/15/cjson%E5%BA%93%E7%89%88%E6%9C%AC%E4%B8%8D%E4%B8%80%E8%87%B4%EF%BC%8C%E5%AF%BC%E8%87%B4%E8%A7%A3%E6%9E%90%E5%A4%B1%E8%B4%A5/">展开全文 >></a>
         </p>
       
 

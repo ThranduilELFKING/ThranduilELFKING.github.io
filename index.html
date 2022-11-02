@@ -59,7 +59,7 @@
 	        
 				<li><a href="/categories">分类</a></li>
 	        
-			总文章数 36
+			总文章数 37
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -158,6 +158,83 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-opencv249源码编译记录-md" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/11/02/opencv249%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91%E8%AE%B0%E5%BD%95-md/">opencv249源码编译记录.md</a>
+    </h1>
+  
+
+        
+        <a href="/2022/11/02/opencv249%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91%E8%AE%B0%E5%BD%95-md/" class="archive-article-date">
+  	<time datetime="2022-11-02T13:54:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="opencv源码编译动态库and静态库"><a href="#opencv源码编译动态库and静态库" class="headerlink" title="opencv源码编译动态库and静态库"></a>opencv源码编译动态库and静态库</h1><h1 id="opencv源码编译动态库and静态库详细步骤记录"><a href="#opencv源码编译动态库and静态库详细步骤记录" class="headerlink" title="opencv源码编译动态库and静态库详细步骤记录"></a>opencv源码编译动态库and静态库详细步骤记录</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>release版本<br>debug版本<br>基于2.4.9版本编译<br>其他opencv版本也适用这个编译方式</p>
+<h2 id="一、直接下载2-4-9更新包（包里都有源码）"><a href="#一、直接下载2-4-9更新包（包里都有源码）" class="headerlink" title="一、直接下载2.4.9更新包（包里都有源码）"></a>一、直接下载2.4.9更新包（包里都有源码）</h2><p>下载地址<br><a target="_blank" rel="noopener" href="https://sourceforge.net/projects/opencvlibrary/files/opencv-win/2.4.9/">https://sourceforge.net/projects/opencvlibrary/files/opencv-win/2.4.9/</a><br>下载完后，安装即可</p>
+<h2 id="二、安装2-4-9"><a href="#二、安装2-4-9" class="headerlink" title="二、安装2.4.9"></a>二、安装2.4.9</h2><p>双击安装，自己指定安装目录，方便演示，我直接安装到了C:\Users\muhan\Downloads\opencv</p>
+<p>进入opencv文件夹<br>新建一个new_build文件夹，之后会将编译生成的sln文件，库文件等都生成到这个子文件夹对应的路径下</p>
+<h2 id="三、通过cmake配置编译环境"><a href="#三、通过cmake配置编译环境" class="headerlink" title="三、通过cmake配置编译环境"></a>三、通过cmake配置编译环境</h2><p>选择源码所在的路径（就是解压安装opencv文件夹下的sources子文件夹）<br>C:\Users\muhan\Downloads\opencv\sources</p>
+<p>选择编译生成的文件存放的路径（就是上一步new_build所在的路径）<br>C:/Users/muhan/Downloads/opencv/new_build</p>
+<p>点击Configure生成对应的配置<br>我这边用的是vs2022，一般用默认的配置就ok了<br>第一次configure之后，页面有很多红色选中，再点击一次Configure按键，然后就会自动下载一些所需的依赖，之后就可以了</p>
+<p>点击Generate，等出现“Generate Done”表示生成完成</p>
+<h2 id="四、编译动态库"><a href="#四、编译动态库" class="headerlink" title="四、编译动态库"></a>四、编译动态库</h2><h3 id="4-1-debug版本编译（动态库）"><a href="#4-1-debug版本编译（动态库）" class="headerlink" title="4.1 debug版本编译（动态库）"></a>4.1 debug版本编译（动态库）</h3><p>然后打开C:\Users\muhan\Downloads\opencv\new_build文件夹（new_build子文件夹）<br>打开OpenCV.sln工程<br>选中  解决方案”OpenCV“  右键，选择 “生成解决方案”<br>等出现“生成成功”之后，选中 CMakeTargets ,选中INSTALL，右键，选择 “仅用于此项目”，选择“仅生成INSTALL”<br>,当出现生成成功时，表示库和头文件已经生成成功，并安装到指定的路径下（new_build\install下)<br>C:\Users\muhan\Downloads\opencv\new_build\install<br>于是可以在new_build文件下，看到include头文件目录，和lib库文件夹，bin下的动态库文件夹</p>
+<h3 id="4-2-release版本编译（动态库）"><a href="#4-2-release版本编译（动态库）" class="headerlink" title="4.2 release版本编译（动态库）"></a>4.2 release版本编译（动态库）</h3><p>此时，只需要将debug版本编译时的选项“Debug”改成“Release”即可，其他步骤同上3.1一致</p>
+<p>此时，在bin目录下，产生类似opencv_calib3d249.dll（release版本的动态库）和opencv_calib3d249d.dll(debug版本的动态库）<br>到此，动态库版本已经编译完成</p>
+<h2 id="五、编译静态库"><a href="#五、编译静态库" class="headerlink" title="五、编译静态库"></a>五、编译静态库</h2><p>再次打开cmake，刚刚配置的那个页面<br>如果要编译静态库，那么取消勾选 “BUILD_SHARED_LIBS”<br>然后再次Configure，出现“Configuring done”之后，再次Generate，等再次出现“Generate done”之后，再次打开sln文件<br>重载sln文件</p>
+<h3 id="5-1-release版本编译（静态库）"><a href="#5-1-release版本编译（静态库）" class="headerlink" title="5.1 release版本编译（静态库）"></a>5.1 release版本编译（静态库）</h3><p>在“Release”选项下，其他步骤同上3.1一致<br>当编译生成成功后，会在new_build\install子文件,有一个新的文件夹 staticlib，这个子文件夹下都是静态库<br>C:\Users\muhan\Downloads\opencv\new_build\install\staticlib<br>此时都是release版本</p>
+<h3 id="5-2-debug版本编译（静态库）"><a href="#5-2-debug版本编译（静态库）" class="headerlink" title="5.2 debug版本编译（静态库）"></a>5.2 debug版本编译（静态库）</h3><p>只要把编译选项改成“Debug”,其他同上3.1一致<br>（如果有闪屏，那是因为我的猫踩上来蹦迪了。。。）<br>然后再去C:\Users\muhan\Downloads\opencv\new_build\install\staticlib下，会有debug版本的静态库</p>
+<p>至此，opencv在windows下的debug、release版本的动态库，静态库编译完成</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/11/02/opencv249%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91%E8%AE%B0%E5%BD%95-md/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-迁移一个账号" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -453,72 +530,6 @@
 
 
   
-    <article id="post-查看静态库-动态库-执行程序的编译工具链gcc-g++版本命令" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/15/%E6%9F%A5%E7%9C%8B%E9%9D%99%E6%80%81%E5%BA%93-%E5%8A%A8%E6%80%81%E5%BA%93-%E6%89%A7%E8%A1%8C%E7%A8%8B%E5%BA%8F%E7%9A%84%E7%BC%96%E8%AF%91%E5%B7%A5%E5%85%B7%E9%93%BEgcc-g++%E7%89%88%E6%9C%AC%E5%91%BD%E4%BB%A4/">查看静态库-动态库-执行程序的编译工具链gcc-g++版本命令</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/15/%E6%9F%A5%E7%9C%8B%E9%9D%99%E6%80%81%E5%BA%93-%E5%8A%A8%E6%80%81%E5%BA%93-%E6%89%A7%E8%A1%8C%E7%A8%8B%E5%BA%8F%E7%9A%84%E7%BC%96%E8%AF%91%E5%B7%A5%E5%85%B7%E9%93%BEgcc-g++%E7%89%88%E6%9C%AC%E5%91%BD%E4%BB%A4/" class="archive-article-date">
-  	<time datetime="2020-11-15T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="查看静态库-动态库-执行程序的编译工具链gcc-g-版本命令"><a href="#查看静态库-动态库-执行程序的编译工具链gcc-g-版本命令" class="headerlink" title="查看静态库-动态库-执行程序的编译工具链gcc-g++版本命令"></a>查看静态库-动态库-执行程序的编译工具链gcc-g++版本命令</h1><h2 id="使用指令："><a href="#使用指令：" class="headerlink" title="使用指令："></a>使用指令：</h2><p>objdump -s –section=.comment [库名或执行文件名]</p>
-<p>如下图查看动态库：<br><img src="/assets/blogImg/objdump_ssl.jpg" alt="objdump_ssl"><br>可以看出图里的libssl.so和libcrypto.so是交叉编译工具链编译出来的）</p>
-<p>如下图查看静态库：<br><img src="/assets/blogImg/objdump_zma.jpg" alt="objdump_zma"></p>
-<p>如下图查看执行文件：<br><img src="/assets/blogImg/objdump_demo.jpg" alt="objdump_demo"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/15/%E6%9F%A5%E7%9C%8B%E9%9D%99%E6%80%81%E5%BA%93-%E5%8A%A8%E6%80%81%E5%BA%93-%E6%89%A7%E8%A1%8C%E7%A8%8B%E5%BA%8F%E7%9A%84%E7%BC%96%E8%AF%91%E5%B7%A5%E5%85%B7%E9%93%BEgcc-g++%E7%89%88%E6%9C%AC%E5%91%BD%E4%BB%A4/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-树莓派64位系统配置32位运行环境" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -557,6 +568,72 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2020/11/15/%E6%A0%91%E8%8E%93%E6%B4%BE64%E4%BD%8D%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE32%E4%BD%8D%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-查看静态库-动态库-执行程序的编译工具链gcc-g++版本命令" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/11/15/%E6%9F%A5%E7%9C%8B%E9%9D%99%E6%80%81%E5%BA%93-%E5%8A%A8%E6%80%81%E5%BA%93-%E6%89%A7%E8%A1%8C%E7%A8%8B%E5%BA%8F%E7%9A%84%E7%BC%96%E8%AF%91%E5%B7%A5%E5%85%B7%E9%93%BEgcc-g++%E7%89%88%E6%9C%AC%E5%91%BD%E4%BB%A4/">查看静态库-动态库-执行程序的编译工具链gcc-g++版本命令</a>
+    </h1>
+  
+
+        
+        <a href="/2020/11/15/%E6%9F%A5%E7%9C%8B%E9%9D%99%E6%80%81%E5%BA%93-%E5%8A%A8%E6%80%81%E5%BA%93-%E6%89%A7%E8%A1%8C%E7%A8%8B%E5%BA%8F%E7%9A%84%E7%BC%96%E8%AF%91%E5%B7%A5%E5%85%B7%E9%93%BEgcc-g++%E7%89%88%E6%9C%AC%E5%91%BD%E4%BB%A4/" class="archive-article-date">
+  	<time datetime="2020-11-15T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="查看静态库-动态库-执行程序的编译工具链gcc-g-版本命令"><a href="#查看静态库-动态库-执行程序的编译工具链gcc-g-版本命令" class="headerlink" title="查看静态库-动态库-执行程序的编译工具链gcc-g++版本命令"></a>查看静态库-动态库-执行程序的编译工具链gcc-g++版本命令</h1><h2 id="使用指令："><a href="#使用指令：" class="headerlink" title="使用指令："></a>使用指令：</h2><p>objdump -s –section=.comment [库名或执行文件名]</p>
+<p>如下图查看动态库：<br><img src="/assets/blogImg/objdump_ssl.jpg" alt="objdump_ssl"><br>可以看出图里的libssl.so和libcrypto.so是交叉编译工具链编译出来的）</p>
+<p>如下图查看静态库：<br><img src="/assets/blogImg/objdump_zma.jpg" alt="objdump_zma"></p>
+<p>如下图查看执行文件：<br><img src="/assets/blogImg/objdump_demo.jpg" alt="objdump_demo"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/11/15/%E6%9F%A5%E7%9C%8B%E9%9D%99%E6%80%81%E5%BA%93-%E5%8A%A8%E6%80%81%E5%BA%93-%E6%89%A7%E8%A1%8C%E7%A8%8B%E5%BA%8F%E7%9A%84%E7%BC%96%E8%AF%91%E5%B7%A5%E5%85%B7%E9%93%BEgcc-g++%E7%89%88%E6%9C%AC%E5%91%BD%E4%BB%A4/">展开全文 >></a>
         </p>
       
 
@@ -762,79 +839,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2020/11/15/%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AE%89%E8%A3%85%E5%AE%98%E6%96%B9%E6%A0%91%E8%8E%93%E6%B4%BE%E7%B3%BB%E7%BB%9F%E5%B9%B6%E9%85%8D%E7%BD%AE%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91%E9%93%BE/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-mac下配置rar与unrar命令" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/29/mac%E4%B8%8B%E9%85%8D%E7%BD%AErar%E4%B8%8Eunrar%E5%91%BD%E4%BB%A4/">mac下配置rar与unrar命令</a>
-    </h1>
-  
-
-        
-        <a href="/2020/06/29/mac%E4%B8%8B%E9%85%8D%E7%BD%AErar%E4%B8%8Eunrar%E5%91%BD%E4%BB%A4/" class="archive-article-date">
-  	<time datetime="2020-06-29T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="mac下配置rar与unrar命令"><a href="#mac下配置rar与unrar命令" class="headerlink" title="mac下配置rar与unrar命令"></a>mac下配置rar与unrar命令</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>因为在mac下下载了rar文件，需要解压，然而mac上默认没有rar解压环境，于是配置了一下命令行rar/unrar环境</p>
-<h2 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h2><h3 id="1-下载RAR包"><a href="#1-下载RAR包" class="headerlink" title="1.下载RAR包"></a>1.下载RAR包</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//下载地址如下</span></span><br><span class="line"><span class="attr">https</span>:<span class="comment">//www.rarlab.com/download.htm</span></span><br><span class="line"><span class="comment">//然后选择for macOS的更新包，比如</span></span><br><span class="line">RAR <span class="number">5.91</span> beta <span class="number">1</span> <span class="keyword">for</span> macOS(<span class="number">64</span> bit)</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-解压下载后的更新包"><a href="#2-解压下载后的更新包" class="headerlink" title="2.解压下载后的更新包"></a>2.解压下载后的更新包</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//找到刚刚的更新包路径，然后cd到这个路径下，在命令行输入</span></span><br><span class="line">tar -zxvf rarosx-<span class="number">5.9</span>.1b1.tar</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-安装rar和unrar"><a href="#3-安装rar和unrar" class="headerlink" title="3.安装rar和unrar"></a>3.安装rar和unrar</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo install -c -o $USER rar /usr/local/bin</span><br><span class="line">sudo install -c -o $USER unrar /usr/local/bin</span><br></pre></td></tr></table></figure>
-
-<h3 id="4-然后需要在安全与隐私里准许这个rar软件包"><a href="#4-然后需要在安全与隐私里准许这个rar软件包" class="headerlink" title="4.然后需要在安全与隐私里准许这个rar软件包"></a>4.然后需要在安全与隐私里准许这个rar软件包</h3><p>如下图所示，先点击解锁，然后输入密码，然后准许rar软件包<br>（因为我这边已经准许过了，所以这里现在是空，差不多就是这个位置）<br><img src="/assets/blogImg/rar_ok.jpg" alt="点击解锁，然后准许rar软件包"></p>
-<h3 id="5-然后就可以解压自己的rar文件了"><a href="#5-然后就可以解压自己的rar文件了" class="headerlink" title="5.然后就可以解压自己的rar文件了"></a>5.然后就可以解压自己的rar文件了</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//解压</span></span><br><span class="line">unrar x test.rar</span><br><span class="line"><span class="comment">//压缩</span></span><br><span class="line">rar a test.rar test/</span><br></pre></td></tr></table></figure>
-
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>不得不说，mac下的安全管理还是严格的</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/06/29/mac%E4%B8%8B%E9%85%8D%E7%BD%AErar%E4%B8%8Eunrar%E5%91%BD%E4%BB%A4/">展开全文 >></a>
         </p>
       
 
