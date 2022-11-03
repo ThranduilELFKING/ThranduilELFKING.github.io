@@ -175,6 +175,76 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-树莓派配置基础环境-ssh-root-静态ip" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/11/15/%E6%A0%91%E8%8E%93%E6%B4%BE%E9%85%8D%E7%BD%AE%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83-ssh-root-%E9%9D%99%E6%80%81ip/">树莓派配置基础环境-ssh-root-静态ip</a>
+    </h1>
+  
+
+        
+        <a href="/2020/11/15/%E6%A0%91%E8%8E%93%E6%B4%BE%E9%85%8D%E7%BD%AE%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83-ssh-root-%E9%9D%99%E6%80%81ip/" class="archive-article-date">
+  	<time datetime="2020-11-15T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="树莓派配置基础环境-ssh-root-静态ip"><a href="#树莓派配置基础环境-ssh-root-静态ip" class="headerlink" title="树莓派配置基础环境-ssh-root-静态ip"></a>树莓派配置基础环境-ssh-root-静态ip</h1><h2 id="配置root用户"><a href="#配置root用户" class="headerlink" title="配置root用户"></a>配置root用户</h2><p>在终端进行如下操作即可：<br>sudo passwd root<br>然后根据提示输入root用户的密码<br>再重复输入一次刚刚设置的密码</p>
+<p>切换root用户操作如下即可：<br>su -<br>输入设置的root用户的密码</p>
+<h2 id="配置开启ssh"><a href="#配置开启ssh" class="headerlink" title="配置开启ssh"></a>配置开启ssh</h2><p>操作如下即可：<br>sudo vim /etc/ssh/sshd-config<br>修改 PermitRootLogin yes<br>然后保存修改<br>然后执行sudo systemctl restart ssh<br>再通过ss -tnl查看是否开启成功即可</p>
+<h2 id="配置静态ip如下"><a href="#配置静态ip如下" class="headerlink" title="配置静态ip如下"></a>配置静态ip如下</h2><p>在需要无线网络连接的情况下，配置eth0的静态ip如下：<br>sudo vim /etc/network/interfaces<br>然后再文件里增加以下内容<br>auto lo<br>iface lo inet loopback<br>auto eth0<br>iface eth0 inet static<br>address 192.168.0.1 //IP地址<br>netmask 255.255.255.0 //掩码<br>然后保存<br>但是此时，如果不设置一下wlan0，那么会发现虽然静态ip设置成功了，但是树莓派却无法联网了<br>所以还要在interfaces文件里追加以下内容<br>auto wlan0<br>iface wlan0 inet dhcp<br>wpa_conf /etc/wpa_supplicant/wpa_supplicant.conf<br>然后保存<br>退出文件<br>重启树莓派即可</p>
+<h2 id="如图，配置动态IP"><a href="#如图，配置动态IP" class="headerlink" title="如图，配置动态IP"></a>如图，配置动态IP</h2><p><img src="/assets/blogImg/shu_ip_dhcp.jpg" alt="shu_ip_dhpc"></p>
+<h2 id="如图，配置静态IP"><a href="#如图，配置静态IP" class="headerlink" title="如图，配置静态IP"></a>如图，配置静态IP</h2><p><img src="/assets/blogImg/shu_ip_static.jpg" alt="shu_ip_static"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/11/15/%E6%A0%91%E8%8E%93%E6%B4%BE%E9%85%8D%E7%BD%AE%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83-ssh-root-%E9%9D%99%E6%80%81ip/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-虚拟机安装官方树莓派系统并配置交叉编译链" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -224,76 +294,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2020/11/15/%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AE%89%E8%A3%85%E5%AE%98%E6%96%B9%E6%A0%91%E8%8E%93%E6%B4%BE%E7%B3%BB%E7%BB%9F%E5%B9%B6%E9%85%8D%E7%BD%AE%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91%E9%93%BE/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-树莓派配置基础环境-ssh-root-静态ip" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/15/%E6%A0%91%E8%8E%93%E6%B4%BE%E9%85%8D%E7%BD%AE%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83-ssh-root-%E9%9D%99%E6%80%81ip/">树莓派配置基础环境-ssh-root-静态ip</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/15/%E6%A0%91%E8%8E%93%E6%B4%BE%E9%85%8D%E7%BD%AE%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83-ssh-root-%E9%9D%99%E6%80%81ip/" class="archive-article-date">
-  	<time datetime="2020-11-15T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="树莓派配置基础环境-ssh-root-静态ip"><a href="#树莓派配置基础环境-ssh-root-静态ip" class="headerlink" title="树莓派配置基础环境-ssh-root-静态ip"></a>树莓派配置基础环境-ssh-root-静态ip</h1><h2 id="配置root用户"><a href="#配置root用户" class="headerlink" title="配置root用户"></a>配置root用户</h2><p>在终端进行如下操作即可：<br>sudo passwd root<br>然后根据提示输入root用户的密码<br>再重复输入一次刚刚设置的密码</p>
-<p>切换root用户操作如下即可：<br>su -<br>输入设置的root用户的密码</p>
-<h2 id="配置开启ssh"><a href="#配置开启ssh" class="headerlink" title="配置开启ssh"></a>配置开启ssh</h2><p>操作如下即可：<br>sudo vim /etc/ssh/sshd-config<br>修改 PermitRootLogin yes<br>然后保存修改<br>然后执行sudo systemctl restart ssh<br>再通过ss -tnl查看是否开启成功即可</p>
-<h2 id="配置静态ip如下"><a href="#配置静态ip如下" class="headerlink" title="配置静态ip如下"></a>配置静态ip如下</h2><p>在需要无线网络连接的情况下，配置eth0的静态ip如下：<br>sudo vim /etc/network/interfaces<br>然后再文件里增加以下内容<br>auto lo<br>iface lo inet loopback<br>auto eth0<br>iface eth0 inet static<br>address 192.168.0.1 //IP地址<br>netmask 255.255.255.0 //掩码<br>然后保存<br>但是此时，如果不设置一下wlan0，那么会发现虽然静态ip设置成功了，但是树莓派却无法联网了<br>所以还要在interfaces文件里追加以下内容<br>auto wlan0<br>iface wlan0 inet dhcp<br>wpa_conf /etc/wpa_supplicant/wpa_supplicant.conf<br>然后保存<br>退出文件<br>重启树莓派即可</p>
-<h2 id="如图，配置动态IP"><a href="#如图，配置动态IP" class="headerlink" title="如图，配置动态IP"></a>如图，配置动态IP</h2><p><img src="/assets/blogImg/shu_ip_dhcp.jpg" alt="shu_ip_dhpc"></p>
-<h2 id="如图，配置静态IP"><a href="#如图，配置静态IP" class="headerlink" title="如图，配置静态IP"></a>如图，配置静态IP</h2><p><img src="/assets/blogImg/shu_ip_static.jpg" alt="shu_ip_static"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/15/%E6%A0%91%E8%8E%93%E6%B4%BE%E9%85%8D%E7%BD%AE%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83-ssh-root-%E9%9D%99%E6%80%81ip/">展开全文 >></a>
         </p>
       
 
