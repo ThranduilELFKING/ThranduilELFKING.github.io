@@ -59,7 +59,7 @@
 	        
 				<li><a href="/categories">分类</a></li>
 	        
-			总文章数 38
+			总文章数 39
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -174,6 +174,78 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-windows下查看exe程序依赖的dll库详细信息" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/11/03/windows%E4%B8%8B%E6%9F%A5%E7%9C%8Bexe%E7%A8%8B%E5%BA%8F%E4%BE%9D%E8%B5%96%E7%9A%84dll%E5%BA%93%E8%AF%A6%E7%BB%86%E4%BF%A1%E6%81%AF/">windows下查看exe程序依赖的dll库详细信息</a>
+    </h1>
+  
+
+        
+        <a href="/2022/11/03/windows%E4%B8%8B%E6%9F%A5%E7%9C%8Bexe%E7%A8%8B%E5%BA%8F%E4%BE%9D%E8%B5%96%E7%9A%84dll%E5%BA%93%E8%AF%A6%E7%BB%86%E4%BF%A1%E6%81%AF/" class="archive-article-date">
+  	<time datetime="2022-11-03T13:51:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="windows下查看exe程序依赖的dll库详细信息"><a href="#windows下查看exe程序依赖的dll库详细信息" class="headerlink" title="windows下查看exe程序依赖的dll库详细信息"></a>windows下查看exe程序依赖的dll库详细信息</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>有时候需要查看windows下开发的某个程序，运行时依赖哪些dll库，及这些dll库所在的位置版本等详细信息，可以使用这个方法来查看<br>这里以查看notepad++.exe程序为例</p>
+<h2 id="第一步、打开任务管理器"><a href="#第一步、打开任务管理器" class="headerlink" title="第一步、打开任务管理器"></a>第一步、打开任务管理器</h2><p><img src="/assets/blogImg/open_work.jpg" alt="open_work.jpg"></p>
+<h2 id="第二步、打开资源监视器"><a href="#第二步、打开资源监视器" class="headerlink" title="第二步、打开资源监视器"></a>第二步、打开资源监视器</h2><p><img src="/assets/blogImg/open_res.jpg" alt="open_res.jpg"></p>
+<h2 id="第三步、打开“CPU”标签，选中需要查看的exe程序，并查看“关联的模块”即可看到详细的dll信息"><a href="#第三步、打开“CPU”标签，选中需要查看的exe程序，并查看“关联的模块”即可看到详细的dll信息" class="headerlink" title="第三步、打开“CPU”标签，选中需要查看的exe程序，并查看“关联的模块”即可看到详细的dll信息"></a>第三步、打开“CPU”标签，选中需要查看的exe程序，并查看“关联的模块”即可看到详细的dll信息</h2><p><img src="/assets/blogImg/check_exe_dll.jpg" alt="check_exe_dll.jpg"></p>
+<p>如果想要将依赖的所有dll信息都拷贝出来仔细看，可以用以下方法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="number">1.</span>在“关联的模块”中，选中任一一条dll库</span><br><span class="line"><span class="number">2.</span>CTRL+A全选</span><br><span class="line"><span class="number">3.</span>CTRL+C复制</span><br><span class="line"><span class="number">4.</span>找个空白的txt直接CTRL+V粘贴上去，即可看到详细完整的依赖信息</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="/assets/blogImg/choose_dll.jpg" alt="choose_dll.jpg"></p>
+<p><img src="/assets/blogImg/read_dll.jpg" alt="read_dll.jpg"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/11/03/windows%E4%B8%8B%E6%9F%A5%E7%9C%8Bexe%E7%A8%8B%E5%BA%8F%E4%BE%9D%E8%B5%96%E7%9A%84dll%E5%BA%93%E8%AF%A6%E7%BB%86%E4%BF%A1%E6%81%AF/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-redis交叉编译arm版本" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -802,76 +874,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2020/11/15/%E6%A0%91%E8%8E%93%E6%B4%BE%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91%E7%9A%84%E4%B8%89%E7%A7%8D%E5%B8%B8%E8%A7%81%E6%96%B9%E5%BC%8F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-树莓派配置基础环境-ssh-root-静态ip" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/15/%E6%A0%91%E8%8E%93%E6%B4%BE%E9%85%8D%E7%BD%AE%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83-ssh-root-%E9%9D%99%E6%80%81ip/">树莓派配置基础环境-ssh-root-静态ip</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/15/%E6%A0%91%E8%8E%93%E6%B4%BE%E9%85%8D%E7%BD%AE%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83-ssh-root-%E9%9D%99%E6%80%81ip/" class="archive-article-date">
-  	<time datetime="2020-11-15T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="树莓派配置基础环境-ssh-root-静态ip"><a href="#树莓派配置基础环境-ssh-root-静态ip" class="headerlink" title="树莓派配置基础环境-ssh-root-静态ip"></a>树莓派配置基础环境-ssh-root-静态ip</h1><h2 id="配置root用户"><a href="#配置root用户" class="headerlink" title="配置root用户"></a>配置root用户</h2><p>在终端进行如下操作即可：<br>sudo passwd root<br>然后根据提示输入root用户的密码<br>再重复输入一次刚刚设置的密码</p>
-<p>切换root用户操作如下即可：<br>su -<br>输入设置的root用户的密码</p>
-<h2 id="配置开启ssh"><a href="#配置开启ssh" class="headerlink" title="配置开启ssh"></a>配置开启ssh</h2><p>操作如下即可：<br>sudo vim /etc/ssh/sshd-config<br>修改 PermitRootLogin yes<br>然后保存修改<br>然后执行sudo systemctl restart ssh<br>再通过ss -tnl查看是否开启成功即可</p>
-<h2 id="配置静态ip如下"><a href="#配置静态ip如下" class="headerlink" title="配置静态ip如下"></a>配置静态ip如下</h2><p>在需要无线网络连接的情况下，配置eth0的静态ip如下：<br>sudo vim /etc/network/interfaces<br>然后再文件里增加以下内容<br>auto lo<br>iface lo inet loopback<br>auto eth0<br>iface eth0 inet static<br>address 192.168.0.1 //IP地址<br>netmask 255.255.255.0 //掩码<br>然后保存<br>但是此时，如果不设置一下wlan0，那么会发现虽然静态ip设置成功了，但是树莓派却无法联网了<br>所以还要在interfaces文件里追加以下内容<br>auto wlan0<br>iface wlan0 inet dhcp<br>wpa_conf /etc/wpa_supplicant/wpa_supplicant.conf<br>然后保存<br>退出文件<br>重启树莓派即可</p>
-<h2 id="如图，配置动态IP"><a href="#如图，配置动态IP" class="headerlink" title="如图，配置动态IP"></a>如图，配置动态IP</h2><p><img src="/assets/blogImg/shu_ip_dhcp.jpg" alt="shu_ip_dhpc"></p>
-<h2 id="如图，配置静态IP"><a href="#如图，配置静态IP" class="headerlink" title="如图，配置静态IP"></a>如图，配置静态IP</h2><p><img src="/assets/blogImg/shu_ip_static.jpg" alt="shu_ip_static"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/15/%E6%A0%91%E8%8E%93%E6%B4%BE%E9%85%8D%E7%BD%AE%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83-ssh-root-%E9%9D%99%E6%80%81ip/">展开全文 >></a>
         </p>
       
 
