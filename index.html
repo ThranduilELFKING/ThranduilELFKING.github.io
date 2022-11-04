@@ -57,9 +57,11 @@
 	        
 				<li><a href="/tags/%E9%9A%8F%E7%AC%94/">随笔</a></li>
 	        
-				<li><a href="/categories">分类</a></li>
+				<li><a href="/categories/index.html">分类</a></li>
 	        
-			总文章数 39
+				<li><a href="/archives/index.html">归档</a></li>
+	        
+			总文章数 42
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -134,6 +136,8 @@
 			
 				
 			
+				
+			
 			
 			
 			<nav class="header-nav">
@@ -154,11 +158,13 @@
 				<ul style="width: 70%">
 				
 				
-					<li style="width: 33.333333333333336%"><a href="/">主页</a></li>
+					<li style="width: 25%"><a href="/">主页</a></li>
 		        
-					<li style="width: 33.333333333333336%"><a href="/tags/%E9%9A%8F%E7%AC%94/">随笔</a></li>
+					<li style="width: 25%"><a href="/tags/%E9%9A%8F%E7%AC%94/">随笔</a></li>
 		        
-					<li style="width: 33.333333333333336%"><a href="/categories">分类</a></li>
+					<li style="width: 25%"><a href="/categories/index.html">分类</a></li>
+		        
+					<li style="width: 25%"><a href="/archives/index.html">归档</a></li>
 		        
 				</ul>
 			</nav>
@@ -174,6 +180,244 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-npm相关报错调试" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/11/04/npm%E7%9B%B8%E5%85%B3%E6%8A%A5%E9%94%99%E8%B0%83%E8%AF%95/">npm相关报错调试</a>
+    </h1>
+  
+
+        
+        <a href="/2022/11/04/npm%E7%9B%B8%E5%85%B3%E6%8A%A5%E9%94%99%E8%B0%83%E8%AF%95/" class="archive-article-date">
+  	<time datetime="2022-11-04T15:13:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="npm相关报错调试"><a href="#npm相关报错调试" class="headerlink" title="npm相关报错调试"></a>npm相关报错调试</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>执行npm install命令时，卡住不动；然后执行cnpm install命令，发现有报错提示<br>“ RunScriptError: post install error, please remove node_modules before retry!”</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>这里应该是网络不稳定造成的，所以使用如下命令即可</p>
+<p>方案一：使用cnpm安装</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">npm install -g cnpm --registry=https:<span class="comment">//registry.npm.taobao.org</span></span><br><span class="line">此后再用cnpm命令进行安装就可以了</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>方案二：配置代理</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">npm config set registry https:<span class="comment">//registry.npm.taobao.org</span></span><br><span class="line">后续还可以继续使用npm运行，而不必用cnpm</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000019543613">https://segmentfault.com/a/1190000019543613</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">npm</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">报错</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/第三方软件报错调试//" class="article-tag-list-link color5">第三方软件报错调试</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/11/04/npm%E7%9B%B8%E5%85%B3%E6%8A%A5%E9%94%99%E8%B0%83%E8%AF%95/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-git上传时报错OpenSSL相关errno10054" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/11/03/git%E4%B8%8A%E4%BC%A0%E6%97%B6%E6%8A%A5%E9%94%99OpenSSL%E7%9B%B8%E5%85%B3errno10054/">git上传时报错OpenSSL相关errno10054</a>
+    </h1>
+  
+
+        
+        <a href="/2022/11/03/git%E4%B8%8A%E4%BC%A0%E6%97%B6%E6%8A%A5%E9%94%99OpenSSL%E7%9B%B8%E5%85%B3errno10054/" class="archive-article-date">
+  	<time datetime="2022-11-03T15:43:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="git上传时报错OpenSSL相关errno10054"><a href="#git上传时报错OpenSSL相关errno10054" class="headerlink" title="git上传时报错OpenSSL相关errno10054"></a>git上传时报错OpenSSL相关errno10054</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>hexo博客本地更新后，想要上传到服务器的时候，发现执行hexo d之后，一直报错提示<br>OpenSSL SSL_read: Connection was reset, errno 10054<br>从网上找到了解决方案，记录一下</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>一般来说，国内现在用git上传代码的时候，都需要VPN，否则可能只能下载不能上传（估计被河蟹了）<br>那么开着VPN的情况下，才能上传，可能就会触发这个问题，导致这个问题的有2种可能<br>1.配置不对</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">修改git配置，解除ssl验证,指令如下</span><br><span class="line">git config --global http.sslVerify <span class="string">&quot;false&quot;</span> </span><br><span class="line">此时，再执行git操作即可。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>2.配置已经确认过是对的，那么就很有可能是网络不稳定，连接超时导致的<br>这种情况下，就断开重连VPN，再尝试一下，多尝试几次，当网络情况好的时候，就可以顺利上传了</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_40908748/article/details/122367878">https://blog.csdn.net/weixin_40908748/article/details/122367878</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43945983/article/details/110882074">https://blog.csdn.net/weixin_43945983/article/details/110882074</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/11/03/git%E4%B8%8A%E4%BC%A0%E6%97%B6%E6%8A%A5%E9%94%99OpenSSL%E7%9B%B8%E5%85%B3errno10054/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-程序员生产力工具个人使用版" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/11/03/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7%E4%B8%AA%E4%BA%BA%E4%BD%BF%E7%94%A8%E7%89%88/">程序员生产力工具个人使用版</a>
+    </h1>
+  
+
+        
+        <a href="/2022/11/03/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7%E4%B8%AA%E4%BA%BA%E4%BD%BF%E7%94%A8%E7%89%88/" class="archive-article-date">
+  	<time datetime="2022-11-03T15:42:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="程序员生产力工具个人使用版"><a href="#程序员生产力工具个人使用版" class="headerlink" title="程序员生产力工具个人使用版"></a>程序员生产力工具个人使用版</h1><h2 id="截图神器Snipaste"><a href="#截图神器Snipaste" class="headerlink" title="截图神器Snipaste"></a>截图神器Snipaste</h2><p>非常好用的截图神器，直接从官网下载了解压即可使用<br>常用功能<br>1.当Snipaste启动时，按下F1即可对屏幕进行截图<br>可以在截图时用“W、A、S、D”和键盘方向键分别对鼠标和截屏区域进行像素级移动</p>
+<p>2.标注功能也很强大</p>
+<p>3.按下F3可以贴图</p>
+<h2 id="画图-一个被低估的神器"><a href="#画图-一个被低估的神器" class="headerlink" title="画图-一个被低估的神器"></a>画图-一个被低估的神器</h2><p>电脑自带的软件-画图 是一个被低估的神器<br>尤其是在做UI界面相关非常精细的工作的时候，如果需要1px的精度，那么就可以借助画图软件，<br>勾选“标尺”或“网格线”进行图片的放大缩小对比，可以非常好的看出来设计图和实现的图的效果对比<br>做很精细的UI的时候是一个非常好用的工具<br><img src="/assets/blogImg/paint.jpg" alt="paint.jpg"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/11/03/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7%E4%B8%AA%E4%BA%BA%E4%BD%BF%E7%94%A8%E7%89%88/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-windows下查看exe程序依赖的dll库详细信息" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -701,211 +945,9 @@
 
 
   
-    <article id="post-查看静态库-动态库-执行程序的编译工具链gcc-g++版本命令" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/15/%E6%9F%A5%E7%9C%8B%E9%9D%99%E6%80%81%E5%BA%93-%E5%8A%A8%E6%80%81%E5%BA%93-%E6%89%A7%E8%A1%8C%E7%A8%8B%E5%BA%8F%E7%9A%84%E7%BC%96%E8%AF%91%E5%B7%A5%E5%85%B7%E9%93%BEgcc-g++%E7%89%88%E6%9C%AC%E5%91%BD%E4%BB%A4/">查看静态库-动态库-执行程序的编译工具链gcc-g++版本命令</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/15/%E6%9F%A5%E7%9C%8B%E9%9D%99%E6%80%81%E5%BA%93-%E5%8A%A8%E6%80%81%E5%BA%93-%E6%89%A7%E8%A1%8C%E7%A8%8B%E5%BA%8F%E7%9A%84%E7%BC%96%E8%AF%91%E5%B7%A5%E5%85%B7%E9%93%BEgcc-g++%E7%89%88%E6%9C%AC%E5%91%BD%E4%BB%A4/" class="archive-article-date">
-  	<time datetime="2020-11-15T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="查看静态库-动态库-执行程序的编译工具链gcc-g-版本命令"><a href="#查看静态库-动态库-执行程序的编译工具链gcc-g-版本命令" class="headerlink" title="查看静态库-动态库-执行程序的编译工具链gcc-g++版本命令"></a>查看静态库-动态库-执行程序的编译工具链gcc-g++版本命令</h1><h2 id="使用指令："><a href="#使用指令：" class="headerlink" title="使用指令："></a>使用指令：</h2><p>objdump -s –section=.comment [库名或执行文件名]</p>
-<p>如下图查看动态库：<br><img src="/assets/blogImg/objdump_ssl.jpg" alt="objdump_ssl"><br>可以看出图里的libssl.so和libcrypto.so是交叉编译工具链编译出来的）</p>
-<p>如下图查看静态库：<br><img src="/assets/blogImg/objdump_zma.jpg" alt="objdump_zma"></p>
-<p>如下图查看执行文件：<br><img src="/assets/blogImg/objdump_demo.jpg" alt="objdump_demo"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/15/%E6%9F%A5%E7%9C%8B%E9%9D%99%E6%80%81%E5%BA%93-%E5%8A%A8%E6%80%81%E5%BA%93-%E6%89%A7%E8%A1%8C%E7%A8%8B%E5%BA%8F%E7%9A%84%E7%BC%96%E8%AF%91%E5%B7%A5%E5%85%B7%E9%93%BEgcc-g++%E7%89%88%E6%9C%AC%E5%91%BD%E4%BB%A4/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-树莓派64位系统配置32位运行环境" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/15/%E6%A0%91%E8%8E%93%E6%B4%BE64%E4%BD%8D%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE32%E4%BD%8D%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83/">树莓派64位系统配置32位运行环境</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/15/%E6%A0%91%E8%8E%93%E6%B4%BE64%E4%BD%8D%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE32%E4%BD%8D%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83/" class="archive-article-date">
-  	<time datetime="2020-11-15T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="树莓派64位系统配置32位运行环境"><a href="#树莓派64位系统配置32位运行环境" class="headerlink" title="树莓派64位系统配置32位运行环境"></a>树莓派64位系统配置32位运行环境</h1><h2 id="配置libc6-armhf"><a href="#配置libc6-armhf" class="headerlink" title="配置libc6:armhf"></a>配置libc6:armhf</h2><p>树莓派本身安装了64位系统的情况下，需要配置32位程序的运行环境，首先安装依赖库，操作步骤如下，以下操作都要在root用户下进行<br><img src="/assets/blogImg/4b_armhf.jpg" alt="4b_armhf"></p>
-<h2 id="配置32位程序的依赖库环境"><a href="#配置32位程序的依赖库环境" class="headerlink" title="配置32位程序的依赖库环境"></a>配置32位程序的依赖库环境</h2><p>git clone git://github.com/raspberrypi/tools.git<br>将arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64/路径下的lib库都拷贝到/usr/local/lib32路径下，这个路径可以自己创建，自定义路径名，专门用来存放底层32位依赖库（如libstdc++.so.6)</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>其实最重要的，就是从官方提供的交叉编译工具链，把32位库给获取到，然后放到树莓派的自定义路径下，之后自己编译的32位执行程序/库，都要指定链接这个路径的基础库，否则会报错（找不到依赖库）</p>
-<p>本身64位的树莓派系统是不带32位基础库的，所以必须从官方的交叉编译工具链里获取（目前，无法通过apt-get直接获取到所有的32位依赖库）</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a target="_blank" rel="noopener" href="https://raspberrypi.club/148.html">https://raspberrypi.club/148.html</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/15/%E6%A0%91%E8%8E%93%E6%B4%BE64%E4%BD%8D%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE32%E4%BD%8D%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-树莓派交叉编译的三种常见方式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/15/%E6%A0%91%E8%8E%93%E6%B4%BE%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91%E7%9A%84%E4%B8%89%E7%A7%8D%E5%B8%B8%E8%A7%81%E6%96%B9%E5%BC%8F/">树莓派交叉编译的三种常见方式</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/15/%E6%A0%91%E8%8E%93%E6%B4%BE%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91%E7%9A%84%E4%B8%89%E7%A7%8D%E5%B8%B8%E8%A7%81%E6%96%B9%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2020-11-15T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="树莓派交叉编译的三种常见方式"><a href="#树莓派交叉编译的三种常见方式" class="headerlink" title="树莓派交叉编译的三种常见方式"></a>树莓派交叉编译的三种常见方式</h1><p><img src="/assets/blogImg/4b_complie_1.jpg" alt="4b_complie_1.jpg"><br><img src="/assets/blogImg/4b_complie_2.jpg" alt="4b_complie_2.jpg"><br><img src="/assets/blogImg/4b_complie_3.jpg" alt="4b_complie_3.jpg"><br><img src="/assets/blogImg/4b_complie_5.jpg" alt="4b_complie_5.jpg"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/15/%E6%A0%91%E8%8E%93%E6%B4%BE%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91%E7%9A%84%E4%B8%89%E7%A7%8D%E5%B8%B8%E8%A7%81%E6%96%B9%E5%BC%8F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -1010,6 +1052,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">npm</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">报错</a>
+              </li>
             
             <div class="clearfix"></div>
           </ul>
