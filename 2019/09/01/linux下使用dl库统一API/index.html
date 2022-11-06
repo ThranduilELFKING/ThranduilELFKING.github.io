@@ -8,17 +8,17 @@
   <link rel="dns-prefetch" href="http://example.com">
   <title>linux下使用dl库，统一API | ThranduilELFKING</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="linux下使用dl库，统一APIlinux下使用dl库，统一API背景由于是统一API的前提下，做成了不同实现了这些API功能的动态链接库，然后根据配置文件等，动态的做出选择去加载这些动态库，并且是在linux下，所以最终选择了dl库 主要代码12345678910111213141516171819202122232425262728293031323334353637383940414243">
+  <meta name="description" content="linux下使用dl库，统一API背景由于是统一API的前提下，做成了不同实现了这些API功能的动态链接库，然后根据配置文件等，动态的做出选择去加载这些动态库，并且是在linux下，所以最终选择了dl库 主要代码1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515">
 <meta property="og:type" content="article">
 <meta property="og:title" content="linux下使用dl库，统一API">
 <meta property="og:url" content="http://example.com/2019/09/01/linux%E4%B8%8B%E4%BD%BF%E7%94%A8dl%E5%BA%93%E7%BB%9F%E4%B8%80API/index.html">
 <meta property="og:site_name" content="ThranduilELFKING">
-<meta property="og:description" content="linux下使用dl库，统一APIlinux下使用dl库，统一API背景由于是统一API的前提下，做成了不同实现了这些API功能的动态链接库，然后根据配置文件等，动态的做出选择去加载这些动态库，并且是在linux下，所以最终选择了dl库 主要代码12345678910111213141516171819202122232425262728293031323334353637383940414243">
+<meta property="og:description" content="linux下使用dl库，统一API背景由于是统一API的前提下，做成了不同实现了这些API功能的动态链接库，然后根据配置文件等，动态的做出选择去加载这些动态库，并且是在linux下，所以最终选择了dl库 主要代码1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/assets/blogImg/wu_extern_c.jpg">
 <meta property="og:image" content="http://example.com/assets/blogImg/you_extern_c.jpg">
 <meta property="article:published_time" content="2019-09-01T03:21:39.000Z">
-<meta property="article:modified_time" content="2022-11-05T05:10:42.926Z">
+<meta property="article:modified_time" content="2022-11-06T13:03:53.409Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="第三方库">
 <meta property="article:tag" content="基础技能C++">
@@ -70,7 +70,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 45
+			总文章数 46
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -208,7 +208,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="linux下使用dl库，统一API"><a href="#linux下使用dl库，统一API" class="headerlink" title="linux下使用dl库，统一API"></a>linux下使用dl库，统一API</h1><h1 id="linux下使用dl库，统一API-1"><a href="#linux下使用dl库，统一API-1" class="headerlink" title="linux下使用dl库，统一API"></a>linux下使用dl库，统一API</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>由于是统一API的前提下，做成了不同实现了这些API功能的动态链接库，然后根据配置文件等，动态的做出选择去加载这些动态库，并且是在linux下，所以最终选择了dl库</p>
+        <h1 id="linux下使用dl库，统一API"><a href="#linux下使用dl库，统一API" class="headerlink" title="linux下使用dl库，统一API"></a>linux下使用dl库，统一API</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>由于是统一API的前提下，做成了不同实现了这些API功能的动态链接库，然后根据配置文件等，动态的做出选择去加载这些动态库，并且是在linux下，所以最终选择了dl库</p>
 <h2 id="主要代码"><a href="#主要代码" class="headerlink" title="主要代码"></a>主要代码</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//需要#include &lt;dlfcn.h&gt;</span></span><br><span class="line"></span><br><span class="line">short loadLibDemo::<span class="function"><span class="title">realLoadLib</span>(<span class="params"><span class="keyword">const</span> string&amp; libPath</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span>(libPath.length() &lt;= <span class="number">0</span>)</span><br><span class="line">		<span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">	libHandle = dlopen(libPath.c_str(), RTLD_GLOBAL | RTLD_NOW);</span><br><span class="line">	<span class="keyword">if</span>(NULL==libHandle)</span><br><span class="line">	&#123;</span><br><span class="line">		printf(<span class="string">&quot;dlopen fail %s\n&quot;</span>,dlerror());</span><br><span class="line">		<span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	pOne = (PFUN_APIOne)dlsym(libHandle, <span class="string">&quot;one_fun_api&quot;</span>);</span><br><span class="line">	<span class="keyword">if</span>(NULL == pOne)</span><br><span class="line">	&#123;</span><br><span class="line">		printf(<span class="string">&quot;[PFUN_APIOne] dlsym fail %s\n&quot;</span>,dlerror());</span><br><span class="line">		<span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	pTwo = (PFUN_APITwo)dlsym(libHandle, <span class="string">&quot;two_fun_api&quot;</span>);</span><br><span class="line">	<span class="keyword">if</span>(NULL == pTwo)</span><br><span class="line">	&#123;</span><br><span class="line">		printf(<span class="string">&quot;[PFUN_APITwo] dlsym fail %s\n&quot;</span>,dlerror());</span><br><span class="line">		<span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	pThree = (PFUN_APIThree)dlsym(libHandle, <span class="string">&quot;three_fun_api&quot;</span>);</span><br><span class="line">	<span class="keyword">if</span>(NULL == pThree)</span><br><span class="line">	&#123;</span><br><span class="line">		printf(<span class="string">&quot;[PFUN_APIThree] dlsym fail %s\n&quot;</span>,dlerror());</span><br><span class="line">		<span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	pFour = (PFUN_APIFour)dlsym(libHandle, <span class="string">&quot;four_fun_api&quot;</span>);</span><br><span class="line">	<span class="keyword">if</span>(NULL == pFour)</span><br><span class="line">	&#123;</span><br><span class="line">		printf(<span class="string">&quot;[PFUN_APIFour] dlsym fail %s\n&quot;</span>,dlerror());</span><br><span class="line">		<span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	pFive = (PFUN_APIFive)dlsym(libHandle, <span class="string">&quot;five_fun_api&quot;</span>);</span><br><span class="line">	<span class="keyword">if</span>(NULL == pFive)</span><br><span class="line">	&#123;</span><br><span class="line">		printf(<span class="string">&quot;[PFUN_APIFive] dlsym fail %s\n&quot;</span>,dlerror());</span><br><span class="line">		<span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	pSix = (PFUN_APISix)dlsym(libHandle, <span class="string">&quot;six_fun_api&quot;</span>);</span><br><span class="line">	<span class="keyword">if</span>(NULL == pSix)</span><br><span class="line">	&#123;</span><br><span class="line">		printf(<span class="string">&quot;[PFUN_APISix] dlsym fail %s\n&quot;</span>,dlerror());</span><br><span class="line">		<span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>完整代码已经放在了<a target="_blank" rel="noopener" href="https://github.com/TreeAndFlower/loadlibdemo-linux">https://github.com/TreeAndFlower/loadlibdemo-linux</a></p>
@@ -491,6 +491,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">常见报错问题</a>
               </li>
              
@@ -519,15 +527,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">通信协议</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
               </li>
              
               <li class="article-tag-list-item">

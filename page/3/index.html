@@ -61,7 +61,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 45
+			总文章数 46
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -180,6 +180,89 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-简单工厂模式学习笔记" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/23/%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">简单工厂模式学习笔记</a>
+    </h1>
+  
+
+        
+        <a href="/2020/05/23/%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="archive-article-date">
+  	<time datetime="2020-05-23T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-23</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="简单工厂模式学习笔记"><a href="#简单工厂模式学习笔记" class="headerlink" title="简单工厂模式学习笔记"></a>简单工厂模式学习笔记</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>本次案例demo来自《大话设计模式》一书，是C++版本的实现</p>
+<h2 id="案例说明"><a href="#案例说明" class="headerlink" title="案例说明"></a>案例说明</h2><p>设计一个简单的计算器，可以进行加减乘除功能</p>
+<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><p>完整源码已同步到github上<br>地址：<a target="_blank" rel="noopener" href="https://github.com/TreeAndFlower/sampleFactory.git">https://github.com/TreeAndFlower/sampleFactory.git</a></p>
+<h2 id="部分代码示例如下："><a href="#部分代码示例如下：" class="headerlink" title="部分代码示例如下："></a>部分代码示例如下：</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">baseCalculate</span></span>&#123;</span><br><span class="line"><span class="attr">public</span>:</span><br><span class="line">    baseCalculate();</span><br><span class="line">    ~baseCalculate();</span><br><span class="line"></span><br><span class="line">    virtual double getResult(double numA, double numB)=<span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Add</span>:<span class="title">public</span> <span class="title">baseCalculate</span></span>&#123;</span><br><span class="line"><span class="attr">public</span>:</span><br><span class="line">    Add();</span><br><span class="line">    ~Add();</span><br><span class="line">    </span><br><span class="line">    double getResult(double numA, double numB);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Sub</span>:<span class="title">public</span> <span class="title">baseCalculate</span></span>&#123;</span><br><span class="line"><span class="attr">public</span>:</span><br><span class="line">    Sub();</span><br><span class="line">    ~Sub();</span><br><span class="line">    </span><br><span class="line">    double getResult(double numA, double numB);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Multi</span>:<span class="title">public</span> <span class="title">baseCalculate</span></span>&#123;</span><br><span class="line"><span class="attr">public</span>:</span><br><span class="line">    Multi();</span><br><span class="line">    ~Multi();</span><br><span class="line">    </span><br><span class="line">    double getResult(double numA, double numB);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Div</span>:<span class="title">public</span> <span class="title">baseCalculate</span></span>&#123;</span><br><span class="line"><span class="attr">public</span>:</span><br><span class="line">    Div();</span><br><span class="line">    ~Div();</span><br><span class="line">    </span><br><span class="line">    double getResult(double numA, double numB);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ExecuteCalculate</span></span>&#123;</span><br><span class="line"><span class="attr">public</span>:</span><br><span class="line">    ExecuteCalculate();</span><br><span class="line">    ~ExecuteCalculate();</span><br><span class="line">    </span><br><span class="line">    bool calculateData(double numA, double numB, string strSign, double&amp; theValue);</span><br><span class="line">    </span><br><span class="line">private:</span><br><span class="line">    baseCalculate* the_base_cal;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="编译方式"><a href="#编译方式" class="headerlink" title="编译方式"></a>编译方式</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd build</span><br><span class="line">cmake ..</span><br><span class="line">make</span><br></pre></td></tr></table></figure>
+<p>即可生成可执行文件sampleFactory，执行后即可看到如下效果：<br><img src="/assets/blogImg/factory_complie.jpg" alt="编译并执行sampleFactory"></p>
+<h2 id="特别说明"><a href="#特别说明" class="headerlink" title="特别说明"></a>特别说明</h2><p>在学习《大话设计模式》中，为了加深学习效果，因此用C++实现一遍文中的java案例，仅是学习笔记</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">设计模式</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/05/23/%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-linux下安装tcpdump并用其抓包" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -829,10 +912,11 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="linux下查看编译的静态库和动态库是32位还是64位"><a href="#linux下查看编译的静态库和动态库是32位还是64位" class="headerlink" title="linux下查看编译的静态库和动态库是32位还是64位"></a>linux下查看编译的静态库和动态库是32位还是64位</h1><h1 id="linux下查看编译的静态库和动态库是32位还是64位-1"><a href="#linux下查看编译的静态库和动态库是32位还是64位-1" class="headerlink" title="linux下查看编译的静态库和动态库是32位还是64位"></a>linux下查看编译的静态库和动态库是32位还是64位</h1><p>有时候可能会需要交叉编译，所以需要知道平台上编译出来的版本到底是64位还是32位</p>
+        <h1 id="linux下查看编译的静态库和动态库是32位还是64位"><a href="#linux下查看编译的静态库和动态库是32位还是64位" class="headerlink" title="linux下查看编译的静态库和动态库是32位还是64位"></a>linux下查看编译的静态库和动态库是32位还是64位</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>有时候可能会需要交叉编译，所以需要知道平台上编译出来的版本到底是64位还是32位</p>
 <h2 id="file指令查看动态库是32位还是64位"><a href="#file指令查看动态库是32位还是64位" class="headerlink" title="file指令查看动态库是32位还是64位"></a>file指令查看动态库是32位还是64位</h2><p>如图：file libcurl.so 查看当前编译的libcurl.so是32位还是64位的<br><img src="/assets/blogImg/file_so.jpg" alt="file_so.jpg"></p>
 <h2 id="objdump-a指令查看静态库是32位还是64位的"><a href="#objdump-a指令查看静态库是32位还是64位的" class="headerlink" title="objdump -a指令查看静态库是32位还是64位的"></a>objdump -a指令查看静态库是32位还是64位的</h2><p>如图：objdump -a libtest.a 查看当前编译的静态库libtest.a是32位还是64位的<br><img src="/assets/blogImg/objdump_a.jpg" alt="objdupm_a.jpg"></p>
-<h2 id="readelf-h指令查看静态库or动态库是32位or64位，及编译平台运行平台等信息"><a href="#readelf-h指令查看静态库or动态库是32位or64位，及编译平台运行平台等信息" class="headerlink" title="readelf -h指令查看静态库or动态库是32位or64位，及编译平台运行平台等信息"></a>readelf -h指令查看静态库or动态库是32位or64位，及编译平台运行平台等信息</h2><p>如图：readelf -h libssl.so 查看编译的动态库lib<br><img src="/assets/blogImg/readelf_h.JPG" alt="readelf_h.JPG"></p>
+<h2 id="readelf-h指令查看静态库or动态库是32位or64位，及编译平台运行平台等信息"><a href="#readelf-h指令查看静态库or动态库是32位or64位，及编译平台运行平台等信息" class="headerlink" title="readelf -h指令查看静态库or动态库是32位or64位，及编译平台运行平台等信息"></a>readelf -h指令查看静态库or动态库是32位or64位，及编译平台运行平台等信息</h2><p>如图：readelf -h libssl.so 查看编译的动态库lib<br>Class字段显示当前库是32位or64位<br>Machine字段显示当前库运行的目标机器系统</p>
+<p><img src="/assets/blogImg/readelf_h.jpg" alt="readelf_h.jpg"></p>
 
       
 
@@ -940,89 +1024,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2019/12/15/cjson%E5%BA%93%E7%89%88%E6%9C%AC%E4%B8%8D%E4%B8%80%E8%87%B4%EF%BC%8C%E5%AF%BC%E8%87%B4%E8%A7%A3%E6%9E%90%E5%A4%B1%E8%B4%A5/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-map存放函数指针" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/09/22/map%E5%AD%98%E6%94%BE%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88/">map存放函数指针</a>
-    </h1>
-  
-
-        
-        <a href="/2019/09/22/map%E5%AD%98%E6%94%BE%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88/" class="archive-article-date">
-  	<time datetime="2019-09-22T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-22</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="map存放函数指针"><a href="#map存放函数指针" class="headerlink" title="map存放函数指针"></a>map存放函数指针</h1><h1 id="map里存放函数指针"><a href="#map里存放函数指针" class="headerlink" title="map里存放函数指针"></a>map里存放函数指针</h1><p>由于有时候，想把某一类功能的函数，存在一个map里，所以写了一个demo</p>
-<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>源码如下（已本地运行通过）：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  main.cpp</span></span><br><span class="line"><span class="comment">//  mapfunc</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  Created by 慕寒 on 2019/9/22.</span></span><br><span class="line"><span class="comment">//  Copyright © 2019 慕寒. All rights reserved.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 将函数指针缓存在map里</span></span><br><span class="line"></span><br><span class="line">#include &lt;iostream&gt;</span><br><span class="line">#include &lt;map&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span>* <span class="function"><span class="title">helloFuncOne</span>(<span class="params"></span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;Hello, World!\n&quot;</span>;</span><br><span class="line">    <span class="keyword">return</span> NULL;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">long <span class="function"><span class="title">helloFuncTwo</span>(<span class="params">long x, long y</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    long ret = <span class="number">0</span>;</span><br><span class="line">    ret = x + y;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;x + y = &quot;</span>&lt;&lt; ret &lt;&lt;endl;</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int <span class="function"><span class="title">main</span>(<span class="params">int argc, <span class="keyword">const</span> char * argv[]</span>)</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 缓存函数名，函数指针在map里</span></span><br><span class="line">    map&lt;string, long&gt; func_name_ptr;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//将函数指针缓存到map里</span></span><br><span class="line">    func_name_ptr[<span class="string">&quot;func1&quot;</span>] = (long)&amp;helloFuncOne;</span><br><span class="line">    func_name_ptr[<span class="string">&quot;func2&quot;</span>] = (long)&amp;helloFuncTwo;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//调用函数指针func1</span></span><br><span class="line">    typedef <span class="keyword">void</span>* (*FUNC)();</span><br><span class="line">    long fptr_one = func_name_ptr[<span class="string">&quot;func1&quot;</span>];</span><br><span class="line">    <span class="keyword">if</span>(fptr_one != <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;fptr_one \n&quot;</span>;</span><br><span class="line">        <span class="comment">//调用函数func1</span></span><br><span class="line">        ((FUNC)fptr_one)();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//调用函数指针func2</span></span><br><span class="line">    typedef long (*FUNCTWO)(long, long);</span><br><span class="line">    long fptr_two = func_name_ptr[<span class="string">&quot;func2&quot;</span>];</span><br><span class="line">    <span class="keyword">if</span>(fptr_two != <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;fptr_two \n&quot;</span>;</span><br><span class="line">        <span class="comment">//调用函数func2</span></span><br><span class="line">        long two_ret = ((FUNCTWO)fptr_two)(<span class="number">3</span>, <span class="number">7</span>);</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;two_ret = &quot;</span>&lt;&lt;two_ret &lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>//PS: map的第二个参数为什么用了long型，而不是int型<br>//由于在XCode编译报错 Cast from pointer to smaller type ‘int’ loses information<br>//报错原因是：由于使用了强转将void<em>转为int，而在XCode上使用的为x64的编译，X64下的void</em>地址为8字节，而int为4字节，强转时会导致越界，故出现此错误。<br>源码运行后到结果如下：</p>
-<p><img src="/assets/blogImg/map_func.jpg" alt="map_func_exec"></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>注意类型强制转换到时候，可能会有越界报错</p>
-<p>源码已同步到github上：<a target="_blank" rel="noopener" href="https://github.com/TreeAndFlower/map_func_ptr">https://github.com/TreeAndFlower/map_func_ptr</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础技能C++</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/09/22/map%E5%AD%98%E6%94%BE%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88/">展开全文 >></a>
         </p>
       
 
@@ -1165,6 +1166,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">常见报错问题</a>
               </li>
              
@@ -1193,15 +1202,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">通信协议</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
               </li>
              
               <li class="article-tag-list-item">

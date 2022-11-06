@@ -61,7 +61,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 45
+			总文章数 46
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -180,6 +180,103 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-ProcessExplorer常用操作" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/11/06/ProcessExplorer%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/">ProcessExplorer常用操作</a>
+    </h1>
+  
+
+        
+        <a href="/2022/11/06/ProcessExplorer%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/" class="archive-article-date">
+  	<time datetime="2022-11-06T13:24:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="ProcessExplorer常用操作"><a href="#ProcessExplorer常用操作" class="headerlink" title="ProcessExplorer常用操作"></a>ProcessExplorer常用操作</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>这是一款windows系统和应用程序监视工具，结合了文件监视和注册表监视两个工具的功能，至少可以当做是任务管理器的替代品，不过在windows下开发的话，在编码和调试过程中使用此工具会有小惊喜。</p>
+<h2 id="下载链接"><a href="#下载链接" class="headerlink" title="下载链接"></a>下载链接</h2><p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/sysinternals/downloads/process-explorer">https://learn.microsoft.com/en-us/sysinternals/downloads/process-explorer</a></p>
+<h2 id="树形结构"><a href="#树形结构" class="headerlink" title="树形结构"></a>树形结构</h2><p>1.可以准确显示进程的父子关系<br><img src="/assets/blogImg/cryptopp_complie.jpg" alt="pe_fz.jpg"></p>
+<p>2.可以通过颜色判断当前进程处于的状态和类型，是挂起还是准备退出，是服务进程还是普通进程<br><img src="/assets/blogImg/pe_server.jpg" alt="pe_server.jpg"></p>
+<h2 id="显示进程的系统信息"><a href="#显示进程的系统信息" class="headerlink" title="显示进程的系统信息"></a>显示进程的系统信息</h2><p>1.选择相关的列，即可查看相关详细信息<br>点击”View”==》再点击”Select Colunms…”即可打开选项页面<br><img src="/assets/blogImg/pe_select_colunms.jpg" alt="pe_select_colunms.jpg"></p>
+<p>2.勾选自己调试时关心的信息列，即可<br>常用的选项一般在Process Image标签页下，勾选自己感兴趣的即可<br>点击”Select Colunms”选项后==》点击”Process Image”即可看到各种选项，选择自己需要的勾选即可<br><img src="/assets/blogImg/pe_columns.jpg" alt="pe_columns.jpg"></p>
+<h2 id="显示当前进程所加载的dll"><a href="#显示当前进程所加载的dll" class="headerlink" title="显示当前进程所加载的dll"></a>显示当前进程所加载的dll</h2><p>1.通过这种方式可以观察我们的进程是否被注入DLL<br>点击”View”==》再点击”Lower Pane View”==》再点击”DLLs”即可<br><img src="/assets/blogImg/pe_dll.jpg" alt="pe_dll.jpg"></p>
+<p>查看当前进程所加载的dll信息<br><img src="/assets/blogImg/pe_dll_info.jpg" alt="pe_dll_info.jpg"></p>
+<p>如果觉得当前展示的信息不够丰富，可以扩展展示列<br>鼠标放在”Name” “Description”…这一行，右键后，选择”Select Columns…”<br><img src="/assets/blogImg/pe_dll_kz.jpg" alt="pe_dll_kz.jpg"></p>
+<p>如下，在”DLL”标签页，选中”Version”字段，点击“确定”即可拓展一列，显示dll的版本信息<br><img src="/assets/blogImg/pe_kz_version.jpg" alt="pe_kz_version.jpg"><br>展示效果如下<br><img src="/assets/blogImg/pe_version.jpg" alt="pe_version.jpg"></p>
+<h2 id="显示当前进程所占的系统资源句柄"><a href="#显示当前进程所占的系统资源句柄" class="headerlink" title="显示当前进程所占的系统资源句柄"></a>显示当前进程所占的系统资源句柄</h2><p>1.查看当前进程占用的资源句柄表<br>点击”View”==》再点击”Lower Pane View”==》再点击”Handles”即可<br><img src="/assets/blogImg/pe_handles.jpg" alt="pe_handles.jpg"></p>
+<p>可以分析进程的逻辑，如占用的Event事件<br><img src="/assets/blogImg/pe_type.jpg" alt="pe_type.jpg"></p>
+<p>2.可以检查自己的程序是否有内核句柄泄露<br>打开”Select Columns”选项面板，打开”Handle”标签页，选择”Handle Value”选项，之后会显示句柄数<br><img src="/assets/blogImg/pe_handle_values.jpg" alt="pe_handle_values.jpg"></p>
+<p>一般来说，如果句柄数一直在上涨，很可能就是句柄泄露了<br><img src="/assets/blogImg/pe_handle_show.jpg" alt="pe_handle_show.jpg"></p>
+<h2 id="操纵进程及显示进程内部信息"><a href="#操纵进程及显示进程内部信息" class="headerlink" title="操纵进程及显示进程内部信息"></a>操纵进程及显示进程内部信息</h2><p>1.选中要查看的进程，右键，选择”Properties”即可<br><img src="/assets/blogImg/pe_properties.jpg" alt="pe_properties.jpg"></p>
+<p>在展开的属性标签页里，查看自己关注的信息，比如当前使用到的环节变量<br><img src="/assets/blogImg/pe_show_properties.jpg" alt="pe_show_properties.jpg"></p>
+<p>比如查看当前进程的用户组信息，特权等<br><img src="/assets/blogImg/pe_user.jpg" alt="pe_user.jpg"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/iTBear/articles/2789151.html">https://www.cnblogs.com/iTBear/articles/2789151.html</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常用命令windows</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/11/06/ProcessExplorer%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-libcryptopp源码编译" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -710,11 +807,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常用命令windows</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常用命令windows</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
         		</li>
       		
 		</ul>
@@ -934,82 +1031,6 @@
 
 
   
-    <article id="post-迁移一个账号" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/12/12/%E8%BF%81%E7%A7%BB%E4%B8%80%E4%B8%AA%E8%B4%A6%E5%8F%B7/">迁移一个账号</a>
-    </h1>
-  
-
-        
-        <a href="/2021/12/12/%E8%BF%81%E7%A7%BB%E4%B8%80%E4%B8%AA%E8%B4%A6%E5%8F%B7/" class="archive-article-date">
-  	<time datetime="2021-12-12T13:47:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-12-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="迁移"><a href="#迁移" class="headerlink" title="迁移"></a>迁移</h2><p> 迁移账号<br> 原本的账号是gmail的，有时候登录不上去，换一个国内邮箱的账号吧</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">hexo博客搭建</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/12/12/%E8%BF%81%E7%A7%BB%E4%B8%80%E4%B8%AA%E8%B4%A6%E5%8F%B7/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
@@ -1123,6 +1144,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">常见报错问题</a>
               </li>
              
@@ -1151,15 +1180,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">通信协议</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
               </li>
              
               <li class="article-tag-list-item">

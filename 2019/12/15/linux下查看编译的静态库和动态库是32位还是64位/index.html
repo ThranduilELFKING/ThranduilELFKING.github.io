@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="http://example.com">
   <title>linux下查看编译的静态库和动态库是32位还是64位 | ThranduilELFKING</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="linux下查看编译的静态库和动态库是32位还是64位linux下查看编译的静态库和动态库是32位还是64位有时候可能会需要交叉编译，所以需要知道平台上编译出来的版本到底是64位还是32位 file指令查看动态库是32位还是64位如图：file libcurl.so 查看当前编译的libcurl.so是32位还是64位的 objdump -a指令查看静态库是32位还是64位的如图：objdump">
+  <meta name="description" content="linux下查看编译的静态库和动态库是32位还是64位背景有时候可能会需要交叉编译，所以需要知道平台上编译出来的版本到底是64位还是32位 file指令查看动态库是32位还是64位如图：file libcurl.so 查看当前编译的libcurl.so是32位还是64位的 objdump -a指令查看静态库是32位还是64位的如图：objdump -a libtest.a 查看当前编译的静态库li">
 <meta property="og:type" content="article">
 <meta property="og:title" content="linux下查看编译的静态库和动态库是32位还是64位">
 <meta property="og:url" content="http://example.com/2019/12/15/linux%E4%B8%8B%E6%9F%A5%E7%9C%8B%E7%BC%96%E8%AF%91%E7%9A%84%E9%9D%99%E6%80%81%E5%BA%93%E5%92%8C%E5%8A%A8%E6%80%81%E5%BA%93%E6%98%AF32%E4%BD%8D%E8%BF%98%E6%98%AF64%E4%BD%8D/index.html">
 <meta property="og:site_name" content="ThranduilELFKING">
-<meta property="og:description" content="linux下查看编译的静态库和动态库是32位还是64位linux下查看编译的静态库和动态库是32位还是64位有时候可能会需要交叉编译，所以需要知道平台上编译出来的版本到底是64位还是32位 file指令查看动态库是32位还是64位如图：file libcurl.so 查看当前编译的libcurl.so是32位还是64位的 objdump -a指令查看静态库是32位还是64位的如图：objdump">
+<meta property="og:description" content="linux下查看编译的静态库和动态库是32位还是64位背景有时候可能会需要交叉编译，所以需要知道平台上编译出来的版本到底是64位还是32位 file指令查看动态库是32位还是64位如图：file libcurl.so 查看当前编译的libcurl.so是32位还是64位的 objdump -a指令查看静态库是32位还是64位的如图：objdump -a libtest.a 查看当前编译的静态库li">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/assets/blogImg/file_so.jpg">
 <meta property="og:image" content="http://example.com/assets/blogImg/objdump_a.jpg">
-<meta property="og:image" content="http://example.com/assets/blogImg/readelf_h.JPG">
+<meta property="og:image" content="http://example.com/assets/blogImg/readelf_h.jpg">
 <meta property="article:published_time" content="2019-12-15T03:21:39.000Z">
-<meta property="article:modified_time" content="2022-11-05T05:02:24.489Z">
+<meta property="article:modified_time" content="2022-11-06T13:03:20.577Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="常用命令linux">
 <meta name="twitter:card" content="summary">
@@ -70,7 +70,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 45
+			总文章数 46
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -208,10 +208,11 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="linux下查看编译的静态库和动态库是32位还是64位"><a href="#linux下查看编译的静态库和动态库是32位还是64位" class="headerlink" title="linux下查看编译的静态库和动态库是32位还是64位"></a>linux下查看编译的静态库和动态库是32位还是64位</h1><h1 id="linux下查看编译的静态库和动态库是32位还是64位-1"><a href="#linux下查看编译的静态库和动态库是32位还是64位-1" class="headerlink" title="linux下查看编译的静态库和动态库是32位还是64位"></a>linux下查看编译的静态库和动态库是32位还是64位</h1><p>有时候可能会需要交叉编译，所以需要知道平台上编译出来的版本到底是64位还是32位</p>
+        <h1 id="linux下查看编译的静态库和动态库是32位还是64位"><a href="#linux下查看编译的静态库和动态库是32位还是64位" class="headerlink" title="linux下查看编译的静态库和动态库是32位还是64位"></a>linux下查看编译的静态库和动态库是32位还是64位</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>有时候可能会需要交叉编译，所以需要知道平台上编译出来的版本到底是64位还是32位</p>
 <h2 id="file指令查看动态库是32位还是64位"><a href="#file指令查看动态库是32位还是64位" class="headerlink" title="file指令查看动态库是32位还是64位"></a>file指令查看动态库是32位还是64位</h2><p>如图：file libcurl.so 查看当前编译的libcurl.so是32位还是64位的<br><img src="/assets/blogImg/file_so.jpg" alt="file_so.jpg"></p>
 <h2 id="objdump-a指令查看静态库是32位还是64位的"><a href="#objdump-a指令查看静态库是32位还是64位的" class="headerlink" title="objdump -a指令查看静态库是32位还是64位的"></a>objdump -a指令查看静态库是32位还是64位的</h2><p>如图：objdump -a libtest.a 查看当前编译的静态库libtest.a是32位还是64位的<br><img src="/assets/blogImg/objdump_a.jpg" alt="objdupm_a.jpg"></p>
-<h2 id="readelf-h指令查看静态库or动态库是32位or64位，及编译平台运行平台等信息"><a href="#readelf-h指令查看静态库or动态库是32位or64位，及编译平台运行平台等信息" class="headerlink" title="readelf -h指令查看静态库or动态库是32位or64位，及编译平台运行平台等信息"></a>readelf -h指令查看静态库or动态库是32位or64位，及编译平台运行平台等信息</h2><p>如图：readelf -h libssl.so 查看编译的动态库lib<br><img src="/assets/blogImg/readelf_h.JPG" alt="readelf_h.JPG"></p>
+<h2 id="readelf-h指令查看静态库or动态库是32位or64位，及编译平台运行平台等信息"><a href="#readelf-h指令查看静态库or动态库是32位or64位，及编译平台运行平台等信息" class="headerlink" title="readelf -h指令查看静态库or动态库是32位or64位，及编译平台运行平台等信息"></a>readelf -h指令查看静态库or动态库是32位or64位，及编译平台运行平台等信息</h2><p>如图：readelf -h libssl.so 查看编译的动态库lib<br>Class字段显示当前库是32位or64位<br>Machine字段显示当前库运行的目标机器系统</p>
+<p><img src="/assets/blogImg/readelf_h.jpg" alt="readelf_h.jpg"></p>
 
       
 
@@ -478,6 +479,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">常见报错问题</a>
               </li>
              
@@ -506,15 +515,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">通信协议</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
               </li>
              
               <li class="article-tag-list-item">
