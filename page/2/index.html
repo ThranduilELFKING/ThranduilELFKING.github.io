@@ -61,7 +61,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 64
+			总文章数 65
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -361,8 +361,7 @@
 <p>进行如下操作<br><img src="/assets/blogImg/git_new_2.jpg" alt="git_new_2"></p>
 <p>最后用git log看一下，确认在master分支上，已经将本地分支xxx/feat-11-10的commit切过来了</p>
 <p><img src="/assets/blogImg/git_new_3.jpg" alt="git_new_3"></p>
-<h2 id="2-常用指令reset"><a href="#2-常用指令reset" class="headerlink" title="2.常用指令reset"></a>2.常用指令reset</h2><p>回退到某个提交</p>
-<p>(1)如果在当前的干净分支上，修改了一些东西，提交了一个commit，然后又修改了一些东西，想把上一个提交撤销，两次修改并到一个commit里面</p>
+<h2 id="2-常用指令reset"><a href="#2-常用指令reset" class="headerlink" title="2.常用指令reset"></a>2.常用指令reset</h2><h3 id="2-1回退到某个提交"><a href="#2-1回退到某个提交" class="headerlink" title="2.1回退到某个提交"></a>2.1回退到某个提交</h3><p>(1)如果在当前的干净分支上，修改了一些东西，提交了一个commit，然后又修改了一些东西，想把上一个提交撤销，两次修改并到一个commit里面</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset commit_id</span><br></pre></td></tr></table></figure>
 
 <p>如下所示：<br>回退到指定的版本acbc4ee9745486dc0bc39a4d03c351fba528c545<br>而用git status来看的时候，发现本地的修改commit还在<br><img src="/assets/blogImg/git_reset.jpg" alt="git_reset"></p>
@@ -370,6 +369,11 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard commit_id</span><br></pre></td></tr></table></figure>
 
 <p>如图所示：<br>回退到旧的版本，并且把比这个版本新的提交都清理掉了<br><img src="/assets/blogImg/git_reset_1.jpg" alt="git_reset_1"></p>
+<h3 id="2-2同步分支"><a href="#2-2同步分支" class="headerlink" title="2.2同步分支"></a>2.2同步分支</h3><p>（1）如果当前在一个落后的分支OSv1.0上，需要将master分支上的所有提交都同步过来</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">首先切到OSv1<span class="number">.0</span>分支上</span><br><span class="line"></span><br><span class="line">git reset --hard origin/master</span><br><span class="line">git push -f</span><br><span class="line"></span><br><span class="line">这样就可以将master上所有的提交都覆盖到OSv1<span class="number">.0</span>分支上了</span><br></pre></td></tr></table></figure>
+
+<p>如下图所示：<br>将master分支上的所有提交覆盖到OSv1.0分支上<br><img src="/assets/blogImg/git_hebin.jpg" alt="git_hebin"></p>
+<p>然后再强推到服务器上，即可在服务器端，也用master的提交覆盖到OSv1.0分支上<br><img src="/assets/blogImg/git_push.jpg" alt="git_push"></p>
 
       
 
