@@ -61,7 +61,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 65
+			总文章数 67
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -181,6 +181,101 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-使用valgrind检查内存泄露" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/03/08/%E4%BD%BF%E7%94%A8valgrind%E6%A3%80%E6%9F%A5%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2/">使用valgrind检查内存泄露</a>
+    </h1>
+  
+
+        
+        <a href="/2021/03/08/%E4%BD%BF%E7%94%A8valgrind%E6%A3%80%E6%9F%A5%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2/" class="archive-article-date">
+  	<time datetime="2021-03-08T00:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-08</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="使用valgrind检查内存泄露"><a href="#使用valgrind检查内存泄露" class="headerlink" title="使用valgrind检查内存泄露"></a>使用valgrind检查内存泄露</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在代码开发过程中，内存泄露问题是一个让人排查起来很头疼的问题，这种bug有时候会非常隐蔽，当代码量很大的时候，有时候直接推理排查会花费大量时间精力，还有可能漏掉，此时可以通过一些小工具来排查代码里的内存泄露问题，linux下，可以通过valgrind工具来检查代码里的内存泄露问题</p>
+<h2 id="安装配置valgrind"><a href="#安装配置valgrind" class="headerlink" title="安装配置valgrind"></a>安装配置valgrind</h2><h3 id="1-下载"><a href="#1-下载" class="headerlink" title="1.下载"></a>1.下载</h3><p>官网下载地址： <a target="_blank" rel="noopener" href="https://www.valgrind.org/downloads/current.html">https://www.valgrind.org/downloads/current.html</a></p>
+<h3 id="2-解压安装"><a href="#2-解压安装" class="headerlink" title="2.解压安装"></a>2.解压安装</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//解压</span></span><br><span class="line">tar xvf valgrind-<span class="number">3.17</span><span class="number">.0</span>.tar.bz2 </span><br><span class="line"></span><br><span class="line"><span class="comment">//cd到路径里</span></span><br><span class="line">cd valgrind-<span class="number">3.17</span><span class="number">.0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//指定安装到/usr/local下</span></span><br><span class="line">./configure --prefix=<span class="regexp">/usr/</span>local/valgrind</span><br><span class="line"></span><br><span class="line"><span class="comment">//编译</span></span><br><span class="line">make</span><br><span class="line"></span><br><span class="line"><span class="comment">//安装</span></span><br><span class="line">make install</span><br><span class="line"></span><br><span class="line"><span class="comment">//配置环境变量</span></span><br><span class="line">sudo vim /etc/profile</span><br><span class="line"></span><br><span class="line"><span class="comment">//追加PATH变量，将valgrind的路径写进去，然后退出保存</span></span><br><span class="line"><span class="keyword">export</span> PATH=$PATH:<span class="regexp">/usr/</span>local/valgrind/bin</span><br><span class="line"></span><br><span class="line"><span class="comment">//使环境变量立即生效</span></span><br><span class="line">source /etc/profile</span><br><span class="line"></span><br><span class="line"><span class="comment">//然后就可以检查valgrind命令是否正常可用</span></span><br><span class="line">valgrind --version 查看一下当前安装的版本，以此确认我们的安装过程及环境配置是否正确</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>至此，valgrind的安装及环境配置已完成，操作过程如下图：</p>
+<p><img src="/assets/blogImg/tar_xvf_valgrind.jpg" alt="tar_xvf_valgrind"><br><img src="/assets/blogImg/install_valgrind.jpg" alt="install_valgrind"><br><img src="/assets/blogImg/valgrind_make.jpg" alt="valgrind_make.jpg"><br><img src="/assets/blogImg/valgrind_make_install.jpg" alt="valgrind_make_install.jpg"><br><img src="/assets/blogImg/valgrind_env_1.jpg" alt="valgrind_env_1.jpg"><br><img src="/assets/blogImg/valgrind_env_2.jpg" alt="valgrind_env_2.jpg"><br><img src="/assets/blogImg/valgrind_env_3.jpg" alt="valgrind_env_3.jpg"><br><img src="/assets/blogImg/valgrind_env_4.jpg" alt="valgrind_env_4.jpg"></p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="1-demo如下"><a href="#1-demo如下" class="headerlink" title="1.demo如下"></a>1.demo如下</h3><p>main.cpp如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#include &lt;iostream&gt;</span><br><span class="line"></span><br><span class="line">int <span class="function"><span class="title">main</span>(<span class="params"></span>)</span></span><br><span class="line">&#123;</span><br><span class="line">	int* one = <span class="keyword">new</span> int &#123;<span class="number">1</span>&#125;;  <span class="comment">//申请空间且之后没有被释放，会造成内存泄露</span></span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;one : &quot;</span> &lt;&lt; *one &lt;&lt; std::endl;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>直接编译即可：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g++ main.cpp</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-调试"><a href="#2-调试" class="headerlink" title="2. 调试"></a>2. 调试</h3><p>调试指令如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">valgrind --log-file=./valgrind_report.log --leak-check=full --show-leak-kinds=all --show-reachable=no --track-origins=yes ./a.out</span><br></pre></td></tr></table></figure>
+
+<p>–log-file<br>指定报告输出文件<br>–track-origins=yes<br>是否显示未定义的变量，在堆、栈中被定义没有被initialised的变量都被定义成origins。默认是关闭这个option的。<br>–show-leak-kinds=all<br>这里可以支持的选项有[definite|possible]，一般只需要去关注definite（必须关注），possible是可能会存在。<br>–leak-check=full<br>当服务器退出时是否收集输出内存泄漏，选项有[no|summary|full]这个地方我们将其设置成全输出，默认将会使用summary方式。</p>
+<p>之后就可以查看生成的报告valgrind_report.log，分析是否有内存泄露，及问题定位</p>
+<p>本次代码检查如下：<br><img src="/assets/blogImg/valgrind_test.jpg" alt="valgrind_test.jpg"><br><img src="/assets/blogImg/valgrind_report.jpg" alt="valgrind_report.jpg"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在linux下排查内存泄露问题时，如果项目复杂，代码量大，可以考虑使用valgrind工具来协助排查</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/erlang_hell/article/details/51360149">https://blog.csdn.net/erlang_hell/article/details/51360149</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/03/08/%E4%BD%BF%E7%94%A8valgrind%E6%A3%80%E6%9F%A5%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-static关键字" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -262,6 +357,101 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2020/11/24/static%E5%85%B3%E9%94%AE%E5%AD%97/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-static静态元素" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/11/22/static%E9%9D%99%E6%80%81%E5%85%83%E7%B4%A0/">static静态元素</a>
+    </h1>
+  
+
+        
+        <a href="/2020/11/22/static%E9%9D%99%E6%80%81%E5%85%83%E7%B4%A0/" class="archive-article-date">
+  	<time datetime="2020-11-22T12:13:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-22</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="static静态元素"><a href="#static静态元素" class="headerlink" title="static静态元素"></a>static静态元素</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>对static静态元素做一个系统的学习记录</p>
+<h2 id="static基本含义"><a href="#static基本含义" class="headerlink" title="static基本含义"></a>static基本含义</h2><p>在c/c++种，static都有两种基本含义，并且这两种基本含义经常是互相冲突的。<br>（1）在固定的地址上进行存储分配，也就是说对象在一个特殊的静态数据区上创建的，而不是每次函数调用时在堆栈上产生的。这也是静态存储的概念。<br>（2）对一个特定编译单位来说是局部的。因此，static控制名字的可见性，所以这个名字在这个单元或者类之外是不可见的。这也描述了连接的概念，它决定连接器将看到哪些名字。</p>
+<h2 id="函数内部的静态变量"><a href="#函数内部的静态变量" class="headerlink" title="函数内部的静态变量"></a>函数内部的静态变量</h2><p>通常，在函数体内部定义一个局部变量时，编译器在每次函数调用时使堆栈的指针下移一个适当的位置，为这些局部变量分配内容。如果这个变量有一个初始化表达式，那么每当程序运行到此处，初始化就被执行。</p>
+<p>然而，有时想在两次函数调用之间保留一个变量的值，可以通过定义一个全局变量来实现，但这样一来，这个变量就不仅仅只是受到这个函数的控制。</p>
+<p>c/c++中都准许在函数体内部定义一个static对象，这个对象存储在程序的静态数据区内，而不是在堆栈中。这个对象只在函数第一次调用时初始化一次，以后它将在两次函数调用之间保持它的值。</p>
+<p>如果没有为一个内建类型的静态变量提供一个初始值的话，编译器也会确保在程序开始时它被初始化为0（转化为适当的类型）。</p>
+<p>其实对静态对象初始化（与其他对象的初始化一样）可以是任意的常量表达式，常量表达式可以出现常量以及在此之前声明过的变量和函数。</p>
+<p>注意：无论什么时候设计一个包含静态变量的函数时，都应记住多线程问题。</p>
+<h2 id="函数内部的静态对象"><a href="#函数内部的静态对象" class="headerlink" title="函数内部的静态对象"></a>函数内部的静态对象</h2><p>（1）静态对象的构造函数<br>对一般静态变量的规则同样适用于用户自定义的静态对象，而且它同样也必须有初始化操作。但是，零赋值只对内建类型有效，用户自定义类型必须用构造函数来初始化。因此，如果在定义一个静态对象时没有指定构造函数参数，这个类就必须要有默认构造函数。</p>
+<p>示例代码如下：<br><img src="/assets/blogImg/static_demo.jpg" alt="static_demo.jpg"></p>
+<p>运行结果如下：<br><img src="/assets/blogImg/static_demo2.jpg" alt="static_demo2.jpg"></p>
+<p>（2）静态对象的析构函数<br>静态对象的析构函数（包括静态存储的所有对象，不仅仅是上例的局部静态对象）在程序从main()中退出时，或者标准的c库函数exit()被调用时才被调用。</p>
+<p>多数情况下，main()函数的结尾也是调用了exit()来结束程序的。这意味着在析构函数内部使用exit()是非常危险的，因为这样导致了无穷的递归调用。</p>
+<p>同普通对象的销毁一样，静态对象的销毁顺序也是按与初始化相反的顺序进行的。当然只有那些创建了的对象才会被销毁。开发工具会记录对象初始化的顺序和那些已被创建的对象。</p>
+<p>全局对象总是在mian()执行之前被创建，在退出main()时被销毁。</p>
+<p><strong>在C++中，全局静态对象的构造函数是在main()之前调用的，所以现在有了一个在进入main()函数之前执行一段代码的简单的、可移植的方法，并且可以在退出main()之后用析构函数执行代码。在C中，如果想要做到这一点，就显得非常繁琐，我们将不得不熟悉编译器开发商的汇编语言的开始代码。</strong></p>
+<p>如果一个包含局部静态对象的函数从未被调用过，那么这个对象的构造函数也就不会执行，这样也就不会执行析构函数。</p>
+<p>示例代码如下：<br><img src="/assets/blogImg/static_demo3.jpg" alt="static_demo3.jpg"></p>
+<p>运行结果如下：<br><img src="/assets/blogImg/static_demo4.jpg" alt="static_demo4.jpg"></p>
+<h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><p>《Thing in C++》</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础技能C++</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/11/22/static%E9%9D%99%E6%80%81%E5%85%83%E7%B4%A0/">展开全文 >></a>
         </p>
       
 
@@ -869,184 +1059,6 @@
 
 
   
-    <article id="post-linux下安装tcpdump并用其抓包" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/16/linux%E4%B8%8B%E5%AE%89%E8%A3%85tcpdump%E5%B9%B6%E7%94%A8%E5%85%B6%E6%8A%93%E5%8C%85/">linux下安装tcpdump并用其抓包</a>
-    </h1>
-  
-
-        
-        <a href="/2020/05/16/linux%E4%B8%8B%E5%AE%89%E8%A3%85tcpdump%E5%B9%B6%E7%94%A8%E5%85%B6%E6%8A%93%E5%8C%85/" class="archive-article-date">
-  	<time datetime="2020-05-16T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="linux下安装tcpdump并用其抓包"><a href="#linux下安装tcpdump并用其抓包" class="headerlink" title="linux下安装tcpdump并用其抓包"></a>linux下安装tcpdump并用其抓包</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>有时候需要分析网络协议，这时候抓包看看直接的数据，能够有助于对协议有一个直观的感受，在windows下，可以直接安装Wireshark就能轻松抓包分析了，但是在linux下，没有Wireshark，所以可以安装tcpdump，用tcpdump抓包分析</p>
-<h2 id="安装tcpdump"><a href="#安装tcpdump" class="headerlink" title="安装tcpdump"></a>安装tcpdump</h2><p>安装tcpdump有两种方式，一种是下载tcpdump源码，然后编译安装；另一种是直接用系统安装命令</p>
-<h3 id="1-下载源码安装tcpdump"><a href="#1-下载源码安装tcpdump" class="headerlink" title="1.下载源码安装tcpdump"></a>1.下载源码安装tcpdump</h3><p>这个可以参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/tic_yx/article/details/17012317">https://blog.csdn.net/tic_yx/article/details/17012317</a><br>这篇文章里记录的很详细<br>文章内容截图如下：<br><img src="/assets/blogImg/complie_tcpdump.jpg" alt="源码编译tcpdump"></p>
-<h3 id="2-直接用系统安装命令"><a href="#2-直接用系统安装命令" class="headerlink" title="2.直接用系统安装命令"></a>2.直接用系统安装命令</h3><p>在ubuntu下，可以直接使用sudo apt-get install tcpdump<br>如果这一步安装的时候有报错，可以更新一下下载源，国内清华的下载源还是很好用的</p>
-<h2 id="用tcpdump抓包"><a href="#用tcpdump抓包" class="headerlink" title="用tcpdump抓包"></a>用tcpdump抓包</h2><p>用tcpdump抓包的常用几个指令如下</p>
-<h3 id="1-在终端查看抓包信息"><a href="#1-在终端查看抓包信息" class="headerlink" title="1.在终端查看抓包信息"></a>1.在终端查看抓包信息</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo tcpdump -i 网卡 -entXX</span><br></pre></td></tr></table></figure>
-<p><img src="/assets/blogImg/use_tcpdump.jpg" alt="使用tcpdump抓包"></p>
-<h3 id="2-也可以把tcpdump抓到的数据保存到文件里"><a href="#2-也可以把tcpdump抓到的数据保存到文件里" class="headerlink" title="2.也可以把tcpdump抓到的数据保存到文件里"></a>2.也可以把tcpdump抓到的数据保存到文件里</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo tcpdump -i 网卡 -entXX -w 文件名.pcap</span><br></pre></td></tr></table></figure>
-<p><img src="/assets/blogImg/tcpdump_save_file.jpg" alt="tcpdump抓包后保存到文件里"><br>然后将pcap文件从linux里拷贝到windows下，用Wireshark分析数据</p>
-<h3 id="3-也可以增加过滤指定端口号信息，并将抓包数据保存到文件"><a href="#3-也可以增加过滤指定端口号信息，并将抓包数据保存到文件" class="headerlink" title="3.也可以增加过滤指定端口号信息，并将抓包数据保存到文件"></a>3.也可以增加过滤指定端口号信息，并将抓包数据保存到文件</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo tcpdump -i 网卡名 -entXX port 端口号 -w 文件名.pcap</span><br></pre></td></tr></table></figure>
-<p><img src="/assets/blogImg/tcpdump_2.jpg" alt="tcpdump_2"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/16/linux%E4%B8%8B%E5%AE%89%E8%A3%85tcpdump%E5%B9%B6%E7%94%A8%E5%85%B6%E6%8A%93%E5%8C%85/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-libcurl交叉编译" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/25/libcurl%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91/">libcurl交叉编译</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/25/libcurl%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91/" class="archive-article-date">
-  	<time datetime="2020-04-25T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-25</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="libcurl交叉编译"><a href="#libcurl交叉编译" class="headerlink" title="libcurl交叉编译"></a>libcurl交叉编译</h1><h1 id="需要源码交叉编译libcurl操作步骤"><a href="#需要源码交叉编译libcurl操作步骤" class="headerlink" title="需要源码交叉编译libcurl操作步骤"></a>需要源码交叉编译libcurl操作步骤</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>有时候需要交叉编译libcurl，比如目标机器是32位系统的，但是本地机器是64位系统的，而且由于某些原因，我们无法在32位系统上直接编译，所以需要用到交叉编译</p>
-<h2 id="编译openssl"><a href="#编译openssl" class="headerlink" title="编译openssl"></a>编译openssl</h2><p>libcurl是依赖openssl的，所以先编译openssl的32位库</p>
-<p>完整编译选项配置如下：<br>setarch i386 ./config -m32 –prefix=/home/muhan/openssl/ –openssldir=/home/muhan/openssl/ -Wl,-rpath,/usr/local/openssl/lib shared<br>详细选项含义如下：<br>预先已经export CC的版本<br>配置-m32 指定编译32位的库<br>配置–prefix 指定openssl的安装目录<br>配置–openssldir 指定openssl的头文件目录<br>配置shared关键字 指定编译时生成动态库（libssl.so/libcrypto.so及其相关软连接）</p>
-<p>然后再make &amp;&amp; make install 即可</p>
-<h2 id="编译安装zlib"><a href="#编译安装zlib" class="headerlink" title="编译安装zlib"></a>编译安装zlib</h2><p>有时候有的系统是默认安装了32位zlib库的，那么就可以跳过这一步，但是有的系统需要自己下载编译zlib-32位库</p>
-<p>完整编译选项配置如下：<br>直接修改CMakeLists.txt文件，增加以下两行<br>set(CMAKE_C_FLAGS “-m32”)<br>set(CMAKE_CXX_FLAGS “-m32”)<br>详细选项含义如下：<br>配置CMAKE_C_FLAGS 指定编译32位库环境<br>配置CMAKE_CXX_FLAGS 指定编译32位库环境</p>
-<p>然后再mkdir build &amp;&amp; cd build &amp;&amp; cmake .. &amp;&amp; make &amp;&amp; make install 即可</p>
-<h2 id="编译安装libcurl"><a href="#编译安装libcurl" class="headerlink" title="编译安装libcurl"></a>编译安装libcurl</h2><p>最后就是编译libcurl</p>
-<p>完整编译选项配置如下：<br>./configure PKG_CONFIG_PATH=/home/muhan/openssl CFLAGS=”-m32” CPPFLAGS=”-I/home/muhan/openssl/include” LDFLAGS=”-L/home/muhan/openssl/lib”<br>详细选项含义如下：<br>配置PKG_CONFIG_PATH 指定启动openssl选项(启动这个选项，就会默认链接lssl，lcrypto，lz三个库）<br>配置CFLAGS 指定编译32位库环境<br>配置CPPFLAGS 指定链接的库的头文件<br>配置LDFLAGS 指定链接的库的路径</p>
-<p>然后再make &amp;&amp; make install 即可</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>当编译第三方库的时候，如果有CMakeLists.txt，直接用CMakeLists.txt编译就很方便；<br>如果只有configure，那么需要先了解编译选项</p>
-<p>执行./configure –help 来查看当前支持的编译选项<br>然后根据提示配置一下我们需要指定的选项，比如自己指定的openssl的版本的库和头文件路径名，比如CC的版本，比如安装路径等等<br>(当然，如果不需要额外配置这些东西的话，直接走默认配置的话，那么直接执行./config 或者 ./configure 就行)</p>
-<p>然后在生成Makefile之后，再make &amp;&amp; make install 即可</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">第三方库</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">交叉编译</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/25/libcurl%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/3/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/5/">Next &amp;raquo;</a>
@@ -1200,19 +1212,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">通信协议</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">个人小工具</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">加密，第三方库</a>
+                <a href="javascript:void(0)" class="js-tag color5">通信协议</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">基础技能C++，框架学习</a>
+                <a href="javascript:void(0)" class="js-tag color2">opencv</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">加密</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">框架学习</a>
               </li>
              
               <li class="article-tag-list-item">

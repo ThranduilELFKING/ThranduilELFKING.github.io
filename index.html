@@ -61,7 +61,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 65
+			总文章数 67
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -180,6 +180,102 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-opencv最小二乘法算法及相关函数" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/11/29/opencv%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95%E7%AE%97%E6%B3%95%E5%8F%8A%E7%9B%B8%E5%85%B3%E5%87%BD%E6%95%B0/">opencv最小二乘法算法及相关函数</a>
+    </h1>
+  
+
+        
+        <a href="/2022/11/29/opencv%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95%E7%AE%97%E6%B3%95%E5%8F%8A%E7%9B%B8%E5%85%B3%E5%87%BD%E6%95%B0/" class="archive-article-date">
+  	<time datetime="2022-11-29T12:13:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="opencv最小二乘法算法及相关函数"><a href="#opencv最小二乘法算法及相关函数" class="headerlink" title="opencv最小二乘法算法及相关函数"></a>opencv最小二乘法算法及相关函数</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>对opencv的学习，对最小二乘法拟合圆算法的学习记录</p>
+<h2 id="相关函数"><a href="#相关函数" class="headerlink" title="相关函数"></a>相关函数</h2><p>在实现最小二乘法的时候，用到的一些opencv的函数，做个记录</p>
+<h3 id="1-cv-copyMakeBorder"><a href="#1-cv-copyMakeBorder" class="headerlink" title="1.cv::copyMakeBorder"></a>1.cv::copyMakeBorder</h3><p>卷积操作时,图像边界可以填充或者不填充,如果我们需要填充呢?opencv提供了copyMakeBorder函数,可以实现边界填充功能。</p>
+<p>头文件声明</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;opencv2/core.hpp&gt;</span><br></pre></td></tr></table></figure>
+<p>函数原型</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CV_EXPORTS_W <span class="keyword">void</span> copyMakeBorder(InputArray src, OutputArray dst,</span><br><span class="line">                                 int top, int bottom, int left, int right,</span><br><span class="line">                                 int borderType, <span class="keyword">const</span> Scalar&amp; value = Scalar() );</span><br></pre></td></tr></table></figure>
+<p>参数解析</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">src：原图</span><br><span class="line">dst：结果图像，其大小为Size(src.cols+left+right, src.rows+top+bottom)</span><br><span class="line">top：指定图像上方填充多少像素。其他方向同理</span><br><span class="line">bottom</span><br><span class="line">left</span><br><span class="line">right</span><br><span class="line">borderType：填充类型</span><br><span class="line">value：borderType==BORDER_CONSTANT的填充值。默认值为<span class="number">0</span>的Scalar</span><br><span class="line">函数将源图像复制到目标图像的中间。在源图像左侧、右侧、上方和下方的区域进行像素填充</span><br><span class="line">填充类型</span><br><span class="line">borderType == BORDER_CONSTRAINT：指定像素值进行填充</span><br><span class="line">borderType== BORDER_REPLICATE：使用边缘像素值进行填充</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-cv-HoughCircles"><a href="#2-cv-HoughCircles" class="headerlink" title="2.cv::HoughCircles"></a>2.cv::HoughCircles</h3><p>霍夫变换找圆，需要注意的是，使用此函数可以很容易地检测出圆的圆心，但是它可能找不到合适的圆半径。</p>
+<p>函数原型</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> HoughCircles(InputArray image,OutputArray circles, int method, double dp, double minDist, double param1=<span class="number">100</span>,double param2=<span class="number">100</span>, int minRadius=<span class="number">0</span>, int maxRadius=<span class="number">0</span> )</span><br></pre></td></tr></table></figure>
+<p>参数解析</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">image：输入图像，即源图像，需为<span class="number">8</span>位的灰度单通道图像。</span><br><span class="line">circles：经过调用HoughCircles函数后此参数存储了检测到的圆的输出矢量，每个矢量由包含了<span class="number">3</span>个元素的浮点矢量(x, y, radius)表示。（即圆心坐标和半径）</span><br><span class="line">method：即使用的检测方法，目前OpenCV中就霍夫梯度法一种可以使用，它的标识符为CV_HOUGH_GRADIENT，在此参数处填这个标识符即可。</span><br><span class="line">dp：用来检测圆心的累加器图像的分辨率于输入图像之比的倒数，且此参数允许创建一个比输入图像分辨率低的累加器。例如，如果dp= <span class="number">1</span>时，累加器和输入图像具有相同的分辨率。如果dp=<span class="number">2</span>，累加器便有输入图像一半那么大的宽度和高度。</span><br><span class="line">minDist：为霍夫变换检测到的圆的圆心之间的最小距离，即让我们的算法能明显区分的两个不同圆之间的最小距离。这个参数如果太小的话，多个相邻的圆可能被错误地检测成了一个重合的圆。反之，这个参数设置太大的话，某些圆就不能被检测出来了。</span><br><span class="line">param1：有默认值<span class="number">100</span>。它是第三个参数method设置的检测方法的对应的参数。对当前唯一的方法霍夫梯度法CV_HOUGH_GRADIENT，它表示传递给canny边缘检测算子的高阈值，而低阈值为高阈值的一半。</span><br><span class="line">param2：也有默认值<span class="number">100</span>。它是第三个参数method设置的检测方法的对应的参数。对当前唯一的方法霍夫梯度法CV_HOUGH_GRADIENT，它表示在检测阶段圆心的累加器阈值。它越小的话，就可以检测到更多根本不存在的圆，而它越大的话，能通过检测的圆就更加接近完美的圆形了。</span><br><span class="line">minRadius：有默认值<span class="number">0</span>，表示圆半径的最小值。</span><br><span class="line">maxRadius：也有默认值<span class="number">0</span>，表示圆半径的最大值。</span><br></pre></td></tr></table></figure>
+
+<h2 id="最小二乘法拟合圆的原理"><a href="#最小二乘法拟合圆的原理" class="headerlink" title="最小二乘法拟合圆的原理"></a>最小二乘法拟合圆的原理</h2><p>最小二乘法(least squares analysis)是一种数学优化技术，它通过最小化误差的平方和找到一组数据的最佳函数匹配。最小二乘法是用最简的方法求得一些绝对不可知的真值，而令误差平方之和为最小来寻找一组数据的最佳匹配函数的计算方法，最小二乘法通常用于曲线拟合 (least squares fitting) 。</p>
+<p>最小二乘圆拟合方法是一种基于统计的检测方法，即便是图像中圆形目标受光照强度不均等因素的影响而产生边缘缺失，也不会影响圆心的定位和半径的检测，若边缘定位精确轮廓清晰，最小二乘法可实现亚像素级别的精确拟合定位。</p>
+<p>下面是拟合圆曲线的公式推导过程</p>
+<p><img src="/assets/blogImg/circle_1.jpg" alt="circle_1.jpg"><br><img src="/assets/blogImg/circle_2.jpg" alt="circle_2.jpg"><br><img src="/assets/blogImg/circle_3.jpg" alt="circle_3.jpg"><br><img src="/assets/blogImg/circle_4.jpg" alt="circle_4.jpg"><br><img src="/assets/blogImg/circle_5.jpg" alt="circle_5.jpg"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://zj-image-processing.readthedocs.io/zh_CN/latest/opencv/code/[copyMakeBorder]%E6%B7%BB%E5%8A%A0%E8%BE%B9%E7%95%8C/">https://zj-image-processing.readthedocs.io/zh_CN/latest/opencv/code/[copyMakeBorder]%E6%B7%BB%E5%8A%A0%E8%BE%B9%E7%95%8C/</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/cqltbe131421/article/details/60870756">https://blog.csdn.net/cqltbe131421/article/details/60870756</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/Jacky_Ponder/article/details/70314919">https://blog.csdn.net/Jacky_Ponder/article/details/70314919</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">opencv</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/11/29/opencv%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95%E7%AE%97%E6%B3%95%E5%8F%8A%E7%9B%B8%E5%85%B3%E5%87%BD%E6%95%B0/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-gtest单元测试结果可视化" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -1005,70 +1101,6 @@
 
 
   
-    <article id="post-vnc远程小工具" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/11/10/vnc%E8%BF%9C%E7%A8%8B%E5%B0%8F%E5%B7%A5%E5%85%B7/">vnc远程小工具</a>
-    </h1>
-  
-
-        
-        <a href="/2022/11/10/vnc%E8%BF%9C%E7%A8%8B%E5%B0%8F%E5%B7%A5%E5%85%B7/" class="archive-article-date">
-  	<time datetime="2022-11-10T12:24:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/11/10/vnc%E8%BF%9C%E7%A8%8B%E5%B0%8F%E5%B7%A5%E5%85%B7/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
@@ -1222,19 +1254,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">通信协议</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">个人小工具</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">加密，第三方库</a>
+                <a href="javascript:void(0)" class="js-tag color5">通信协议</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">基础技能C++，框架学习</a>
+                <a href="javascript:void(0)" class="js-tag color2">opencv</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">加密</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">框架学习</a>
               </li>
              
               <li class="article-tag-list-item">
