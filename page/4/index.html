@@ -61,7 +61,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 67
+			总文章数 70
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -180,6 +180,95 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-windows会话id" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/03/18/windows%E4%BC%9A%E8%AF%9Did/">windows会话id--穿透session隔离</a>
+    </h1>
+  
+
+        
+        <a href="/2021/03/18/windows%E4%BC%9A%E8%AF%9Did/" class="archive-article-date">
+  	<time datetime="2021-03-18T00:11:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-18</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="windows会话id–穿透session隔离"><a href="#windows会话id–穿透session隔离" class="headerlink" title="windows会话id–穿透session隔离"></a>windows会话id–穿透session隔离</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在做项目的过程中，遇上的问题，记录一下。有一个程序getCode.exe需要开机自启动，这个程序是有一些用户交互的。</p>
+<p>一开始的时候，我这边直接使用nssm创建服务，开机自启动这个服务，拉起来getCode.exe，但是发现，getCode.exe开机自启动之后，居然对用户的输入毫无反应；但是如果是电脑开机之后，手动启动getCode.exe程序，就可以正常接收用户输入并作出后续操作。<br>于是开始从网上找各种信息排查，发现网友提到了会话ID，于是打开任务管理器去确认，发现如果是通过nssm直接创建服务拉起来的getCode.exe进程的会话ID是0，但是如果在开机后手动启动getCode.exe的会话ID是1，而开机后的当前用户的会话ID就是1，经过确认，就是会话ID导致的问题。</p>
+<p>于是我们需要再写一个程序setExeSID.exe，这个setExeSID.exe主要负责的就是以指定的会话ID来启动getCode.exe程序，然后将setExeSID.exe通过nssm创建服务开机自启动，当服务开机自启后，拉起来setExeSID.exe，此时setExeSID.exe进程的SID为0，然后setExeSID.exe这个进程再指定以SID为1启动getCode.exe，这样的话，getCode.exe既实现了开机自启动，又实现了开机启动后SID是1（和当前登录的用户的SID）保持一致，可以和用户有输入输出的交互。</p>
+<h2 id="会话id"><a href="#会话id" class="headerlink" title="会话id"></a>会话id</h2><p>简单的说，用户登陆到windows系统之后，不管该用户是本地登陆的，还是远程登陆，系统都会为这个用户分配一个新的会话ID(SID)。也就是说会话与用户的登录是相关连的，没有用户登录就不存在会话。因此，会话的含义是指用户登录之后的一种运行的环境。</p>
+<h3 id="1-查看会话id"><a href="#1-查看会话id" class="headerlink" title="1.查看会话id"></a>1.查看会话id</h3><p>打开“任务管理器”–》“查看”–》“选择列”–》“会话ID”前的方框打钩，即可在任务管理器查看到每个进程的会话ID</p>
+<p><img src="/assets/blogImg/look_sid.jpg" alt="look_sid.jpg"></p>
+<h3 id="2-通过代码指定SID"><a href="#2-通过代码指定SID" class="headerlink" title="2.通过代码指定SID"></a>2.通过代码指定SID</h3><p>主要使用到的函数如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">GetCurrentProcess函数返回当前进程的伪句柄。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">OpenProcessToken功能打开与进程关联的访问令牌。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在使用某些Windows API的时候需要提升进程的默认权限，在这种情况下，我们需要使用到一组Windows API提升进程权限。需要的函数有：</span><br><span class="line"><span class="number">1.</span>OpenProcessToken</span><br><span class="line"><span class="number">2.</span>LookupPrivilegeValue</span><br><span class="line"><span class="number">3.</span>AdjustTokenPrivileges</span><br><span class="line">使用这组函数提升权限的前提是进程具备该权限，只是访问令牌中没有启用该权限。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">WTSEnumerateSessions 枚举会话ID</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">CreateEnvironmentBlock函数，检索指定用户的环境变量</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">CreateProcessAsUser函数创建一个新进程及其主线程。然后，新进程执行指定的可执行文件。CreateProcessAsUser功能类似于CreateProcess功能，但新进程在由【hToken】参数表示的用户的安全上下文中运行。默认情况下，新进程是非交互式的，即它运行在不可见的桌面上，无法接收用户输入。此外，默认情况下，新进程继承调用进程的环境，而不是与指定用户关联的环境。</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>session 0会话隔离的问题，在这个项目之前，虽然有一点耳闻，但是在一开始排查这个问题的时候，确实没有往这个方向上想，后来也是查了很多资料之后，才把问题的方向转向这个思路。经过这次，可以说，当windows上开发应用程序时，如果需要这个应用程序开机自启动，而且这个程序又在启动后需要有用户交互，那么就需要考虑会话隔离的问题。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>关于突破SESSION 0隔离创建进程<br><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1424933">https://cloud.tencent.com/developer/article/1424933</a></p>
+<p>这个链接下总结了用户权限设置和进程权限提升，讲的很细致，提权demo也可参考<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/yockie/article/details/17029293">https://blog.csdn.net/yockie/article/details/17029293</a></p>
+<p>这个链接下，总结了window API<br><a target="_blank" rel="noopener" href="http://yfvb.com/help/win32sdk/index.htm?page=html/_qx5ll.htm">http://yfvb.com/help/win32sdk/index.htm?page=html/_qx5ll.htm</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础技能C++</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/03/18/windows%E4%BC%9A%E8%AF%9Did/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-使用valgrind检查内存泄露" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -890,37 +979,42 @@
 
 
   
-    <article id="post-mac下配置rar与unrar命令" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-大端小端系统" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/29/mac%E4%B8%8B%E9%85%8D%E7%BD%AErar%E4%B8%8Eunrar%E5%91%BD%E4%BB%A4/">mac下配置rar与unrar命令</a>
+      <a class="article-title" href="/2020/10/29/%E5%A4%A7%E7%AB%AF%E5%B0%8F%E7%AB%AF%E7%B3%BB%E7%BB%9F/">大端小端系统</a>
     </h1>
   
 
         
-        <a href="/2020/06/29/mac%E4%B8%8B%E9%85%8D%E7%BD%AErar%E4%B8%8Eunrar%E5%91%BD%E4%BB%A4/" class="archive-article-date">
-  	<time datetime="2020-06-29T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-29</time>
+        <a href="/2020/10/29/%E5%A4%A7%E7%AB%AF%E5%B0%8F%E7%AB%AF%E7%B3%BB%E7%BB%9F/" class="archive-article-date">
+  	<time datetime="2020-10-29T14:21:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-29</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="mac下配置rar与unrar命令"><a href="#mac下配置rar与unrar命令" class="headerlink" title="mac下配置rar与unrar命令"></a>mac下配置rar与unrar命令</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>因为在mac下下载了rar文件，需要解压，然而mac上默认没有rar解压环境，于是配置了一下命令行rar/unrar环境</p>
-<h2 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h2><h3 id="1-下载RAR包"><a href="#1-下载RAR包" class="headerlink" title="1.下载RAR包"></a>1.下载RAR包</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//下载地址如下</span></span><br><span class="line"><span class="attr">https</span>:<span class="comment">//www.rarlab.com/download.htm</span></span><br><span class="line"><span class="comment">//然后选择for macOS的更新包，比如</span></span><br><span class="line">RAR <span class="number">5.91</span> beta <span class="number">1</span> <span class="keyword">for</span> macOS(<span class="number">64</span> bit)</span><br></pre></td></tr></table></figure>
+        <h1 id="大端小端系统"><a href="#大端小端系统" class="headerlink" title="大端小端系统"></a>大端小端系统</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>大端小端系统，也就是Big-Endian和Little-Endian系统。属于一个基础概念，这里补充记录一下。</p>
+<h2 id="理论"><a href="#理论" class="headerlink" title="理论"></a>理论</h2><p>整数在内存的一系列连续字节中存储为二进制值，通常存储为2、4、8或16字节。字节采用什么顺序是非常重要的。</p>
+<p>以下以十进制整数262657存储为4字节二进制值为例。<br>选择这个值是因为它的二进制值每个字节的位模式都很容易与其他字节的内容区分开。<br>如下所示：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">十进制数 <span class="number">262657</span></span><br><span class="line">二进制值如下：</span><br><span class="line"><span class="number">00000000</span> <span class="number">00000100</span> <span class="number">00000010</span> <span class="number">00000001</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="2-解压下载后的更新包"><a href="#2-解压下载后的更新包" class="headerlink" title="2.解压下载后的更新包"></a>2.解压下载后的更新包</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//找到刚刚的更新包路径，然后cd到这个路径下，在命令行输入</span></span><br><span class="line">tar -zxvf rarosx-<span class="number">5.9</span>.1b1.tar</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-安装rar和unrar"><a href="#3-安装rar和unrar" class="headerlink" title="3.安装rar和unrar"></a>3.安装rar和unrar</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo install -c -o $USER rar /usr/local/bin</span><br><span class="line">sudo install -c -o $USER unrar /usr/local/bin</span><br></pre></td></tr></table></figure>
-
-<h3 id="4-然后需要在安全与隐私里准许这个rar软件包"><a href="#4-然后需要在安全与隐私里准许这个rar软件包" class="headerlink" title="4.然后需要在安全与隐私里准许这个rar软件包"></a>4.然后需要在安全与隐私里准许这个rar软件包</h3><p>如下图所示，先点击解锁，然后输入密码，然后准许rar软件包<br>（因为我这边已经准许过了，所以这里现在是空，差不多就是这个位置）<br><img src="/assets/blogImg/rar_ok.jpg" alt="点击解锁，然后准许rar软件包"></p>
-<h3 id="5-然后就可以解压自己的rar文件了"><a href="#5-然后就可以解压自己的rar文件了" class="headerlink" title="5.然后就可以解压自己的rar文件了"></a>5.然后就可以解压自己的rar文件了</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//解压</span></span><br><span class="line">unrar x test.rar</span><br><span class="line"><span class="comment">//压缩</span></span><br><span class="line">rar a test.rar test/</span><br></pre></td></tr></table></figure>
-
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>不得不说，mac下的安全管理还是严格的</p>
+<h2 id="Little-Endian"><a href="#Little-Endian" class="headerlink" title="Little-Endian"></a>Little-Endian</h2><p>对于使用Intel处理器的PC，十进制数262657就存储为如下形式。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">字节地址： <span class="number">00</span>          <span class="number">01</span>          <span class="number">02</span>          <span class="number">03</span></span><br><span class="line">数据位：   <span class="number">00000001</span>    <span class="number">00000010</span>    <span class="number">00000100</span>    <span class="number">00000000</span></span><br></pre></td></tr></table></figure>
+<p>可以看出，值中最高位的8位是都为0的那些位，它们都存储在地址最高的字节中，换言之，就是最右边的字节。最低位的8位存储在地址最低的字节中，即最左边的字节。这种安排形式就是Little-Endian。</p>
+<p>那么为什么计算机会颠倒这些字节的顺序？<br>这么设计的动机在于实现更高效的计算和更简单的硬件。具体细节不重要，重要的是应该知道，如今的大部分现代计算机都使用这种与直觉相反的编码方法。</p>
+<h2 id="Big-Endian"><a href="#Big-Endian" class="headerlink" title="Big-Endian"></a>Big-Endian</h2><p>虽然大部分计算机都采用小端编码方法，也有一部分例外情况。<br>对于使用Motorola处理器的机器，十进制数262657就存储为如下形式。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">字节地址： <span class="number">00</span>          <span class="number">01</span>          <span class="number">02</span>          <span class="number">03</span></span><br><span class="line">数据位：   <span class="number">00000000</span>    <span class="number">00000100</span>    <span class="number">00000010</span>    <span class="number">00000001</span></span><br></pre></td></tr></table></figure>
+<p>可以看出，这种在内存中的存储更加符合逻辑。<br>字节现在的顺序是反的，最重要的8位存储在最左边的字节中，即地址最低的字节。这种安排形式就是Big-Endian。</p>
+<p>一些处理器，例如Power-PC处理器以及所有近来生产的ARM处理器，采用的都是Big-Endian系统。</p>
+<h2 id="为什么需要关注大端小端系统？"><a href="#为什么需要关注大端小端系统？" class="headerlink" title="为什么需要关注大端小端系统？"></a>为什么需要关注大端小端系统？</h2><p>数据的字节顺序是可以在Big-Endian和Little-Endian之间切换的。</p>
+<p>注意：<br><strong>无论字节顺序是Big-Endian还是Little-Endian，在每个字节中，最高位都放在左边，最低位都放在右边。</strong></p>
+<p>那么为什么需要关注大端小端编码呢？<br>实际上，在大多情况下，即使不知道执行代码的计算机是采用Big-Endian还是Little-Endian系统，都可以编写出有效的C++程序。但是，在处理来自另一台机器的二进制数据时，这就很重要了。二进制数据会写入文件或通过网络传送为一系列字节，此时必须解释它们。如果数据源所在的机器使用的字节顺序与运行代码的机器不同，就必须反转每个二进制数据的字节顺序，否则就会出错。</p>
 
       
 
@@ -934,7 +1028,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常用基础配置</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">基础技能</a>
         		</li>
       		
 		</ul>
@@ -946,90 +1040,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2020/06/29/mac%E4%B8%8B%E9%85%8D%E7%BD%AErar%E4%B8%8Eunrar%E5%91%BD%E4%BB%A4/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-简单工厂模式学习笔记" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/23/%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">简单工厂模式学习笔记</a>
-    </h1>
-  
-
-        
-        <a href="/2020/05/23/%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="archive-article-date">
-  	<time datetime="2020-05-23T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-23</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="简单工厂模式学习笔记"><a href="#简单工厂模式学习笔记" class="headerlink" title="简单工厂模式学习笔记"></a>简单工厂模式学习笔记</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>本次案例demo来自《大话设计模式》一书，是C++版本的实现</p>
-<h2 id="案例说明"><a href="#案例说明" class="headerlink" title="案例说明"></a>案例说明</h2><p>设计一个简单的计算器，可以进行加减乘除功能</p>
-<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><p>完整源码已同步到github上<br>地址：<a target="_blank" rel="noopener" href="https://github.com/TreeAndFlower/sampleFactory.git">https://github.com/TreeAndFlower/sampleFactory.git</a></p>
-<h2 id="部分代码示例如下："><a href="#部分代码示例如下：" class="headerlink" title="部分代码示例如下："></a>部分代码示例如下：</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">baseCalculate</span></span>&#123;</span><br><span class="line"><span class="attr">public</span>:</span><br><span class="line">    baseCalculate();</span><br><span class="line">    ~baseCalculate();</span><br><span class="line"></span><br><span class="line">    virtual double getResult(double numA, double numB)=<span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Add</span>:<span class="title">public</span> <span class="title">baseCalculate</span></span>&#123;</span><br><span class="line"><span class="attr">public</span>:</span><br><span class="line">    Add();</span><br><span class="line">    ~Add();</span><br><span class="line">    </span><br><span class="line">    double getResult(double numA, double numB);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Sub</span>:<span class="title">public</span> <span class="title">baseCalculate</span></span>&#123;</span><br><span class="line"><span class="attr">public</span>:</span><br><span class="line">    Sub();</span><br><span class="line">    ~Sub();</span><br><span class="line">    </span><br><span class="line">    double getResult(double numA, double numB);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Multi</span>:<span class="title">public</span> <span class="title">baseCalculate</span></span>&#123;</span><br><span class="line"><span class="attr">public</span>:</span><br><span class="line">    Multi();</span><br><span class="line">    ~Multi();</span><br><span class="line">    </span><br><span class="line">    double getResult(double numA, double numB);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Div</span>:<span class="title">public</span> <span class="title">baseCalculate</span></span>&#123;</span><br><span class="line"><span class="attr">public</span>:</span><br><span class="line">    Div();</span><br><span class="line">    ~Div();</span><br><span class="line">    </span><br><span class="line">    double getResult(double numA, double numB);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ExecuteCalculate</span></span>&#123;</span><br><span class="line"><span class="attr">public</span>:</span><br><span class="line">    ExecuteCalculate();</span><br><span class="line">    ~ExecuteCalculate();</span><br><span class="line">    </span><br><span class="line">    bool calculateData(double numA, double numB, string strSign, double&amp; theValue);</span><br><span class="line">    </span><br><span class="line">private:</span><br><span class="line">    baseCalculate* the_base_cal;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h2 id="编译方式"><a href="#编译方式" class="headerlink" title="编译方式"></a>编译方式</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd build</span><br><span class="line">cmake ..</span><br><span class="line">make</span><br></pre></td></tr></table></figure>
-<p>即可生成可执行文件sampleFactory，执行后即可看到如下效果：<br><img src="/assets/blogImg/factory_complie.jpg" alt="编译并执行sampleFactory"></p>
-<h2 id="特别说明"><a href="#特别说明" class="headerlink" title="特别说明"></a>特别说明</h2><p>在学习《大话设计模式》中，为了加深学习效果，因此用C++实现一遍文中的java案例，仅是学习笔记</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">设计模式</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/23/%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">展开全文 >></a>
+          <a class="article-more-a" href="/2020/10/29/%E5%A4%A7%E7%AB%AF%E5%B0%8F%E7%AB%AF%E7%B3%BB%E7%BB%9F/">展开全文 >></a>
         </p>
       
 
@@ -1233,6 +1244,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">阅读</a>
               </li>
             
             <div class="clearfix"></div>
