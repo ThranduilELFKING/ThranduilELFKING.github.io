@@ -61,7 +61,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 70
+			总文章数 73
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -181,6 +181,324 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-opencv滤波及边缘检测" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/12/04/opencv%E6%BB%A4%E6%B3%A2%E5%8F%8A%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/">opencv滤波及边缘检测</a>
+    </h1>
+  
+
+        
+        <a href="/2022/12/04/opencv%E6%BB%A4%E6%B3%A2%E5%8F%8A%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/" class="archive-article-date">
+  	<time datetime="2022-12-04T15:03:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-12-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="opencv滤波及边缘检测"><a href="#opencv滤波及边缘检测" class="headerlink" title="opencv滤波及边缘检测"></a>opencv滤波及边缘检测</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在学习opencv进行图片处理的过程中，无法避免的就是对图片进行预处理，一般都是要进行图片滤波，这里记录一下个人最常用的均值滤波和高斯滤波、Sobel算子及Canny边缘检测</p>
+<h2 id="均值滤波"><a href="#均值滤波" class="headerlink" title="均值滤波"></a>均值滤波</h2><p>这是一个平滑图片的函数，它将一个区域内所有点的灰度值的平均值作为这个点的灰度值。</p>
+<p>像该函数对领域点的灰度值进行权重相加最后设置灰度值，这样的操作又叫卷积，这样的滤波器叫线性滤波器。</p>
+<p><strong>函数原型</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> blur(InputArray src,OutputArray dst, Size ksize, Point anchor=Point(-<span class="number">1</span>,-<span class="number">1</span>), int borderType=BORDER_DEFAULT )</span><br></pre></td></tr></table></figure>
+<p><strong>参数解释</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">src：输入图像，即源图像，填Mat类的对象即可。该函数对通道是独立处理的，且可以处理任意通道数的图片，但需要注意，待处理的图片深度应该为CV_8U, CV_16U, CV_16S, CV_32F 以及 CV_64F之一。</span><br><span class="line">dst：即目标图像，需要和源图片有一样的尺寸和类型。比如可以用Mat::Clone，以源图片为模板，来初始化得到如假包换的目标图。</span><br><span class="line">ksize：内核的大小。一般这样写cv::Size( w,h )来表示内核的大小( 其中，w 为像素宽度， h为像素高度)。cv::Size（<span class="number">3</span>,<span class="number">3</span>）就表示3x3的核大小，cv::Size（<span class="number">5</span>,<span class="number">5</span>）就表示5x5的核大小</span><br><span class="line">anchor：表示锚点（即被平滑的那个点），注意他有默认值cv::Point(-<span class="number">1</span>,-<span class="number">1</span>)。如果这个点坐标是负值的话，就表示取核的中心为锚点，所以默认值cv::Point(-<span class="number">1</span>,-<span class="number">1</span>)表示这个锚点在核的中心。</span><br><span class="line">borderType：用于推断图像外部像素的某种边界模式。有默认值BORDER_DEFAULT，我们一般不去管它。</span><br></pre></td></tr></table></figure>
+
+<h2 id="高斯滤波"><a href="#高斯滤波" class="headerlink" title="高斯滤波"></a>高斯滤波</h2><p>高斯滤波器能够有效的抑制噪声，平滑图像。高斯滤波器相比于均值滤波器对图像个模糊程度较小。<br>高斯模糊和均值模糊其原理上的唯一区别只是在于卷积核的值不同罢了。<br>高斯卷积核矩阵值服从二维高斯函数，也就是说一个图像与服从二维高斯分布的函数做卷积，由于高斯函数是连续的，要将二维高斯函数进行采样和离散化，最后得到服从高斯函数规律的卷积核矩阵。</p>
+<p><strong>函数原型</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> GaussianBlur(InputArray src, OutputArray dst, Size ksize, double sigmaX, double sigmaY=<span class="number">0</span>, int borderType=BORDER_DEFAULT )</span><br></pre></td></tr></table></figure>
+<p><strong>参数解释</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">src：输入图片</span><br><span class="line">dst：输出图片</span><br><span class="line">ksize：为高斯滤波器窗口大小</span><br><span class="line">sigmaX：X方向滤波系数</span><br><span class="line">sigmaY：Y方向滤波系数</span><br><span class="line">borderType：一般默认边缘插值方法</span><br></pre></td></tr></table></figure>
+
+<h2 id="Sobel算子"><a href="#Sobel算子" class="headerlink" title="Sobel算子"></a>Sobel算子</h2><p>Sobel算子主要用于边缘检测;<br>边缘:是像素值发生跃迁的地方,是图像的显著特征之一,在图像特征提取, 对象检测, 模式识别等方面都有重要的作用;<br>如何提取边缘,对图像求它的一阶导数;delta = f(x) - f(x-1), delta越大,说明在x方向变化越大;</p>
+<h3 id="Sobel算子-1"><a href="#Sobel算子-1" class="headerlink" title="Sobel算子"></a>Sobel算子</h3><p>是离散微分算子,用来计算图像灰度的近似梯度<br>Sobel算子功能集合高斯平滑和微分求导;<br>又被称为一阶微分算子,求导算子,在水平和垂直两个方向上求导,得到图像x方法与y方向梯度图像;</p>
+<p><img src="/assets/blogImg/sobel.jpg" alt="sobel.jpg"><br>那么最终的图像梯度:<br><img src="/assets/blogImg/sobel2.jpg" alt="sobel2.jpg"><br>可以近似为:<br>G=|Gx|+|Gy|</p>
+<p><strong>Sobel算子函数原型</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> Sobel( InputArray src, OutputArray dst, int ddepth,</span><br><span class="line">           int dx, int dy, int ksize = <span class="number">3</span>,</span><br><span class="line">           double scale = <span class="number">1</span>, double delta = <span class="number">0</span>,</span><br><span class="line">           int borderType = BORDER_DEFAULT );</span><br></pre></td></tr></table></figure>
+<p><strong>参数解释</strong><br>src表示输入的灰度图像<br>dst表示输出的梯度;<br>ddepth表示输出梯度的数据类型,必须大于输入的图像数据类型,关系如下图所示:<br><img src="/assets/blogImg/sobel3.jpg" alt="sobel3.jpg"><br>dx=1, dy=0表示对x方向计算梯度;<br>dx=0, dy=1表示对y方向计算梯度;<br>dx大于等于0，dy大于等于0，并且dx+dy==1<br>ksize: 表示Sobel算子的大小；它必须是1、3、5或7。注意：只可以是小于7 的奇数。<br>如果ksize&lt;0的时候，那么使用scharr内核过滤因子。scharr的内核过滤因子大小为3。<br>scale    表示缩放导数的比例常数，默认情况下没有伸缩系数。<br>delta    表示一个可选的增量，将会加到最终的dst中，同样，默认情况下没有额外的值加到dst中。<br>borderType 边界类型<br><img src="/assets/blogImg/sobel4.jpg" alt="sobel4.jpg"></p>
+<h3 id="改进的Sobel算子"><a href="#改进的Sobel算子" class="headerlink" title="改进的Sobel算子"></a>改进的Sobel算子</h3><p>当内核大小为3时,以上Sobel可能产生比较明显的误差(毕竟,Sobel算子只是求取了导数的近似值),为了解决这一问题,OpenCV提供了Scharr函数,但该函数仅作用域大小为3的内核;计算速度与Sobel函数一样快,但结果更加精确,不怕干扰,其内核为:<br><img src="/assets/blogImg/sobel5.jpg" alt="sobel5.jpg"></p>
+<p><strong>Scharr算子函数原型</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> Scharr( InputArray src, OutputArray dst, int ddepth,</span><br><span class="line">            int dx, int dy, double scale = <span class="number">1</span>, double delta = <span class="number">0</span>,</span><br><span class="line">            int borderType = BORDER_DEFAULT );</span><br></pre></td></tr></table></figure>
+<p><strong>参数解释</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">参数与Sobel算子基本一致;</span><br><span class="line">但是不需要设置核的大小,因为Scharr默认就是<span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h3><p>Sobel算子的示例代码如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;opencv2\opencv.hpp&gt;   </span><br><span class="line">#include&lt;opencv2\highgui\highgui.hpp&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">using namespace cv;</span><br><span class="line"></span><br><span class="line"><span class="comment">//边缘检测</span></span><br><span class="line">int <span class="function"><span class="title">main</span>(<span class="params"></span>)</span></span><br><span class="line">&#123;</span><br><span class="line">	Mat img = imread(<span class="string">&quot;lol3.jpg&quot;</span>);</span><br><span class="line">	</span><br><span class="line">	imshow(<span class="string">&quot;原始图&quot;</span>, img);</span><br><span class="line"></span><br><span class="line">	Mat grad_x, grad_y;</span><br><span class="line">	Mat abs_grad_x, abs_grad_y, dst;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//求x方向梯度</span></span><br><span class="line">	Sobel(img, grad_x, CV_16S, <span class="number">1</span>, <span class="number">0</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">1</span>,BORDER_DEFAULT);</span><br><span class="line">	convertScaleAbs(grad_x, abs_grad_x);</span><br><span class="line">	imshow(<span class="string">&quot;x方向soble&quot;</span>, abs_grad_x);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//求y方向梯度</span></span><br><span class="line">	Sobel(img, grad_y,CV_16S,<span class="number">0</span>, <span class="number">1</span>,<span class="number">3</span>, <span class="number">1</span>, <span class="number">1</span>, BORDER_DEFAULT);</span><br><span class="line">	convertScaleAbs(grad_y,abs_grad_y);</span><br><span class="line">	imshow(<span class="string">&quot;y向soble&quot;</span>, abs_grad_y);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//合并梯度</span></span><br><span class="line">	addWeighted(abs_grad_x, <span class="number">0.5</span>, abs_grad_y, <span class="number">0.5</span>, <span class="number">0</span>, dst);</span><br><span class="line">	imshow(<span class="string">&quot;整体方向soble&quot;</span>, dst);</span><br><span class="line"></span><br><span class="line">	waitKey(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Canny边缘检测"><a href="#Canny边缘检测" class="headerlink" title="Canny边缘检测"></a>Canny边缘检测</h2><h3 id="Canny理论原理"><a href="#Canny理论原理" class="headerlink" title="Canny理论原理"></a>Canny理论原理</h3><p>Canny边缘检测器是由John F. Canny在1986年提出,Canny被称为最优检测器,其目标满足以下三个主要标准:<br>（1）低错误率:对已有的边界能够有很好的检测;<br>（2）良好的定位:即检测到的边缘像素和实际边缘像素之间的距离必须最小化;<br>（3）最小响应:即每边只有一个响应;</p>
+<h3 id="Canny算法主要步骤"><a href="#Canny算法主要步骤" class="headerlink" title="Canny算法主要步骤"></a>Canny算法主要步骤</h3><p>Canny算法主要包含5个步骤，具体如下：<br>（1）过滤噪声<br>使用高斯滤波器去噪<br>高斯核如下：<br><img src="/assets/blogImg/canny.jpg" alt="canny.jpg"></p>
+<p>（2）将图像转为灰度空间<br>（3）计算图像梯度<br>首先,在图像利用Sobel算子计算x, y两个方向的梯度<br>如下所示<br><img src="/assets/blogImg/canny1.jpg" alt="canny1.jpg"></p>
+<p>其次,计算梯度的强度和方向:<br><img src="/assets/blogImg/canny2.jpg" alt="canny2.jpg"></p>
+<p>其中,梯度的方向被四舍五入到[0, 45, 90, 135]这几个角度;<br>（4）非极大值抑制算子(NMS)<br>抑制那些梯度不够大的像素点,只保留最大的像素点,从而达到瘦边的目的;<br>（5）双阈值算法检测边缘和连接边缘<br>经过NMS算法后,设置两个阈值T1,T2,通常T1是T2的1/2或者1/3;<br>梯度值大于T2的像素点称为强边缘,保留作为图像边缘;<br>梯度值小于T1的像素点不是边缘,舍弃;<br>针对梯度值大于T1,小于T2的像素点,称为弱边缘;<br>针对弱边缘,需要进一步判定其是否的真正的边缘像素点;判别的方法就是,当弱边缘像素点周围8个领域内存在强边缘像素时,则该弱边缘变成强边缘点,否则不是边缘点;</p>
+<h3 id="函数原型"><a href="#函数原型" class="headerlink" title="函数原型"></a>函数原型</h3><p>Canny边缘检测的函数原型如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> Canny( InputArray image, OutputArray edges,</span><br><span class="line">           double threshold1, double threshold2,</span><br><span class="line">           int apertureSize = <span class="number">3</span>, bool L2gradient = <span class="literal">false</span> );</span><br></pre></td></tr></table></figure>
+<p><strong>参数解释</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">src：输入图像,必须是<span class="number">8</span>-bits;</span><br><span class="line">edges：输出的图像边缘</span><br><span class="line">threshold1, threshold2：对应于上述的T1,T2;</span><br><span class="line">apertureSize：是Sobel算子的大小;</span><br><span class="line">L2gradient：表示计算梯度值时是否使用L2(就是默认的计算方式);</span><br><span class="line">如果设置L2gradient=True,则梯度值的计算方式为:</span><br><span class="line">G=|Gx|+|Gy|</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_46196863/article/details/112209430">https://blog.csdn.net/weixin_46196863/article/details/112209430</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/chenzhen0530/p/14690472.html">https://www.cnblogs.com/chenzhen0530/p/14690472.html</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/chenzhen0530/p/14660498.html">https://www.cnblogs.com/chenzhen0530/p/14660498.html</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/skyfsm/p/6879265.html">https://www.cnblogs.com/skyfsm/p/6879265.html</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">opencv</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/12/04/opencv%E6%BB%A4%E6%B3%A2%E5%8F%8A%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-gdb调试记录" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/12/04/gdb%E8%B0%83%E8%AF%95%E8%AE%B0%E5%BD%95/">gdb调试记录</a>
+    </h1>
+  
+
+        
+        <a href="/2022/12/04/gdb%E8%B0%83%E8%AF%95%E8%AE%B0%E5%BD%95/" class="archive-article-date">
+  	<time datetime="2022-12-04T15:03:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-12-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="gdb调试记录"><a href="#gdb调试记录" class="headerlink" title="gdb调试记录"></a>gdb调试记录</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>gdb调试C/C++程序<br>一般来说，windows下可以用visual studio就有很强大的代码调试工具，而在linux下，一般使用的gdb进行调试，这里做一个记录。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="http://c.biancheng.net/gdb/">http://c.biancheng.net/gdb/</a></p>
+<h2 id="常用操作"><a href="#常用操作" class="headerlink" title="常用操作"></a>常用操作</h2><p>以下以调试wx_app这个本地程序为例，这个程序是已经编译生成好的执行程序。</p>
+<h3 id="1-启动GDB"><a href="#1-启动GDB" class="headerlink" title="1.启动GDB"></a>1.启动GDB</h3><p>gdb 执行程序<br>注意，该指令在启动 GDB 的同时，会打印出一堆免责条款。通过添加 –silent（或者 -q、–quiet）选项，可将比部分信息屏蔽掉<br><img src="/assets/blogImg/gdb.jpg" alt="gdb.jpg"></p>
+<p><img src="/assets/blogImg/gdb2.jpg" alt="gdb2.jpg"></p>
+<h3 id="2-查看代码，运行程序"><a href="#2-查看代码，运行程序" class="headerlink" title="2.查看代码，运行程序"></a>2.查看代码，运行程序</h3><p>l指令 查看代码列表<br><img src="/assets/blogImg/gdb3.jpg" alt="gdb3.jpg"></p>
+<p>r指令 开始运行程序<br><img src="/assets/blogImg/gdb4.jpg" alt="gdb4.jpg"></p>
+<h3 id="3-设置普通断点"><a href="#3-设置普通断点" class="headerlink" title="3.设置普通断点"></a>3.设置普通断点</h3><p>b指令 设置断点<br>格式<br>b 函数名称<br><img src="/assets/blogImg/gdb5.jpg" alt="gdb5.jpg"></p>
+<p>命中断点<br>n 执行下一条语句<br>c 继续运行程序<br><img src="/assets/blogImg/gdb6.jpg" alt="gdb6.jpg"></p>
+<h3 id="4-设置断点常用的语法格式有以下2种"><a href="#4-设置断点常用的语法格式有以下2种" class="headerlink" title="4.设置断点常用的语法格式有以下2种"></a>4.设置断点常用的语法格式有以下2种</h3><p>1、(gdb) break location     // b location<br>在这个格式中，location 用于指定打断点的具体位置，其表示方式有多种，如表 1 所示。<br><img src="/assets/blogImg/gdb7.jpg" alt="gdb7.jpg"></p>
+<p>示例如下：<br>设置断点如下<br><img src="/assets/blogImg/gdb8.jpg" alt="gdb8.jpg"></p>
+<p>p指令 查看指定变量当前的值<br>命中断点如下<br><img src="/assets/blogImg/gdb9.jpg" alt="gdb9.jpg"></p>
+<p>2、(gdb) break … if cond   // b .. if cond<br> 在这个格式中，… 可以是表 1 中所有参数的值，用于指定打断点的具体位置；cond 为某个表达式。整体的含义为：每次程序执行到 … 位置时都计算 cond 的值，如果为 True，则程序在该位置暂停；反之，程序继续执行。</p>
+<h3 id="5-设置观察断点"><a href="#5-设置观察断点" class="headerlink" title="5.设置观察断点"></a>5.设置观察断点</h3><p>GDB 调试器支持在程序中打 3 种断点，分别为普通断点、观察断点和捕捉断点。其中 break 命令打的就是普通断点，而 watch 命令打的为观察断点。使用 catch 命令建立捕捉断点。</p>
+<p>借助观察断点可以监控程序中某个变量或者表达式的值，只要发生改变，程序就会停止执行。相比普通断点，观察断点不需要我们预测变量（表达式）值发生改变的具体位置。<br>对于监控 C、C++ 程序中某变量或表达式的值是否发生改变，watch 命令的语法非常简单，如下所示：<br>(gdb) watch cond<br>其中，conde 指的就是要监控的变量或表达式。</p>
+<p>和 watch 命令功能相似的，还有 rwatch 和 awatch 命令。其中：<br>rwatch 命令：只要程序中出现读取目标变量（表达式）的值的操作，程序就会停止运行；<br>awatch 命令：只要程序中出现读取目标变量（表达式）的值或者改变值的操作，程序就会停止运行。<br>强调一下，watch 命令的功能是：只有当被监控变量（表达式）的值发生改变，程序才会停止运行。<br><img src="/assets/blogImg/gdb10.jpg" alt="gdb10.jpg"></p>
+<p><img src="/assets/blogImg/gdb11.jpg" alt="gdb11.jpg"></p>
+<p>如果我们想查看当前建立的观察点的数量，借助如下指令即可：<br>(gdb) info watchpoints</p>
+<p>值得一提的是，对于使用 watch（rwatch、awatch）命令监控 C、C++ 程序中变量或者表达式的值，有以下几点需要注意：<br>1、当监控的变量（表达式）为局部变量（表达式）时，一旦局部变量（表达式）失效，则监控操作也随即失效；<br>2、如果监控的是一个指针变量（例如 *p），则 watch *p 和 watch p 是有区别的，前者监控的是 p 所指数据的变化情况，而后者监控的是 p 指针本身有没有改变指向；<br>3、这 3 个监控命令还可以用于监控数组中元素值的变化情况，例如对于 a[10] 这个数组，watch a 表示只要 a 数组中存储的数据发生改变，程序就会停止执行。</p>
+<h3 id="6-建立捕捉断点"><a href="#6-建立捕捉断点" class="headerlink" title="6.建立捕捉断点"></a>6.建立捕捉断点</h3><p>和前 2 种断点不同，普通断点作用于程序中的某一行，当程序运行至此行时停止执行，观察断点作用于某一变量或表达式，当该变量（表达式）的值发生改变时，程序暂停。而捕捉断点的作用是，监控程序中某一事件的发生，例如程序发生某种异常时、某一动态库被加载时等等，一旦目标时间发生，则程序停止执行。<br>用捕捉断点监控某一事件的发生，等同于在程序中该事件发生的位置打普通断点。<br>建立捕捉断点的方式很简单，就是使用 catch 命令，其基本格式为：<br>(gdb) catch event</p>
+<p>其中，event 参数表示要监控的具体事件。对于使用 GDB 调试 C、C++ 程序，常用的 event 事件类型如表 1 所示。<br><img src="/assets/blogImg/gdb12.jpg" alt="gdb12.jpg"></p>
+<h2 id="常用指令"><a href="#常用指令" class="headerlink" title="常用指令"></a>常用指令</h2><p>一般比较常用的调试指令如下<br><img src="/assets/blogImg/gdb15.jpg" alt="gdb15.jpg"></p>
+<p>还有遇到core dump的时候，输入<br>(gdb)bt<br>可以查看段错误崩溃在哪里</p>
+<h2 id="其他指令"><a href="#其他指令" class="headerlink" title="其他指令"></a>其他指令</h2><p>虽然不常用，但是偶尔也很有用，不再举例<br>（1）tbreak命令<br>tbreak 命令可以看到是 break 命令的另一个版本，tbreak 和 break 命令的用法和功能都非常相似，唯一的不同在于，使用 tbreak 命令打的断点仅会作用 1 次，即使程序暂停之后，该断点就会自动消失。<br>tbreak 命令的使用格式和 break 完全相同，有以下 2 种：<br>1、(gdb) tbreak location<br>2、(gdb) tbreak … if cond<br>其中，location、… 和 cond 的含义都和 break 命令中的参数含义相同，即表 1 也同样适用于 tbreak 命令。</p>
+<p>（2）rbreak命令<br>rbreak命令的使用语法格式为：<br>(gdb) rbreak regex<br>其中 regex 为一个正则表达式，程序中函数的函数名只要满足 regex 条件，rbreak 命令就会其内部的开头位置打断点。值得一提的是，rbreak 命令打的断点和 break 命令打断点的效果是一样的，会一直存在，不会自动消失。</p>
+<p>如下，通过执行rbreak rb_<em>指令，找到了程序中所有以 rb_</em> 开头的函数，并在这些函数内部的开头位置打上了断点<br><img src="/assets/blogImg/gdb16.jpg" alt="gdb16.jpg"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/12/04/gdb%E8%B0%83%E8%AF%95%E8%AE%B0%E5%BD%95/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-单元测试gtest框架" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/12/04/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95gtest%E6%A1%86%E6%9E%B6/">单元测试gtest框架</a>
+    </h1>
+  
+
+        
+        <a href="/2022/12/04/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95gtest%E6%A1%86%E6%9E%B6/" class="archive-article-date">
+  	<time datetime="2022-12-04T15:03:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-12-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="单元测试gtest框架"><a href="#单元测试gtest框架" class="headerlink" title="单元测试gtest框架"></a>单元测试gtest框架</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>对单元测试gtest框架的系统性学习，也是对《C++程序设计实践与技巧测试驱动开发》读书笔记</p>
+<p>代码下载地址<br><a target="_blank" rel="noopener" href="https://media.pragprog.com/titles/lotdd/code/lotdd-code.zip">https://media.pragprog.com/titles/lotdd/code/lotdd-code.zip</a></p>
+<h2 id="常用宏"><a href="#常用宏" class="headerlink" title="常用宏"></a>常用宏</h2><p>一些常用的宏</p>
+<h3 id="1-fixture-与-TEST宏与TEST-F宏"><a href="#1-fixture-与-TEST宏与TEST-F宏" class="headerlink" title="1.fixture 与 TEST宏与TEST_F宏"></a>1.fixture 与 TEST宏与TEST_F宏</h3><p>Google Mock允许我们定义一个fixture类，我们可以在这个类中为相关的测试声明函数和变量。从技术角度来说，所有的Google Mock测试都使用一个由Google Mock自己生成的fixture<br>fixture–一个跨测试可重用的类<br>如下，使用默认的fixture（用TEST宏）<br><img src="/assets/blogImg/gtest_1.jpg" alt="gtest_1.jpg"></p>
+<p>如下，自己声明一个fixture（用TEST_F宏）<br>如果想让测试能够访问fixture类的成员变量，那么就需要将TEST宏替换成TEST_F宏<br>（尾部的F表示fixture）<br>测试用例的名称必须与fixture的名称一样。<br><img src="/assets/blogImg/gtest_2.jpg" alt="gtest_2.jpg"></p>
+<h3 id="2-EXPECT-THAT宏与ASSERT-THAT宏"><a href="#2-EXPECT-THAT宏与ASSERT-THAT宏" class="headerlink" title="2.EXPECT_THAT宏与ASSERT_THAT宏"></a>2.EXPECT_THAT宏与ASSERT_THAT宏</h3><p>ASSERT_THAT断言失败的话，其他代码不能继续执行<br>EXPECT_THAT断言失败的话，其他代码继续执行</p>
+<p>ASSERT_THAT(实际值，期待值） 可以看出实际值在前<br><img src="/assets/blogImg/gtest_3.jpg" alt="gtest_3.jpg"></p>
+<h3 id="3-ASSERT-TRUE宏与ASSERT-FALSE宏"><a href="#3-ASSERT-TRUE宏与ASSERT-FALSE宏" class="headerlink" title="3.ASSERT_TRUE宏与ASSERT_FALSE宏"></a>3.ASSERT_TRUE宏与ASSERT_FALSE宏</h3><p><img src="/assets/blogImg/gtest_4.jpg" alt="gtest_4.jpg"></p>
+<h3 id="4-EXPECT-EQ宏与ASSERT-EQ宏"><a href="#4-EXPECT-EQ宏与ASSERT-EQ宏" class="headerlink" title="4.EXPECT_EQ宏与ASSERT_EQ宏"></a>4.EXPECT_EQ宏与ASSERT_EQ宏</h3><p>EXPECT_EQ(1, 1);        // EQ是equals的意思，判断两个对象是否相等<br>ASSERT_EQ（期待值，实际值） //此时，是期待值在前<br><img src="/assets/blogImg/gtest_5.jpg" alt="gtest_5.jpg"></p>
+<p>EXPECT_GT(2, 0);        // GT是greater then, 比 xx更大，通过是数值比较<br>EXPECT_FALSE( 3&gt;5);            // 断言结果是false，参数是返回类型bool的表达式或函数<br>EXPECT_TRUE( 3&gt;1);        // 断言结果是true，参数是返回类型bool的表达式或函数<br>EXPECT_STREQ(“aaa”, “aaa”);    // STREQ 是string equals，判断两个字符串是否相等</p>
+<h3 id="4-DISABLED-前缀"><a href="#4-DISABLED-前缀" class="headerlink" title="4.DISABLED_前缀"></a>4.DISABLED_前缀</h3><p>在测试名称前加上DISABLED_前缀的话，会跳过执行这个测试<br><img src="/assets/blogImg/gtest_6.jpg" alt="gtest_6.jpg"></p>
+<p><img src="/assets/blogImg/gtest_7.jpg" alt="gtest_7.jpg"></p>
+<p>当运行的时候，会提示有跳过的测试<br><img src="/assets/blogImg/gtest_8.jpg" alt="gtest_8.jpg"></p>
+<h3 id="5-测试崩溃"><a href="#5-测试崩溃" class="headerlink" title="5.测试崩溃"></a>5.测试崩溃</h3><p>如果希望遇到未处理的异常就让测试崩溃，可以用下面的命令行选项运行Google Mock:<br>–gtest_catch_exceptions=0</p>
+<h3 id="6-MATCHER-P宏"><a href="#6-MATCHER-P宏" class="headerlink" title="6.MATCHER_P宏"></a>6.MATCHER_P宏</h3><p>MATCHER_P自定义了一个匹配器，它接受一个参数。<br><img src="/assets/blogImg/gtest_9.jpg" alt="gtest_9.jpg"></p>
+<p><img src="/assets/blogImg/gtest_10.jpg" alt="gtest_10.jpg"></p>
+<h3 id="7-SetUp（）与TearDown"><a href="#7-SetUp（）与TearDown" class="headerlink" title="7.SetUp（）与TearDown()"></a>7.SetUp（）与TearDown()</h3><p>如果测试用例中，所有测试需要一条或更多的相同的初始化语句，那么就可以将它们写在fixture类的初始化函数中。在Google Mock中，必须将此函数命名为SetUp(它覆写了基类::testing::Test中的虚函数）<br>TearDown()是SetUp（）的逆过程，用于进行清理工作。<br><img src="/assets/blogImg/gtest_11.jpg" alt="gtest_11.jpg"></p>
+<p>以下的fixture里使用了智能指针，这样下面的示例里就可以不用写TearDown（）了<br><img src="/assets/blogImg/gtest_12.jpg" alt="gtest_12.jpg"></p>
+<h2 id="一些测试技巧"><a href="#一些测试技巧" class="headerlink" title="一些测试技巧"></a>一些测试技巧</h2><p>对书里提到的一些测试技巧的总结</p>
+<h3 id="1-运行测试的一个子集（–gtest-filter选项"><a href="#1-运行测试的一个子集（–gtest-filter选项" class="headerlink" title="1.运行测试的一个子集（–gtest_filter选项)"></a>1.运行测试的一个子集（–gtest_filter选项)</h3><p>如果所有的测试都跑一遍，需要很长的时间，而为了频繁的测试当前的修改，我们可以只测试其中的一个子集（当前修改的那个）<br>如下图，跑完所有的，会直接跑22个单元测试：<br><img src="/assets/blogImg/gtest_15.jpg" alt="gtest_15.jpg"></p>
+<p>假如当前我们只修改了ARetweetCollectionWithOneTweet这个fixture的内容，只需要单独测试这个子集，可以用gtest_filter过滤出自己需要跑的单元测试。<br>过滤器的语法是：测试用例名.测试名称<br>如果想要运行一个特定的测试，可以如下图：<br>./test –gtest_filter=ARetweetCollectionWithOneTweet.IsNoLongerEmpty<br><img src="/assets/blogImg/gtest_16.jpg" alt="gtest_16.jpg"></p>
+<p>最好不要养成每次只运行一个测试的习惯。可以使用通配符（<em>）运行多个测试。比如运行一下ARetweetCollectionWithOneTweet测试用例里的所有测试，如下图：<br>./test –gtest_filter=ARetweetCollectionWithOneTweet.</em><br><img src="/assets/blogImg/gtest_17.jpg" alt="gtest_17.jpg"></p>
+<p>可以使用冒号（：）来分割不同的过滤器。<br>如果GoogleMock遇到一个负号（-），那么其后的所有过滤器匹配的测试都将被忽略。<br>如下图所示：<br>./test –gtest_filter=<em>Retweet</em>.<em>:ATweet.</em>:-ATweet*.<em>Construct</em><br>注意：<br>-ATweet*.<em>Construct</em>告诉GoogleMock忽略名称中含有Construct的所有ATweet测试<br><img src="/assets/blogImg/gtest_18.jpg" alt="gtest_18.jpg"></p>
+<h2 id="测试思想"><a href="#测试思想" class="headerlink" title="测试思想"></a>测试思想</h2><p>书里提到的一些测试思想，很有启发性</p>
+<h3 id="1-测试行为而非方法"><a href="#1-测试行为而非方法" class="headerlink" title="1.测试行为而非方法"></a>1.测试行为而非方法</h3><p>TDD初学者常犯的一个错误是集中精力去测试成员函数。<br>比如实现了一个add（）成员函数，再写一个TEST（ARetweetCollection,Add)的测试。但是，写一个完全覆盖add()行为的测试需要考虑多种不同的情形。结果就是你必须将许多不同的行为编码到同一个测试。此时，测试就没有文档价值了，同时，理解一个测试花费的时间也会增加。<br>相反，你要把注意力放在行为或描述行为的情形上。比如，如果加入一个之前已经加入过的tweet会发生什么？如果客户传入为空呢？等等，这样就能全面的查看测试名称，并且了解系统支持的确定行为。</p>
+<h3 id="2-保持简单"><a href="#2-保持简单" class="headerlink" title="2.保持简单"></a>2.保持简单</h3><p>无谓的复杂性带来的成本是无止境的。相信你曾花费无数个小时去解读一个复杂的成员函数或错综复杂的设计。大多数时候，你都可以编写一个更简单的解决方案，从而节省每个人的时间。<br>有很多原因会导致开发人员制造出无谓的复杂性。<br>（1）时间压力<br>轻率使得复杂性不断累积，这将在多个方面（代码可理解性、修改代码的开销、构建时间）让你速度更慢。<br>（2）缺乏学习<br>在追求更好的代码的同时，也要承认自己制造的不良代码。这意味着你必须理解两者之间的差别。你可以通过团队成员结对编程或者审阅代码的方式获得真实的反馈。学习怎样识别设计缺陷和代码坏味。学习怎样以更好的方式去纠正它们，可以找几本关于创建简洁设计和代码的书本来学习。<br>（3）已有的复杂性<br>一个设计繁杂的已有代码库会让你在添加新行为时束手束脚。过长的方法会催生更冗长的方法，高耦合的设计也是孕育更加高耦合设计的温床。<br>（4）害怕去改代码<br>如果未经测试的话，你不会一直写出正确的代码。“如果没有出现问题，就不要去修复。”害怕修改代码会阻碍向更好的、可持续的设计进行重构。使用TDD的话，每个通过的测试都会提供改善代码的机会。<br>（5）臆测<br>“客户和账号之间可能存在多对多的关系，所以现在就把这个添加到系统中”或许大多数时候你是对的，但是你要承受过早引入的复杂性。有时候你会选择另外一个思路，这时，你将不断的为这个（无用的）额外的复杂性买单，或者也会花费大量的精力去移除这个没必要的复杂性。相反，你应该在真正需要的时候再考虑上述做法。通常，这样做不会带来额外的开销。<br>保持简单是你在持续变化的环境中的生存之道。<br>在敏捷开发里，每次迭代都会交付新特性，其中一些你可能从未考虑过。这是个挑战，如果系统不能适应新的改动，你就需要把新功能强加进系统。为此，最好的防范办法就是保持简单的设计：代码易读，没有冗余、没有无谓的复杂性。具有这些特征的系统会最大程度的降低维护成本。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/12/04/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95gtest%E6%A1%86%E6%9E%B6/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-计算机读书清单记录" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -211,6 +529,8 @@
 <h3 id="1-《大话设计模式》"><a href="#1-《大话设计模式》" class="headerlink" title="1.《大话设计模式》"></a>1.《大话设计模式》</h3><p>这本书是目前看过就能理解设计模式的一本书，虽然依然也看过就忘，但是每次看的时候，都觉得跟着作者的思路很容易理解这些设计模式。</p>
 <h3 id="2-《人月神话》"><a href="#2-《人月神话》" class="headerlink" title="2.《人月神话》"></a>2.《人月神话》</h3><p>这本书可谓赫赫有名</p>
 <h3 id="3-《代码整洁之道》"><a href="#3-《代码整洁之道》" class="headerlink" title="3.《代码整洁之道》"></a>3.《代码整洁之道》</h3><p>最早看到这本书的时候，惊为天人。一下子在我脑海里种下了Clean Code的概念，也是我的追求。</p>
+<h2 id="通用技术"><a href="#通用技术" class="headerlink" title="通用技术"></a>通用技术</h2><h2 id="1-《C-程序设计实践与技巧测试驱动开发》"><a href="#1-《C-程序设计实践与技巧测试驱动开发》" class="headerlink" title="1.《C++程序设计实践与技巧测试驱动开发》"></a>1.《C++程序设计实践与技巧测试驱动开发》</h2><p>这本书讲的是不仅是一种单元测试的技术和思想，有些部分很值得再刷一遍。</p>
+<p>源码下载地址：<br><a target="_blank" rel="noopener" href="https://media.pragprog.com/titles/lotdd/code/lotdd-code.zip">https://media.pragprog.com/titles/lotdd/code/lotdd-code.zip</a></p>
 
       
 
@@ -827,273 +1147,9 @@
 
 
   
-    <article id="post-kali配置vscode" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/11/12/kali%E9%85%8D%E7%BD%AEvscode/">kali配置vscode</a>
-    </h1>
-  
-
-        
-        <a href="/2022/11/12/kali%E9%85%8D%E7%BD%AEvscode/" class="archive-article-date">
-  	<time datetime="2022-11-12T15:49:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="kali配置vscode"><a href="#kali配置vscode" class="headerlink" title="kali配置vscode"></a>kali配置vscode</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在kali系统上安装vscode作为编辑器，做个记录</p>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/single_g_l/article/details/123244421">https://blog.csdn.net/single_g_l/article/details/123244421</a><br>//按照这个流程就行了</p>
-<h2 id="安装记录"><a href="#安装记录" class="headerlink" title="安装记录"></a>安装记录</h2><h3 id="1-下载地址"><a href="#1-下载地址" class="headerlink" title="1.下载地址"></a>1.下载地址</h3><p>下载kali系统下的vscode的deb包<br><a target="_blank" rel="noopener" href="https://az764295.vo.msecnd.net/stable/f80445acd5a3dadef24aa209168452a3d97cc326/code_1.64.2-1644445741_amd64.deb">https://az764295.vo.msecnd.net/stable/f80445acd5a3dadef24aa209168452a3d97cc326/code_1.64.2-1644445741_amd64.deb</a></p>
-<h3 id="2-安装"><a href="#2-安装" class="headerlink" title="2.安装"></a>2.安装</h3><p>用命令安装<br>sudo dpkg -i 安装包完整路径.deb</p>
-<p>如下示例</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo dpkg -i ./code_1<span class="number">.64</span><span class="number">.2</span>-1644445741_amd64.deb</span><br></pre></td></tr></table></figure>
-
-<p>查看安装后的vscode<br>效果如下：<br><img src="/assets/blogImg/kali_vs.jpg" alt="kali_vs"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">kali</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/11/12/kali%E9%85%8D%E7%BD%AEvscode/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-kali系统下安装cmake" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/11/12/kali%E7%B3%BB%E7%BB%9F%E4%B8%8B%E5%AE%89%E8%A3%85cmake/">kali系统下安装cmake</a>
-    </h1>
-  
-
-        
-        <a href="/2022/11/12/kali%E7%B3%BB%E7%BB%9F%E4%B8%8B%E5%AE%89%E8%A3%85cmake/" class="archive-article-date">
-  	<time datetime="2022-11-12T11:09:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="kali系统下安装cmake"><a href="#kali系统下安装cmake" class="headerlink" title="kali系统下安装cmake"></a>kali系统下安装cmake</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在kali系统下安装cmake，因为kali系统与其他的ubuntu系统不同，直接用apt-get install是无法直接安装cmake的，这里记录下安装步骤</p>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44023460/article/details/112131732">https://blog.csdn.net/weixin_44023460/article/details/112131732</a><br>//基本上就是按照这个步骤来安装即可</p>
-<h2 id="安装记录"><a href="#安装记录" class="headerlink" title="安装记录"></a>安装记录</h2><p>记录一下个人安装步骤</p>
-<h3 id="1-完整安装步骤"><a href="#1-完整安装步骤" class="headerlink" title="1.完整安装步骤"></a>1.完整安装步骤</h3><p>以下为在kali系统下安装cmake的完整步骤</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install build-essential</span><br><span class="line">sudo wget http:<span class="comment">//www.cmake.org/files/v3.4/cmake-3.4.1.tar.gz\n</span></span><br><span class="line">ls</span><br><span class="line">tar -zxvf cmake-<span class="number">3.4</span><span class="number">.1</span>.tar.gz</span><br><span class="line">ls</span><br><span class="line">cd cmake-<span class="number">3.4</span><span class="number">.1</span></span><br><span class="line">ls</span><br><span class="line">./configure</span><br><span class="line">sudo make</span><br><span class="line">sudo apt-get install checkinstall</span><br><span class="line">sudo checkinstall</span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
-
-<p>如下图<br><img src="/assets/blogImg/kali_cmake.jpg" alt="kali_cmake"></p>
-<h3 id="2-检查是否安装成功"><a href="#2-检查是否安装成功" class="headerlink" title="2.检查是否安装成功"></a>2.检查是否安装成功</h3><p>上面的步骤都执行成功后，一般就是安装好cmake了，可以通过指令查看cmake版本来确认是否安装好cmake</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cmake --version</span><br></pre></td></tr></table></figure>
-
-<p>当输入指令后，终端显示当前安装的cmake版本号时，就说明已经配置好cmake环境了<br><img src="/assets/blogImg/kali_cmake2.jpg" alt="kali_cmake2"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">kali</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/11/12/kali%E7%B3%BB%E7%BB%9F%E4%B8%8B%E5%AE%89%E8%A3%85cmake/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-moveDragon小玩具" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/11/12/moveDragon%E5%B0%8F%E7%8E%A9%E5%85%B7/">moveDragon小玩具</a>
-    </h1>
-  
-
-        
-        <a href="/2022/11/12/moveDragon%E5%B0%8F%E7%8E%A9%E5%85%B7/" class="archive-article-date">
-  	<time datetime="2022-11-12T10:34:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="moveDragon小玩具"><a href="#moveDragon小玩具" class="headerlink" title="moveDragon小玩具"></a>moveDragon小玩具</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>其实一开始是因为听到了一首歌《得过且过的勇者》，觉得这个很有趣；<br>然后正好在玩一个linux的玩具sl，大家可能知道这个玩具，输入sl的时候，就会出来一个小火车呜呜呜，很有趣；<br>于是心血来潮觉得我也可以做一个类似的mv小玩具，哈哈哈，这里做一个代码记录</p>
-<h2 id="github上源码地址"><a href="#github上源码地址" class="headerlink" title="github上源码地址"></a>github上源码地址</h2><p>参考使用了：cowsay字符图案，sl源码</p>
-<p>这里我将moveDragon的代码上传到github上了，这里是地址，感兴趣的话可以下载编译玩一下<br><a target="_blank" rel="noopener" href="https://github.com/ThranduilELFKING/moveDragon.git">https://github.com/ThranduilELFKING/moveDragon.git</a></p>
-<p>本来是在2020年就做完了，应该把代码什么的放出来的，但是中间一直因为有些其他事情就耽误了，但是最终还是上传上来了~</p>
-<h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><p>1.首先，要有cmake编译环境<br>2.编译</p>
-<p>可以看到代码目录如下：</p>
-<p><img src="/assets/blogImg/move_dragon.jpg" alt="move_dragon"></p>
-<p>直接执行sh build.sh即可<br>然后进入build目录，启动moveDragon即可</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sh build.sh</span><br><span class="line">cd build</span><br><span class="line">./moveDragon</span><br></pre></td></tr></table></figure>
-
-<p>执行后的效果：<br><img src="/assets/blogImg/move_dragon2.jpg" alt="move_dragon2"></p>
-<h2 id="具体效果链接"><a href="#具体效果链接" class="headerlink" title="具体效果链接"></a>具体效果链接</h2><p>可以在B站看到我上传的一个效果视频<br><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1GA411v7Ja/?vd_source=7dc3f0bd6dd2626fdbf180d0632d1d01">https://www.bilibili.com/video/BV1GA411v7Ja/?vd_source=7dc3f0bd6dd2626fdbf180d0632d1d01</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">个人小工具</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/11/12/moveDragon%E5%B0%8F%E7%8E%A9%E5%85%B7/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
     </nav>
   
 

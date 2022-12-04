@@ -61,7 +61,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 70
+			总文章数 73
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -180,6 +180,251 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-opencv249源码编译记录-md" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/11/02/opencv249%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91%E8%AE%B0%E5%BD%95-md/">opencv249源码编译记录.md</a>
+    </h1>
+  
+
+        
+        <a href="/2022/11/02/opencv249%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91%E8%AE%B0%E5%BD%95-md/" class="archive-article-date">
+  	<time datetime="2022-11-02T13:54:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="opencv源码编译动态库and静态库"><a href="#opencv源码编译动态库and静态库" class="headerlink" title="opencv源码编译动态库and静态库"></a>opencv源码编译动态库and静态库</h1><h1 id="opencv源码编译动态库and静态库详细步骤记录"><a href="#opencv源码编译动态库and静态库详细步骤记录" class="headerlink" title="opencv源码编译动态库and静态库详细步骤记录"></a>opencv源码编译动态库and静态库详细步骤记录</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>release版本<br>debug版本<br>基于2.4.9版本编译<br>其他opencv版本也适用这个编译方式</p>
+<h2 id="一、直接下载2-4-9更新包（包里都有源码）"><a href="#一、直接下载2-4-9更新包（包里都有源码）" class="headerlink" title="一、直接下载2.4.9更新包（包里都有源码）"></a>一、直接下载2.4.9更新包（包里都有源码）</h2><p>下载地址<br><a target="_blank" rel="noopener" href="https://sourceforge.net/projects/opencvlibrary/files/opencv-win/2.4.9/">https://sourceforge.net/projects/opencvlibrary/files/opencv-win/2.4.9/</a><br>下载完后，安装即可</p>
+<h2 id="二、安装2-4-9"><a href="#二、安装2-4-9" class="headerlink" title="二、安装2.4.9"></a>二、安装2.4.9</h2><p>双击安装，自己指定安装目录，方便演示，我直接安装到了C:\Users\muhan\Downloads\opencv</p>
+<p>进入opencv文件夹<br>新建一个new_build文件夹，之后会将编译生成的sln文件，库文件等都生成到这个子文件夹对应的路径下</p>
+<h2 id="三、通过cmake配置编译环境"><a href="#三、通过cmake配置编译环境" class="headerlink" title="三、通过cmake配置编译环境"></a>三、通过cmake配置编译环境</h2><p>选择源码所在的路径（就是解压安装opencv文件夹下的sources子文件夹）<br>C:\Users\muhan\Downloads\opencv\sources</p>
+<p>选择编译生成的文件存放的路径（就是上一步new_build所在的路径）<br>C:/Users/muhan/Downloads/opencv/new_build</p>
+<p>点击Configure生成对应的配置<br>我这边用的是vs2022，一般用默认的配置就ok了<br>第一次configure之后，页面有很多红色选中，再点击一次Configure按键，然后就会自动下载一些所需的依赖，之后就可以了</p>
+<p>点击Generate，等出现“Generate Done”表示生成完成</p>
+<h2 id="四、编译动态库"><a href="#四、编译动态库" class="headerlink" title="四、编译动态库"></a>四、编译动态库</h2><h3 id="4-1-debug版本编译（动态库）"><a href="#4-1-debug版本编译（动态库）" class="headerlink" title="4.1 debug版本编译（动态库）"></a>4.1 debug版本编译（动态库）</h3><p>然后打开C:\Users\muhan\Downloads\opencv\new_build文件夹（new_build子文件夹）<br>打开OpenCV.sln工程<br>选中  解决方案”OpenCV“  右键，选择 “生成解决方案”<br>等出现“生成成功”之后，选中 CMakeTargets ,选中INSTALL，右键，选择 “仅用于此项目”，选择“仅生成INSTALL”<br>,当出现生成成功时，表示库和头文件已经生成成功，并安装到指定的路径下（new_build\install下)<br>C:\Users\muhan\Downloads\opencv\new_build\install<br>于是可以在new_build文件下，看到include头文件目录，和lib库文件夹，bin下的动态库文件夹</p>
+<h3 id="4-2-release版本编译（动态库）"><a href="#4-2-release版本编译（动态库）" class="headerlink" title="4.2 release版本编译（动态库）"></a>4.2 release版本编译（动态库）</h3><p>此时，只需要将debug版本编译时的选项“Debug”改成“Release”即可，其他步骤同上3.1一致</p>
+<p>此时，在bin目录下，产生类似opencv_calib3d249.dll（release版本的动态库）和opencv_calib3d249d.dll(debug版本的动态库）<br>到此，动态库版本已经编译完成</p>
+<h2 id="五、编译静态库"><a href="#五、编译静态库" class="headerlink" title="五、编译静态库"></a>五、编译静态库</h2><p>再次打开cmake，刚刚配置的那个页面<br>如果要编译静态库，那么取消勾选 “BUILD_SHARED_LIBS”<br>然后再次Configure，出现“Configuring done”之后，再次Generate，等再次出现“Generate done”之后，再次打开sln文件<br>重载sln文件</p>
+<h3 id="5-1-release版本编译（静态库）"><a href="#5-1-release版本编译（静态库）" class="headerlink" title="5.1 release版本编译（静态库）"></a>5.1 release版本编译（静态库）</h3><p>在“Release”选项下，其他步骤同上3.1一致<br>当编译生成成功后，会在new_build\install子文件,有一个新的文件夹 staticlib，这个子文件夹下都是静态库<br>C:\Users\muhan\Downloads\opencv\new_build\install\staticlib<br>此时都是release版本</p>
+<h3 id="5-2-debug版本编译（静态库）"><a href="#5-2-debug版本编译（静态库）" class="headerlink" title="5.2 debug版本编译（静态库）"></a>5.2 debug版本编译（静态库）</h3><p>只要把编译选项改成“Debug”,其他同上3.1一致<br>（如果有闪屏，那是因为我的猫踩上来蹦迪了。。。）<br>然后再去C:\Users\muhan\Downloads\opencv\new_build\install\staticlib下，会有debug版本的静态库</p>
+<p>至此，opencv在windows下的debug、release版本的动态库，静态库编译完成</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">第三方库</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">opencv</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/11/02/opencv249%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91%E8%AE%B0%E5%BD%95-md/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-迁移一个账号" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/12/12/%E8%BF%81%E7%A7%BB%E4%B8%80%E4%B8%AA%E8%B4%A6%E5%8F%B7/">迁移一个账号</a>
+    </h1>
+  
+
+        
+        <a href="/2021/12/12/%E8%BF%81%E7%A7%BB%E4%B8%80%E4%B8%AA%E8%B4%A6%E5%8F%B7/" class="archive-article-date">
+  	<time datetime="2021-12-12T13:47:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-12-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="迁移"><a href="#迁移" class="headerlink" title="迁移"></a>迁移</h2><p> 迁移账号<br> 原本的账号是gmail的，有时候登录不上去，换一个国内邮箱的账号吧</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">hexo博客搭建</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/12/12/%E8%BF%81%E7%A7%BB%E4%B8%80%E4%B8%AA%E8%B4%A6%E5%8F%B7/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-开发clickMouse鼠标点击小工具删除邮箱里的2w多垃圾邮件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/05/15/%E5%BC%80%E5%8F%91clickMouse%E9%BC%A0%E6%A0%87%E7%82%B9%E5%87%BB%E5%B0%8F%E5%B7%A5%E5%85%B7%E5%88%A0%E9%99%A4%E9%82%AE%E7%AE%B1%E9%87%8C%E7%9A%842w%E5%A4%9A%E5%9E%83%E5%9C%BE%E9%82%AE%E4%BB%B6/">开发clickMouse鼠标点击小工具删除邮箱里的2w多垃圾邮件</a>
+    </h1>
+  
+
+        
+        <a href="/2021/05/15/%E5%BC%80%E5%8F%91clickMouse%E9%BC%A0%E6%A0%87%E7%82%B9%E5%87%BB%E5%B0%8F%E5%B7%A5%E5%85%B7%E5%88%A0%E9%99%A4%E9%82%AE%E7%AE%B1%E9%87%8C%E7%9A%842w%E5%A4%9A%E5%9E%83%E5%9C%BE%E9%82%AE%E4%BB%B6/" class="archive-article-date">
+  	<time datetime="2021-05-15T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="hello-world"><a href="#hello-world" class="headerlink" title="hello-world"></a>hello-world</h1>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">个人小工具</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/05/15/%E5%BC%80%E5%8F%91clickMouse%E9%BC%A0%E6%A0%87%E7%82%B9%E5%87%BB%E5%B0%8F%E5%B7%A5%E5%85%B7%E5%88%A0%E9%99%A4%E9%82%AE%E7%AE%B1%E9%87%8C%E7%9A%842w%E5%A4%9A%E5%9E%83%E5%9C%BE%E9%82%AE%E4%BB%B6/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-windows会话id" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -570,6 +815,85 @@
 
 
   
+    <article id="post-查看静态库-动态库-执行程序的编译工具链gcc-g++版本命令" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/11/15/%E6%9F%A5%E7%9C%8B%E9%9D%99%E6%80%81%E5%BA%93-%E5%8A%A8%E6%80%81%E5%BA%93-%E6%89%A7%E8%A1%8C%E7%A8%8B%E5%BA%8F%E7%9A%84%E7%BC%96%E8%AF%91%E5%B7%A5%E5%85%B7%E9%93%BEgcc-g++%E7%89%88%E6%9C%AC%E5%91%BD%E4%BB%A4/">查看静态库-动态库-执行程序的编译工具链gcc-g++版本命令</a>
+    </h1>
+  
+
+        
+        <a href="/2020/11/15/%E6%9F%A5%E7%9C%8B%E9%9D%99%E6%80%81%E5%BA%93-%E5%8A%A8%E6%80%81%E5%BA%93-%E6%89%A7%E8%A1%8C%E7%A8%8B%E5%BA%8F%E7%9A%84%E7%BC%96%E8%AF%91%E5%B7%A5%E5%85%B7%E9%93%BEgcc-g++%E7%89%88%E6%9C%AC%E5%91%BD%E4%BB%A4/" class="archive-article-date">
+  	<time datetime="2020-11-15T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="查看静态库-动态库-执行程序的编译工具链gcc-g-版本命令"><a href="#查看静态库-动态库-执行程序的编译工具链gcc-g-版本命令" class="headerlink" title="查看静态库-动态库-执行程序的编译工具链gcc-g++版本命令"></a>查看静态库-动态库-执行程序的编译工具链gcc-g++版本命令</h1><h2 id="使用指令："><a href="#使用指令：" class="headerlink" title="使用指令："></a>使用指令：</h2><p>objdump -s –section=.comment [库名或执行文件名]</p>
+<p>如下图查看动态库：<br><img src="/assets/blogImg/objdump_ssl.jpg" alt="objdump_ssl"><br>可以看出图里的libssl.so和libcrypto.so是交叉编译工具链编译出来的）</p>
+<p>如下图查看静态库：<br><img src="/assets/blogImg/objdump_zma.jpg" alt="objdump_zma"></p>
+<p>如下图查看执行文件：<br><img src="/assets/blogImg/objdump_demo.jpg" alt="objdump_demo"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">交叉编译</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/11/15/%E6%9F%A5%E7%9C%8B%E9%9D%99%E6%80%81%E5%BA%93-%E5%8A%A8%E6%80%81%E5%BA%93-%E6%89%A7%E8%A1%8C%E7%A8%8B%E5%BA%8F%E7%9A%84%E7%BC%96%E8%AF%91%E5%B7%A5%E5%85%B7%E9%93%BEgcc-g++%E7%89%88%E6%9C%AC%E5%91%BD%E4%BB%A4/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-树莓派64位系统配置32位运行环境" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -621,85 +945,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2020/11/15/%E6%A0%91%E8%8E%93%E6%B4%BE64%E4%BD%8D%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE32%E4%BD%8D%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-查看静态库-动态库-执行程序的编译工具链gcc-g++版本命令" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/15/%E6%9F%A5%E7%9C%8B%E9%9D%99%E6%80%81%E5%BA%93-%E5%8A%A8%E6%80%81%E5%BA%93-%E6%89%A7%E8%A1%8C%E7%A8%8B%E5%BA%8F%E7%9A%84%E7%BC%96%E8%AF%91%E5%B7%A5%E5%85%B7%E9%93%BEgcc-g++%E7%89%88%E6%9C%AC%E5%91%BD%E4%BB%A4/">查看静态库-动态库-执行程序的编译工具链gcc-g++版本命令</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/15/%E6%9F%A5%E7%9C%8B%E9%9D%99%E6%80%81%E5%BA%93-%E5%8A%A8%E6%80%81%E5%BA%93-%E6%89%A7%E8%A1%8C%E7%A8%8B%E5%BA%8F%E7%9A%84%E7%BC%96%E8%AF%91%E5%B7%A5%E5%85%B7%E9%93%BEgcc-g++%E7%89%88%E6%9C%AC%E5%91%BD%E4%BB%A4/" class="archive-article-date">
-  	<time datetime="2020-11-15T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="查看静态库-动态库-执行程序的编译工具链gcc-g-版本命令"><a href="#查看静态库-动态库-执行程序的编译工具链gcc-g-版本命令" class="headerlink" title="查看静态库-动态库-执行程序的编译工具链gcc-g++版本命令"></a>查看静态库-动态库-执行程序的编译工具链gcc-g++版本命令</h1><h2 id="使用指令："><a href="#使用指令：" class="headerlink" title="使用指令："></a>使用指令：</h2><p>objdump -s –section=.comment [库名或执行文件名]</p>
-<p>如下图查看动态库：<br><img src="/assets/blogImg/objdump_ssl.jpg" alt="objdump_ssl"><br>可以看出图里的libssl.so和libcrypto.so是交叉编译工具链编译出来的）</p>
-<p>如下图查看静态库：<br><img src="/assets/blogImg/objdump_zma.jpg" alt="objdump_zma"></p>
-<p>如下图查看执行文件：<br><img src="/assets/blogImg/objdump_demo.jpg" alt="objdump_demo"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">交叉编译</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/15/%E6%9F%A5%E7%9C%8B%E9%9D%99%E6%80%81%E5%BA%93-%E5%8A%A8%E6%80%81%E5%BA%93-%E6%89%A7%E8%A1%8C%E7%A8%8B%E5%BA%8F%E7%9A%84%E7%BC%96%E8%AF%91%E5%B7%A5%E5%85%B7%E9%93%BEgcc-g++%E7%89%88%E6%9C%AC%E5%91%BD%E4%BB%A4/">展开全文 >></a>
         </p>
       
 
@@ -805,274 +1050,9 @@
 
 
   
-    <article id="post-树莓派配置基础环境-ssh-root-静态ip" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/15/%E6%A0%91%E8%8E%93%E6%B4%BE%E9%85%8D%E7%BD%AE%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83-ssh-root-%E9%9D%99%E6%80%81ip/">树莓派配置基础环境-ssh-root-静态ip</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/15/%E6%A0%91%E8%8E%93%E6%B4%BE%E9%85%8D%E7%BD%AE%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83-ssh-root-%E9%9D%99%E6%80%81ip/" class="archive-article-date">
-  	<time datetime="2020-11-15T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="树莓派配置基础环境-ssh-root-静态ip"><a href="#树莓派配置基础环境-ssh-root-静态ip" class="headerlink" title="树莓派配置基础环境-ssh-root-静态ip"></a>树莓派配置基础环境-ssh-root-静态ip</h1><h2 id="配置root用户"><a href="#配置root用户" class="headerlink" title="配置root用户"></a>配置root用户</h2><p>在终端进行如下操作即可：<br>sudo passwd root<br>然后根据提示输入root用户的密码<br>再重复输入一次刚刚设置的密码</p>
-<p>切换root用户操作如下即可：<br>su -<br>输入设置的root用户的密码</p>
-<h2 id="配置开启ssh"><a href="#配置开启ssh" class="headerlink" title="配置开启ssh"></a>配置开启ssh</h2><p>操作如下即可：<br>sudo vim /etc/ssh/sshd-config<br>修改 PermitRootLogin yes<br>然后保存修改<br>然后执行sudo systemctl restart ssh<br>再通过ss -tnl查看是否开启成功即可</p>
-<h2 id="配置静态ip如下"><a href="#配置静态ip如下" class="headerlink" title="配置静态ip如下"></a>配置静态ip如下</h2><p>在需要无线网络连接的情况下，配置eth0的静态ip如下：<br>sudo vim /etc/network/interfaces<br>然后再文件里增加以下内容<br>auto lo<br>iface lo inet loopback<br>auto eth0<br>iface eth0 inet static<br>address 192.168.0.1 //IP地址<br>netmask 255.255.255.0 //掩码<br>然后保存<br>但是此时，如果不设置一下wlan0，那么会发现虽然静态ip设置成功了，但是树莓派却无法联网了<br>所以还要在interfaces文件里追加以下内容<br>auto wlan0<br>iface wlan0 inet dhcp<br>wpa_conf /etc/wpa_supplicant/wpa_supplicant.conf<br>然后保存<br>退出文件<br>重启树莓派即可</p>
-<h2 id="如图，配置动态IP"><a href="#如图，配置动态IP" class="headerlink" title="如图，配置动态IP"></a>如图，配置动态IP</h2><p><img src="/assets/blogImg/shu_ip_dhcp.jpg" alt="shu_ip_dhpc"></p>
-<h2 id="如图，配置静态IP"><a href="#如图，配置静态IP" class="headerlink" title="如图，配置静态IP"></a>如图，配置静态IP</h2><p><img src="/assets/blogImg/shu_ip_static.jpg" alt="shu_ip_static"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常用基础配置</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/15/%E6%A0%91%E8%8E%93%E6%B4%BE%E9%85%8D%E7%BD%AE%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83-ssh-root-%E9%9D%99%E6%80%81ip/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-虚拟机安装官方树莓派系统并配置交叉编译链" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/15/%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AE%89%E8%A3%85%E5%AE%98%E6%96%B9%E6%A0%91%E8%8E%93%E6%B4%BE%E7%B3%BB%E7%BB%9F%E5%B9%B6%E9%85%8D%E7%BD%AE%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91%E9%93%BE/">虚拟机安装官方树莓派系统，配置交叉编译链</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/15/%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AE%89%E8%A3%85%E5%AE%98%E6%96%B9%E6%A0%91%E8%8E%93%E6%B4%BE%E7%B3%BB%E7%BB%9F%E5%B9%B6%E9%85%8D%E7%BD%AE%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91%E9%93%BE/" class="archive-article-date">
-  	<time datetime="2020-11-15T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="虚拟机安装官方树莓派系统，配置交叉编译链"><a href="#虚拟机安装官方树莓派系统，配置交叉编译链" class="headerlink" title="虚拟机安装官方树莓派系统，配置交叉编译链"></a>虚拟机安装官方树莓派系统，配置交叉编译链</h1><h2 id="1-下载官方镜像"><a href="#1-下载官方镜像" class="headerlink" title="1.下载官方镜像"></a>1.下载官方镜像</h2><p><a target="_blank" rel="noopener" href="https://www.raspberrypi.org/software/raspberry-pi-desktop/">https://www.raspberrypi.org/software/raspberry-pi-desktop/</a><br>通过官网，下载raspberry镜像64位系统iso文件之后，可以安装在虚拟机vbox/vmware里</p>
-<h2 id="2-下载交叉编译工具链"><a href="#2-下载交叉编译工具链" class="headerlink" title="2.下载交叉编译工具链"></a>2.下载交叉编译工具链</h2><p>通过github下载最新的官方树莓派交叉编译工具链<br>git clone git://github.com/raspberrypi/tools.git</p>
-<h2 id="3-配置交叉编译工具链"><a href="#3-配置交叉编译工具链" class="headerlink" title="3.配置交叉编译工具链"></a>3.配置交叉编译工具链</h2><p>将arm-bcm2708文件夹拷贝到/opt/arm-bcm2708下（自定义路径即可）</p>
-<p>将上面到交叉编译工具链的路径配置到~/.bashrc文件</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo vim ~/.bashrc</span><br><span class="line"><span class="keyword">export</span> PATH=$PATH:<span class="regexp">/opt/</span>arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64/bin</span><br></pre></td></tr></table></figure>
-
-<h2 id="4-测试交叉编译工具链是否安装成功"><a href="#4-测试交叉编译工具链是否安装成功" class="headerlink" title="4.测试交叉编译工具链是否安装成功"></a>4.测试交叉编译工具链是否安装成功</h2><p>输入以下指令，如果有打印一些版本信息，那么说明交叉编译环境配置正确<br>arm-linux-gnueabihf-gcc -v<br>如图:<br><img src="/assets/blogImg/4b_succeed.jpg" alt="4b_succeed"></p>
-<h2 id="5-假如第4步的时候有报错没有这个文件或目录，但实际是有这个文件的，可以apt-get安装libc6-dev-i386"><a href="#5-假如第4步的时候有报错没有这个文件或目录，但实际是有这个文件的，可以apt-get安装libc6-dev-i386" class="headerlink" title="5.假如第4步的时候有报错没有这个文件或目录，但实际是有这个文件的，可以apt-get安装libc6-dev-i386"></a>5.假如第4步的时候有报错没有这个文件或目录，但实际是有这个文件的，可以apt-get安装libc6-dev-i386</h2><p>如果报错提醒如下：<br><img src="/assets/blogImg/4b_fail_env.jpg" alt="4b_fail_env"></p>
-<p>可以按照以下的解决方案尝试一下：<br><img src="/assets/blogImg/4b_deal_fail.jpg" alt="4b_deal_fail"></p>
-<p>然后重新输入arm-linux-gnueabihf-gcc -v即可发现打印版本信息</p>
-<h2 id="6-编写测试demo，然后编译生成执行文件"><a href="#6-编写测试demo，然后编译生成执行文件" class="headerlink" title="6.编写测试demo，然后编译生成执行文件"></a>6.编写测试demo，然后编译生成执行文件</h2><p>demo略，编译的指令如下：<br><img src="/assets/blogImg/4b_hello_world.jpg" alt="4b_hello_world"></p>
-<p>需要注意的是，该可运行文件不能在PC机上运行，只能在树莓派arm板子上运行</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>到此为止，虚拟机上的树莓派arm的交叉编译工具链搭建完成,这个官方的交叉编译工具链还是很靠谱的</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>下载镜像参考以下网址<br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/1a65cb0b8f58">https://www.jianshu.com/p/1a65cb0b8f58</a><br>下载安装交叉编译链参考以下网址<br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/zfyouxi/p/3831769.html">https://www.cnblogs.com/zfyouxi/p/3831769.html</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常用基础配置</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">交叉编译</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/15/%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AE%89%E8%A3%85%E5%AE%98%E6%96%B9%E6%A0%91%E8%8E%93%E6%B4%BE%E7%B3%BB%E7%BB%9F%E5%B9%B6%E9%85%8D%E7%BD%AE%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91%E9%93%BE/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-大端小端系统" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/10/29/%E5%A4%A7%E7%AB%AF%E5%B0%8F%E7%AB%AF%E7%B3%BB%E7%BB%9F/">大端小端系统</a>
-    </h1>
-  
-
-        
-        <a href="/2020/10/29/%E5%A4%A7%E7%AB%AF%E5%B0%8F%E7%AB%AF%E7%B3%BB%E7%BB%9F/" class="archive-article-date">
-  	<time datetime="2020-10-29T14:21:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="大端小端系统"><a href="#大端小端系统" class="headerlink" title="大端小端系统"></a>大端小端系统</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>大端小端系统，也就是Big-Endian和Little-Endian系统。属于一个基础概念，这里补充记录一下。</p>
-<h2 id="理论"><a href="#理论" class="headerlink" title="理论"></a>理论</h2><p>整数在内存的一系列连续字节中存储为二进制值，通常存储为2、4、8或16字节。字节采用什么顺序是非常重要的。</p>
-<p>以下以十进制整数262657存储为4字节二进制值为例。<br>选择这个值是因为它的二进制值每个字节的位模式都很容易与其他字节的内容区分开。<br>如下所示：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">十进制数 <span class="number">262657</span></span><br><span class="line">二进制值如下：</span><br><span class="line"><span class="number">00000000</span> <span class="number">00000100</span> <span class="number">00000010</span> <span class="number">00000001</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="Little-Endian"><a href="#Little-Endian" class="headerlink" title="Little-Endian"></a>Little-Endian</h2><p>对于使用Intel处理器的PC，十进制数262657就存储为如下形式。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">字节地址： <span class="number">00</span>          <span class="number">01</span>          <span class="number">02</span>          <span class="number">03</span></span><br><span class="line">数据位：   <span class="number">00000001</span>    <span class="number">00000010</span>    <span class="number">00000100</span>    <span class="number">00000000</span></span><br></pre></td></tr></table></figure>
-<p>可以看出，值中最高位的8位是都为0的那些位，它们都存储在地址最高的字节中，换言之，就是最右边的字节。最低位的8位存储在地址最低的字节中，即最左边的字节。这种安排形式就是Little-Endian。</p>
-<p>那么为什么计算机会颠倒这些字节的顺序？<br>这么设计的动机在于实现更高效的计算和更简单的硬件。具体细节不重要，重要的是应该知道，如今的大部分现代计算机都使用这种与直觉相反的编码方法。</p>
-<h2 id="Big-Endian"><a href="#Big-Endian" class="headerlink" title="Big-Endian"></a>Big-Endian</h2><p>虽然大部分计算机都采用小端编码方法，也有一部分例外情况。<br>对于使用Motorola处理器的机器，十进制数262657就存储为如下形式。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">字节地址： <span class="number">00</span>          <span class="number">01</span>          <span class="number">02</span>          <span class="number">03</span></span><br><span class="line">数据位：   <span class="number">00000000</span>    <span class="number">00000100</span>    <span class="number">00000010</span>    <span class="number">00000001</span></span><br></pre></td></tr></table></figure>
-<p>可以看出，这种在内存中的存储更加符合逻辑。<br>字节现在的顺序是反的，最重要的8位存储在最左边的字节中，即地址最低的字节。这种安排形式就是Big-Endian。</p>
-<p>一些处理器，例如Power-PC处理器以及所有近来生产的ARM处理器，采用的都是Big-Endian系统。</p>
-<h2 id="为什么需要关注大端小端系统？"><a href="#为什么需要关注大端小端系统？" class="headerlink" title="为什么需要关注大端小端系统？"></a>为什么需要关注大端小端系统？</h2><p>数据的字节顺序是可以在Big-Endian和Little-Endian之间切换的。</p>
-<p>注意：<br><strong>无论字节顺序是Big-Endian还是Little-Endian，在每个字节中，最高位都放在左边，最低位都放在右边。</strong></p>
-<p>那么为什么需要关注大端小端编码呢？<br>实际上，在大多情况下，即使不知道执行代码的计算机是采用Big-Endian还是Little-Endian系统，都可以编写出有效的C++程序。但是，在处理来自另一台机器的二进制数据时，这就很重要了。二进制数据会写入文件或通过网络传送为一系列字节，此时必须解释它们。如果数据源所在的机器使用的字节顺序与运行代码的机器不同，就必须反转每个二进制数据的字节顺序，否则就会出错。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">基础技能</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/10/29/%E5%A4%A7%E7%AB%AF%E5%B0%8F%E7%AB%AF%E7%B3%BB%E7%BB%9F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/3/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/5/">Next &amp;raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/3/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/5/">Next &amp;raquo;</a>
     </nav>
   
 
