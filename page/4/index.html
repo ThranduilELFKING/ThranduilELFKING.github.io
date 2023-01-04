@@ -61,7 +61,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 76
+			总文章数 77
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -180,6 +180,87 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-git上传时报错OpenSSL相关errno10054" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/11/03/git%E4%B8%8A%E4%BC%A0%E6%97%B6%E6%8A%A5%E9%94%99OpenSSL%E7%9B%B8%E5%85%B3errno10054/">git上传时报错OpenSSL相关errno10054</a>
+    </h1>
+  
+
+        
+        <a href="/2022/11/03/git%E4%B8%8A%E4%BC%A0%E6%97%B6%E6%8A%A5%E9%94%99OpenSSL%E7%9B%B8%E5%85%B3errno10054/" class="archive-article-date">
+  	<time datetime="2022-11-03T15:43:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="git上传时报错OpenSSL相关errno10054"><a href="#git上传时报错OpenSSL相关errno10054" class="headerlink" title="git上传时报错OpenSSL相关errno10054"></a>git上传时报错OpenSSL相关errno10054</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>hexo博客本地更新后，想要上传到服务器的时候，发现执行hexo d之后，一直报错提示<br>OpenSSL SSL_read: Connection was reset, errno 10054<br>从网上找到了解决方案，记录一下</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>一般来说，国内现在用git上传代码的时候，都需要VPN，否则可能只能下载不能上传（估计被河蟹了）<br>那么开着VPN的情况下，才能上传，可能就会触发这个问题，导致这个问题的有2种可能<br>1.配置不对</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">修改git配置，解除ssl验证,指令如下</span><br><span class="line">git config --global http.sslVerify <span class="string">&quot;false&quot;</span> </span><br><span class="line">此时，再执行git操作即可。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>2.配置已经确认过是对的，那么就很有可能是网络不稳定，连接超时导致的<br>这种情况下，就断开重连VPN，再尝试一下，多尝试几次，当网络情况好的时候，就可以顺利上传了</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_40908748/article/details/122367878">https://blog.csdn.net/weixin_40908748/article/details/122367878</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43945983/article/details/110882074">https://blog.csdn.net/weixin_43945983/article/details/110882074</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常见报错问题</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/11/03/git%E4%B8%8A%E4%BC%A0%E6%97%B6%E6%8A%A5%E9%94%99OpenSSL%E7%9B%B8%E5%85%B3errno10054/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-程序员生产力工具个人使用版" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -301,11 +382,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常用命令windows</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常用命令windows</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
         		</li>
       		
 		</ul>
@@ -974,101 +1055,6 @@
 
 
   
-    <article id="post-static静态元素" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/22/static%E9%9D%99%E6%80%81%E5%85%83%E7%B4%A0/">static静态元素</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/22/static%E9%9D%99%E6%80%81%E5%85%83%E7%B4%A0/" class="archive-article-date">
-  	<time datetime="2020-11-22T12:13:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-22</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="static静态元素"><a href="#static静态元素" class="headerlink" title="static静态元素"></a>static静态元素</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>对static静态元素做一个系统的学习记录</p>
-<h2 id="static基本含义"><a href="#static基本含义" class="headerlink" title="static基本含义"></a>static基本含义</h2><p>在c/c++种，static都有两种基本含义，并且这两种基本含义经常是互相冲突的。<br>（1）在固定的地址上进行存储分配，也就是说对象在一个特殊的静态数据区上创建的，而不是每次函数调用时在堆栈上产生的。这也是静态存储的概念。<br>（2）对一个特定编译单位来说是局部的。因此，static控制名字的可见性，所以这个名字在这个单元或者类之外是不可见的。这也描述了连接的概念，它决定连接器将看到哪些名字。</p>
-<h2 id="函数内部的静态变量"><a href="#函数内部的静态变量" class="headerlink" title="函数内部的静态变量"></a>函数内部的静态变量</h2><p>通常，在函数体内部定义一个局部变量时，编译器在每次函数调用时使堆栈的指针下移一个适当的位置，为这些局部变量分配内容。如果这个变量有一个初始化表达式，那么每当程序运行到此处，初始化就被执行。</p>
-<p>然而，有时想在两次函数调用之间保留一个变量的值，可以通过定义一个全局变量来实现，但这样一来，这个变量就不仅仅只是受到这个函数的控制。</p>
-<p>c/c++中都准许在函数体内部定义一个static对象，这个对象存储在程序的静态数据区内，而不是在堆栈中。这个对象只在函数第一次调用时初始化一次，以后它将在两次函数调用之间保持它的值。</p>
-<p>如果没有为一个内建类型的静态变量提供一个初始值的话，编译器也会确保在程序开始时它被初始化为0（转化为适当的类型）。</p>
-<p>其实对静态对象初始化（与其他对象的初始化一样）可以是任意的常量表达式，常量表达式可以出现常量以及在此之前声明过的变量和函数。</p>
-<p>注意：无论什么时候设计一个包含静态变量的函数时，都应记住多线程问题。</p>
-<h2 id="函数内部的静态对象"><a href="#函数内部的静态对象" class="headerlink" title="函数内部的静态对象"></a>函数内部的静态对象</h2><p>（1）静态对象的构造函数<br>对一般静态变量的规则同样适用于用户自定义的静态对象，而且它同样也必须有初始化操作。但是，零赋值只对内建类型有效，用户自定义类型必须用构造函数来初始化。因此，如果在定义一个静态对象时没有指定构造函数参数，这个类就必须要有默认构造函数。</p>
-<p>示例代码如下：<br><img src="/assets/blogImg/static_demo.jpg" alt="static_demo.jpg"></p>
-<p>运行结果如下：<br><img src="/assets/blogImg/static_demo2.jpg" alt="static_demo2.jpg"></p>
-<p>（2）静态对象的析构函数<br>静态对象的析构函数（包括静态存储的所有对象，不仅仅是上例的局部静态对象）在程序从main()中退出时，或者标准的c库函数exit()被调用时才被调用。</p>
-<p>多数情况下，main()函数的结尾也是调用了exit()来结束程序的。这意味着在析构函数内部使用exit()是非常危险的，因为这样导致了无穷的递归调用。</p>
-<p>同普通对象的销毁一样，静态对象的销毁顺序也是按与初始化相反的顺序进行的。当然只有那些创建了的对象才会被销毁。开发工具会记录对象初始化的顺序和那些已被创建的对象。</p>
-<p>全局对象总是在mian()执行之前被创建，在退出main()时被销毁。</p>
-<p><strong>在C++中，全局静态对象的构造函数是在main()之前调用的，所以现在有了一个在进入main()函数之前执行一段代码的简单的、可移植的方法，并且可以在退出main()之后用析构函数执行代码。在C中，如果想要做到这一点，就显得非常繁琐，我们将不得不熟悉编译器开发商的汇编语言的开始代码。</strong></p>
-<p>如果一个包含局部静态对象的函数从未被调用过，那么这个对象的构造函数也就不会执行，这样也就不会执行析构函数。</p>
-<p>示例代码如下：<br><img src="/assets/blogImg/static_demo3.jpg" alt="static_demo3.jpg"></p>
-<p>运行结果如下：<br><img src="/assets/blogImg/static_demo4.jpg" alt="static_demo4.jpg"></p>
-<h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><p>《Thing in C++》</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础技能C++</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/22/static%E9%9D%99%E6%80%81%E5%85%83%E7%B4%A0/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/3/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/5/">Next &amp;raquo;</a>
@@ -1083,7 +1069,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2022 John Doe
+    		&copy; 2023 John Doe
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -1182,11 +1168,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
+                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
+                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
               </li>
              
               <li class="article-tag-list-item">

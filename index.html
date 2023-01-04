@@ -61,7 +61,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 76
+			总文章数 77
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -181,12 +181,40 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-opencv图像分割之大津算法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-gmock之匹配器" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/01/04/gmock%E4%B9%8B%E5%8C%B9%E9%85%8D%E5%99%A8/">gmock之匹配器</a>
+    </h1>
+  
+
+        
+        <a href="/2023/01/04/gmock%E4%B9%8B%E5%8C%B9%E9%85%8D%E5%99%A8/" class="archive-article-date">
+  	<time datetime="2023-01-04T12:05:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-01-04</time>
+</a>
+        
+      </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h1 id="gmock之匹配器"><a href="#gmock之匹配器" class="headerlink" title="gmock之匹配器"></a>gmock之匹配器</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>继续学习gtest框架，有时候会需要mock数据，这里是对自定义Matcher的学习记录</p>
+<h2 id="内置的Matcher"><a href="#内置的Matcher" class="headerlink" title="内置的Matcher"></a>内置的Matcher</h2><p>gmock框架中自带Matcher只针对c++内置类型，如string，int，float等等<br>使用内置Matcher的示例如下：<br><img src="/assets/blogImg/gmock_matcher.jpg" alt="gmock_matcher.jpg"></p>
+<p>arg是这个宏中的一个参数，代表被匹配的对象，在这里也就是address，如下图所示<br><img src="/assets/blogImg/gmock_matcher2.jpg" alt="gmock_matcher2.jpg"></p>
+<h2 id="自定义的Matcher"><a href="#自定义的Matcher" class="headerlink" title="自定义的Matcher"></a>自定义的Matcher</h2><p>gmock框架中自带Matcher只针对c++内置类型，如string，int，float等等，有时候无法满足项目要求，所以需要编写自己的Matcher对象。<br>在测试重载的mock函数时，需要对Matcher做特别的封装，否则编译在查找重载函数时会出现歧义。<br>编写自己的Matcher对象在gmock1.4后变得很容易，gmock框架为我们做了大部分的事情。<br>以下是两个简单的举例。</p>
+<h3 id="1-结构体作为自定义Matcher参数"><a href="#1-结构体作为自定义Matcher参数" class="headerlink" title="(1) 结构体作为自定义Matcher参数"></a>(1) 结构体作为自定义Matcher参数</h3><p>看看如下的代码：<br><img src="/assets/blogImg/gmock_matcher3.jpg" alt="gmock_matcher3.jpg"></p>
+<p>以上MATCHER_P就是自定义的Matcher<br>MATCHER_P中的P代表参数，MATCHER_P其实应该写成“MATCHER_P1”，表示该matcher的构造函数只接受一个参数，同样的还有“MATCHER_P2、MATCHER_P3,…, MATCHER_P10”。宏的第一个参数代表该Matcher的类名，第二个参数代表Matcher的构造函数中的第一个参数，最后一个空内容的字符代表失败时输出信息，为空那么gmock会默认为你填写相关信息。</p>
+<p>arg是这个宏中的一个参数，代表被匹配的对象，在这里也就是address，如下图所示<br><img src="/assets/blogImg/gmock_matcher4.jpg" alt="gmock_matcher4.jpg"></p>
+<p>测试用例编写，如下所示<br><img src="/assets/blogImg/gmock_matcher5.jpg" alt="gmock_matcher5.jpg"></p>
+<h3 id="2-一个string作为自定义Matcher参数"><a href="#2-一个string作为自定义Matcher参数" class="headerlink" title="(2) 一个string作为自定义Matcher参数"></a>(2) 一个string作为自定义Matcher参数</h3><p>另一个简单的示例如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//判断当前的参数的值是否符合预期</span></span><br><span class="line"><span class="function"><span class="title">MATCHER_P</span>(<span class="params">IsEqualStr, expected, <span class="string">&quot;&quot;</span></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> </span><br><span class="line">        arg == expected;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> std::string m_content = <span class="string">&quot;hello-world&quot;</span>;</span><br><span class="line"><span class="function"><span class="title">TEST_F</span>(<span class="params">AnAddressExtractor, ReturnContent</span>)</span> &#123;</span><br><span class="line">    <span class="attr">std</span>::string expected_str = <span class="string">&quot;hello-world&quot;</span>;</span><br><span class="line">    <span class="comment">//此时实际就是判断expected_str字符串是否与m_content相等</span></span><br><span class="line">    ASSERT_THAT(expected_str, IsEqualStr(m_content));</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-结论："><a href="#3-结论：" class="headerlink" title="(3) 结论："></a>(3) 结论：</h3><p>1.使用宏MATCHER_P快速编写自己的Matcher对象。<br>2.在自定义Matcher中使用gtest断言，可以方便验证mock函数的输入否和期望。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/bourneli/archive/2012/09/08/2676990.html">https://www.cnblogs.com/bourneli/archive/2012/09/08/2676990.html</a></p>
+
       
 
       
@@ -194,13 +222,24 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       <!--显示阅读次数-->
       
       
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2022/12/11/opencv%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2%E4%B9%8B%E5%A4%A7%E6%B4%A5%E7%AE%97%E6%B3%95/">展开全文 >></a>
+          <a class="article-more-a" href="/2023/01/04/gmock%E4%B9%8B%E5%8C%B9%E9%85%8D%E5%99%A8/">展开全文 >></a>
         </p>
       
 
@@ -295,6 +334,81 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2022/12/11/gtest%E6%B7%B1%E5%85%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-opencv图像分割之大津算法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/12/11/opencv%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2%E4%B9%8B%E5%A4%A7%E6%B4%A5%E7%AE%97%E6%B3%95/">opencv图像分割之大津算法</a>
+    </h1>
+  
+
+        
+        <a href="/2022/12/11/opencv%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2%E4%B9%8B%E5%A4%A7%E6%B4%A5%E7%AE%97%E6%B3%95/" class="archive-article-date">
+  	<time datetime="2022-12-11T15:03:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-12-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">opencv</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/12/11/opencv%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2%E4%B9%8B%E5%A4%A7%E6%B4%A5%E7%AE%97%E6%B3%95/">展开全文 >></a>
         </p>
       
 
@@ -1020,95 +1134,6 @@
 
 
   
-    <article id="post-linux下安装软件时提示libnss3不能满足依赖关系" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/11/15/linux%E4%B8%8B%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6%E6%97%B6%E6%8F%90%E7%A4%BAlibnss3%E4%B8%8D%E8%83%BD%E6%BB%A1%E8%B6%B3%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB/">linux下安装软件时提示libnss3不能满足依赖关系</a>
-    </h1>
-  
-
-        
-        <a href="/2022/11/15/linux%E4%B8%8B%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6%E6%97%B6%E6%8F%90%E7%A4%BAlibnss3%E4%B8%8D%E8%83%BD%E6%BB%A1%E8%B6%B3%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB/" class="archive-article-date">
-  	<time datetime="2022-11-15T13:46:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="linux下安装软件时提示libnss3不能满足依赖关系"><a href="#linux下安装软件时提示libnss3不能满足依赖关系" class="headerlink" title="linux下安装软件时提示libnss3不能满足依赖关系"></a>linux下安装软件时提示libnss3不能满足依赖关系</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>当安装新的软件sudo apt-get install gcovr<br>报错提示如下：<br>“下列软件包有未满足的依赖关系：<br> code : 依赖: libnss3 (&gt;= 2:3.26) 但是 2:3.21-0ubuntu0.14.04.2 正要被安装”<br>很多软件的安装，都逃不开这个报错，所以只能解决一下</p>
-<p>报错如下：<br><img src="/assets/blogImg/install_err.jpg" alt="install_err.jpg"><br><img src="/assets/blogImg/install_err2.jpg" alt="install_err2.jpg"></p>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/u013398960/article/details/99194375">https://blog.csdn.net/u013398960/article/details/99194375</a><br>//按照这个方案可以解决问题，在此做个记录</p>
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>对于这个问题，看报错提示，可以看出，只能去更新libnss3的版本</p>
-<h3 id="（1）修改软件源"><a href="#（1）修改软件源" class="headerlink" title="（1）修改软件源"></a>（1）修改软件源</h3><p>首先在/etc/apt/sources.list文件最后添加以下三行，不需要重启</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/apt/sources.list</span><br><span class="line"></span><br><span class="line">然后将以下内容追加到文件里</span><br><span class="line">deb http:<span class="comment">//mirrors.163.com/ubuntu/ trusty main universe restricted multiverse</span></span><br><span class="line">deb-src http:<span class="comment">//mirrors.163.com/ubuntu/ trusty main universe restricted multiverse #Added by software-properties</span></span><br><span class="line">deb http:<span class="comment">//cz.archive.ubuntu.com/ubuntu trusty-updates main</span></span><br></pre></td></tr></table></figure>
-
-<p>如下图所示<br><img src="/assets/blogImg/install_ok.jpg" alt="install_ok.jpg"></p>
-<h3 id="（2）执行update操作"><a href="#（2）执行update操作" class="headerlink" title="（2）执行update操作"></a>（2）执行update操作</h3><p>然后只需执行sudo apt-get update即可<br><img src="/assets/blogImg/install_ok2.jpg" alt="install_ok2.jpg"></p>
-<h3 id="（3）在执行install操作"><a href="#（3）在执行install操作" class="headerlink" title="（3）在执行install操作"></a>（3）在执行install操作</h3><p>然后执行sudo apt-get -f install<br><img src="/assets/blogImg/install_ok3.jpg" alt="install_ok3.jpg"></p>
-<h3 id="（4）查看当前版本"><a href="#（4）查看当前版本" class="headerlink" title="（4）查看当前版本"></a>（4）查看当前版本</h3><p>输入apt-cache show  libnss3 指令查看当前版本<br><img src="/assets/blogImg/install_ok4.jpg" alt="install_ok4.jpg"></p>
-<p>即可发现libnss3版本已经更新成功</p>
-<h3 id="（5）再去安装软件即可"><a href="#（5）再去安装软件即可" class="headerlink" title="（5）再去安装软件即可"></a>（5）再去安装软件即可</h3><p>再去执行sudo apt-get install lcov指令即可安装成功<br><img src="/assets/blogImg/install_ok5.jpg" alt="install_ok5.jpg"></p>
-<p>到此为止，这个问题便解决了</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常见报错问题</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/11/15/linux%E4%B8%8B%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6%E6%97%B6%E6%8F%90%E7%A4%BAlibnss3%E4%B8%8D%E8%83%BD%E6%BB%A1%E8%B6%B3%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
@@ -1123,7 +1148,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2022 John Doe
+    		&copy; 2023 John Doe
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -1222,11 +1247,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
+                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
+                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
               </li>
              
               <li class="article-tag-list-item">

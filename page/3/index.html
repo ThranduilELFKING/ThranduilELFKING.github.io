@@ -61,7 +61,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 76
+			总文章数 77
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -180,6 +180,90 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-rsa加密" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/11/10/rsa%E5%8A%A0%E5%AF%86/">rsa加密</a>
+    </h1>
+  
+
+        
+        <a href="/2022/11/10/rsa%E5%8A%A0%E5%AF%86/" class="archive-article-date">
+  	<time datetime="2022-11-10T12:23:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="rsa加密"><a href="#rsa加密" class="headerlink" title="rsa加密"></a>rsa加密</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>网络通信一般都是需要对信息加密的，这里讨论一下rsa加密</p>
+<h2 id="rsa加密限制"><a href="#rsa加密限制" class="headerlink" title="rsa加密限制"></a>rsa加密限制</h2><p>虽然rsa加密效果好，但是加密开销大，1024字节的秘钥，只能支持加密128字节的内容，其中还要留出11字节左右用于保存秘钥信息；<br>因此，rsa一般不用于加密大文件，如果一定要用rsa加密大文件，则需要将文件分块加密；<br>一般，rsa加密，用于加密其它加密算法的秘钥，具体内容，由其它加密算法加密；</p>
+<h2 id="一个关于rsa的加密方案（之前在做项目的时候自己写的）"><a href="#一个关于rsa的加密方案（之前在做项目的时候自己写的）" class="headerlink" title="一个关于rsa的加密方案（之前在做项目的时候自己写的）"></a>一个关于rsa的加密方案（之前在做项目的时候自己写的）</h2><p>这个项目里，需要进行网络传输大量数据，而这些数据为了安全在传输过程中都需要加密，这里同时使用了3种加密算法：rsa、aes、base64</p>
+<p>加密过程：<br>1.用秘钥password通过aes加密很大的数据内容content；<br>2.用rsa加密password<br>3.用base64再次加密password及content (方便读，否则都是乱码）</p>
+<p>解密过程：（与上面的加密过程对应）<br>1.用base64解密password和content<br>2.用rsa解密password<br>3.用秘钥password通过aes解密很大的数据内容content</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">第三方库</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">加密</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/11/10/rsa%E5%8A%A0%E5%AF%86/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-git常用操作" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -687,11 +771,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常用命令windows</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常用命令windows</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
         		</li>
       		
 		</ul>
@@ -1061,87 +1145,6 @@
 
 
   
-    <article id="post-git上传时报错OpenSSL相关errno10054" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/11/03/git%E4%B8%8A%E4%BC%A0%E6%97%B6%E6%8A%A5%E9%94%99OpenSSL%E7%9B%B8%E5%85%B3errno10054/">git上传时报错OpenSSL相关errno10054</a>
-    </h1>
-  
-
-        
-        <a href="/2022/11/03/git%E4%B8%8A%E4%BC%A0%E6%97%B6%E6%8A%A5%E9%94%99OpenSSL%E7%9B%B8%E5%85%B3errno10054/" class="archive-article-date">
-  	<time datetime="2022-11-03T15:43:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-03</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="git上传时报错OpenSSL相关errno10054"><a href="#git上传时报错OpenSSL相关errno10054" class="headerlink" title="git上传时报错OpenSSL相关errno10054"></a>git上传时报错OpenSSL相关errno10054</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>hexo博客本地更新后，想要上传到服务器的时候，发现执行hexo d之后，一直报错提示<br>OpenSSL SSL_read: Connection was reset, errno 10054<br>从网上找到了解决方案，记录一下</p>
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>一般来说，国内现在用git上传代码的时候，都需要VPN，否则可能只能下载不能上传（估计被河蟹了）<br>那么开着VPN的情况下，才能上传，可能就会触发这个问题，导致这个问题的有2种可能<br>1.配置不对</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">修改git配置，解除ssl验证,指令如下</span><br><span class="line">git config --global http.sslVerify <span class="string">&quot;false&quot;</span> </span><br><span class="line">此时，再执行git操作即可。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>2.配置已经确认过是对的，那么就很有可能是网络不稳定，连接超时导致的<br>这种情况下，就断开重连VPN，再尝试一下，多尝试几次，当网络情况好的时候，就可以顺利上传了</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_40908748/article/details/122367878">https://blog.csdn.net/weixin_40908748/article/details/122367878</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43945983/article/details/110882074">https://blog.csdn.net/weixin_43945983/article/details/110882074</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常见报错问题</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/11/03/git%E4%B8%8A%E4%BC%A0%E6%97%B6%E6%8A%A5%E9%94%99OpenSSL%E7%9B%B8%E5%85%B3errno10054/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/2/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/4/">Next &amp;raquo;</a>
@@ -1156,7 +1159,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2022 John Doe
+    		&copy; 2023 John Doe
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -1255,11 +1258,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
+                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
+                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
               </li>
              
               <li class="article-tag-list-item">
