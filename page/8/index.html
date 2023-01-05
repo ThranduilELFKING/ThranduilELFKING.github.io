@@ -61,7 +61,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 77
+			总文章数 79
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -180,6 +180,173 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-linux下使用nm指令查看静态库or动态库编译内容" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/30/linux%E4%B8%8B%E4%BD%BF%E7%94%A8nm%E6%8C%87%E4%BB%A4%E6%9F%A5%E7%9C%8B%E9%9D%99%E6%80%81%E5%BA%93or%E5%8A%A8%E6%80%81%E5%BA%93%E7%BC%96%E8%AF%91%E5%86%85%E5%AE%B9/">linux下使用nm指令查看静态库/动态库编译内容</a>
+    </h1>
+  
+
+        
+        <a href="/2019/08/30/linux%E4%B8%8B%E4%BD%BF%E7%94%A8nm%E6%8C%87%E4%BB%A4%E6%9F%A5%E7%9C%8B%E9%9D%99%E6%80%81%E5%BA%93or%E5%8A%A8%E6%80%81%E5%BA%93%E7%BC%96%E8%AF%91%E5%86%85%E5%AE%B9/" class="archive-article-date">
+  	<time datetime="2019-08-30T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="linux下使用nm指令查看静态库-动态库编译内容"><a href="#linux下使用nm指令查看静态库-动态库编译内容" class="headerlink" title="linux下使用nm指令查看静态库/动态库编译内容"></a>linux下使用nm指令查看静态库/动态库编译内容</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>之前其实没有关注过，库里面到底是哪些内容，然而最近遇上了一个链接库的问题，然后关注了一下这个问题，查到使用nm指令，即可查看到linux下，静态库，动态库里到底编译了哪些内容</p>
+<h2 id="使用nm指令查看静态库编译的内容"><a href="#使用nm指令查看静态库编译的内容" class="headerlink" title="使用nm指令查看静态库编译的内容"></a>使用nm指令查看静态库编译的内容</h2><p>指令格式为：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//查看静态库编译内容</span></span><br><span class="line">nm 静态库名称</span><br></pre></td></tr></table></figure>
+
+<p>效果大概如下图所示：</p>
+<p><img src="/assets/blogImg/nm_a.jpg" alt="nm_a.jpg"></p>
+<p>查看静态库编译内容</p>
+<p>可以看到编译的变量和函数接口</p>
+<h2 id="使用nm指令查看动态库编译的内容"><a href="#使用nm指令查看动态库编译的内容" class="headerlink" title="使用nm指令查看动态库编译的内容"></a>使用nm指令查看动态库编译的内容</h2><p>指令格式为：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//查看动态库编译内容</span></span><br><span class="line">nm 动态库名称</span><br></pre></td></tr></table></figure>
+
+<p>效果大概如下图：<br><img src="/assets/blogImg/nm_so.jpg" alt="nm_so.jpg"></p>
+<p>查看动态库编译内容</p>
+<h2 id="记录"><a href="#记录" class="headerlink" title="记录"></a>记录</h2><p>虽然大部分时间里，我并不需要知道库里面到底编译了什么内容，但是有时候在链接第三方库的时候，在排查相关bug的时候，知道库里面到底编译了什么，还是很有帮助的，因此做个记录</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">常用命令linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/08/30/linux%E4%B8%8B%E4%BD%BF%E7%94%A8nm%E6%8C%87%E4%BB%A4%E6%9F%A5%E7%9C%8B%E9%9D%99%E6%80%81%E5%BA%93or%E5%8A%A8%E6%80%81%E5%BA%93%E7%BC%96%E8%AF%91%E5%86%85%E5%AE%B9/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-windows下用VisualStudio编译libiconv库" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/29/windows%E4%B8%8B%E7%94%A8VisualStudio%E7%BC%96%E8%AF%91libiconv%E5%BA%93/">windows下用VisualStudio编译libiconv库</a>
+    </h1>
+  
+
+        
+        <a href="/2019/08/29/windows%E4%B8%8B%E7%94%A8VisualStudio%E7%BC%96%E8%AF%91libiconv%E5%BA%93/" class="archive-article-date">
+  	<time datetime="2019-08-29T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="windows下用VisualStudio编译libiconv库"><a href="#windows下用VisualStudio编译libiconv库" class="headerlink" title="windows下用VisualStudio编译libiconv库"></a>windows下用VisualStudio编译libiconv库</h1><h1 id="windows下用VisualStudio编译libiconv库-1"><a href="#windows下用VisualStudio编译libiconv库-1" class="headerlink" title="windows下用VisualStudio编译libiconv库"></a>windows下用VisualStudio编译libiconv库</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>由于在linux下使用libiconv库进行gbk32与utf-8转码，在移植到windows平台的时候，发现系统里是没有libiconv库，所以从网上找了一些资源和教程，最终发现了一个很给力的解决办法，因此来记录一下备份一下</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p><a target="_blank" rel="noopener" href="https://www.codeproject.com/Articles/302012/How-to-Build-libiconv-with-Microsoft-Visual-Studio">https://www.codeproject.com/Articles/302012/How-to-Build-libiconv-with-Microsoft-Visual-Studio</a></p>
+<p>该链接libiconv的版本：1.14版本<br>这个链接给出的解决方案很给力，大神给出了详细的修改源码的过程</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">第三方库</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/08/29/windows%E4%B8%8B%E7%94%A8VisualStudio%E7%BC%96%E8%AF%91libiconv%E5%BA%93/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-CMakeLists.txt学习记录1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -922,11 +1089,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
+                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
+                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
               </li>
              
               <li class="article-tag-list-item">
