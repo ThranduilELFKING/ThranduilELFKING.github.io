@@ -61,7 +61,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 79
+			总文章数 80
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -180,6 +180,101 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-模板匹配" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/01/12/%E6%A8%A1%E6%9D%BF%E5%8C%B9%E9%85%8D/">模板匹配</a>
+    </h1>
+  
+
+        
+        <a href="/2023/01/12/%E6%A8%A1%E6%9D%BF%E5%8C%B9%E9%85%8D/" class="archive-article-date">
+  	<time datetime="2023-01-12T12:39:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-01-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="模板匹配"><a href="#模板匹配" class="headerlink" title="模板匹配"></a>模板匹配</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>模板匹配其实就是在一张大图片里找到指定的目标的方法。这里对单匹配、多匹配做一个学习记录。主要依赖的是openCV提供的算法库。</p>
+<h2 id="模板匹配-1"><a href="#模板匹配-1" class="headerlink" title="模板匹配"></a>模板匹配</h2><p>模板匹配是用来在一幅大图里搜寻模板图像位置的方法。<br><img src="/assets/blogImg/match_templ.jpg" alt="match_templ.jpg"></p>
+<p>模板匹配也是应用卷积来实现的：假设原图大小为W x H,模板图大小为w x h,那么生成图大小是(W - w + 1) x (H - h + 1),生成图中的每个像素值表示原图与模板的匹配程度。</p>
+<h2 id="opencv提供的函数"><a href="#opencv提供的函数" class="headerlink" title="opencv提供的函数"></a>opencv提供的函数</h2><h3 id="模板匹配函数原型"><a href="#模板匹配函数原型" class="headerlink" title="模板匹配函数原型"></a>模板匹配函数原型</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> cv::matchTemplate(cv::InputArray image, <span class="attr">cv</span>::InputArray templ, <span class="attr">cv</span>::OutputArray result, int method)</span><br></pre></td></tr></table></figure>
+<p>注意：<br>（1）如果模板图templ大小比image大，那么可能会导致crash<br>（2）method有6种方法，<br><img src="/assets/blogImg/match_templ2.jpg" alt="match_templ2.jpg"></p>
+<h3 id="寻找位置函数原型"><a href="#寻找位置函数原型" class="headerlink" title="寻找位置函数原型"></a>寻找位置函数原型</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> cv::minMaxLoc(cv::InputArray src, double *minVal, double *maxVal = (double *)<span class="number">0</span>, <span class="attr">cv</span>::Point *minLoc = (cv::Point *)<span class="number">0</span>, <span class="attr">cv</span>::Point *maxLoc = (cv::Point *)<span class="number">0</span>, <span class="attr">cv</span>::InputArray mask = noArray())</span><br></pre></td></tr></table></figure>
+<p>功能：从一个矩阵中找出全局的最大值和最小值。找出最大和最小元素的值和他们的位置。极值是遍历整个矩阵找到，或者当掩码不是一个空矩阵时，是通过遍历指定矩阵区域找到。<br>注意：<br>（1）函数不适用于多通道矩阵，如果需要遍历所有的通道来找到最大和最小值，首先使用函数Mat::reshape转换为单通道矩阵。或者你可以使用函数extractImageCOI，mixChannels, or split 来提取特定通道。<br>（2）具体的参数解释：<br><img src="/assets/blogImg/match_templ3.jpg" alt="match_templ3.jpg"></p>
+<p>一个简单的模板匹配的demo如下：<br><img src="/assets/blogImg/match_templ4.jpg" alt="match_templ4.jpg"></p>
+<h2 id="单对象模板匹配（单模板）"><a href="#单对象模板匹配（单模板）" class="headerlink" title="单对象模板匹配（单模板）"></a>单对象模板匹配（单模板）</h2><p>单对象模板匹配的原理也很简单，就是不断的在原图中移动模板图像去比较。</p>
+<h2 id="多对象模板匹配（单模板）"><a href="#多对象模板匹配（单模板）" class="headerlink" title="多对象模板匹配（单模板）"></a>多对象模板匹配（单模板）</h2><h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>单个匹配是找最大匹配的点，所以只能匹配一次。<br>对于多对象匹配，我们需要设定一个匹配阈值来匹配多次。</p>
+<p>假设正在搜索一个多次出现的对象，cv.minMaxLoc()不会给出所有的位置。在这种情况下，我们将使用阈值化。</p>
+<h3 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">#include <span class="string">&quot;opencv2/core.hpp&quot;</span></span><br><span class="line">#include <span class="string">&quot;opencv2/calib3d.hpp&quot;</span></span><br><span class="line">#include <span class="string">&quot;opencv2/highgui.hpp&quot;</span></span><br><span class="line">#include <span class="string">&quot;opencv2/imgproc.hpp&quot;</span></span><br><span class="line">#include <span class="string">&quot;opencv2/features2d.hpp&quot;</span></span><br><span class="line">#include <span class="string">&quot;opencv2/features2d/features2d.hpp&quot;</span></span><br><span class="line"></span><br><span class="line">#include &lt;iostream&gt;</span><br><span class="line"></span><br><span class="line">int <span class="function"><span class="title">main</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">	<span class="attr">cv</span>::Mat src = cv::imread(<span class="string">&quot;E:\\opencv-image\\src_cir6.png&quot;</span>, <span class="attr">cv</span>::IMREAD_GRAYSCALE);</span><br><span class="line">	cv::Mat templ = cv::imread(<span class="string">&quot;E:\\opencv-image\\templ.png&quot;</span>, <span class="attr">cv</span>::IMREAD_GRAYSCALE);</span><br><span class="line"></span><br><span class="line">	cv::Mat image_matched;</span><br><span class="line">	<span class="comment">//模板匹配</span></span><br><span class="line">	cv::matchTemplate(src, templ, image_matched, <span class="attr">cv</span>::TM_CCOEFF_NORMED);</span><br><span class="line">	cv::normalize(image_matched, image_matched, <span class="number">0</span>, <span class="number">1</span>, <span class="attr">cv</span>::NORM_MINMAX);</span><br><span class="line"></span><br><span class="line">	double minVal, maxVal;</span><br><span class="line">	maxVal = <span class="number">0</span>;</span><br><span class="line">	cv::Point minLoc, maxLoc;</span><br><span class="line">	<span class="comment">//寻找最佳匹配位置</span></span><br><span class="line">	cv::minMaxLoc(image_matched, &amp;minVal, &amp;maxVal, &amp;minLoc, &amp;maxLoc);</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;cv::minMaxLoc : \n&quot;</span>;</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;minVal: &quot;</span> &lt;&lt; minVal &lt;&lt; <span class="string">&quot;, maxVal : &quot;</span> &lt;&lt; maxVal &lt;&lt; std::endl;</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;minLoc : ( &quot;</span> &lt;&lt; minLoc.x &lt;&lt; <span class="string">&quot;, &quot;</span> &lt;&lt; minLoc.y &lt;&lt; <span class="string">&quot; ) \n&quot;</span>;</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;maxLoc : ( &quot;</span> &lt;&lt; maxLoc.x &lt;&lt; <span class="string">&quot;, &quot;</span> &lt;&lt; maxLoc.y &lt;&lt; <span class="string">&quot; ) \n&quot;</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//多目标匹配</span></span><br><span class="line">	double quality = <span class="number">0.88</span>;  <span class="comment">//匹配质量（0~1），越接近1，匹配程度越高</span></span><br><span class="line">	<span class="keyword">if</span> (quality &lt;= <span class="number">0.0</span>)quality = <span class="number">0.0</span>;</span><br><span class="line">	<span class="keyword">if</span> (quality &gt;= <span class="number">1.0</span>)quality = <span class="number">1.0</span>;</span><br><span class="line">	double thresh = maxVal * quality;<span class="comment">//像素阈值</span></span><br><span class="line">	<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; image_matched.rows; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span> (int j = <span class="number">0</span>; j &lt; image_matched.cols; j++)</span><br><span class="line">		&#123;</span><br><span class="line">			double val = image_matched.at&lt;float&gt;(i, j);<span class="comment">//灰度值</span></span><br><span class="line"></span><br><span class="line">			<span class="comment">//3*3邻域非极大值抑制</span></span><br><span class="line">			<span class="keyword">if</span> (val &gt; thresh)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="comment">//当前像素的灰度值大于阈值且该像素是其3*3邻域最大值时，判定其为目标</span></span><br><span class="line">				<span class="keyword">if</span> (image_matched.at&lt;float&gt;(i - <span class="number">1</span>, j - <span class="number">1</span>) &lt; val &amp;&amp;</span><br><span class="line">					image_matched.at&lt;float&gt;(i - <span class="number">1</span>, j) &lt; val &amp;&amp;</span><br><span class="line">					image_matched.at&lt;float&gt;(i - <span class="number">1</span>, j + <span class="number">1</span>) &lt; val &amp;&amp;</span><br><span class="line">					image_matched.at&lt;float&gt;(i, j - <span class="number">1</span>) &lt; val &amp;&amp;</span><br><span class="line">					image_matched.at&lt;float&gt;(i, j + <span class="number">1</span>) &lt; val &amp;&amp;</span><br><span class="line">					image_matched.at&lt;float&gt;(i + <span class="number">1</span>, j - <span class="number">1</span>) &lt; val &amp;&amp;</span><br><span class="line">					image_matched.at&lt;float&gt;(i + <span class="number">1</span>, j) &lt; val &amp;&amp;</span><br><span class="line">					image_matched.at&lt;float&gt;(i + <span class="number">1</span>, j + <span class="number">1</span>) &lt; val)</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="comment">//结果绘制</span></span><br><span class="line">					<span class="attr">cv</span>::rectangle(src, <span class="attr">cv</span>::Rect(j, i, templ.cols, templ.rows), <span class="attr">cv</span>::Scalar(<span class="number">0</span>, <span class="number">255</span>, <span class="number">0</span>), <span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">					char text[<span class="number">10</span>];</span><br><span class="line">					float score = image_matched.at&lt;float&gt;(i, j);</span><br><span class="line">					sprintf_s(text, <span class="string">&quot;%.2f&quot;</span>, score);</span><br><span class="line">					putText(src, text, <span class="attr">cv</span>::Point(j, i), <span class="attr">cv</span>::FONT_HERSHEY_SIMPLEX, <span class="number">0.8</span>, <span class="attr">cv</span>::Scalar(<span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>), <span class="number">2</span>);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="attr">cv</span>::imshow(<span class="string">&quot;image_matched&quot;</span>, src);</span><br><span class="line"></span><br><span class="line">	cv::waitKey(<span class="number">300000</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>模板图templ.png如下所示：<br><img src="/assets/blogImg/match_templ5.jpg" alt="match_templ5.jpg"></p>
+<p>源图像（待匹配图）src_cir6.png如下图所示：<br><img src="/assets/blogImg/match_templ6.jpg" alt="match_templ6.jpg"></p>
+<p>匹配结果图image_matched如下图所示：<br><img src="/assets/blogImg/match_templ7.jpg" alt="match_templ7.jpg"></p>
+<p>可以看到，源图像中6个圆模板都被识别了出来。而且模板图中空白的地方可以重叠。</p>
+<h2 id="模板匹配的method六种方法详情（了解一下）"><a href="#模板匹配的method六种方法详情（了解一下）" class="headerlink" title="模板匹配的method六种方法详情（了解一下）"></a>模板匹配的method六种方法详情（了解一下）</h2><p>主要是了解一下就好<br><img src="/assets/blogImg/match_templ8.jpg" alt="match_templ8.jpg"><br><img src="/assets/blogImg/match_templ9.jpg" alt="match_templ9.jpg"></p>
+<h2 id="模板匹配的局限性"><a href="#模板匹配的局限性" class="headerlink" title="模板匹配的局限性"></a>模板匹配的局限性</h2><p>在应用模板匹配法进行图像匹配时，应注意以下几点：<br>（1）归一化互相关注进行匹配，模板应在（M-P+1）×（N-Q+1）个参考位置上进行相关计算，计算量非常大，必要时可以采用序贯相似检验算法、幅度排序相关算法、FFT相关算法、分层搜索序贯判决等方法对其进行改进，以提高运算速度。<br>（2）模板匹配具有自身的局限性，主要表现在它只能进行平行移动，若原图像中的匹配目标发生旋转或大小变化，该算法无效。<br>（3）若原图像中要匹配的目标只有部分可见，该算法也无法完成匹配。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/ybqjymy/p/15338560.html">https://www.cnblogs.com/ybqjymy/p/15338560.html</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/Zero___Chen/article/details/125119050">https://blog.csdn.net/Zero___Chen/article/details/125119050</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">opencv</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/01/12/%E6%A8%A1%E6%9D%BF%E5%8C%B9%E9%85%8D/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-使用gperftools工具分析程序性能" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -1010,93 +1105,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2022/12/04/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95gtest%E6%A1%86%E6%9E%B6/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-计算机读书清单记录" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/11/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BB%E4%B9%A6%E6%B8%85%E5%8D%95%E8%AE%B0%E5%BD%95/">计算机读书清单记录</a>
-    </h1>
-  
-
-        
-        <a href="/2022/11/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BB%E4%B9%A6%E6%B8%85%E5%8D%95%E8%AE%B0%E5%BD%95/" class="archive-article-date">
-  	<time datetime="2022-11-29T12:55:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="计算机读书清单记录"><a href="#计算机读书清单记录" class="headerlink" title="计算机读书清单记录"></a>计算机读书清单记录</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>俗话说，好记性不如烂笔头，对于之前读过的书，简单的做个清单记录。<br>这些书都是买过实体书，觉得学有所得，触发个人一些思考和成长的书本，做个分类整理吧。</p>
-<h2 id="C-专业技术书籍"><a href="#C-专业技术书籍" class="headerlink" title="C++专业技术书籍"></a>C++专业技术书籍</h2><p>总结一下C++专业技术相关的书籍</p>
-<h3 id="1-《C-17入门经典》"><a href="#1-《C-17入门经典》" class="headerlink" title="1.《C++17入门经典》"></a>1.《C++17入门经典》</h3><p>源码下载地址：<br><a target="_blank" rel="noopener" href="https://codeload.github.com/Apress/beg-cplusplus17/zip/refs/heads/master">https://codeload.github.com/Apress/beg-cplusplus17/zip/refs/heads/master</a></p>
-<p>学习新语言特性的一本值得一看的书。</p>
-<h3 id="2-《windows黑客编程技术详解》"><a href="#2-《windows黑客编程技术详解》" class="headerlink" title="2.《windows黑客编程技术详解》"></a>2.《windows黑客编程技术详解》</h3><p>源码下载地址：<br><a target="_blank" rel="noopener" href="https://dl-01.vips100.com/v3/eb017cc77914a36f40141a7b332210b2224f444942f6b505404859b7185bf5b4/delivery/data/d0e588c7174b45b8b3e51913f2e51d58/?auth_key=1653918151-376ffe2da77847f3949ec2700a750e83-0-ae3169cb9db83f8f5ca1d436475d6669&amp;LBC=meta&amp;token=2cbfe0b93ebb1b1526d320d691f4c817da12cf6bd8151c07ff763cf123410f6eafbece8851723ddd11d02b5304a8e9bbba577b43bd3184fbde0d563a2ab6499ff598cceac5149b8e3cd380a8e2439bfc&amp;aid=315742&amp;rec_log=true&amp;neid=833113971&amp;nsid=673116&amp;lb_cl=c&amp;neid=833113971">https://dl-01.vips100.com/v3/eb017cc77914a36f40141a7b332210b2224f444942f6b505404859b7185bf5b4/delivery/data/d0e588c7174b45b8b3e51913f2e51d58/?auth_key=1653918151-376ffe2da77847f3949ec2700a750e83-0-ae3169cb9db83f8f5ca1d436475d6669&amp;LBC=meta&amp;token=2cbfe0b93ebb1b1526d320d691f4c817da12cf6bd8151c07ff763cf123410f6eafbece8851723ddd11d02b5304a8e9bbba577b43bd3184fbde0d563a2ab6499ff598cceac5149b8e3cd380a8e2439bfc&amp;aid=315742&amp;rec_log=true&amp;neid=833113971&amp;nsid=673116&amp;lb_cl=c&amp;neid=833113971</a></p>
-<p>哎，想当年年少轻狂，谁没有一个当黑客大神，纵横网络的梦呢。看看这些书，算是一种参与感了吧。就当是一场梦，看的时候还是很激动。</p>
-<h2 id="理论思想书籍"><a href="#理论思想书籍" class="headerlink" title="理论思想书籍"></a>理论思想书籍</h2><p>总结一下理论思想方面的书籍</p>
-<h3 id="1-《大话设计模式》"><a href="#1-《大话设计模式》" class="headerlink" title="1.《大话设计模式》"></a>1.《大话设计模式》</h3><p>这本书是目前看过就能理解设计模式的一本书，虽然依然也看过就忘，但是每次看的时候，都觉得跟着作者的思路很容易理解这些设计模式。</p>
-<h3 id="2-《人月神话》"><a href="#2-《人月神话》" class="headerlink" title="2.《人月神话》"></a>2.《人月神话》</h3><p>这本书可谓赫赫有名</p>
-<h3 id="3-《代码整洁之道》"><a href="#3-《代码整洁之道》" class="headerlink" title="3.《代码整洁之道》"></a>3.《代码整洁之道》</h3><p>最早看到这本书的时候，惊为天人。一下子在我脑海里种下了Clean Code的概念，也是我的追求。</p>
-<h2 id="通用技术"><a href="#通用技术" class="headerlink" title="通用技术"></a>通用技术</h2><h3 id="1-《C-程序设计实践与技巧测试驱动开发》"><a href="#1-《C-程序设计实践与技巧测试驱动开发》" class="headerlink" title="1.《C++程序设计实践与技巧测试驱动开发》"></a>1.《C++程序设计实践与技巧测试驱动开发》</h3><p>这本书讲的是不仅是一种单元测试的技术和思想，有些部分很值得再刷一遍。</p>
-<p>源码下载地址：<br><a target="_blank" rel="noopener" href="https://media.pragprog.com/titles/lotdd/code/lotdd-code.zip">https://media.pragprog.com/titles/lotdd/code/lotdd-code.zip</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">阅读</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/11/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BB%E4%B9%A6%E6%B8%85%E5%8D%95%E8%AE%B0%E5%BD%95/">展开全文 >></a>
         </p>
       
 

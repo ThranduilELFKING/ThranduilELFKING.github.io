@@ -61,7 +61,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 79
+			总文章数 80
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -180,6 +180,101 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-pthread相关报错" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/11/12/pthread%E7%9B%B8%E5%85%B3%E6%8A%A5%E9%94%99/">pthread相关报错</a>
+    </h1>
+  
+
+        
+        <a href="/2022/11/12/pthread%E7%9B%B8%E5%85%B3%E6%8A%A5%E9%94%99/" class="archive-article-date">
+  	<time datetime="2022-11-12T08:36:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="pthread相关报错"><a href="#pthread相关报错" class="headerlink" title="pthread相关报错"></a>pthread相关报错</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>最近在用gtest编译单元测试demo的时候，遇上了一个pthread报错，这里就整理一下常见的pthread相关报错，及对应的解决方案</p>
+<h2 id="报错提示“未定义的引用”"><a href="#报错提示“未定义的引用”" class="headerlink" title="报错提示“未定义的引用”"></a>报错提示“未定义的引用”</h2><p><img src="/assets/blogImg/pthread.jpg" alt="pthread"></p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>一般都是在链接pthread的库的时候，提示“pthread_xxxx 未定义的引用”这类<br>对于这个报错，有3种可能的原因</p>
+<h3 id="1-忘记在cmake里链接pthread库"><a href="#1-忘记在cmake里链接pthread库" class="headerlink" title="1.忘记在cmake里链接pthread库"></a>1.忘记在cmake里链接pthread库</h3><p>忘记链接pthread的库，那么直接在cmake里面加入对pthread库的链接即可<br>如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">……</span><br><span class="line">#将执行程序test链接pthread库</span><br><span class="line">add_executable(test $&#123;sources&#125;)</span><br><span class="line">target_link_libraries(test pthread)</span><br><span class="line">……</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-忘记在cmake里指定可以寻找到pthread库的路径"><a href="#2-忘记在cmake里指定可以寻找到pthread库的路径" class="headerlink" title="2.忘记在cmake里指定可以寻找到pthread库的路径"></a>2.忘记在cmake里指定可以寻找到pthread库的路径</h3><p>如果确认已经做了第一步，却还是提示未定义的引用，那么非常有可能是没有找到pthread库的路径，需要在cmake里指名pthread库的路径<br>如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">……</span><br><span class="line">#确认pthread库在/usr/lib下</span><br><span class="line">link_directories(</span><br><span class="line">   <span class="regexp">/usr/</span>lib</span><br><span class="line">)</span><br><span class="line">……</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-在cmake里链接pthread库的顺序不对"><a href="#3-在cmake里链接pthread库的顺序不对" class="headerlink" title="3.在cmake里链接pthread库的顺序不对"></a>3.在cmake里链接pthread库的顺序不对</h3><p>如果以上两步都确认是对的，依然还是提示未定义的引用，那么最大的可能就是链接顺序的问题<br>比如在以下这个cmake里面(会报错的版本):</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">……</span><br><span class="line">link_directories(</span><br><span class="line">   <span class="regexp">/usr/</span>lib</span><br><span class="line">)</span><br><span class="line">add_executable(test $&#123;sources&#125;)</span><br><span class="line">target_link_libraries(test pthread)</span><br><span class="line">target_link_libraries(test gmock)</span><br><span class="line">target_link_libraries(test gtest)</span><br><span class="line">……</span><br></pre></td></tr></table></figure>
+<p>对于这个报错提示，一直都是“pthread_xxxx 未定义的引用”</p>
+<p>排查下来，就是链接库的顺序问题，解决方案就是调整链接库的顺序，将对pthread的链接放在最后面<br>比如下面这个cmake（正确编译的版本）：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">……</span><br><span class="line">link_directories(</span><br><span class="line">   <span class="regexp">/usr/</span>lib</span><br><span class="line">)</span><br><span class="line">add_executable(test $&#123;sources&#125;)</span><br><span class="line">target_link_libraries(test gmock)</span><br><span class="line">target_link_libraries(test gtest)</span><br><span class="line">target_link_libraries(test pthread)</span><br><span class="line">……</span><br></pre></td></tr></table></figure>
+
+
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常见报错问题</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">第三方库</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/11/12/pthread%E7%9B%B8%E5%85%B3%E6%8A%A5%E9%94%99/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-vnc远程小工具" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -1007,83 +1102,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2022/11/06/libcryptopp%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-mosquitto源码编译" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/11/06/mosquitto%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/">mosquitto源码编译</a>
-    </h1>
-  
-
-        
-        <a href="/2022/11/06/mosquitto%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/" class="archive-article-date">
-  	<time datetime="2022-11-06T07:52:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="mosquitto源码编译"><a href="#mosquitto源码编译" class="headerlink" title="mosquitto源码编译"></a>mosquitto源码编译</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>linux下，有时候需要源码编译mosquitto，一般来说编译报错是和openssl相关，需要知名openssl的<br>头文件路径和库路径</p>
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p><img src="/assets/blogImg/mosquitto_complie.jpg" alt="mosquitto_complie.jpg"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">第三方库</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/11/06/mosquitto%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/">展开全文 >></a>
         </p>
       
 
