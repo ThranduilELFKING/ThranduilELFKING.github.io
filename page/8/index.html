@@ -61,7 +61,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 80
+			总文章数 81
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -180,6 +180,91 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-windows下查看dll库里编译的导出接口内容" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/31/windows%E4%B8%8B%E6%9F%A5%E7%9C%8Bdll%E5%BA%93%E9%87%8C%E7%BC%96%E8%AF%91%E7%9A%84%E5%AF%BC%E5%87%BA%E6%8E%A5%E5%8F%A3%E5%86%85%E5%AE%B9/">windows下查看dll库里编译的导出接口内容</a>
+    </h1>
+  
+
+        
+        <a href="/2019/08/31/windows%E4%B8%8B%E6%9F%A5%E7%9C%8Bdll%E5%BA%93%E9%87%8C%E7%BC%96%E8%AF%91%E7%9A%84%E5%AF%BC%E5%87%BA%E6%8E%A5%E5%8F%A3%E5%86%85%E5%AE%B9/" class="archive-article-date">
+  	<time datetime="2019-08-31T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-31</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="windows下查看dll库里编译的导出接口内容"><a href="#windows下查看dll库里编译的导出接口内容" class="headerlink" title="windows下查看dll库里编译的导出接口内容"></a>windows下查看dll库里编译的导出接口内容</h1><h1 id="windows下查看dll库里编译的导出接口内容-1"><a href="#windows下查看dll库里编译的导出接口内容-1" class="headerlink" title="windows下查看dll库里编译的导出接口内容"></a>windows下查看dll库里编译的导出接口内容</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>之前在windows下，链接一个dll库的时候，报错的大概意思是说”xxx某个接口未定义”，于是就想着查看一下这个dll库，对外暴露的API到底是不是真的不存在，所以查找了一下，windows下，查看dll库编译的内容</p>
+<h2 id="查看dll库里编译的导出接口"><a href="#查看dll库里编译的导出接口" class="headerlink" title="查看dll库里编译的导出接口"></a>查看dll库里编译的导出接口</h2><p>在安装了vs的前提下</p>
+<ol>
+<li>输入win+r 然后cmd， 召唤出dos终端</li>
+<li>找到vs安装目录下C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\Tools，找到vsvar开头的一个bat文件，然后拖到dos终端<br>（找到自己对应的vs安装目录下的，Tools工具路径下，找到vsvar开头的bat文件，然后拖拽到终端）</li>
+<li>在dos终端下，输入dumpbin /exports dll库的绝对路径，即可查看dll库里，对外暴露的API的内容</li>
+</ol>
+<p>大概效果如下：</p>
+<p><img src="/assets/blogImg/dumpbin_exports_dll.jpg" alt="查看dll库可导出接口有哪些"></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>解决方案：<a target="_blank" rel="noopener" href="https://blog.csdn.net/z8110/article/details/89393549">https://blog.csdn.net/z8110/article/details/89393549</a><br>非常感谢hpuzsk在csdn的一篇blog里提供的解决方案，非常非常好用～ 讲解的非常仔细～<br>对这个方案记录备份一下，免得之后忘记了～</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常用命令windows</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/08/31/windows%E4%B8%8B%E6%9F%A5%E7%9C%8Bdll%E5%BA%93%E9%87%8C%E7%BC%96%E8%AF%91%E7%9A%84%E5%AF%BC%E5%87%BA%E6%8E%A5%E5%8F%A3%E5%86%85%E5%AE%B9/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-将linux下源码文件直接放在windows下vs编译的时候的报错" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -974,94 +1059,9 @@
 
 
   
-    <article id="post-阅读paho.mqtt.c源码学习记录01" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/15/%E9%98%85%E8%AF%BBpaho.mqtt.c%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%9501/">阅读paho.mqtt.c源码学习记录01</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/15/%E9%98%85%E8%AF%BBpaho.mqtt.c%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%9501/" class="archive-article-date">
-  	<time datetime="2019-05-15T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="阅读paho-mqtt-c源码学习记录01"><a href="#阅读paho-mqtt-c源码学习记录01" class="headerlink" title="阅读paho.mqtt.c源码学习记录01"></a>阅读paho.mqtt.c源码学习记录01</h1><h1 id="阅读paho-mqtt-c源码学习记录01-1"><a href="#阅读paho-mqtt-c源码学习记录01-1" class="headerlink" title="阅读paho.mqtt.c源码学习记录01"></a>阅读paho.mqtt.c源码学习记录01</h1><p>MQTT协议是当前非常流行的一个工业物联网协议，它具有很多优势，比如：轻量，且对流量占有小的优势；基于订阅/发布模式；有心跳/遗言机智；通过qos控制消息接收质量等。</p>
-<p>目前，基于MQTT协议封装的c的库，如下：<br><a target="_blank" rel="noopener" href="https://github.com/eclipse/paho.mqtt.c">https://github.com/eclipse/paho.mqtt.c</a></p>
-<p>通过源码阅读，进行学习</p>
-<h2 id="1-版本管理"><a href="#1-版本管理" class="headerlink" title="1.版本管理"></a>1.版本管理</h2><p>在阅读MQTT源码库的时候，个人觉得，非常值得我自己写库的时候学习的经验，最简单的一点就是版本管理。</p>
-<p>头文件里定义当前库的版本号；<br>提供接口获取当前链接的库的版本号；<br>通过版本比较，以此判断客户端程序使用库的时候，没有混淆不同的版本。</p>
-<p>PS：<br>这个设计真的很好，毕竟库的版本一直在迭代更新，如果没有一个版本管理，当编译时遇上了多个版本的同一个库，程序一旦链接了错误的版本，可能编译时可以成功编译，但是在运行时会出现各种奇奇怪怪得报错，而这种报错，往往非常难以排查。</p>
-<h2 id="2-注释合理"><a href="#2-注释合理" class="headerlink" title="2.注释合理"></a>2.注释合理</h2><p>MQTT源码库里的注释很详细，但是又不是那种对每一个函数、每一个参数、每一个返回值都进行长篇大论的累赘解释。MQTT源码库里的注释说明，其实是对重要接口的使用情景，注意事项（尤其是关于内存释放的提醒），以及接口设计的说明。</p>
-<p>感觉这种注释风格，非常值得学习。<br>毕竟很多注意事项，只有写代码的时候记得，等过上几个月再看，基本都忘的差不多了……对于后续维护来说，风格良好的注释真的重要。</p>
-<h2 id="3-接口的更新迭代都兼容了旧版本"><a href="#3-接口的更新迭代都兼容了旧版本" class="headerlink" title="3.接口的更新迭代都兼容了旧版本"></a>3.接口的更新迭代都兼容了旧版本</h2><p>MQTT源码库也更新了这么久了，必然有接口的变更，新的接口取代旧的接口，不过从这份源码来看，对于新旧版本的兼容，处理的很值得学习。客户端程序几乎不用改动，就可以从使用旧的库，替换成新的库。这种设计对于库的使用者来说，是非常友好的。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>以上是对于源码阅读最粗略的学习，更加具体的学习记录，将会在后续继续更新记录。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">通信协议</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/15/%E9%98%85%E8%AF%BBpaho.mqtt.c%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%9501/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/7/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span>
+      <a class="extend prev" rel="prev" href="/page/7/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/9/">Next &amp;raquo;</a>
     </nav>
   
 

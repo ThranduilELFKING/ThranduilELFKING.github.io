@@ -61,7 +61,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 80
+			总文章数 81
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -180,6 +180,97 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-libcryptopp源码编译" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/11/06/libcryptopp%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/">libcryptopp源码编译</a>
+    </h1>
+  
+
+        
+        <a href="/2022/11/06/libcryptopp%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/" class="archive-article-date">
+  	<time datetime="2022-11-06T08:00:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="libcryptopp源码编译"><a href="#libcryptopp源码编译" class="headerlink" title="libcryptopp源码编译"></a>libcryptopp源码编译</h1><h2 id="详细步骤"><a href="#详细步骤" class="headerlink" title="详细步骤"></a>详细步骤</h2><p>1.下载源码，解压<br>2.修改GNUmakefile<br>因为是64位编译32位的库，还增加了-m32选项</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">CXXFLAGS += -pipe -fPIC</span><br><span class="line">CXXFLAGS += -m32</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如下图：<br><img src="/assets/blogImg/cryptopp_complie.jpg" alt="cryptopp_complie"></p>
+<p>3.然后make</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">make libcryptopp.a libcryptopp.so cryptest</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="/assets/blogImg/cryptopp_complie_2.jpg" alt="cryptopp_complie_2"></p>
+<p>4.然后安装make install</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">可以指定安装路径，如不想安装到默认路径</span><br><span class="line">make install PREFIX=<span class="regexp">/usr/</span>local/selfpath</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="/assets/blogImg/cryptopp_complie_3.jpg" alt="cryptopp_complie_3"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://www.lwlwq.com/post-cryptopp.html">https://www.lwlwq.com/post-cryptopp.html</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">第三方库</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">交叉编译</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/11/06/libcryptopp%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-mosquitto源码编译" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -923,84 +1014,9 @@
 
 
   
-    <article id="post-开发clickMouse鼠标点击小工具删除邮箱里的2w多垃圾邮件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/15/%E5%BC%80%E5%8F%91clickMouse%E9%BC%A0%E6%A0%87%E7%82%B9%E5%87%BB%E5%B0%8F%E5%B7%A5%E5%85%B7%E5%88%A0%E9%99%A4%E9%82%AE%E7%AE%B1%E9%87%8C%E7%9A%842w%E5%A4%9A%E5%9E%83%E5%9C%BE%E9%82%AE%E4%BB%B6/">开发clickMouse鼠标点击小工具删除邮箱里的2w多垃圾邮件</a>
-    </h1>
-  
-
-        
-        <a href="/2021/05/15/%E5%BC%80%E5%8F%91clickMouse%E9%BC%A0%E6%A0%87%E7%82%B9%E5%87%BB%E5%B0%8F%E5%B7%A5%E5%85%B7%E5%88%A0%E9%99%A4%E9%82%AE%E7%AE%B1%E9%87%8C%E7%9A%842w%E5%A4%9A%E5%9E%83%E5%9C%BE%E9%82%AE%E4%BB%B6/" class="archive-article-date">
-  	<time datetime="2021-05-15T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="hello-world"><a href="#hello-world" class="headerlink" title="hello-world"></a>hello-world</h1>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">个人小工具</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/05/15/%E5%BC%80%E5%8F%91clickMouse%E9%BC%A0%E6%A0%87%E7%82%B9%E5%87%BB%E5%B0%8F%E5%B7%A5%E5%85%B7%E5%88%A0%E9%99%A4%E9%82%AE%E7%AE%B1%E9%87%8C%E7%9A%842w%E5%A4%9A%E5%9E%83%E5%9C%BE%E9%82%AE%E4%BB%B6/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/3/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/5/">Next &amp;raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/3/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/5/">Next &amp;raquo;</a>
     </nav>
   
 

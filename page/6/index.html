@@ -61,7 +61,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 80
+			总文章数 81
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -180,6 +180,97 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-大端小端系统" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/10/29/%E5%A4%A7%E7%AB%AF%E5%B0%8F%E7%AB%AF%E7%B3%BB%E7%BB%9F/">大端小端系统</a>
+    </h1>
+  
+
+        
+        <a href="/2020/10/29/%E5%A4%A7%E7%AB%AF%E5%B0%8F%E7%AB%AF%E7%B3%BB%E7%BB%9F/" class="archive-article-date">
+  	<time datetime="2020-10-29T14:21:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="大端小端系统"><a href="#大端小端系统" class="headerlink" title="大端小端系统"></a>大端小端系统</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>大端小端系统，也就是Big-Endian和Little-Endian系统。属于一个基础概念，这里补充记录一下。</p>
+<h2 id="理论"><a href="#理论" class="headerlink" title="理论"></a>理论</h2><p>整数在内存的一系列连续字节中存储为二进制值，通常存储为2、4、8或16字节。字节采用什么顺序是非常重要的。</p>
+<p>以下以十进制整数262657存储为4字节二进制值为例。<br>选择这个值是因为它的二进制值每个字节的位模式都很容易与其他字节的内容区分开。<br>如下所示：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">十进制数 <span class="number">262657</span></span><br><span class="line">二进制值如下：</span><br><span class="line"><span class="number">00000000</span> <span class="number">00000100</span> <span class="number">00000010</span> <span class="number">00000001</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Little-Endian"><a href="#Little-Endian" class="headerlink" title="Little-Endian"></a>Little-Endian</h2><p>对于使用Intel处理器的PC，十进制数262657就存储为如下形式。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">字节地址： <span class="number">00</span>          <span class="number">01</span>          <span class="number">02</span>          <span class="number">03</span></span><br><span class="line">数据位：   <span class="number">00000001</span>    <span class="number">00000010</span>    <span class="number">00000100</span>    <span class="number">00000000</span></span><br></pre></td></tr></table></figure>
+<p>可以看出，值中最高位的8位是都为0的那些位，它们都存储在地址最高的字节中，换言之，就是最右边的字节。最低位的8位存储在地址最低的字节中，即最左边的字节。这种安排形式就是Little-Endian。</p>
+<p>那么为什么计算机会颠倒这些字节的顺序？<br>这么设计的动机在于实现更高效的计算和更简单的硬件。具体细节不重要，重要的是应该知道，如今的大部分现代计算机都使用这种与直觉相反的编码方法。</p>
+<h2 id="Big-Endian"><a href="#Big-Endian" class="headerlink" title="Big-Endian"></a>Big-Endian</h2><p>虽然大部分计算机都采用小端编码方法，也有一部分例外情况。<br>对于使用Motorola处理器的机器，十进制数262657就存储为如下形式。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">字节地址： <span class="number">00</span>          <span class="number">01</span>          <span class="number">02</span>          <span class="number">03</span></span><br><span class="line">数据位：   <span class="number">00000000</span>    <span class="number">00000100</span>    <span class="number">00000010</span>    <span class="number">00000001</span></span><br></pre></td></tr></table></figure>
+<p>可以看出，这种在内存中的存储更加符合逻辑。<br>字节现在的顺序是反的，最重要的8位存储在最左边的字节中，即地址最低的字节。这种安排形式就是Big-Endian。</p>
+<p>一些处理器，例如Power-PC处理器以及所有近来生产的ARM处理器，采用的都是Big-Endian系统。</p>
+<h2 id="为什么需要关注大端小端系统？"><a href="#为什么需要关注大端小端系统？" class="headerlink" title="为什么需要关注大端小端系统？"></a>为什么需要关注大端小端系统？</h2><p>数据的字节顺序是可以在Big-Endian和Little-Endian之间切换的。</p>
+<p>注意：<br><strong>无论字节顺序是Big-Endian还是Little-Endian，在每个字节中，最高位都放在左边，最低位都放在右边。</strong></p>
+<p>那么为什么需要关注大端小端编码呢？<br>实际上，在大多情况下，即使不知道执行代码的计算机是采用Big-Endian还是Little-Endian系统，都可以编写出有效的C++程序。但是，在处理来自另一台机器的二进制数据时，这就很重要了。二进制数据会写入文件或通过网络传送为一系列字节，此时必须解释它们。如果数据源所在的机器使用的字节顺序与运行代码的机器不同，就必须反转每个二进制数据的字节顺序，否则就会出错。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">基础技能</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/10/29/%E5%A4%A7%E7%AB%AF%E5%B0%8F%E7%AB%AF%E7%B3%BB%E7%BB%9F/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-关于命名规则、编译和链接的一些细节" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -984,91 +1075,9 @@
 
 
   
-    <article id="post-单实例设计模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/01/12/%E5%8D%95%E5%AE%9E%E4%BE%8B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">单实例设计模式</a>
-    </h1>
-  
-
-        
-        <a href="/2020/01/12/%E5%8D%95%E5%AE%9E%E4%BE%8B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2020-01-12T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="单实例设计模式"><a href="#单实例设计模式" class="headerlink" title="单实例设计模式"></a>单实例设计模式</h1><h1 id="单实例设计模式-1"><a href="#单实例设计模式-1" class="headerlink" title="单实例设计模式"></a>单实例设计模式</h1><h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><p>单实例设计模式，是指让一个类只创建一个对象，为了保证这一点，将不会对外暴露new出来的接口对象，只提供一个实例供外部访问。</p>
-<h2 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SignalModel</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line"><span class="attr">public</span>:</span><br><span class="line">	<span class="keyword">static</span> SignalModel* GetInstance();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">void</span> DeleteInstance();</span><br><span class="line"></span><br><span class="line">	bool SayHello();</span><br><span class="line"></span><br><span class="line">	bool SayWorld();</span><br><span class="line"></span><br><span class="line">	bool AddNums(int a, int b);</span><br><span class="line"></span><br><span class="line">	bool SubNums(int sum , int a);</span><br><span class="line"></span><br><span class="line">private:</span><br><span class="line">	SignalModel();</span><br><span class="line"></span><br><span class="line">private:</span><br><span class="line">	<span class="keyword">static</span> SignalModel* sig;</span><br><span class="line">	<span class="keyword">static</span> pthread_mutex_t mutex;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>将SignalModel（）构造函数设为私有，可以阻止外部new出来实例；<br>为了让外部可以访问类的public接口，所以类暴露出来一个访问自身的接口GetInstance（），并将其声明为静态成员函数；</p>
-<h2 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h2><p>完整代码已放在github上，地址：<a target="_blank" rel="noopener" href="https://github.com/TreeAndFlower/singleModel.git">https://github.com/TreeAndFlower/singleModel.git</a></p>
-<h2 id="关于内存释放"><a href="#关于内存释放" class="headerlink" title="关于内存释放"></a>关于内存释放</h2><p>单实例模式声明了一个静态成员变量，那么，什么时候需要释放这个变量申请的空间呢？经过我自己目前经历的项目分析来看，是不需要释放，因为是静态对象，随着进程开始的时候被定义，然后当进程结束后，会自动释放空间；<br>理论上，项目被设计为单例模式的时候，在进程没有结束以前，是不会希望释放这个实例空间的，所以不用特意纠结在哪里释放实例指针；</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>打算将自己学习到的设计模式一个个做个系统的总结，也算是自己的学习总结，这将会是一个系列，也是对我的知识体系的一个梳理过程，如有描述不当之处，还请大家指正。<br>安利《大话设计模式》，讲解的非常有趣而且易懂</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">设计模式</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/01/12/%E5%8D%95%E5%AE%9E%E4%BE%8B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/5/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/7/">Next &amp;raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/5/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/7/">Next &amp;raquo;</a>
     </nav>
   
 
