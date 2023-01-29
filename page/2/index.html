@@ -61,7 +61,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 81
+			总文章数 87
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -180,6 +180,575 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-gmock之匹配器" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/01/04/gmock%E4%B9%8B%E5%8C%B9%E9%85%8D%E5%99%A8/">gmock之匹配器</a>
+    </h1>
+  
+
+        
+        <a href="/2023/01/04/gmock%E4%B9%8B%E5%8C%B9%E9%85%8D%E5%99%A8/" class="archive-article-date">
+  	<time datetime="2023-01-04T12:05:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-01-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="gmock之匹配器"><a href="#gmock之匹配器" class="headerlink" title="gmock之匹配器"></a>gmock之匹配器</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>继续学习gtest框架，有时候会需要mock数据，这里是对自定义Matcher的学习记录</p>
+<h2 id="内置的Matcher"><a href="#内置的Matcher" class="headerlink" title="内置的Matcher"></a>内置的Matcher</h2><p>gmock框架中自带Matcher只针对c++内置类型，如string，int，float等等<br>使用内置Matcher的示例如下：<br><img src="/assets/blogImg/gmock_matcher.jpg" alt="gmock_matcher.jpg"></p>
+<p>arg是这个宏中的一个参数，代表被匹配的对象，在这里也就是address，如下图所示<br><img src="/assets/blogImg/gmock_matcher2.jpg" alt="gmock_matcher2.jpg"></p>
+<h2 id="自定义的Matcher"><a href="#自定义的Matcher" class="headerlink" title="自定义的Matcher"></a>自定义的Matcher</h2><p>gmock框架中自带Matcher只针对c++内置类型，如string，int，float等等，有时候无法满足项目要求，所以需要编写自己的Matcher对象。<br>在测试重载的mock函数时，需要对Matcher做特别的封装，否则编译在查找重载函数时会出现歧义。<br>编写自己的Matcher对象在gmock1.4后变得很容易，gmock框架为我们做了大部分的事情。<br>以下是两个简单的举例。</p>
+<h3 id="1-结构体作为自定义Matcher参数"><a href="#1-结构体作为自定义Matcher参数" class="headerlink" title="(1) 结构体作为自定义Matcher参数"></a>(1) 结构体作为自定义Matcher参数</h3><p>看看如下的代码：<br><img src="/assets/blogImg/gmock_matcher3.jpg" alt="gmock_matcher3.jpg"></p>
+<p>以上MATCHER_P就是自定义的Matcher<br>MATCHER_P中的P代表参数，MATCHER_P其实应该写成“MATCHER_P1”，表示该matcher的构造函数只接受一个参数，同样的还有“MATCHER_P2、MATCHER_P3,…, MATCHER_P10”。宏的第一个参数代表该Matcher的类名，第二个参数代表Matcher的构造函数中的第一个参数，最后一个空内容的字符代表失败时输出信息，为空那么gmock会默认为你填写相关信息。</p>
+<p>arg是这个宏中的一个参数，代表被匹配的对象，在这里也就是address，如下图所示<br><img src="/assets/blogImg/gmock_matcher4.jpg" alt="gmock_matcher4.jpg"></p>
+<p>测试用例编写，如下所示<br><img src="/assets/blogImg/gmock_matcher5.jpg" alt="gmock_matcher5.jpg"></p>
+<h3 id="2-一个string作为自定义Matcher参数"><a href="#2-一个string作为自定义Matcher参数" class="headerlink" title="(2) 一个string作为自定义Matcher参数"></a>(2) 一个string作为自定义Matcher参数</h3><p>另一个简单的示例如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//判断当前的参数的值是否符合预期</span></span><br><span class="line"><span class="function"><span class="title">MATCHER_P</span>(<span class="params">IsEqualStr, expected, <span class="string">&quot;&quot;</span></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> </span><br><span class="line">        arg == expected;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> std::string m_content = <span class="string">&quot;hello-world&quot;</span>;</span><br><span class="line"><span class="function"><span class="title">TEST_F</span>(<span class="params">AnAddressExtractor, ReturnContent</span>)</span> &#123;</span><br><span class="line">    <span class="attr">std</span>::string expected_str = <span class="string">&quot;hello-world&quot;</span>;</span><br><span class="line">    <span class="comment">//此时实际就是判断expected_str字符串是否与m_content相等</span></span><br><span class="line">    ASSERT_THAT(expected_str, IsEqualStr(m_content));</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-结论："><a href="#3-结论：" class="headerlink" title="(3) 结论："></a>(3) 结论：</h3><p>1.使用宏MATCHER_P快速编写自己的Matcher对象。<br>2.在自定义Matcher中使用gtest断言，可以方便验证mock函数的输入否和期望。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/bourneli/archive/2012/09/08/2676990.html">https://www.cnblogs.com/bourneli/archive/2012/09/08/2676990.html</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/01/04/gmock%E4%B9%8B%E5%8C%B9%E9%85%8D%E5%99%A8/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-gtest深入学习笔记二" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/12/11/gtest%E6%B7%B1%E5%85%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/">gtest深入学习笔记二</a>
+    </h1>
+  
+
+        
+        <a href="/2022/12/11/gtest%E6%B7%B1%E5%85%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/" class="archive-article-date">
+  	<time datetime="2022-12-11T15:28:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-12-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="gtest深入学习笔记二"><a href="#gtest深入学习笔记二" class="headerlink" title="gtest深入学习笔记二"></a>gtest深入学习笔记二</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>继续深入学习gtest，记录一下学习笔记</p>
+<h2 id="基于异常的测试"><a href="#基于异常的测试" class="headerlink" title="基于异常的测试"></a>基于异常的测试</h2><p>一般来说，工程师应该知道代码什么时候出现哪些错误，也应当知道什么时候抛出异常，什么时候需要用try-catch块来保护程序。唯有对代码执行路径了如指掌，方能知道该在什么时候处理异常。</p>
+<h3 id="（1）ASSERT-ANY-THROW宏、-ASSERT-THROW宏捕获异常"><a href="#（1）ASSERT-ANY-THROW宏、-ASSERT-THROW宏捕获异常" class="headerlink" title="（1）ASSERT_ANY_THROW宏、 ASSERT_THROW宏捕获异常"></a>（1）ASSERT_ANY_THROW宏、 ASSERT_THROW宏捕获异常</h3><p>直接用try-catch捕获异常<br>如果宏内的表达式不抛出异常，那么测试失败<br>失败案例如下：<br>源码代码片段如下<br><img src="/assets/blogImg/gtest2_1.jpg" alt="gtest2_1.jpg"></p>
+<p>单元测试代码段如下<br><img src="/assets/blogImg/gtest2_2.jpg" alt="gtest2_2.jpg"></p>
+<p>运行测试程序后，得到如下结果<br><img src="/assets/blogImg/gtest2_3.jpg" alt="gtest2_3.jpg"></p>
+<p>为了得到通过单元测试的结果，可以修改上面的源码代码段如下<br><img src="/assets/blogImg/gtest2_4.jpg" alt="gtest2_4.jpg"></p>
+<p>单元测试代码不用改，再次运行测试程序，结果如下<br><img src="/assets/blogImg/gtest2_5.jpg" alt="gtest2_5.jpg"></p>
+<h3 id="（2）如果必须要验证异常抛出后的条件，那么可以使用try-catch块"><a href="#（2）如果必须要验证异常抛出后的条件，那么可以使用try-catch块" class="headerlink" title="（2）如果必须要验证异常抛出后的条件，那么可以使用try-catch块"></a>（2）如果必须要验证异常抛出后的条件，那么可以使用try-catch块</h3><p>例如，想要验证异常对象的文本信息<br>源码片段如下<br><img src="/assets/blogImg/gtest2_6.jpg" alt="gtest2_6.jpg"></p>
+<p>单元测试代码如下<br><img src="/assets/blogImg/gtest2_7.jpg" alt="gtest2_7.jpg"></p>
+<p>测试结果<br><img src="/assets/blogImg/gtest2_8.jpg" alt="gtest2_8.jpg"></p>
+<h2 id="探查私有成员"><a href="#探查私有成员" class="headerlink" title="探查私有成员"></a>探查私有成员</h2><p>Tell-Don’t-Ask设计理念，你应该告诉一个对象去做一些工作，然后让它自主完成任务。如果在这期间频繁地过问对象，那么就违反了Tell-Don’t-Ask原则。<br>如果一个系统包含大量的对象查询，它是纠缠不清且极度复杂的。</p>
+<p>两个问题<br>（1）可以对私有成员变量编写测试吗？<br>（2）可以对私有成员函数编写测试吗？<br>回答：<br>从技术层面来说，为那些非公用接口的成员提供访问通道是可以接受的。可以将测试声明为待测试类的友元，但最好不要这么做！！也可以将数据暴露为公有的，但如果仅仅只是为了测试的话，这也是不太可以接受的。一般来说，如果要对私有成员进行测试，这有可能是代码设计坏味。无论什么时候，如果暴露数据仅仅是为了测试，那么就需要考虑用验证行为的方式来代替。</p>
+<h2 id="探查私有行为"><a href="#探查私有行为" class="headerlink" title="探查私有行为"></a>探查私有行为</h2><p>做测试驱动开发时，所有东西都来自于类的公共接口设计。为了添加详细的行为，做测试驱动开发这个行为时，就好像你的测试就是此类的产品客户。随着细节越来越多，代码越来越复杂，自然的就需要考虑到重构来优化代码。<br>大多数时候，当你觉得需要测试私有行为时，可以尝试将代码重构，将代码移动到另一个类，或者为之创建一个新类。</p>
+<p>（1）问题：如果这样编写程序的话，最后会不会得到数以千计的特定功能的类？<br>答：当然会多出来一些类，但不会到数以千计这么夸张。每个类都会非常小，这样也易于理解/测试/维护，编译也很快。<br>（2）问题：我不倡议创建更多的类怎么办？<br>答：这时就可以真正的利用OO（Object-Oriented，面向对象）了。当你创建更多单一目标的类，并且每个类包含一些单一责任的方法时，你会发现更多的重用契机。重用一个庞杂的类是不可能的。相反，遵循单一责任原则的类会让你看到减少代码量的可能。<br>（3）问题：如果面对的是遗留代码呢？<br>假如要先从一个有几十个成员函数的类下手，其中许多还是私有成员。这跟私有行为类似，可以先简单的弱化访问关系，并为一些私有函数添加相应测试。（也就是重构部分代码，再次提醒，不用担心类的泛滥，这不会发生。）将函数移至更好的场所。</p>
+<h2 id="测试和测试驱动"><a href="#测试和测试驱动" class="headerlink" title="测试和测试驱动"></a>测试和测试驱动</h2><h3 id="（1）测试驱动"><a href="#（1）测试驱动" class="headerlink" title="（1）测试驱动"></a>（1）测试驱动</h3><p>测试驱动开发中虽然有测试两个字，但是它更多的是和设计有关，而非测试。<br>虽然在这个TDD（测试驱动开发，Test-Driven Development)过程中，会编写单元测试，但它们基本就是一些副产品。TDD的真正目的是让你一直保持设计整洁，这样在引入新的行为或者改变现有行为时，会更加从容，不会太费力。<br>从测试驱动的角度来说，你写测试的目的是为了保证代码能够符合预定规范。<br>从TDD的角度来说，如果一旦对所构建的东西有足够的信心，就可以停止TDD了。<br>可以在测试驱动开发时编写额外的事后测试。但通常而言，一旦认定有一个正确且干净的实现，并且这个实现能覆盖你要支持的情形，那么就可以立即停止TDD。也就是说，在你想不出可以写出不能通过的测试时，就可以停止。</p>
+<h3 id="（2）测试"><a href="#（2）测试" class="headerlink" title="（2）测试"></a>（2）测试</h3><p>而从测试的角度来看，寻求的是创建具有高覆盖率的测试。<br>所写的测试有五类情形：无（zero）、有（one)，多（many），边界（boundary）和异常（exceptional）。<br>与TDD相反，优秀的测试人员会竭尽所能的去覆盖上面所说的五类情形。</p>
+<h2 id="参数化测试（了解即可，尽量少用）"><a href="#参数化测试（了解即可，尽量少用）" class="headerlink" title="参数化测试（了解即可，尽量少用）"></a>参数化测试（了解即可，尽量少用）</h2><p>对于更复杂的代码，或许有着覆盖一大堆情形的测试会让我们更有信心。<br>如果你需要测试大量的简单数据，那么参数化测试可能是一个很好的选择。</p>
+<p>以下是参数化测试的例子<br>源码及单元测试代码如下：<br><img src="/assets/blogImg/gtest2_9.jpg" alt="gtest2_9.jpg"></p>
+<p>测试结果如下：<br><img src="/assets/blogImg/gtest2_10.jpg" alt="gtest2_10.jpg"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/12/11/gtest%E6%B7%B1%E5%85%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-opencv图像分割之大津算法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/12/11/opencv%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2%E4%B9%8B%E5%A4%A7%E6%B4%A5%E7%AE%97%E6%B3%95/">opencv图像分割之大津算法</a>
+    </h1>
+  
+
+        
+        <a href="/2022/12/11/opencv%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2%E4%B9%8B%E5%A4%A7%E6%B4%A5%E7%AE%97%E6%B3%95/" class="archive-article-date">
+  	<time datetime="2022-12-11T15:03:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-12-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">opencv</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/12/11/opencv%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2%E4%B9%8B%E5%A4%A7%E6%B4%A5%E7%AE%97%E6%B3%95/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-opencv算法之Canny边缘检测" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/12/11/opencv%E7%AE%97%E6%B3%95%E4%B9%8BCanny%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/">opencv算法之Canny边缘检测</a>
+    </h1>
+  
+
+        
+        <a href="/2022/12/11/opencv%E7%AE%97%E6%B3%95%E4%B9%8BCanny%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/" class="archive-article-date">
+  	<time datetime="2022-12-11T15:03:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-12-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="opencv算法之Canny边缘检测"><a href="#opencv算法之Canny边缘检测" class="headerlink" title="opencv算法之Canny边缘检测"></a>opencv算法之Canny边缘检测</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>对Canny边缘检测算法有更深入的学习和总结</p>
+<h2 id="Canny边缘检测的一般标准"><a href="#Canny边缘检测的一般标准" class="headerlink" title="Canny边缘检测的一般标准"></a>Canny边缘检测的一般标准</h2><p>Canny边缘检测器是由John F. Canny在1986年提出,Canny被称为最优检测器,其目标满足以下三个主要标准:<br>（1）低错误率:对已有的边界能够有很好的检测，也即意味着需要尽可能准确的捕获图像中尽可能多的边缘。<br>（2）良好的定位:即检测到的边缘像素和实际边缘像素之间的距离必须最小化，即检测到的边缘应精确定位在真实边缘的中心。<br>（3）最小响应:即每边只有一个响应，图像中给定的边缘应只被标记一次，并且在可能的情况下，图像的噪声不应产生假的边缘。</p>
+<h2 id="Canny算法主要步骤"><a href="#Canny算法主要步骤" class="headerlink" title="Canny算法主要步骤"></a>Canny算法主要步骤</h2><p>Canny算法主要包含5个步骤，具体如下：</p>
+<h3 id="（1）过滤噪声"><a href="#（1）过滤噪声" class="headerlink" title="（1）过滤噪声"></a>（1）过滤噪声</h3><p>使用高斯滤波器算法，平滑图像，滤除噪声</p>
+<p>高斯核如下：<br><img src="/assets/blogImg/canny.jpg" alt="canny.jpg"></p>
+<h3 id="（2）计算图像中每个像素点的梯度强度和方向"><a href="#（2）计算图像中每个像素点的梯度强度和方向" class="headerlink" title="（2）计算图像中每个像素点的梯度强度和方向"></a>（2）计算图像中每个像素点的梯度强度和方向</h3><p>将图像转为灰度空间，计算图像梯度<br>利用Sobel算子计算x, y两个方向的梯度，返回水平Gx和垂直Gy的一阶导数值。以此来计算梯度强度G和梯度方向。</p>
+<p>如下所示<br><img src="/assets/blogImg/canny1.jpg" alt="canny1.jpg"></p>
+<p>其次,计算梯度的强度和方向:<br><img src="/assets/blogImg/canny2.jpg" alt="canny2.jpg"></p>
+<p>其中,梯度的方向被四舍五入到[0, 45, 90, 135]这几个角度;</p>
+<h3 id="（3）非极大值抑制算子-NMS"><a href="#（3）非极大值抑制算子-NMS" class="headerlink" title="（3）非极大值抑制算子(NMS)"></a>（3）非极大值抑制算子(NMS)</h3><p>抑制那些梯度不够大的像素点,只保留最大的像素点,以消除边缘检测带来的杂散影响。</p>
+<p>非极大值抑制是一种边缘稀疏技术，作用在于瘦边。在对图片进行梯度计算之后，仅仅基于梯度值提取的边缘仍然比较模糊。根据标准，对边缘有且应当只有一个准确的响应。而非极大值抑制可以帮助将将局部最大值之外的所有梯度值抑制为0</p>
+<p>对梯度图像中每个像素进行非极大值抑制的算法步骤为：<br>(1) 将当前像素的梯度强度与沿正负梯度方向上的两个像素进行比较。<br>(2) 如果当前像素的梯度值与另外两个像素值相比最大，则该像素点保留为边缘点，否则该像素点被抑制。</p>
+<p>通常为了更加精确的计算，在跨梯度方向的两个相邻像素之间使用线性插值来得到要比较的像素梯度。<br><img src="/assets/blogImg/canny3.jpg" alt="canny3.jpg"></p>
+<p>如Fig1所示，将梯度分为8个方向，分别为E、NE、N、NW、W、SW、S、SE。其中0代表[0° ,45°], 1代表[45° ,90°]，2代表[-90° ,-45°]，3代表[-45° ,0°]。<br>像素点P的梯度方向为θ，则像素点P1和P2的梯度线性插值为：<br><img src="/assets/blogImg/canny4.jpg" alt="canny4.jpg"></p>
+<p>因此非极大值抑制的伪代码如下：<br><img src="/assets/blogImg/canny5.jpg" alt="canny5.jpg"><br>需要注意的是，如何标志方向并不重要，重要的是梯度方向的计算要和梯度算子的选取保持一致。</p>
+<h3 id="（4）双阈值算法检测边缘"><a href="#（4）双阈值算法检测边缘" class="headerlink" title="（4）双阈值算法检测边缘"></a>（4）双阈值算法检测边缘</h3><p>应用双阈值检测来确定真正的边缘和潜在的边缘。<br>在施加非极大值抑制之后，剩余的像素可以更准确地表示图像中的实际边缘。然而，仍然存在由于噪声和颜色变化引起的一些边缘像素。为了解决这些杂散响应，必须用弱梯度值过滤边缘像素，并保留具有高梯度值的边缘像素，可以通过选择高低阈值来实现。<br>如果边缘像素的梯度值高于高阈值，则将其标记为强边缘像素；<br>如果边缘像素的梯度值小于高阈值并且大于低阈值，则将其标记为弱边缘像素；<br>如果边缘像素的梯度值小于低阈值，则会被抑制。<br>阈值的选择取决于给定输入图像的内容。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">经过NMS算法后,设置两个阈值T1,T2,通常T1是T2的<span class="number">1</span>/<span class="number">2</span>或者<span class="number">1</span>/<span class="number">3</span>;</span><br><span class="line">梯度值大于T2的像素点称为强边缘,保留作为图像边缘;</span><br><span class="line">梯度值小于T1的像素点不是边缘,舍弃;</span><br><span class="line">针对梯度值大于T1,小于T2的像素点,称为弱边缘;</span><br></pre></td></tr></table></figure>
+
+<p>双阈值检测的伪代码如下：<br><img src="/assets/blogImg/canny6.jpg" alt="canny6.jpg"></p>
+<h3 id="（5）滞后阈值（即连接边缘）"><a href="#（5）滞后阈值（即连接边缘）" class="headerlink" title="（5）滞后阈值（即连接边缘）"></a>（5）滞后阈值（即连接边缘）</h3><p>通过抑制孤立的弱边缘最终完成边缘检测。</p>
+<p>到目前为止，被划分为强边缘的像素点已经被确定为边缘，因为它们是从图像中的真实 边缘中提取出来的。<br>然而，对于弱边缘像素，将会有一些争论，因为这些像素可以从真实边缘提取也可以是因噪声或颜色变化引起的。为了获得准确的结果，应该抑制由后者引起的弱边缘。<br>通常，由真实边缘引起的弱边缘像素将连接到强边缘像素，而噪声响应未连接。为了跟踪边缘连接，通过查看弱边缘像素及其8个邻域像素，只要其中一个为强边缘像素，则该弱边缘点就可以保留为真实的边缘。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">针对弱边缘,需要进一步判定其是否的真正的边缘像素点?</span><br><span class="line">判别的方法就是:</span><br><span class="line">当弱边缘像素点周围<span class="number">8</span>个领域内存在强边缘像素时,则该弱边缘变成强边缘点,否则不是边缘点;</span><br></pre></td></tr></table></figure>
+
+<p>这部分的伪代码如下：<br><img src="/assets/blogImg/canny7.jpg" alt="canny7.jpg"></p>
+<h2 id="函数原型"><a href="#函数原型" class="headerlink" title="函数原型"></a>函数原型</h2><p>Canny边缘检测的函数原型如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> Canny( InputArray image, OutputArray edges,</span><br><span class="line">           double threshold1, double threshold2,</span><br><span class="line">           int apertureSize = <span class="number">3</span>, bool L2gradient = <span class="literal">false</span> );</span><br></pre></td></tr></table></figure>
+<p><strong>参数解释</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">src：输入图像,必须是<span class="number">8</span>-bits;</span><br><span class="line">edges：输出的图像边缘</span><br><span class="line">threshold1, threshold2：对应于上述的T1,T2;</span><br><span class="line">apertureSize：是Sobel算子的大小;</span><br><span class="line">L2gradient：表示计算梯度值时是否使用L2(就是默认的计算方式);</span><br><span class="line">如果设置L2gradient=True,则梯度值的计算方式为:</span><br><span class="line">G=|Gx|+|Gy|</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_46196863/article/details/112209430">https://blog.csdn.net/weixin_46196863/article/details/112209430</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/chenzhen0530/p/14690472.html">https://www.cnblogs.com/chenzhen0530/p/14690472.html</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/chenzhen0530/p/14660498.html">https://www.cnblogs.com/chenzhen0530/p/14660498.html</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/skyfsm/p/6879265.html">https://www.cnblogs.com/skyfsm/p/6879265.html</a><br><a target="_blank" rel="noopener" href="https://www.yanxishe.com/columnDetail/18324">https://www.yanxishe.com/columnDetail/18324</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">opencv</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/12/11/opencv%E7%AE%97%E6%B3%95%E4%B9%8BCanny%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-opencv滤波及边缘检测" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/12/04/opencv%E6%BB%A4%E6%B3%A2%E5%8F%8A%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/">opencv滤波及算子</a>
+    </h1>
+  
+
+        
+        <a href="/2022/12/04/opencv%E6%BB%A4%E6%B3%A2%E5%8F%8A%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/" class="archive-article-date">
+  	<time datetime="2022-12-04T15:03:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-12-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="opencv滤波及算子"><a href="#opencv滤波及算子" class="headerlink" title="opencv滤波及算子"></a>opencv滤波及算子</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在学习opencv进行图片处理的过程中，无法避免的就是对图片进行预处理，一般都是要进行图片滤波，这里记录一下个人最常用的均值滤波和高斯滤波、Sobel算子</p>
+<h2 id="均值滤波"><a href="#均值滤波" class="headerlink" title="均值滤波"></a>均值滤波</h2><p>这是一个平滑图片的函数，它将一个区域内所有点的灰度值的平均值作为这个点的灰度值。</p>
+<p>像该函数对领域点的灰度值进行权重相加最后设置灰度值，这样的操作又叫卷积，这样的滤波器叫线性滤波器。</p>
+<p><strong>函数原型</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> blur(InputArray src,OutputArray dst, Size ksize, Point anchor=Point(-<span class="number">1</span>,-<span class="number">1</span>), int borderType=BORDER_DEFAULT )</span><br></pre></td></tr></table></figure>
+<p><strong>参数解释</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">src：输入图像，即源图像，填Mat类的对象即可。该函数对通道是独立处理的，且可以处理任意通道数的图片，但需要注意，待处理的图片深度应该为CV_8U, CV_16U, CV_16S, CV_32F 以及 CV_64F之一。</span><br><span class="line">dst：即目标图像，需要和源图片有一样的尺寸和类型。比如可以用Mat::Clone，以源图片为模板，来初始化得到如假包换的目标图。</span><br><span class="line">ksize：内核的大小。一般这样写cv::Size( w,h )来表示内核的大小( 其中，w 为像素宽度， h为像素高度)。cv::Size（<span class="number">3</span>,<span class="number">3</span>）就表示3x3的核大小，cv::Size（<span class="number">5</span>,<span class="number">5</span>）就表示5x5的核大小</span><br><span class="line">anchor：表示锚点（即被平滑的那个点），注意他有默认值cv::Point(-<span class="number">1</span>,-<span class="number">1</span>)。如果这个点坐标是负值的话，就表示取核的中心为锚点，所以默认值cv::Point(-<span class="number">1</span>,-<span class="number">1</span>)表示这个锚点在核的中心。</span><br><span class="line">borderType：用于推断图像外部像素的某种边界模式。有默认值BORDER_DEFAULT，我们一般不去管它。</span><br></pre></td></tr></table></figure>
+
+<h2 id="高斯滤波"><a href="#高斯滤波" class="headerlink" title="高斯滤波"></a>高斯滤波</h2><p>高斯滤波器能够有效的抑制噪声，平滑图像。高斯滤波器相比于均值滤波器对图像个模糊程度较小。<br>高斯模糊和均值模糊其原理上的唯一区别只是在于卷积核的值不同罢了。<br>高斯卷积核矩阵值服从二维高斯函数，也就是说一个图像与服从二维高斯分布的函数做卷积，由于高斯函数是连续的，要将二维高斯函数进行采样和离散化，最后得到服从高斯函数规律的卷积核矩阵。</p>
+<p><strong>函数原型</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> GaussianBlur(InputArray src, OutputArray dst, Size ksize, double sigmaX, double sigmaY=<span class="number">0</span>, int borderType=BORDER_DEFAULT )</span><br></pre></td></tr></table></figure>
+<p><strong>参数解释</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">src：输入图片</span><br><span class="line">dst：输出图片</span><br><span class="line">ksize：为高斯滤波器窗口大小</span><br><span class="line">sigmaX：X方向滤波系数</span><br><span class="line">sigmaY：Y方向滤波系数</span><br><span class="line">borderType：一般默认边缘插值方法</span><br></pre></td></tr></table></figure>
+
+<h2 id="Sobel算子"><a href="#Sobel算子" class="headerlink" title="Sobel算子"></a>Sobel算子</h2><p>Sobel算子主要用于边缘检测;<br>边缘:是像素值发生跃迁的地方,是图像的显著特征之一,在图像特征提取, 对象检测, 模式识别等方面都有重要的作用;<br>如何提取边缘,对图像求它的一阶导数;delta = f(x) - f(x-1), delta越大,说明在x方向变化越大;</p>
+<h3 id="Sobel算子-1"><a href="#Sobel算子-1" class="headerlink" title="Sobel算子"></a>Sobel算子</h3><p>是离散微分算子,用来计算图像灰度的近似梯度<br>Sobel算子功能集合高斯平滑和微分求导;<br>又被称为一阶微分算子,求导算子,在水平和垂直两个方向上求导,得到图像x方法与y方向梯度图像;</p>
+<p><img src="/assets/blogImg/sobel.jpg" alt="sobel.jpg"><br>那么最终的图像梯度:<br><img src="/assets/blogImg/sobel2.jpg" alt="sobel2.jpg"><br>可以近似为:<br>G=|Gx|+|Gy|</p>
+<p><strong>Sobel算子函数原型</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> Sobel( InputArray src, OutputArray dst, int ddepth,</span><br><span class="line">           int dx, int dy, int ksize = <span class="number">3</span>,</span><br><span class="line">           double scale = <span class="number">1</span>, double delta = <span class="number">0</span>,</span><br><span class="line">           int borderType = BORDER_DEFAULT );</span><br></pre></td></tr></table></figure>
+<p><strong>参数解释</strong><br>src表示输入的灰度图像<br>dst表示输出的梯度;<br>ddepth表示输出梯度的数据类型,必须大于输入的图像数据类型,关系如下图所示:<br><img src="/assets/blogImg/sobel3.jpg" alt="sobel3.jpg"><br>dx=1, dy=0表示对x方向计算梯度;<br>dx=0, dy=1表示对y方向计算梯度;<br>dx大于等于0，dy大于等于0，并且dx+dy==1<br>ksize: 表示Sobel算子的大小；它必须是1、3、5或7。注意：只可以是小于7 的奇数。<br>如果ksize&lt;0的时候，那么使用scharr内核过滤因子。scharr的内核过滤因子大小为3。<br>scale    表示缩放导数的比例常数，默认情况下没有伸缩系数。<br>delta    表示一个可选的增量，将会加到最终的dst中，同样，默认情况下没有额外的值加到dst中。<br>borderType 边界类型<br><img src="/assets/blogImg/sobel4.jpg" alt="sobel4.jpg"></p>
+<h3 id="改进的Sobel算子"><a href="#改进的Sobel算子" class="headerlink" title="改进的Sobel算子"></a>改进的Sobel算子</h3><p>当内核大小为3时,以上Sobel可能产生比较明显的误差(毕竟,Sobel算子只是求取了导数的近似值),为了解决这一问题,OpenCV提供了Scharr函数,但该函数仅作用域大小为3的内核;计算速度与Sobel函数一样快,但结果更加精确,不怕干扰,其内核为:<br><img src="/assets/blogImg/sobel5.jpg" alt="sobel5.jpg"></p>
+<p><strong>Scharr算子函数原型</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> Scharr( InputArray src, OutputArray dst, int ddepth,</span><br><span class="line">            int dx, int dy, double scale = <span class="number">1</span>, double delta = <span class="number">0</span>,</span><br><span class="line">            int borderType = BORDER_DEFAULT );</span><br></pre></td></tr></table></figure>
+<p><strong>参数解释</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">参数与Sobel算子基本一致;</span><br><span class="line">但是不需要设置核的大小,因为Scharr默认就是<span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h3><p>Sobel算子的示例代码如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;opencv2\opencv.hpp&gt;   </span><br><span class="line">#include&lt;opencv2\highgui\highgui.hpp&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">using namespace cv;</span><br><span class="line"></span><br><span class="line"><span class="comment">//边缘检测</span></span><br><span class="line">int <span class="function"><span class="title">main</span>(<span class="params"></span>)</span></span><br><span class="line">&#123;</span><br><span class="line">	Mat img = imread(<span class="string">&quot;lol3.jpg&quot;</span>);</span><br><span class="line">	</span><br><span class="line">	imshow(<span class="string">&quot;原始图&quot;</span>, img);</span><br><span class="line"></span><br><span class="line">	Mat grad_x, grad_y;</span><br><span class="line">	Mat abs_grad_x, abs_grad_y, dst;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//求x方向梯度</span></span><br><span class="line">	Sobel(img, grad_x, CV_16S, <span class="number">1</span>, <span class="number">0</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">1</span>,BORDER_DEFAULT);</span><br><span class="line">	convertScaleAbs(grad_x, abs_grad_x);</span><br><span class="line">	imshow(<span class="string">&quot;x方向soble&quot;</span>, abs_grad_x);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//求y方向梯度</span></span><br><span class="line">	Sobel(img, grad_y,CV_16S,<span class="number">0</span>, <span class="number">1</span>,<span class="number">3</span>, <span class="number">1</span>, <span class="number">1</span>, BORDER_DEFAULT);</span><br><span class="line">	convertScaleAbs(grad_y,abs_grad_y);</span><br><span class="line">	imshow(<span class="string">&quot;y向soble&quot;</span>, abs_grad_y);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//合并梯度</span></span><br><span class="line">	addWeighted(abs_grad_x, <span class="number">0.5</span>, abs_grad_y, <span class="number">0.5</span>, <span class="number">0</span>, dst);</span><br><span class="line">	imshow(<span class="string">&quot;整体方向soble&quot;</span>, dst);</span><br><span class="line"></span><br><span class="line">	waitKey(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_46196863/article/details/112209430">https://blog.csdn.net/weixin_46196863/article/details/112209430</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/chenzhen0530/p/14690472.html">https://www.cnblogs.com/chenzhen0530/p/14690472.html</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/chenzhen0530/p/14660498.html">https://www.cnblogs.com/chenzhen0530/p/14660498.html</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/skyfsm/p/6879265.html">https://www.cnblogs.com/skyfsm/p/6879265.html</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">opencv</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/12/04/opencv%E6%BB%A4%E6%B3%A2%E5%8F%8A%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-gdb调试记录" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/12/04/gdb%E8%B0%83%E8%AF%95%E8%AE%B0%E5%BD%95/">gdb调试记录</a>
+    </h1>
+  
+
+        
+        <a href="/2022/12/04/gdb%E8%B0%83%E8%AF%95%E8%AE%B0%E5%BD%95/" class="archive-article-date">
+  	<time datetime="2022-12-04T15:03:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-12-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="gdb调试记录"><a href="#gdb调试记录" class="headerlink" title="gdb调试记录"></a>gdb调试记录</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>gdb调试C/C++程序<br>一般来说，windows下可以用visual studio就有很强大的代码调试工具，而在linux下，一般使用的gdb进行调试，这里做一个记录。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="http://c.biancheng.net/gdb/">http://c.biancheng.net/gdb/</a></p>
+<h2 id="常用操作"><a href="#常用操作" class="headerlink" title="常用操作"></a>常用操作</h2><p>以下以调试wx_app这个本地程序为例，这个程序是已经编译生成好的执行程序。</p>
+<h3 id="1-启动GDB"><a href="#1-启动GDB" class="headerlink" title="1.启动GDB"></a>1.启动GDB</h3><p>gdb 执行程序<br>注意，该指令在启动 GDB 的同时，会打印出一堆免责条款。通过添加 –silent（或者 -q、–quiet）选项，可将比部分信息屏蔽掉<br><img src="/assets/blogImg/gdb.jpg" alt="gdb.jpg"></p>
+<p><img src="/assets/blogImg/gdb2.jpg" alt="gdb2.jpg"></p>
+<h3 id="2-查看代码，运行程序"><a href="#2-查看代码，运行程序" class="headerlink" title="2.查看代码，运行程序"></a>2.查看代码，运行程序</h3><p>l指令 查看代码列表<br><img src="/assets/blogImg/gdb3.jpg" alt="gdb3.jpg"></p>
+<p>r指令 开始运行程序<br><img src="/assets/blogImg/gdb4.jpg" alt="gdb4.jpg"></p>
+<h3 id="3-设置普通断点"><a href="#3-设置普通断点" class="headerlink" title="3.设置普通断点"></a>3.设置普通断点</h3><p>b指令 设置断点<br>格式<br>b 函数名称<br><img src="/assets/blogImg/gdb5.jpg" alt="gdb5.jpg"></p>
+<p>命中断点<br>n 执行下一条语句<br>c 继续运行程序<br><img src="/assets/blogImg/gdb6.jpg" alt="gdb6.jpg"></p>
+<h3 id="4-设置断点常用的语法格式有以下2种"><a href="#4-设置断点常用的语法格式有以下2种" class="headerlink" title="4.设置断点常用的语法格式有以下2种"></a>4.设置断点常用的语法格式有以下2种</h3><p>1、(gdb) break location     // b location<br>在这个格式中，location 用于指定打断点的具体位置，其表示方式有多种，如表 1 所示。<br><img src="/assets/blogImg/gdb7.jpg" alt="gdb7.jpg"></p>
+<p>示例如下：<br>设置断点如下<br><img src="/assets/blogImg/gdb8.jpg" alt="gdb8.jpg"></p>
+<p>p指令 查看指定变量当前的值<br>命中断点如下<br><img src="/assets/blogImg/gdb9.jpg" alt="gdb9.jpg"></p>
+<p>2、(gdb) break … if cond   // b .. if cond<br> 在这个格式中，… 可以是表 1 中所有参数的值，用于指定打断点的具体位置；cond 为某个表达式。整体的含义为：每次程序执行到 … 位置时都计算 cond 的值，如果为 True，则程序在该位置暂停；反之，程序继续执行。</p>
+<h3 id="5-设置观察断点"><a href="#5-设置观察断点" class="headerlink" title="5.设置观察断点"></a>5.设置观察断点</h3><p>GDB 调试器支持在程序中打 3 种断点，分别为普通断点、观察断点和捕捉断点。其中 break 命令打的就是普通断点，而 watch 命令打的为观察断点。使用 catch 命令建立捕捉断点。</p>
+<p>借助观察断点可以监控程序中某个变量或者表达式的值，只要发生改变，程序就会停止执行。相比普通断点，观察断点不需要我们预测变量（表达式）值发生改变的具体位置。<br>对于监控 C、C++ 程序中某变量或表达式的值是否发生改变，watch 命令的语法非常简单，如下所示：<br>(gdb) watch cond<br>其中，conde 指的就是要监控的变量或表达式。</p>
+<p>和 watch 命令功能相似的，还有 rwatch 和 awatch 命令。其中：<br>rwatch 命令：只要程序中出现读取目标变量（表达式）的值的操作，程序就会停止运行；<br>awatch 命令：只要程序中出现读取目标变量（表达式）的值或者改变值的操作，程序就会停止运行。<br>强调一下，watch 命令的功能是：只有当被监控变量（表达式）的值发生改变，程序才会停止运行。<br><img src="/assets/blogImg/gdb10.jpg" alt="gdb10.jpg"></p>
+<p><img src="/assets/blogImg/gdb11.jpg" alt="gdb11.jpg"></p>
+<p>如果我们想查看当前建立的观察点的数量，借助如下指令即可：<br>(gdb) info watchpoints</p>
+<p>值得一提的是，对于使用 watch（rwatch、awatch）命令监控 C、C++ 程序中变量或者表达式的值，有以下几点需要注意：<br>1、当监控的变量（表达式）为局部变量（表达式）时，一旦局部变量（表达式）失效，则监控操作也随即失效；<br>2、如果监控的是一个指针变量（例如 *p），则 watch *p 和 watch p 是有区别的，前者监控的是 p 所指数据的变化情况，而后者监控的是 p 指针本身有没有改变指向；<br>3、这 3 个监控命令还可以用于监控数组中元素值的变化情况，例如对于 a[10] 这个数组，watch a 表示只要 a 数组中存储的数据发生改变，程序就会停止执行。</p>
+<h3 id="6-建立捕捉断点"><a href="#6-建立捕捉断点" class="headerlink" title="6.建立捕捉断点"></a>6.建立捕捉断点</h3><p>和前 2 种断点不同，普通断点作用于程序中的某一行，当程序运行至此行时停止执行，观察断点作用于某一变量或表达式，当该变量（表达式）的值发生改变时，程序暂停。而捕捉断点的作用是，监控程序中某一事件的发生，例如程序发生某种异常时、某一动态库被加载时等等，一旦目标时间发生，则程序停止执行。<br>用捕捉断点监控某一事件的发生，等同于在程序中该事件发生的位置打普通断点。<br>建立捕捉断点的方式很简单，就是使用 catch 命令，其基本格式为：<br>(gdb) catch event</p>
+<p>其中，event 参数表示要监控的具体事件。对于使用 GDB 调试 C、C++ 程序，常用的 event 事件类型如表 1 所示。<br><img src="/assets/blogImg/gdb12.jpg" alt="gdb12.jpg"></p>
+<h2 id="常用指令"><a href="#常用指令" class="headerlink" title="常用指令"></a>常用指令</h2><p>一般比较常用的调试指令如下<br><img src="/assets/blogImg/gdb15.jpg" alt="gdb15.jpg"></p>
+<p>还有遇到core dump的时候，输入<br>(gdb)bt<br>可以查看段错误崩溃在哪里</p>
+<h2 id="其他指令"><a href="#其他指令" class="headerlink" title="其他指令"></a>其他指令</h2><p>虽然不常用，但是偶尔也很有用，不再举例<br>（1）tbreak命令<br>tbreak 命令可以看到是 break 命令的另一个版本，tbreak 和 break 命令的用法和功能都非常相似，唯一的不同在于，使用 tbreak 命令打的断点仅会作用 1 次，即使程序暂停之后，该断点就会自动消失。<br>tbreak 命令的使用格式和 break 完全相同，有以下 2 种：<br>1、(gdb) tbreak location<br>2、(gdb) tbreak … if cond<br>其中，location、… 和 cond 的含义都和 break 命令中的参数含义相同，即表 1 也同样适用于 tbreak 命令。</p>
+<p>（2）rbreak命令<br>rbreak命令的使用语法格式为：<br>(gdb) rbreak regex<br>其中 regex 为一个正则表达式，程序中函数的函数名只要满足 regex 条件，rbreak 命令就会其内部的开头位置打断点。值得一提的是，rbreak 命令打的断点和 break 命令打断点的效果是一样的，会一直存在，不会自动消失。</p>
+<p>如下，通过执行rbreak rb_<em>指令，找到了程序中所有以 rb_</em> 开头的函数，并在这些函数内部的开头位置打上了断点<br><img src="/assets/blogImg/gdb16.jpg" alt="gdb16.jpg"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/12/04/gdb%E8%B0%83%E8%AF%95%E8%AE%B0%E5%BD%95/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-单元测试gtest框架" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -567,548 +1136,6 @@
 
 
   
-    <article id="post-linux下安装软件时提示libnss3不能满足依赖关系" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/11/15/linux%E4%B8%8B%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6%E6%97%B6%E6%8F%90%E7%A4%BAlibnss3%E4%B8%8D%E8%83%BD%E6%BB%A1%E8%B6%B3%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB/">linux下安装软件时提示libnss3不能满足依赖关系</a>
-    </h1>
-  
-
-        
-        <a href="/2022/11/15/linux%E4%B8%8B%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6%E6%97%B6%E6%8F%90%E7%A4%BAlibnss3%E4%B8%8D%E8%83%BD%E6%BB%A1%E8%B6%B3%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB/" class="archive-article-date">
-  	<time datetime="2022-11-15T13:46:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="linux下安装软件时提示libnss3不能满足依赖关系"><a href="#linux下安装软件时提示libnss3不能满足依赖关系" class="headerlink" title="linux下安装软件时提示libnss3不能满足依赖关系"></a>linux下安装软件时提示libnss3不能满足依赖关系</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>当安装新的软件sudo apt-get install gcovr<br>报错提示如下：<br>“下列软件包有未满足的依赖关系：<br> code : 依赖: libnss3 (&gt;= 2:3.26) 但是 2:3.21-0ubuntu0.14.04.2 正要被安装”<br>很多软件的安装，都逃不开这个报错，所以只能解决一下</p>
-<p>报错如下：<br><img src="/assets/blogImg/install_err.jpg" alt="install_err.jpg"><br><img src="/assets/blogImg/install_err2.jpg" alt="install_err2.jpg"></p>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/u013398960/article/details/99194375">https://blog.csdn.net/u013398960/article/details/99194375</a><br>//按照这个方案可以解决问题，在此做个记录</p>
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>对于这个问题，看报错提示，可以看出，只能去更新libnss3的版本</p>
-<h3 id="（1）修改软件源"><a href="#（1）修改软件源" class="headerlink" title="（1）修改软件源"></a>（1）修改软件源</h3><p>首先在/etc/apt/sources.list文件最后添加以下三行，不需要重启</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/apt/sources.list</span><br><span class="line"></span><br><span class="line">然后将以下内容追加到文件里</span><br><span class="line">deb http:<span class="comment">//mirrors.163.com/ubuntu/ trusty main universe restricted multiverse</span></span><br><span class="line">deb-src http:<span class="comment">//mirrors.163.com/ubuntu/ trusty main universe restricted multiverse #Added by software-properties</span></span><br><span class="line">deb http:<span class="comment">//cz.archive.ubuntu.com/ubuntu trusty-updates main</span></span><br></pre></td></tr></table></figure>
-
-<p>如下图所示<br><img src="/assets/blogImg/install_ok.jpg" alt="install_ok.jpg"></p>
-<h3 id="（2）执行update操作"><a href="#（2）执行update操作" class="headerlink" title="（2）执行update操作"></a>（2）执行update操作</h3><p>然后只需执行sudo apt-get update即可<br><img src="/assets/blogImg/install_ok2.jpg" alt="install_ok2.jpg"></p>
-<h3 id="（3）在执行install操作"><a href="#（3）在执行install操作" class="headerlink" title="（3）在执行install操作"></a>（3）在执行install操作</h3><p>然后执行sudo apt-get -f install<br><img src="/assets/blogImg/install_ok3.jpg" alt="install_ok3.jpg"></p>
-<h3 id="（4）查看当前版本"><a href="#（4）查看当前版本" class="headerlink" title="（4）查看当前版本"></a>（4）查看当前版本</h3><p>输入apt-cache show  libnss3 指令查看当前版本<br><img src="/assets/blogImg/install_ok4.jpg" alt="install_ok4.jpg"></p>
-<p>即可发现libnss3版本已经更新成功</p>
-<h3 id="（5）再去安装软件即可"><a href="#（5）再去安装软件即可" class="headerlink" title="（5）再去安装软件即可"></a>（5）再去安装软件即可</h3><p>再去执行sudo apt-get install lcov指令即可安装成功<br><img src="/assets/blogImg/install_ok5.jpg" alt="install_ok5.jpg"></p>
-<p>到此为止，这个问题便解决了</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常见报错问题</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/11/15/linux%E4%B8%8B%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6%E6%97%B6%E6%8F%90%E7%A4%BAlibnss3%E4%B8%8D%E8%83%BD%E6%BB%A1%E8%B6%B3%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-linux下执行update操作时失败" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/11/15/linux%E4%B8%8B%E6%89%A7%E8%A1%8Cupdate%E6%93%8D%E4%BD%9C%E6%97%B6%E5%A4%B1%E8%B4%A5/">linux下执行update操作时失败</a>
-    </h1>
-  
-
-        
-        <a href="/2022/11/15/linux%E4%B8%8B%E6%89%A7%E8%A1%8Cupdate%E6%93%8D%E4%BD%9C%E6%97%B6%E5%A4%B1%E8%B4%A5/" class="archive-article-date">
-  	<time datetime="2022-11-15T13:36:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="linux下执行update操作时失败"><a href="#linux下执行update操作时失败" class="headerlink" title="linux下执行update操作时失败"></a>linux下执行update操作时失败</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在终端输入sudo apt-get update命令的时候，一直有报错提示<br>“不能连接到 archive.ubuntukylin.com：10006”<br>因此排查了一下到底是什么问题，做个记录</p>
-<p>报错如下<br><img src="/assets/blogImg/update_err.jpg" alt="update_err.jpg"><br><img src="/assets/blogImg/update_err2.jpg" alt="update_err2.jpg"></p>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/yuliangybzc/article/details/100973417">https://blog.csdn.net/yuliangybzc/article/details/100973417</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/shanpenghui/article/details/108552367">https://blog.csdn.net/shanpenghui/article/details/108552367</a><br>//按照以上两个链接的步骤，即可解决问题</p>
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>完整解决步骤如下：<br>（1）首先执行下面的命令：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">whereis sogoupinyin.list</span><br></pre></td></tr></table></figure>
-
-<p>（2）然后进入相应的文件夹中执行：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim ./sogoupinyin.list</span><br></pre></td></tr></table></figure>
-
-<p>（3）最后在下面命令前面加“＃”</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">deb http:<span class="comment">//archive.ubuntukylin.com:10006/ubuntukylin xenial main</span></span><br></pre></td></tr></table></figure>
-
-<p>（4）还要修改/etc/apt/sources.list.d/sogoupinyin.list目录下的</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo gedit /etc/apt/sources.list.d/sogoupinyin.list</span><br><span class="line">同样把文件里的这句话注释掉</span><br><span class="line">#deb http:<span class="comment">//archive.ubuntukylin.com:10006/ubuntukylin xenial main</span></span><br></pre></td></tr></table></figure>
-
-<p>（5）之后，再sudo apt-get update即可更新成功<br>如下图所示<br><img src="/assets/blogImg/update_ok.jpg" alt="update_ok.jpg"><br><img src="/assets/blogImg/update_ok2.jpg" alt="update_ok2.jpg"></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>正如网友所说，导致一直update失败的原因，一开始是在找软件源的问题，但是这个问题其实不是出在软件源上，而是其他的源出问题了。一般来说，这些源都是在/etc/apt/sourcelist.d/这个文件夹里面，去里面一个个把错误的源删掉或者更新，之后就不会出现这个报错了。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常见报错问题</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/11/15/linux%E4%B8%8B%E6%89%A7%E8%A1%8Cupdate%E6%93%8D%E4%BD%9C%E6%97%B6%E5%A4%B1%E8%B4%A5/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-ttyrec导出格式设置为mp4或gif" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/11/13/ttyrec%E5%AF%BC%E5%87%BA%E6%A0%BC%E5%BC%8F%E8%AE%BE%E7%BD%AE%E4%B8%BAmp4%E6%88%96gif/">ttyrec导出格式设置为mp4或gif</a>
-    </h1>
-  
-
-        
-        <a href="/2022/11/13/ttyrec%E5%AF%BC%E5%87%BA%E6%A0%BC%E5%BC%8F%E8%AE%BE%E7%BD%AE%E4%B8%BAmp4%E6%88%96gif/" class="archive-article-date">
-  	<time datetime="2022-11-13T11:10:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="ttyrec导出格式设置为mp4或gif"><a href="#ttyrec导出格式设置为mp4或gif" class="headerlink" title="ttyrec导出格式设置为mp4或gif"></a>ttyrec导出格式设置为mp4或gif</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>当使用ttyrec录制终端后，生成的录制文件需要转换成mp4或者gif格式后导出更方便剪辑和发布，这里进行格式导出的方式记录</p>
-<h2 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h2><p><a target="_blank" rel="noopener" href="https://github.com/rascoro1/recterm">https://github.com/rascoro1/recterm</a><br>//可以根据这个来配置试试看</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">kali</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/11/13/ttyrec%E5%AF%BC%E5%87%BA%E6%A0%BC%E5%BC%8F%E8%AE%BE%E7%BD%AE%E4%B8%BAmp4%E6%88%96gif/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-ttyrec控制台录制程序linux" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/11/13/ttyrec%E6%8E%A7%E5%88%B6%E5%8F%B0%E5%BD%95%E5%88%B6%E7%A8%8B%E5%BA%8Flinux/">ttyrec控制台录制程序linux</a>
-    </h1>
-  
-
-        
-        <a href="/2022/11/13/ttyrec%E6%8E%A7%E5%88%B6%E5%8F%B0%E5%BD%95%E5%88%B6%E7%A8%8B%E5%BA%8Flinux/" class="archive-article-date">
-  	<time datetime="2022-11-13T10:24:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="ttyrec控制台录制程序linux"><a href="#ttyrec控制台录制程序linux" class="headerlink" title="ttyrec控制台录制程序linux"></a>ttyrec控制台录制程序linux</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>整理一些在linux下的小玩具，ttyrec作为一个终端录制的小玩具，非常简单易上手，还是蛮好玩的，偶尔录制一些分享视频的时候很方便</p>
-<h2 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h2><p>使用命令即可安装</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install ttyrec</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>如下所示，即可安装成功<br><img src="/assets/blogImg/kali_ttyrec.jpg" alt="kali_ttyrec"></p>
-<h2 id="常用指令"><a href="#常用指令" class="headerlink" title="常用指令"></a>常用指令</h2><p>掌握一下以下常用命令基本可以满足终端录屏需求</p>
-<h3 id="1-开始录制"><a href="#1-开始录制" class="headerlink" title="1.开始录制"></a>1.开始录制</h3><p>用于录制tty控制台，直接在终端输入ttyrec即可<br>注意，在执行ttyrec指令后，即刻开始录制过程。ttyrec没有输出任何提示信息。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ttyrec</span><br></pre></td></tr></table></figure>
-
-<p>如下图所示<br><img src="/assets/blogImg/ttyrec_start.jpg" alt="ttyrec_start"></p>
-<h3 id="2-退出录制"><a href="#2-退出录制" class="headerlink" title="2.退出录制"></a>2.退出录制</h3><p>若是录制完成，输入exit指令即可结束录制</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exit</span><br></pre></td></tr></table></figure>
-
-<p>如下图所示<br><img src="/assets/blogImg/ttyrec_exit.jpg" alt="ttyrec_exit"></p>
-<h3 id="3-播放录制"><a href="#3-播放录制" class="headerlink" title="3.播放录制"></a>3.播放录制</h3><p>ttyrec所录制的数据文件一般为ttyrecord，可以使用指令ttyplay ttyrecord播放</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ttyplay ttyrecord</span><br></pre></td></tr></table></figure>
-
-<p>如下图所示<br><img src="/assets/blogImg/ttyrec_show.jpg" alt="ttyrec_show"></p>
-<p>注意：<br>1.数据文件是可以重命名为自己需要的名字的<br>2.播放记录的时候，是可以控制速度的，可以点击“+”或“-”进行加速减速，0或1暂停和恢复播放</p>
-<h3 id="4-查看录制时长"><a href="#4-查看录制时长" class="headerlink" title="4.查看录制时长"></a>4.查看录制时长</h3><p>录制完成后，想要查看一下录制的时长，可以用ttytime指令</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ttytime ttyrecord</span><br></pre></td></tr></table></figure>
-
-<p>如下图所示<br><img src="/assets/blogImg/ttyrec_time.jpg" alt="ttyrec_time"></p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>可以将生成的录制文件进行格式转换，导出后用剪辑器进行处理，格式转换的方式可以参考另一篇笔记<br><a href="./ttyrec%E5%AF%BC%E5%87%BA%E6%A0%BC%E5%BC%8F%E8%AE%BE%E7%BD%AE%E4%B8%BAmp4%E6%88%96gif.md">ttyrec导出格式转换</a>     </p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">kali</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/11/13/ttyrec%E6%8E%A7%E5%88%B6%E5%8F%B0%E5%BD%95%E5%88%B6%E7%A8%8B%E5%BA%8Flinux/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-kali配置vscode" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/11/12/kali%E9%85%8D%E7%BD%AEvscode/">kali配置vscode</a>
-    </h1>
-  
-
-        
-        <a href="/2022/11/12/kali%E9%85%8D%E7%BD%AEvscode/" class="archive-article-date">
-  	<time datetime="2022-11-12T15:49:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="kali配置vscode"><a href="#kali配置vscode" class="headerlink" title="kali配置vscode"></a>kali配置vscode</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在kali系统上安装vscode作为编辑器，做个记录</p>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/single_g_l/article/details/123244421">https://blog.csdn.net/single_g_l/article/details/123244421</a><br>//按照这个流程就行了</p>
-<h2 id="安装记录"><a href="#安装记录" class="headerlink" title="安装记录"></a>安装记录</h2><h3 id="1-下载地址"><a href="#1-下载地址" class="headerlink" title="1.下载地址"></a>1.下载地址</h3><p>下载kali系统下的vscode的deb包<br><a target="_blank" rel="noopener" href="https://az764295.vo.msecnd.net/stable/f80445acd5a3dadef24aa209168452a3d97cc326/code_1.64.2-1644445741_amd64.deb">https://az764295.vo.msecnd.net/stable/f80445acd5a3dadef24aa209168452a3d97cc326/code_1.64.2-1644445741_amd64.deb</a></p>
-<h3 id="2-安装"><a href="#2-安装" class="headerlink" title="2.安装"></a>2.安装</h3><p>用命令安装<br>sudo dpkg -i 安装包完整路径.deb</p>
-<p>如下示例</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo dpkg -i ./code_1<span class="number">.64</span><span class="number">.2</span>-1644445741_amd64.deb</span><br></pre></td></tr></table></figure>
-
-<p>查看安装后的vscode<br>效果如下：<br><img src="/assets/blogImg/kali_vs.jpg" alt="kali_vs"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">kali</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/11/12/kali%E9%85%8D%E7%BD%AEvscode/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-kali系统下安装cmake" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/11/12/kali%E7%B3%BB%E7%BB%9F%E4%B8%8B%E5%AE%89%E8%A3%85cmake/">kali系统下安装cmake</a>
-    </h1>
-  
-
-        
-        <a href="/2022/11/12/kali%E7%B3%BB%E7%BB%9F%E4%B8%8B%E5%AE%89%E8%A3%85cmake/" class="archive-article-date">
-  	<time datetime="2022-11-12T11:09:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="kali系统下安装cmake"><a href="#kali系统下安装cmake" class="headerlink" title="kali系统下安装cmake"></a>kali系统下安装cmake</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在kali系统下安装cmake，因为kali系统与其他的ubuntu系统不同，直接用apt-get install是无法直接安装cmake的，这里记录下安装步骤</p>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44023460/article/details/112131732">https://blog.csdn.net/weixin_44023460/article/details/112131732</a><br>//基本上就是按照这个步骤来安装即可</p>
-<h2 id="安装记录"><a href="#安装记录" class="headerlink" title="安装记录"></a>安装记录</h2><p>记录一下个人安装步骤</p>
-<h3 id="1-完整安装步骤"><a href="#1-完整安装步骤" class="headerlink" title="1.完整安装步骤"></a>1.完整安装步骤</h3><p>以下为在kali系统下安装cmake的完整步骤</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install build-essential</span><br><span class="line">sudo wget http:<span class="comment">//www.cmake.org/files/v3.4/cmake-3.4.1.tar.gz\n</span></span><br><span class="line">ls</span><br><span class="line">tar -zxvf cmake-<span class="number">3.4</span><span class="number">.1</span>.tar.gz</span><br><span class="line">ls</span><br><span class="line">cd cmake-<span class="number">3.4</span><span class="number">.1</span></span><br><span class="line">ls</span><br><span class="line">./configure</span><br><span class="line">sudo make</span><br><span class="line">sudo apt-get install checkinstall</span><br><span class="line">sudo checkinstall</span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
-
-<p>如下图<br><img src="/assets/blogImg/kali_cmake.jpg" alt="kali_cmake"></p>
-<h3 id="2-检查是否安装成功"><a href="#2-检查是否安装成功" class="headerlink" title="2.检查是否安装成功"></a>2.检查是否安装成功</h3><p>上面的步骤都执行成功后，一般就是安装好cmake了，可以通过指令查看cmake版本来确认是否安装好cmake</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cmake --version</span><br></pre></td></tr></table></figure>
-
-<p>当输入指令后，终端显示当前安装的cmake版本号时，就说明已经配置好cmake环境了<br><img src="/assets/blogImg/kali_cmake2.jpg" alt="kali_cmake2"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">kali</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/11/12/kali%E7%B3%BB%E7%BB%9F%E4%B8%8B%E5%AE%89%E8%A3%85cmake/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/3/">Next &amp;raquo;</a>
@@ -1218,15 +1245,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">opencv</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">基础技能</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
+                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
+                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1270,10 +1301,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">opencv</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">加密</a>
               </li>
              
@@ -1287,6 +1314,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">阅读</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">边缘检测</a>
               </li>
             
             <div class="clearfix"></div>
