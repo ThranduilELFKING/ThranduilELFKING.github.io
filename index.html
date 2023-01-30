@@ -426,7 +426,15 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h1 id="基于模板的边缘检测"><a href="#基于模板的边缘检测" class="headerlink" title="基于模板的边缘检测"></a>基于模板的边缘检测</h1><h2 id="理论"><a href="#理论" class="headerlink" title="理论"></a>理论</h2><p>基于模板的边缘检测背后的思想，是将一个小的离散的模板作为边缘的模型。<br>模板既可以尝试对边缘的灰阶的变化进行建模，也可以尝试近似一个导数算子（这种方式最为常见）。</p>
+<p>基于模板的边缘检测器的数目非常多，常见的有两种，因为这两种检测器在使用小模板的时候能够获得的边缘像素集合质量最高。<br>（1）Sobel边缘检测器<br>（2）Kirsch边缘检测器</p>
+<h2 id="Sobel算法"><a href="#Sobel算法" class="headerlink" title="Sobel算法"></a>Sobel算法</h2><p>Sobel边缘检测器，使用具有如下值的卷积掩模（convolution mask）作为模板：<br><img src="/assets/blogImg/sobeltempl.jpg" alt="sobeltempl.jpg"><br>可以把这些模板看做某一个像素上的梯度，这个像素对应模板的中心位置。<br>注意，对角线上的元素的权重值比水平方向和垂直方向上的元素的权重值要小。<br>Sobel算子的x分量为Sx，y分量为Sy；把这些分量看做梯度意味着么一个像素的强度和方向可以用梯度向量的数学公式来计算。<br>数学公式2-6如下：<br><img src="/assets/blogImg/gradient5.jpg" alt="gradient5.jpg"></p>
+<p>对于一幅图像中坐标为(i,j)的像素来说，Sx和Sy可以通过以下公式计算：<br><img src="/assets/blogImg/sobeltempl2.jpg" alt="sobeltempl2.jpg"><br><img src="/assets/blogImg/sobeltempl3.jpg" alt="sobeltempl3.jpg"></p>
+<h2 id="Kirsch算法"><a href="#Kirsch算法" class="headerlink" title="Kirsch算法"></a>Kirsch算法</h2><p>Kirsch算法，使用的模板的目标和Sobel中使用模板的目标不同。对于3x3的例子来说，模板表述如下：<br><img src="/assets/blogImg/sobeltempl4.jpg" alt="sobeltempl4.jpg"><br>这些掩模试图对多种方向边缘周围的灰阶变化类型进行建模，而不是对梯度的近似。<br>8个罗盘方向的每一个方向都对应了一个掩模。<br>（例如，对掩模K0的大响应表示在对应掩模中心位置的像素为垂直边缘（水平梯度）。）<br>为了找出边缘，要在图像I的每一个像素位置对所有的掩模进行卷积运算。算子在一个像素的响应为这8个掩模响应中的最大值。<br>每一个边缘像素的方向可以量化为这8种可能性，值为π/4*i，其中i为具有最大响应的掩模编号。</p>
+<h2 id="Sobel与Kirsch对比"><a href="#Sobel与Kirsch对比" class="headerlink" title="Sobel与Kirsch对比"></a>Sobel与Kirsch对比</h2><p>从评估结果和测试图像的外观来看，Kirsch算子应该是这两种模板算子中表现最好的，不过两者的结果非常相似。<br>这两种模板算子的表现结果都比简单的导数算子要好，特别是在噪声增加的情况下。</p>
+<p>注意，在目前研究的所有情况中，边缘检测算法中没有指名的因素会对检测的效果造成影响。<br>其中重要的因素包括阈值方法的选用，但是有时候在检测之前会进行简单的去噪操作，在检测之后会进行边缘细化操作。</p>
+<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><p>Sobel算法<br><a target="_blank" rel="noopener" href="https://github.com/ThranduilELFKING/study-openCV/tree/main/sobel">https://github.com/ThranduilELFKING/study-openCV/tree/main/sobel</a><br>Kirsch算法<br><a target="_blank" rel="noopener" href="https://github.com/ThranduilELFKING/study-openCV/tree/main/Kirsch">https://github.com/ThranduilELFKING/study-openCV/tree/main/Kirsch</a></p>
+
       
 
       
@@ -434,6 +442,21 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">opencv</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">边缘检测</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       <!--显示阅读次数-->
       
       
@@ -1150,11 +1173,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
+                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
+                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1210,11 +1233,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">阅读</a>
+                <a href="javascript:void(0)" class="js-tag color5">边缘检测</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">边缘检测</a>
+                <a href="javascript:void(0)" class="js-tag color3">阅读</a>
               </li>
             
             <div class="clearfix"></div>
