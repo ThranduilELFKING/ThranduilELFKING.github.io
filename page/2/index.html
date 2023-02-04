@@ -61,7 +61,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 87
+			总文章数 88
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -180,6 +180,88 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-make选项之VERBOSE" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/01/05/make%E9%80%89%E9%A1%B9%E4%B9%8BVERBOSE/">make选项之VERBOSE</a>
+    </h1>
+  
+
+        
+        <a href="/2023/01/05/make%E9%80%89%E9%A1%B9%E4%B9%8BVERBOSE/" class="archive-article-date">
+  	<time datetime="2023-01-05T12:55:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-01-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="make选项之VERBOSE"><a href="#make选项之VERBOSE" class="headerlink" title="make选项之VERBOSE"></a>make选项之VERBOSE</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>有时候需要看到程序链接了哪些库，但是ldd看的时候，可能不那么全，而且还需要等生成执行程序后看，在编译的时候，就想看到编译过程中执行程序（or库）到底链接了哪些库的话，可以用make的VERBOSE选项</p>
+<h2 id="使用说明"><a href="#使用说明" class="headerlink" title="使用说明"></a>使用说明</h2><p>用make的VERBOSE选项的效果就是可以看到所有实际链接的库。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">使用方法：</span><br><span class="line"></span><br><span class="line">cmake ..</span><br><span class="line">make VERBOSE=<span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p>注意：VERBOSE区分大小写，小写的话，是没有效果的<br>如下图所示：<br><img src="/assets/blogImg/make_VERBOSE.jpg" alt="make_VERBOSE.jpg"></p>
+<p>编译时的显示效果如下所示，可以看到这些具体的链接内容都是可以看见的，<br>比如以下可以看到链接了profiler和tcmalloc库等等。可以看到完整的编译链命令。<br><img src="/assets/blogImg/make_VERBOSE2.jpg" alt="make_VERBOSE2.jpg"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/anlongstar/article/details/124789160">https://blog.csdn.net/anlongstar/article/details/124789160</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/01/05/make%E9%80%89%E9%A1%B9%E4%B9%8BVERBOSE/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-gmock之匹配器" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -1015,106 +1097,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2022/11/29/opencv%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95%E7%AE%97%E6%B3%95%E5%8F%8A%E7%9B%B8%E5%85%B3%E5%87%BD%E6%95%B0/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-gtest单元测试结果可视化" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/11/16/gtest%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C%E5%8F%AF%E8%A7%86%E5%8C%96/">gtest单元测试结果可视化</a>
-    </h1>
-  
-
-        
-        <a href="/2022/11/16/gtest%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C%E5%8F%AF%E8%A7%86%E5%8C%96/" class="archive-article-date">
-  	<time datetime="2022-11-16T14:12:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="gtest单元测试结果可视化"><a href="#gtest单元测试结果可视化" class="headerlink" title="gtest单元测试结果可视化"></a>gtest单元测试结果可视化</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>有些代码框架下，比较适合写单元测试，这里记录一次用gtest框架进行单元测试到最后结果可视化的案例流程</p>
-<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><h3 id="（1）环境配置"><a href="#（1）环境配置" class="headerlink" title="（1）环境配置"></a>（1）环境配置</h3><p>本地开发环境是linux Ubuntu14<br>在linux下这些操作应该都是通用的<br>预先要准备好的环境有 gtest，gmock环境<br>然后下载lcov进行可视化<br>sudo apt-get install lcov即可安装</p>
-<h3 id="（2）修改CMakeLists-txt"><a href="#（2）修改CMakeLists-txt" class="headerlink" title="（2）修改CMakeLists.txt"></a>（2）修改CMakeLists.txt</h3><p>在原本编译通过的CMakeLists.txt里，增加如下选项</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># gcov相关编译选项</span><br><span class="line">SET(GCC_COVERAGE_COMPILE_FLAGS <span class="string">&quot;-g -O0 -coverage -fprofile-arcs -ftest-coverage&quot;</span>)</span><br><span class="line">SET(GCC_COVERAGE_LINK_FLAGS <span class="string">&quot;-coverage -lgcov&quot;</span>)</span><br><span class="line">SET(CMAKE_CXX_FLAGS <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; $&#123;GCC_COVERAGE_COMPILE_FLAGS&#125;&quot;</span>)</span><br><span class="line">SET(CMAKE_EXE_LINKER_FLAGS <span class="string">&quot;$&#123;CMAKE_EXE_LINKER_FLAGS&#125; $&#123;GCC_COVERAGE_LINK_FLAGS&#125;&quot;</span>)</span><br><span class="line"></span><br><span class="line">target_link_libraries(test gcov)</span><br></pre></td></tr></table></figure>
-
-<p>如下图所示<br><img src="/assets/blogImg/gtest1.jpg" alt="gtest1.jpg"></p>
-<h3 id="（3）生成可视化目标文件"><a href="#（3）生成可视化目标文件" class="headerlink" title="（3）生成可视化目标文件"></a>（3）生成可视化目标文件</h3><p>在cmake ,make，运行程序后查看是否生成目标文件<br>生成测试程序test<br><img src="/assets/blogImg/gtest2.jpg" alt="gtest2.jpg"></p>
-<p>此时到build/CMakeFiles/test.dir/目录下，可以看到很多gcno文件，如下图所示<br><img src="/assets/blogImg/gtest3.jpg" alt="gtest3.jpg"></p>
-<p>运行一下test程序<br><img src="/assets/blogImg/gtest4.jpg" alt="gtest4.jpg"></p>
-<p>当运行完test程序后，再进入build/CMakeFiles/test.dir/目录下，除了原本的gcno文件，还有生成的gcda文件（之后可视化，需要这两类文件都存在）<br><img src="/assets/blogImg/gtest5.jpg" alt="gtest5.jpg"></p>
-<p>到此，目标文件都生成了</p>
-<h3 id="（4）可视化"><a href="#（4）可视化" class="headerlink" title="（4）可视化"></a>（4）可视化</h3><p>输入以下指令</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">完整指令如下</span><br><span class="line">lcov -c -o test.info -d .</span><br><span class="line"></span><br><span class="line">参数解释</span><br><span class="line">-c 生成覆盖率信息</span><br><span class="line">-o 生成目标文件</span><br><span class="line">-d 目录</span><br><span class="line">. 当前目录</span><br></pre></td></tr></table></figure>
-
-<p>即可在当前文件夹下，生成test.info文件<br><img src="/assets/blogImg/gtest6.jpg" alt="gtest6.jpg"></p>
-<p>将test.info继续生成可视化的html，进行结果的可视化<br>输入以下指令</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">genhtml test.info -o ./output</span><br><span class="line">参数解释</span><br><span class="line">tst.info 需要生成覆盖率信息的源文件</span><br><span class="line">-o 生成结果目录</span><br></pre></td></tr></table></figure>
-
-<p>如下图所示<br><img src="/assets/blogImg/gtest7.jpg" alt="gtest7.jpg"></p>
-<p>可以看出，执行完上面的指令后，生成了一个output子文件夹，进入文件夹内，可以看到生成的index.html可视化页面<br><img src="/assets/blogImg/gtest8.jpg" alt="gtest8.jpg"></p>
-<p>用浏览器打开html后效果如下<br>点击左侧的链接后，可以看到每个代码cpp文件的覆盖率<br><img src="/assets/blogImg/gtest9.jpg" alt="gtest9.jpg"></p>
-<p>点击左侧的链接后，可以点进去看每个cpp文件<br><img src="/assets/blogImg/gtest10.jpg" alt="gtest10.jpg"></p>
-<p>如下所示，点入Charutil.cpp文件链接，可以看到蓝色选中的代码段，都是被测试覆盖过的<br><img src="/assets/blogImg/gtest11.jpg" alt="gtest11.jpg"></p>
-<p>到此，单元测试的可视化工作便完成了。这里以一个案例，做一个记录。</p>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://www.yanbinghu.com/2017/08/06/13981.html">https://www.yanbinghu.com/2017/08/06/13981.html</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/11/16/gtest%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C%E5%8F%AF%E8%A7%86%E5%8C%96/">展开全文 >></a>
         </p>
       
 

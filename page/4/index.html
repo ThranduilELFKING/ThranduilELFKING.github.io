@@ -61,7 +61,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 87
+			总文章数 88
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -180,6 +180,70 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-wireshark抓包分析神器" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/11/10/wireshark%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90%E7%A5%9E%E5%99%A8/">wireshark抓包分析神器</a>
+    </h1>
+  
+
+        
+        <a href="/2022/11/10/wireshark%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90%E7%A5%9E%E5%99%A8/" class="archive-article-date">
+  	<time datetime="2022-11-10T12:23:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/11/10/wireshark%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90%E7%A5%9E%E5%99%A8/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-rsa加密" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -1031,91 +1095,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2022/11/05/%E5%88%B6%E4%BD%9C%E9%80%8F%E6%98%8E%E5%9B%BE%E7%89%87%E5%B0%8F%E5%B7%A5%E5%85%B7-OpenCV/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-npm相关报错调试" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/11/04/npm%E7%9B%B8%E5%85%B3%E6%8A%A5%E9%94%99%E8%B0%83%E8%AF%95/">npm相关报错调试</a>
-    </h1>
-  
-
-        
-        <a href="/2022/11/04/npm%E7%9B%B8%E5%85%B3%E6%8A%A5%E9%94%99%E8%B0%83%E8%AF%95/" class="archive-article-date">
-  	<time datetime="2022-11-04T15:13:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="npm相关报错调试"><a href="#npm相关报错调试" class="headerlink" title="npm相关报错调试"></a>npm相关报错调试</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>执行npm install命令时，卡住不动；然后执行cnpm install命令，发现有报错提示<br>“ RunScriptError: post install error, please remove node_modules before retry!”</p>
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>这里应该是网络不稳定造成的，所以使用如下命令即可</p>
-<p>方案一：使用cnpm安装</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">npm install -g cnpm --registry=https:<span class="comment">//registry.npm.taobao.org</span></span><br><span class="line">此后再用cnpm命令进行安装就可以了</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>方案二：配置代理</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">npm config set registry https:<span class="comment">//registry.npm.taobao.org</span></span><br><span class="line">后续还可以继续使用npm运行，而不必用cnpm</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000019543613">https://segmentfault.com/a/1190000019543613</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常见报错问题</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/11/04/npm%E7%9B%B8%E5%85%B3%E6%8A%A5%E9%94%99%E8%B0%83%E8%AF%95/">展开全文 >></a>
         </p>
       
 
