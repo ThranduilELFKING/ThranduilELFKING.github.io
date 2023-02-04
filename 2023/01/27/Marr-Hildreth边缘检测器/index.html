@@ -8,16 +8,22 @@
   <link rel="dns-prefetch" href="http://example.com">
   <title>Marr-Hildreth边缘检测器 | ThranduilELFKING</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="article">
+  <meta name="description" content="边缘模型：Marr-Hildreth边缘检测器理论David Marr表示：“早期视觉处理的目标是对图像构建一个原始但丰富的描述，用于确定可视表面的反射系数和光强度，以及它们相对于观察者的方向的距离”。他把最低级别的描述称为原始要素图（primal sketch），其中最主要的组成部分即为边缘。  优缺点对比导数算子，基于模板的边缘检测，Marr-Hildreth边缘检测器在低信噪比的情况下要远好">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Marr-Hildreth边缘检测器">
 <meta property="og:url" content="http://example.com/2023/01/27/Marr-Hildreth%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B%E5%99%A8/index.html">
 <meta property="og:site_name" content="ThranduilELFKING">
+<meta property="og:description" content="边缘模型：Marr-Hildreth边缘检测器理论David Marr表示：“早期视觉处理的目标是对图像构建一个原始但丰富的描述，用于确定可视表面的反射系数和光强度，以及它们相对于观察者的方向的距离”。他把最低级别的描述称为原始要素图（primal sketch），其中最主要的组成部分即为边缘。  优缺点对比导数算子，基于模板的边缘检测，Marr-Hildreth边缘检测器在低信噪比的情况下要远好">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/assets/blogImg/marr.jpg">
+<meta property="og:image" content="http://example.com/assets/blogImg/marr2.jpg">
 <meta property="article:published_time" content="2023-01-27T14:54:50.000Z">
-<meta property="article:modified_time" content="2023-01-27T14:56:45.587Z">
+<meta property="article:modified_time" content="2023-01-31T13:01:08.541Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="opencv">
+<meta property="article:tag" content="边缘检测">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/assets/blogImg/marr.jpg">
   
     <link rel="alternative" href="/atom.xml" title="ThranduilELFKING" type="application/atom+xml">
   
@@ -202,7 +208,11 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h1 id="边缘模型：Marr-Hildreth边缘检测器"><a href="#边缘模型：Marr-Hildreth边缘检测器" class="headerlink" title="边缘模型：Marr-Hildreth边缘检测器"></a>边缘模型：Marr-Hildreth边缘检测器</h1><h2 id="理论"><a href="#理论" class="headerlink" title="理论"></a>理论</h2><p>David Marr表示：“早期视觉处理的目标是对图像构建一个原始但丰富的描述，用于确定可视表面的反射系数和光强度，以及它们相对于观察者的方向的距离”。<br>他把最低级别的描述称为原始要素图（primal sketch），其中最主要的组成部分即为边缘。</p>
+<p><img src="/assets/blogImg/marr.jpg" alt="marr.jpg"><br><img src="/assets/blogImg/marr2.jpg" alt="marr2.jpg"></p>
+<h2 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h2><p>对比导数算子，基于模板的边缘检测，Marr-Hildreth边缘检测器在低信噪比的情况下要远好于前面两类边缘检测器。<br>某些情况，由于方法本身的问题，局部性并不是特别好，而且边缘并不总是很细。</p>
+<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><p>Marr-Hildreth算法源码：<br><a target="_blank" rel="noopener" href="https://github.com/ThranduilELFKING/study-openCV/tree/main/marr">https://github.com/ThranduilELFKING/study-openCV/tree/main/marr</a></p>
+
       
 
       
@@ -237,6 +247,10 @@
 			 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">opencv</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">边缘检测</a>
         		</li>
       		
 		</ul>
@@ -315,11 +329,11 @@
   
 <nav id="article-nav">
   
-    <a href="/2023/01/27/Shen-Castan%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B%E5%99%A8ISEF/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2023/01/27/%E5%BD%A9%E8%89%B2%E8%BE%B9%E7%BC%98/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          Shen-Castan边缘检测器ISEF
+          彩色边缘
         
       </div>
     </a>
@@ -353,7 +367,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    目录，不存在的…
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BE%B9%E7%BC%98%E6%A8%A1%E5%9E%8B%EF%BC%9AMarr-Hildreth%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B%E5%99%A8"><span class="toc-number">1.</span> <span class="toc-text">边缘模型：Marr-Hildreth边缘检测器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%90%86%E8%AE%BA"><span class="toc-number">1.1.</span> <span class="toc-text">理论</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-number">1.2.</span> <span class="toc-text">优缺点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BA%90%E7%A0%81"><span class="toc-number">1.3.</span> <span class="toc-text">源码</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -477,19 +491,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">opencv</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">基础技能</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
+                <a href="javascript:void(0)" class="js-tag color2">opencv</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">边缘检测</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -525,11 +543,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">个人小工具</a>
+                <a href="javascript:void(0)" class="js-tag color5">通信协议</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">通信协议</a>
+                <a href="javascript:void(0)" class="js-tag color1">个人小工具</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -542,10 +560,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">边缘检测</a>
               </li>
              
               <li class="article-tag-list-item">

@@ -459,7 +459,11 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h1 id="opencv算法之Canny边缘检测"><a href="#opencv算法之Canny边缘检测" class="headerlink" title="opencv算法之Canny边缘检测"></a>opencv算法之Canny边缘检测</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>对Canny边缘检测算法有更深入的学习和总结</p>
-<h2 id="Canny边缘检测的一般标准"><a href="#Canny边缘检测的一般标准" class="headerlink" title="Canny边缘检测的一般标准"></a>Canny边缘检测的一般标准</h2><p>Canny边缘检测器是由John F. Canny在1986年提出,Canny被称为最优检测器,其目标满足以下三个主要标准:<br>（1）低错误率:对已有的边界能够有很好的检测，也即意味着需要尽可能准确的捕获图像中尽可能多的边缘。<br>（2）良好的定位:即检测到的边缘像素和实际边缘像素之间的距离必须最小化，即检测到的边缘应精确定位在真实边缘的中心。<br>（3）最小响应:即每边只有一个响应，图像中给定的边缘应只被标记一次，并且在可能的情况下，图像的噪声不应产生假的边缘。</p>
+<h2 id="Canny边缘检测的一般标准"><a href="#Canny边缘检测的一般标准" class="headerlink" title="Canny边缘检测的一般标准"></a>Canny边缘检测的一般标准</h2><p>Canny边缘检测器是由John F. Canny在1986年提出,Canny被称为最优检测器,其目标满足以下三个主要标准:<br>（1）低错误率:边缘检测器应该只对边缘有响应，而且应该找到所有的边缘像素，不应该错过任何边缘像素。<br>（对已有的边界能够有很好的检测，也即意味着需要尽可能准确的捕获图像中尽可能多的边缘。）<br>（2）局部性（Localization）（良好的定位）:边缘检测器检测到的边缘像素距离实际边缘的距离应该越小越好。<br>（即检测到的边缘像素和实际边缘像素之间的距离必须最小化，即检测到的边缘应精确定位在真实边缘的中心。）<br>（3）最小响应:如果在一处只存在一个边缘像素，那么边缘检测器不应该识别出多个边缘像素。<br>（即每边只有一个响应，图像中给定的边缘应只被标记一次，并且在可能的情况下，图像的噪声不应产生假的边缘。）</p>
+<h2 id="理论"><a href="#理论" class="headerlink" title="理论"></a>理论</h2><p>Canny假定阶梯型边缘会受到高斯白噪声的影响。<br>边缘检测器被假定为一个卷积过滤器f,f应该平滑噪声并定位边缘。<br>问题在于，要找到一种过滤器能够在满足三个标准的上达到最优。</p>
+<h3 id="理论阐释"><a href="#理论阐释" class="headerlink" title="理论阐释"></a>理论阐释</h3><p>在一个维度上，过滤器f对一个边缘G的响应由以下卷积积分给出：<br><img src="/assets/blogImg/canny_1.jpg" alt="canny_1.jpg"><br><img src="/assets/blogImg/canny_2.jpg" alt="canny_2.jpg"><br>G可以在x和y方向求导。<br>Canny的边缘检测最优化过滤器近似为G’,因此利用G’对输入图像进行卷积操作，即使在存在噪声的情况下，我们也可以得到一个增强边缘的图像E，这个图像被集成为边缘图像模型的一部分。<br><img src="/assets/blogImg/canny_3.jpg" alt="canny_3.jpg"></p>
+<p>注意：<br>如果M中的像素为边缘像素，那么这些像素的值就会比较大；如果不是，则比较小。因此可以利用阈值操作将边缘像素展示为白色，并将背景展示为黑色。这样做并不能获得非常好的结果，而是必须部分根据每一个像素上梯度的方向来对图像进行阈值操作。<br>基本的思想是：<br>每一个边缘像素都关联了一个方向，在一个边缘像素上的梯度的大小应该比在边缘两侧的像素上的梯度大小要大。</p>
+<h3 id="以几何图像的方式阐释canny边缘检测过程"><a href="#以几何图像的方式阐释canny边缘检测过程" class="headerlink" title="以几何图像的方式阐释canny边缘检测过程"></a>以几何图像的方式阐释canny边缘检测过程</h3><p><img src="/assets/blogImg/canny_4.jpg" alt="canny_4.jpg"><br><img src="/assets/blogImg/canny_5.jpg" alt="canny_5.jpg"></p>
 <h2 id="Canny算法主要步骤"><a href="#Canny算法主要步骤" class="headerlink" title="Canny算法主要步骤"></a>Canny算法主要步骤</h2><p>Canny算法主要包含5个步骤，具体如下：</p>
 <h3 id="（1）过滤噪声"><a href="#（1）过滤噪声" class="headerlink" title="（1）过滤噪声"></a>（1）过滤噪声</h3><p>使用高斯滤波器算法，平滑图像，滤除噪声</p>
 <p>高斯核如下：<br><img src="/assets/blogImg/canny.jpg" alt="canny.jpg"></p>
@@ -487,7 +491,7 @@
 <p><strong>参数解释</strong></p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">src：输入图像,必须是<span class="number">8</span>-bits;</span><br><span class="line">edges：输出的图像边缘</span><br><span class="line">threshold1, threshold2：对应于上述的T1,T2;</span><br><span class="line">apertureSize：是Sobel算子的大小;</span><br><span class="line">L2gradient：表示计算梯度值时是否使用L2(就是默认的计算方式);</span><br><span class="line">如果设置L2gradient=True,则梯度值的计算方式为:</span><br><span class="line">G=|Gx|+|Gy|</span><br></pre></td></tr></table></figure>
 
-
+<h2 id="算法源码"><a href="#算法源码" class="headerlink" title="算法源码"></a>算法源码</h2><p>canny边缘检测算法源码<br><a target="_blank" rel="noopener" href="https://github.com/ThranduilELFKING/study-openCV/tree/main/canny">https://github.com/ThranduilELFKING/study-openCV/tree/main/canny</a></p>
 <h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_46196863/article/details/112209430">https://blog.csdn.net/weixin_46196863/article/details/112209430</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/chenzhen0530/p/14690472.html">https://www.cnblogs.com/chenzhen0530/p/14690472.html</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/chenzhen0530/p/14660498.html">https://www.cnblogs.com/chenzhen0530/p/14660498.html</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/skyfsm/p/6879265.html">https://www.cnblogs.com/skyfsm/p/6879265.html</a><br><a target="_blank" rel="noopener" href="https://www.yanxishe.com/columnDetail/18324">https://www.yanxishe.com/columnDetail/18324</a></p>
 
       
@@ -503,6 +507,10 @@
 			 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">opencv</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">边缘检测</a>
         		</li>
       		
 		</ul>
@@ -1245,19 +1253,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">opencv</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">基础技能</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
+                <a href="javascript:void(0)" class="js-tag color2">opencv</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">边缘检测</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1293,11 +1305,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">个人小工具</a>
+                <a href="javascript:void(0)" class="js-tag color5">通信协议</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">通信协议</a>
+                <a href="javascript:void(0)" class="js-tag color1">个人小工具</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1310,10 +1322,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">边缘检测</a>
               </li>
              
               <li class="article-tag-list-item">

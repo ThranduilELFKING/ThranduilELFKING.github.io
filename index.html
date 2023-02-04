@@ -181,6 +181,94 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Shen-Castan边缘检测器ISEF" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/02/04/Shen-Castan%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B%E5%99%A8ISEF/">Shen-Castan边缘检测器ISEF</a>
+    </h1>
+  
+
+        
+        <a href="/2023/02/04/Shen-Castan%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B%E5%99%A8ISEF/" class="archive-article-date">
+  	<time datetime="2023-02-04T14:55:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-02-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Shen-Castan边缘检测器ISEF"><a href="#Shen-Castan边缘检测器ISEF" class="headerlink" title="Shen-Castan边缘检测器ISEF"></a>Shen-Castan边缘检测器ISEF</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>Canny边缘检测器是根据一组特定的标准进行优化定义的。尽管这些标准足够合理，但是没有理由认为这些标准就是唯一的标准。<br>最优的概念是相对的，而且很可能（在某些情况下）存在比Canny边缘检测器更好的边缘检测器。<br>事实上，在对边缘检测的方法进行比较，有时候看上去实际上是对优化的定义进行比较。</p>
+<h2 id="理论"><a href="#理论" class="headerlink" title="理论"></a>理论</h2><p>Shen和Castan在边缘检测器的基本形式上与Canny意见一致：首先利用平滑核（smoothing kernel）进行卷积运算，然后再搜索边缘像素。然而，他们通过分析得到了一个不同的函数进行优化：即提出了最小化（在一个维度上）优化：</p>
+<p><img src="/assets/blogImg/isef.jpg" alt="isef.jpg"><br><img src="/assets/blogImg/isef2.jpg" alt="isef2.jpg"><br><img src="/assets/blogImg/isef3.jpg" alt="isef3.jpg"><br><img src="/assets/blogImg/isef4.jpg" alt="isef4.jpg"></p>
+<h2 id="与canny边缘检测器的比较"><a href="#与canny边缘检测器的比较" class="headerlink" title="与canny边缘检测器的比较"></a>与canny边缘检测器的比较</h2><p>（1）操作区别<br>Canny算法通过高斯函数的导数对图像进行卷积运算，然后执行非极大值抑制和滞后阈值操作。<br>Shen-Castan算法通过无穷对称指数滤波器对图像进行卷积运算，计算BLI，抑制负零交叉，执行自适应梯度阈值操作，最后应用滞后阈值操作。</p>
+<p>（2）用户可定义参数不同<br>这两种算法都提供了用户可定义参数，因此对于使用特定类型图像的调优很有用。<br>参数如下：<br><img src="/assets/blogImg/isef5.jpg" alt="isef5.jpg"></p>
+<p>（3）卷积实现不同<br>由于Canny的实现在执行卷积的时候使用了环绕式的方法（wrap-around），因此在图像边界周围的区域被黑色像素占据，尽管有时候这些黑色像素看上去像噪声。<br>ISEF实现使用了递归滤波器，环绕式的方法更难实现，因此没有实现，而是采用了另一种方式：图像在处理之前被嵌入了一幅更大的图像。因此，当卷积掩模超出了图像边界的时候，这些图像的边缘几乎都为白色。</p>
+<p>（4）噪声的影响<br>ISEF随着噪声的增大看上去似乎具有优势。<br>从整体上来说，相比Canny边缘检测器，ISEF边缘检测器略胜一筹，位居第一，Canny位居第二。Marr-Hildreth位居第三，之后是Kirsch，Sobel，△2和△1。</p>
+<p>值得注意的是，Canny与ISEF算法的比较的结果取决于用户可定义参数中每个参数的选择，选择的参数更好获得的评估结果可能会更好。<br>在一些情况下，Canny边缘检测器会更好，而有的时候ISEF方法会占据优势。<br>对于某个特定的图像来说，最佳的参数组合是未知的，因此最终还要用户自己来选择使用哪一种方法。</p>
+<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><p>Shen-Castan算法源码<br><a target="_blank" rel="noopener" href="https://github.com/ThranduilELFKING/study-openCV/tree/main/isef">https://github.com/ThranduilELFKING/study-openCV/tree/main/isef</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">opencv</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">边缘检测</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/02/04/Shen-Castan%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B%E5%99%A8ISEF/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-彩色边缘" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -256,81 +344,6 @@
 
 
   
-    <article id="post-Shen-Castan边缘检测器ISEF" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/01/27/Shen-Castan%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B%E5%99%A8ISEF/">Shen-Castan边缘检测器ISEF</a>
-    </h1>
-  
-
-        
-        <a href="/2023/01/27/Shen-Castan%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B%E5%99%A8ISEF/" class="archive-article-date">
-  	<time datetime="2023-01-27T14:55:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-01-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">opencv</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2023/01/27/Shen-Castan%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B%E5%99%A8ISEF/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-Marr-Hildreth边缘检测器" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -351,7 +364,11 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h1 id="边缘模型：Marr-Hildreth边缘检测器"><a href="#边缘模型：Marr-Hildreth边缘检测器" class="headerlink" title="边缘模型：Marr-Hildreth边缘检测器"></a>边缘模型：Marr-Hildreth边缘检测器</h1><h2 id="理论"><a href="#理论" class="headerlink" title="理论"></a>理论</h2><p>David Marr表示：“早期视觉处理的目标是对图像构建一个原始但丰富的描述，用于确定可视表面的反射系数和光强度，以及它们相对于观察者的方向的距离”。<br>他把最低级别的描述称为原始要素图（primal sketch），其中最主要的组成部分即为边缘。</p>
+<p><img src="/assets/blogImg/marr.jpg" alt="marr.jpg"><br><img src="/assets/blogImg/marr2.jpg" alt="marr2.jpg"></p>
+<h2 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h2><p>对比导数算子，基于模板的边缘检测，Marr-Hildreth边缘检测器在低信噪比的情况下要远好于前面两类边缘检测器。<br>某些情况，由于方法本身的问题，局部性并不是特别好，而且边缘并不总是很细。</p>
+<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><p>Marr-Hildreth算法源码：<br><a target="_blank" rel="noopener" href="https://github.com/ThranduilELFKING/study-openCV/tree/main/marr">https://github.com/ThranduilELFKING/study-openCV/tree/main/marr</a></p>
+
       
 
       
@@ -365,6 +382,10 @@
 			 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">opencv</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">边缘检测</a>
         		</li>
       		
 		</ul>
@@ -1165,19 +1186,23 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">opencv</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">基础技能</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
+                <a href="javascript:void(0)" class="js-tag color2">opencv</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">边缘检测</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1213,11 +1238,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">个人小工具</a>
+                <a href="javascript:void(0)" class="js-tag color5">通信协议</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">通信协议</a>
+                <a href="javascript:void(0)" class="js-tag color1">个人小工具</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1230,10 +1255,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">边缘检测</a>
               </li>
              
               <li class="article-tag-list-item">
