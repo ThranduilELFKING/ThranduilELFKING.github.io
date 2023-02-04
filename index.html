@@ -181,6 +181,93 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-彩色边缘" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/02/04/%E5%BD%A9%E8%89%B2%E8%BE%B9%E7%BC%98/">彩色边缘</a>
+    </h1>
+  
+
+        
+        <a href="/2023/02/04/%E5%BD%A9%E8%89%B2%E8%BE%B9%E7%BC%98/" class="archive-article-date">
+  	<time datetime="2023-02-04T14:56:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-02-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="彩色边缘"><a href="#彩色边缘" class="headerlink" title="彩色边缘"></a>彩色边缘</h1><h2 id="理论"><a href="#理论" class="headerlink" title="理论"></a>理论</h2><p>目前，我们习惯了由亮度变化产生的边缘，亮度是由灰阶值来表示的。在现实问题中，需要进行边缘检测的场景中，这种边缘占据了大约90%，但不全是。<br>事实上，由于颜色的变化，或色相（Hue)的变化，并不总是能被这些边缘检测器检测出来。<br>如果边缘是对象的边缘，那么单独由颜色标记的边缘应该是能被检测出来，而且由于大部分图像是彩色的，因此在寻找边缘的时候考虑颜色是很重要的。</p>
+<p>彩色边缘的检测有主要有两种方法。<br>方法一：一种方法是将已经讨论的这些边缘检测器应用于每一种颜色通道——红、绿、蓝——然后将这3个结果合并为一个1个结果。<br>方法二：另一种方法涉及了多维梯度，或偏导数。</p>
+<p>方法一很直观，而且很容易实现。<br>常见的边缘检测方法可用于任何灰阶图像，而图像的红、绿和蓝色分量其实也是灰阶图，只要考虑8字节像素即可。</p>
+<h2 id="RGB方案"><a href="#RGB方案" class="headerlink" title="RGB方案"></a>RGB方案</h2><p>对于大部分视觉任务来说，RGB值不如一些其他色彩编码方案的原因在于，RGB值包含明显的强度比例。<br>每一个颜色分量都是那种颜色在整个像素中的强度，而强度则是其他边缘检测器识别的内容。<br>需要有一种更纯净的颜色表示方法，使得能够通过微分算子找到彩色边缘</p>
+<h2 id="新的值T1和T2方案"><a href="#新的值T1和T2方案" class="headerlink" title="新的值T1和T2方案"></a>新的值T1和T2方案</h2><p><img src="/assets/blogImg/color_edge.jpg" alt="color_edge.jpg"></p>
+<h2 id="色相方案"><a href="#色相方案" class="headerlink" title="色相方案"></a>色相方案</h2><p>一种更传统（也更困难）的计算方式是找出色相，即像素中的颜色分量的值。<br>色相是HSV色彩系统中的“H”，可以在很多地方找到对HSV的描述。<br>其基本思想在于：彩色像素由值（value,V,表示强度）、饱和度（saturation,S,表示色彩的量）以及色相（hue,H,表示色彩的性质）进行描述。<br><img src="/assets/blogImg/color_edge2.jpg" alt="color_edge2.jpg"></p>
+<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><p>包含RGB、T1和T2、HSV三种方案的边缘检测算法源码<br><a target="_blank" rel="noopener" href="https://github.com/ThranduilELFKING/study-openCV/tree/main/colorEdge">https://github.com/ThranduilELFKING/study-openCV/tree/main/colorEdge</a></p>
+<p>运行起来，示例图像：<br><img src="/assets/blogImg/colorful.jpg" alt="colorful.jpg"><br>RGB方案检查到的边缘：<br><img src="/assets/blogImg/color_edge3.jpg" alt="color_edge3.jpg"><br>T1和T2方案检查到的边缘：<br><img src="/assets/blogImg/color_edge_t1.jpg" alt="color_edge_t1.jpg"><br><img src="/assets/blogImg/color_edge_t2.jpg" alt="color_edge_t2.jpg"><br>HSV方案检查到的边缘：<br><img src="/assets/blogImg/color_edge_hsv.jpg" alt="color_edge_hsv.jpg"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">opencv</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">边缘检测</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/02/04/%E5%BD%A9%E8%89%B2%E8%BE%B9%E7%BC%98/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Shen-Castan边缘检测器ISEF" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -240,81 +327,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2023/02/04/Shen-Castan%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B%E5%99%A8ISEF/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-彩色边缘" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/01/27/%E5%BD%A9%E8%89%B2%E8%BE%B9%E7%BC%98/">彩色边缘</a>
-    </h1>
-  
-
-        
-        <a href="/2023/01/27/%E5%BD%A9%E8%89%B2%E8%BE%B9%E7%BC%98/" class="archive-article-date">
-  	<time datetime="2023-01-27T14:56:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-01-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">opencv</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2023/01/27/%E5%BD%A9%E8%89%B2%E8%BE%B9%E7%BC%98/">展开全文 >></a>
         </p>
       
 
@@ -1198,11 +1210,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
+                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
+                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1238,11 +1250,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">通信协议</a>
+                <a href="javascript:void(0)" class="js-tag color1">个人小工具</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">个人小工具</a>
+                <a href="javascript:void(0)" class="js-tag color5">通信协议</a>
               </li>
              
               <li class="article-tag-list-item">

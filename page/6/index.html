@@ -276,86 +276,6 @@
 
 
   
-    <article id="post-树莓派64位系统配置32位运行环境" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/15/%E6%A0%91%E8%8E%93%E6%B4%BE64%E4%BD%8D%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE32%E4%BD%8D%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83/">树莓派64位系统配置32位运行环境</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/15/%E6%A0%91%E8%8E%93%E6%B4%BE64%E4%BD%8D%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE32%E4%BD%8D%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83/" class="archive-article-date">
-  	<time datetime="2020-11-15T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="树莓派64位系统配置32位运行环境"><a href="#树莓派64位系统配置32位运行环境" class="headerlink" title="树莓派64位系统配置32位运行环境"></a>树莓派64位系统配置32位运行环境</h1><h2 id="配置libc6-armhf"><a href="#配置libc6-armhf" class="headerlink" title="配置libc6:armhf"></a>配置libc6:armhf</h2><p>树莓派本身安装了64位系统的情况下，需要配置32位程序的运行环境，首先安装依赖库，操作步骤如下，以下操作都要在root用户下进行<br><img src="/assets/blogImg/4b_armhf.jpg" alt="4b_armhf"></p>
-<h2 id="配置32位程序的依赖库环境"><a href="#配置32位程序的依赖库环境" class="headerlink" title="配置32位程序的依赖库环境"></a>配置32位程序的依赖库环境</h2><p>git clone git://github.com/raspberrypi/tools.git<br>将arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64/路径下的lib库都拷贝到/usr/local/lib32路径下，这个路径可以自己创建，自定义路径名，专门用来存放底层32位依赖库（如libstdc++.so.6)</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>其实最重要的，就是从官方提供的交叉编译工具链，把32位库给获取到，然后放到树莓派的自定义路径下，之后自己编译的32位执行程序/库，都要指定链接这个路径的基础库，否则会报错（找不到依赖库）</p>
-<p>本身64位的树莓派系统是不带32位基础库的，所以必须从官方的交叉编译工具链里获取（目前，无法通过apt-get直接获取到所有的32位依赖库）</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a target="_blank" rel="noopener" href="https://raspberrypi.club/148.html">https://raspberrypi.club/148.html</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">交叉编译</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/15/%E6%A0%91%E8%8E%93%E6%B4%BE64%E4%BD%8D%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE32%E4%BD%8D%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-查看静态库-动态库-执行程序的编译工具链gcc-g++版本命令" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -482,6 +402,86 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2020/11/15/%E6%A0%91%E8%8E%93%E6%B4%BE%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91%E7%9A%84%E4%B8%89%E7%A7%8D%E5%B8%B8%E8%A7%81%E6%96%B9%E5%BC%8F/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-树莓派64位系统配置32位运行环境" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/11/15/%E6%A0%91%E8%8E%93%E6%B4%BE64%E4%BD%8D%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE32%E4%BD%8D%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83/">树莓派64位系统配置32位运行环境</a>
+    </h1>
+  
+
+        
+        <a href="/2020/11/15/%E6%A0%91%E8%8E%93%E6%B4%BE64%E4%BD%8D%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE32%E4%BD%8D%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83/" class="archive-article-date">
+  	<time datetime="2020-11-15T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="树莓派64位系统配置32位运行环境"><a href="#树莓派64位系统配置32位运行环境" class="headerlink" title="树莓派64位系统配置32位运行环境"></a>树莓派64位系统配置32位运行环境</h1><h2 id="配置libc6-armhf"><a href="#配置libc6-armhf" class="headerlink" title="配置libc6:armhf"></a>配置libc6:armhf</h2><p>树莓派本身安装了64位系统的情况下，需要配置32位程序的运行环境，首先安装依赖库，操作步骤如下，以下操作都要在root用户下进行<br><img src="/assets/blogImg/4b_armhf.jpg" alt="4b_armhf"></p>
+<h2 id="配置32位程序的依赖库环境"><a href="#配置32位程序的依赖库环境" class="headerlink" title="配置32位程序的依赖库环境"></a>配置32位程序的依赖库环境</h2><p>git clone git://github.com/raspberrypi/tools.git<br>将arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64/路径下的lib库都拷贝到/usr/local/lib32路径下，这个路径可以自己创建，自定义路径名，专门用来存放底层32位依赖库（如libstdc++.so.6)</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>其实最重要的，就是从官方提供的交叉编译工具链，把32位库给获取到，然后放到树莓派的自定义路径下，之后自己编译的32位执行程序/库，都要指定链接这个路径的基础库，否则会报错（找不到依赖库）</p>
+<p>本身64位的树莓派系统是不带32位基础库的，所以必须从官方的交叉编译工具链里获取（目前，无法通过apt-get直接获取到所有的32位依赖库）</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a target="_blank" rel="noopener" href="https://raspberrypi.club/148.html">https://raspberrypi.club/148.html</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">交叉编译</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/11/15/%E6%A0%91%E8%8E%93%E6%B4%BE64%E4%BD%8D%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE32%E4%BD%8D%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83/">展开全文 >></a>
         </p>
       
 
@@ -1149,11 +1149,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
+                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
+                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1189,11 +1189,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">通信协议</a>
+                <a href="javascript:void(0)" class="js-tag color1">个人小工具</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">个人小工具</a>
+                <a href="javascript:void(0)" class="js-tag color5">通信协议</a>
               </li>
              
               <li class="article-tag-list-item">
