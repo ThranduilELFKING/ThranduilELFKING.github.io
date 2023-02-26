@@ -61,7 +61,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 90
+			总文章数 93
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -180,6 +180,112 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-使用gperftools工具分析程序性能" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/01/05/%E4%BD%BF%E7%94%A8gperftools%E5%B7%A5%E5%85%B7%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E6%80%A7%E8%83%BD/">使用gperftools工具分析程序性能</a>
+    </h1>
+  
+
+        
+        <a href="/2023/01/05/%E4%BD%BF%E7%94%A8gperftools%E5%B7%A5%E5%85%B7%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E6%80%A7%E8%83%BD/" class="archive-article-date">
+  	<time datetime="2023-01-05T12:56:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-01-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="使用gperftools工具分析程序性能"><a href="#使用gperftools工具分析程序性能" class="headerlink" title="使用gperftools工具分析程序性能"></a>使用gperftools工具分析程序性能</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>有时候需要分析一下程序的性能如何，然后去查找程序性能的瓶颈，进行性能优化。这里可以使用gperftools工具来帮助定位性能的瓶颈位置，进行程序性能分析。这里做一个环境配置及使用的记录。</p>
+<h2 id="安装gperftools"><a href="#安装gperftools" class="headerlink" title="安装gperftools"></a>安装gperftools</h2><p>源码地址：<br><a target="_blank" rel="noopener" href="https://github.com/gperftools/gperftools">https://github.com/gperftools/gperftools</a></p>
+<p>安装步骤：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//如果是64位系统的，需要安装libunwind-dev，如果是32位系统不必</span></span><br><span class="line">sudo apt-get install libunwind-dev</span><br><span class="line"></span><br><span class="line">git clone https:<span class="comment">//github.com/gperftools/gperftools.git</span></span><br><span class="line">cd gperftools</span><br><span class="line">sh autogen.sh</span><br><span class="line"># <span class="built_in">require</span> autoconf installed</span><br><span class="line">./configure</span><br><span class="line">make all</span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
+
+<p>本地32位系统ubuntu14.04安装如下：<br><img src="/assets/blogImg/gperftools.jpg" alt="gperftools.jpg"></p>
+<h2 id="使用gperftools工具"><a href="#使用gperftools工具" class="headerlink" title="使用gperftools工具"></a>使用gperftools工具</h2><p>使用gperftools工具需要在cmake里增加一些配置，运行程序时也需要配置环境，最后使用命令生成可视化程序性能分析报告。</p>
+<h3 id="（1）需要配置cmake"><a href="#（1）需要配置cmake" class="headerlink" title="（1）需要配置cmake"></a>（1）需要配置cmake</h3><p>在cmake里增加一行配置如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">target_link_libraries($&#123;YOUR_PROGRAM&#125; pthread profiler tcmalloc)</span><br></pre></td></tr></table></figure>
+
+<p>如下图所示<br><img src="/assets/blogImg/gperftools2.jpg" alt="gperftools2.jpg"></p>
+<h3 id="（2）运行程序"><a href="#（2）运行程序" class="headerlink" title="（2）运行程序"></a>（2）运行程序</h3><p>运行程序的命令如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">env HEAPPROFILE=./mybin.hprof ./wx_app</span><br></pre></td></tr></table></figure>
+<p>本地运行程序如下：<br><img src="/assets/blogImg/gperftools3.jpg" alt="gperftools3.jpg"></p>
+<p>这样就会生成报告mybin.hprof.0001.heap，如下图所示<br><img src="/assets/blogImg/gperftools4.jpg" alt="gperftools4.jpg"></p>
+<p>注意：按照代码的意思应该是生成.hprof文件，但是自己结果只生成了一个heap文件（mybin.hprof.0001.heap），但是并不影响后面的操作</p>
+<h3 id="（3）进行pprof分析"><a href="#（3）进行pprof分析" class="headerlink" title="（3）进行pprof分析"></a>（3）进行pprof分析</h3><p>程序分析指令如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pprof --text ./wx_app ./mybin.hprof<span class="number">.0001</span>.heap </span><br></pre></td></tr></table></figure>
+<p>如下图所示<br><img src="/assets/blogImg/gperftools5.jpg" alt="gperftools5.jpg"></p>
+<p>说明：<br>(1) 第一列表示直接使用了多少内存，单位为MB<br>(2) 第四列包含了该方法自己占用的以及所有他调用所占用的内存<br>(3) 第二列和第五列分别是第一列和第四列的百分比表示<br>(4) 第三列是第二列的一个综合</p>
+<h3 id="（4）生成可视化报告"><a href="#（4）生成可视化报告" class="headerlink" title="（4）生成可视化报告"></a>（4）生成可视化报告</h3><p>另外，看pprof的参数，可以生成gif或者pdf文件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pprof --gif ./wx_app ./mybin.hprof<span class="number">.0001</span>.heap &gt; a.gif</span><br><span class="line">pprof --pdf ./wx_app ./mybin.hprof<span class="number">.0001</span>.heap &gt; a.pdf</span><br></pre></td></tr></table></figure>
+
+<p>如果生成报告的时候有报错<br><img src="/assets/blogImg/gperftools6.jpg" alt="gperftools6.jpg"></p>
+<p>那么需要安装如下依赖</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install graphviz</span><br></pre></td></tr></table></figure>
+<p>如下图所示<br><img src="/assets/blogImg/gperftools7.jpg" alt="gperftools7.jpg"></p>
+<p>然后再次生成报告<br><img src="/assets/blogImg/gperftools8.jpg" alt="gperftools8.jpg"></p>
+<p>打开pdf即可看到可视化报告<br><img src="/assets/blogImg/gperftools9.jpg" alt="gperftools9.jpg"></p>
+<p>可以看出来，最影响性能的是_init，这个_init是gui图形初始化，经过查看，这个初始化是一个巨大的函数（超过3k行），里面没有细分多个栈（子函数）。<br>优化思路是可以先拆开若干小的函数，再看看哪里花的时间多。<br>这个属于是启动项优化，优化一下，启动更快。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="http://pkxpp.github.io/2017/03/30/gperftools%E5%AE%89%E8%A3%85/">http://pkxpp.github.io/2017/03/30/gperftools%E5%AE%89%E8%A3%85/</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/01/05/%E4%BD%BF%E7%94%A8gperftools%E5%B7%A5%E5%85%B7%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E6%80%A7%E8%83%BD/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-make选项之VERBOSE" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -1030,105 +1136,9 @@
 
 
   
-    <article id="post-opencv最小二乘法算法及相关函数" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/11/29/opencv%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95%E7%AE%97%E6%B3%95%E5%8F%8A%E7%9B%B8%E5%85%B3%E5%87%BD%E6%95%B0/">opencv最小二乘法算法及相关函数</a>
-    </h1>
-  
-
-        
-        <a href="/2022/11/29/opencv%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95%E7%AE%97%E6%B3%95%E5%8F%8A%E7%9B%B8%E5%85%B3%E5%87%BD%E6%95%B0/" class="archive-article-date">
-  	<time datetime="2022-11-29T12:13:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="opencv最小二乘法算法及相关函数"><a href="#opencv最小二乘法算法及相关函数" class="headerlink" title="opencv最小二乘法算法及相关函数"></a>opencv最小二乘法算法及相关函数</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>对opencv的学习，对最小二乘法拟合圆算法的学习记录</p>
-<h2 id="相关函数"><a href="#相关函数" class="headerlink" title="相关函数"></a>相关函数</h2><p>在实现最小二乘法的时候，用到的一些opencv的函数，做个记录</p>
-<h3 id="1-cv-copyMakeBorder"><a href="#1-cv-copyMakeBorder" class="headerlink" title="1.cv::copyMakeBorder"></a>1.cv::copyMakeBorder</h3><p>卷积操作时,图像边界可以填充或者不填充,如果我们需要填充呢?opencv提供了copyMakeBorder函数,可以实现边界填充功能。</p>
-<p>头文件声明</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;opencv2/core.hpp&gt;</span><br></pre></td></tr></table></figure>
-<p>函数原型</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CV_EXPORTS_W <span class="keyword">void</span> copyMakeBorder(InputArray src, OutputArray dst,</span><br><span class="line">                                 int top, int bottom, int left, int right,</span><br><span class="line">                                 int borderType, <span class="keyword">const</span> Scalar&amp; value = Scalar() );</span><br></pre></td></tr></table></figure>
-<p>参数解析</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">src：原图</span><br><span class="line">dst：结果图像，其大小为Size(src.cols+left+right, src.rows+top+bottom)</span><br><span class="line">top：指定图像上方填充多少像素。其他方向同理</span><br><span class="line">bottom</span><br><span class="line">left</span><br><span class="line">right</span><br><span class="line">borderType：填充类型</span><br><span class="line">value：borderType==BORDER_CONSTANT的填充值。默认值为<span class="number">0</span>的Scalar</span><br><span class="line">函数将源图像复制到目标图像的中间。在源图像左侧、右侧、上方和下方的区域进行像素填充</span><br><span class="line">填充类型</span><br><span class="line">borderType == BORDER_CONSTRAINT：指定像素值进行填充</span><br><span class="line">borderType== BORDER_REPLICATE：使用边缘像素值进行填充</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-cv-HoughCircles"><a href="#2-cv-HoughCircles" class="headerlink" title="2.cv::HoughCircles"></a>2.cv::HoughCircles</h3><p>霍夫变换找圆，需要注意的是，使用此函数可以很容易地检测出圆的圆心，但是它可能找不到合适的圆半径。</p>
-<p>函数原型</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> HoughCircles(InputArray image,OutputArray circles, int method, double dp, double minDist, double param1=<span class="number">100</span>,double param2=<span class="number">100</span>, int minRadius=<span class="number">0</span>, int maxRadius=<span class="number">0</span> )</span><br></pre></td></tr></table></figure>
-<p>参数解析</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">image：输入图像，即源图像，需为<span class="number">8</span>位的灰度单通道图像。</span><br><span class="line">circles：经过调用HoughCircles函数后此参数存储了检测到的圆的输出矢量，每个矢量由包含了<span class="number">3</span>个元素的浮点矢量(x, y, radius)表示。（即圆心坐标和半径）</span><br><span class="line">method：即使用的检测方法，目前OpenCV中就霍夫梯度法一种可以使用，它的标识符为CV_HOUGH_GRADIENT，在此参数处填这个标识符即可。</span><br><span class="line">dp：用来检测圆心的累加器图像的分辨率于输入图像之比的倒数，且此参数允许创建一个比输入图像分辨率低的累加器。例如，如果dp= <span class="number">1</span>时，累加器和输入图像具有相同的分辨率。如果dp=<span class="number">2</span>，累加器便有输入图像一半那么大的宽度和高度。</span><br><span class="line">minDist：为霍夫变换检测到的圆的圆心之间的最小距离，即让我们的算法能明显区分的两个不同圆之间的最小距离。这个参数如果太小的话，多个相邻的圆可能被错误地检测成了一个重合的圆。反之，这个参数设置太大的话，某些圆就不能被检测出来了。</span><br><span class="line">param1：有默认值<span class="number">100</span>。它是第三个参数method设置的检测方法的对应的参数。对当前唯一的方法霍夫梯度法CV_HOUGH_GRADIENT，它表示传递给canny边缘检测算子的高阈值，而低阈值为高阈值的一半。</span><br><span class="line">param2：也有默认值<span class="number">100</span>。它是第三个参数method设置的检测方法的对应的参数。对当前唯一的方法霍夫梯度法CV_HOUGH_GRADIENT，它表示在检测阶段圆心的累加器阈值。它越小的话，就可以检测到更多根本不存在的圆，而它越大的话，能通过检测的圆就更加接近完美的圆形了。</span><br><span class="line">minRadius：有默认值<span class="number">0</span>，表示圆半径的最小值。</span><br><span class="line">maxRadius：也有默认值<span class="number">0</span>，表示圆半径的最大值。</span><br></pre></td></tr></table></figure>
-
-<h2 id="最小二乘法拟合圆的原理"><a href="#最小二乘法拟合圆的原理" class="headerlink" title="最小二乘法拟合圆的原理"></a>最小二乘法拟合圆的原理</h2><p>最小二乘法(least squares analysis)是一种数学优化技术，它通过最小化误差的平方和找到一组数据的最佳函数匹配。最小二乘法是用最简的方法求得一些绝对不可知的真值，而令误差平方之和为最小来寻找一组数据的最佳匹配函数的计算方法，最小二乘法通常用于曲线拟合 (least squares fitting) 。</p>
-<p>最小二乘圆拟合方法是一种基于统计的检测方法，即便是图像中圆形目标受光照强度不均等因素的影响而产生边缘缺失，也不会影响圆心的定位和半径的检测，若边缘定位精确轮廓清晰，最小二乘法可实现亚像素级别的精确拟合定位。</p>
-<p>下面是拟合圆曲线的公式推导过程</p>
-<p><img src="/assets/blogImg/circle_1.jpg" alt="circle_1.jpg"><br><img src="/assets/blogImg/circle_2.jpg" alt="circle_2.jpg"><br><img src="/assets/blogImg/circle_3.jpg" alt="circle_3.jpg"><br><img src="/assets/blogImg/circle_4.jpg" alt="circle_4.jpg"><br><img src="/assets/blogImg/circle_5.jpg" alt="circle_5.jpg"></p>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://zj-image-processing.readthedocs.io/zh_CN/latest/opencv/code/[copyMakeBorder]%E6%B7%BB%E5%8A%A0%E8%BE%B9%E7%95%8C/">https://zj-image-processing.readthedocs.io/zh_CN/latest/opencv/code/[copyMakeBorder]%E6%B7%BB%E5%8A%A0%E8%BE%B9%E7%95%8C/</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/cqltbe131421/article/details/60870756">https://blog.csdn.net/cqltbe131421/article/details/60870756</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/Jacky_Ponder/article/details/70314919">https://blog.csdn.net/Jacky_Ponder/article/details/70314919</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">opencv</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/11/29/opencv%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95%E7%AE%97%E6%B3%95%E5%8F%8A%E7%9B%B8%E5%85%B3%E5%87%BD%E6%95%B0/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/3/">Next &amp;raquo;</a>
+      <a class="extend prev" rel="prev" href="/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/3/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -1235,11 +1245,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
+                <a href="javascript:void(0)" class="js-tag color5">基础技能</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1251,7 +1257,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">基础技能</a>
+                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1260,6 +1270,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">常用基础配置</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">基础技能C++</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">hexo博客搭建</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1275,14 +1293,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">hexo博客搭建</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">基础技能C++</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">常用命令linux</a>
               </li>
              
@@ -1292,6 +1302,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">通信协议</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">ps教程</a>
               </li>
              
               <li class="article-tag-list-item">
