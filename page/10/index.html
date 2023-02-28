@@ -61,7 +61,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 93
+			总文章数 97
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -180,6 +180,359 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-centos或mac下使用locate指令时报错" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/10/centos%E6%88%96mac%E4%B8%8B%E4%BD%BF%E7%94%A8locate%E6%8C%87%E4%BB%A4%E6%97%B6%E6%8A%A5%E9%94%99/">centos或mac下使用locate指令时，报错</a>
+    </h1>
+  
+
+        
+        <a href="/2019/08/10/centos%E6%88%96mac%E4%B8%8B%E4%BD%BF%E7%94%A8locate%E6%8C%87%E4%BB%A4%E6%97%B6%E6%8A%A5%E9%94%99/" class="archive-article-date">
+  	<time datetime="2019-08-10T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="centos或mac下使用locate指令时，报错-var-db-locate-database"><a href="#centos或mac下使用locate指令时，报错-var-db-locate-database" class="headerlink" title="centos或mac下使用locate指令时，报错(/var/db/locate.database)"></a>centos或mac下使用locate指令时，报错(/var/db/locate.database)</h1><p>centos或mac下使用locate指令时，出现报错信息The locate database (/var/db/locate.database)</p>
+<h2 id="在centos系统下，使用locate指令报错"><a href="#在centos系统下，使用locate指令报错" class="headerlink" title="在centos系统下，使用locate指令报错"></a>在centos系统下，使用locate指令报错</h2><p>使用locate指令时，出现报错信息’var/lib/mlocate/mlocate.db’:No such file or directory时，处理方案如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//输入以下指令即可</span></span><br><span class="line">updatedb</span><br><span class="line"><span class="comment">//需要等待一段时间，因为生成数据库需要一段时间</span></span><br></pre></td></tr></table></figure>
+
+<p>稍等一段时间之后，再输入locate指令，即可发现可以使用了</p>
+<h2 id="在mac系统下，使用locate指令报错"><a href="#在mac系统下，使用locate指令报错" class="headerlink" title="在mac系统下，使用locate指令报错"></a>在mac系统下，使用locate指令报错</h2><p>当在mac上使用locate指令时，报错如下：<br><img src="/assets/blogImg/locate_01.jpg" alt="使用locate指令时报错"></p>
+<p>解决方案如下：</p>
+<ol>
+<li>先根据刚才的提醒，输入sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist<br><img src="/assets/blogImg/locate_02.jpg" alt="根据提示，输入launchtcl指令"></li>
+</ol>
+<ol start="2">
+<li>然后，输入指令sudo /usr/libexec/locate.updatedb<br><img src="/assets/blogImg/locate_03.jpg" alt="生成数据库"></li>
+</ol>
+<p>输入上面这个指令后，会等待好久一段时间，要稍微等待一会儿</p>
+<ol start="3">
+<li>最后再次输入locate指令，发现locate指令已经生效啦<br><img src="/assets/blogImg/locate_04.jpg" alt="locate指令已经生效啦"></li>
+</ol>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>因为我之前经常在ubuntu下，都没有碰到过locate指令不好用的情况，最近需要在centos和mac下操作，忽然发现居然loacte指令使用失效，于是上网查找了解决办法，经过尝试了一些方案后，终于在centos和mac下可以使用locate指令了，因此做出了以上的总结～</p>
+<p>感谢网友们无私分享的解决方案～<br>参考的网友方案：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/d8f4f9e4b58c">https://www.jianshu.com/p/d8f4f9e4b58c</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常见报错问题</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/08/10/centos%E6%88%96mac%E4%B8%8B%E4%BD%BF%E7%94%A8locate%E6%8C%87%E4%BB%A4%E6%97%B6%E6%8A%A5%E9%94%99/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-hello-world" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/08/hello-world/">Hello World</a>
+    </h1>
+  
+
+        
+        <a href="/2019/08/08/hello-world/" class="archive-article-date">
+  	<time datetime="2019-08-08T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-08</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Clean"><a href="#Clean" class="headerlink" title="Clean"></a>Clean</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo clean</span><br></pre></td></tr></table></figure>
+
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br><span class="line"></span><br><span class="line">可以简写为 hexo g</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br><span class="line"></span><br><span class="line">可以简写为 hexo d</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<h3 id="example"><a href="#example" class="headerlink" title="example"></a>example</h3><p>生成一个新文件hello.md并上传步骤如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hexo new <span class="string">&quot;hello&quot;</span></span><br><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+
+<h3 id="装饰blog参考链接"><a href="#装饰blog参考链接" class="headerlink" title="装饰blog参考链接"></a>装饰blog参考链接</h3><p><a target="_blank" rel="noopener" href="https://www.gaotianyang.top/archives/20200717e10c0cde/">https://www.gaotianyang.top/archives/20200717e10c0cde/</a></p>
+<h3 id="本地查看当前blog的状态"><a href="#本地查看当前blog的状态" class="headerlink" title="本地查看当前blog的状态"></a>本地查看当前blog的状态</h3><p>1.启动本地的server服务</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br><span class="line"></span><br><span class="line">可以简写为 hexo s</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
+<p><img src="/assets/blogImg/hexo_s.jpg" alt="hexo_s.jpg"></p>
+<p>2.然后就可以启动localhost:4000查看本地的博客</p>
+<p><img src="/assets/blogImg/read_local_blog.jpg" alt="read_local_blog.jpg"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">hexo博客搭建</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/08/08/hello-world/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-阅读paho.mqtt.c源码学习记录01" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/15/%E9%98%85%E8%AF%BBpaho.mqtt.c%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%9501/">阅读paho.mqtt.c源码学习记录01</a>
+    </h1>
+  
+
+        
+        <a href="/2019/05/15/%E9%98%85%E8%AF%BBpaho.mqtt.c%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%9501/" class="archive-article-date">
+  	<time datetime="2019-05-15T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="阅读paho-mqtt-c源码学习记录01"><a href="#阅读paho-mqtt-c源码学习记录01" class="headerlink" title="阅读paho.mqtt.c源码学习记录01"></a>阅读paho.mqtt.c源码学习记录01</h1><h1 id="阅读paho-mqtt-c源码学习记录01-1"><a href="#阅读paho-mqtt-c源码学习记录01-1" class="headerlink" title="阅读paho.mqtt.c源码学习记录01"></a>阅读paho.mqtt.c源码学习记录01</h1><p>MQTT协议是当前非常流行的一个工业物联网协议，它具有很多优势，比如：轻量，且对流量占有小的优势；基于订阅/发布模式；有心跳/遗言机智；通过qos控制消息接收质量等。</p>
+<p>目前，基于MQTT协议封装的c的库，如下：<br><a target="_blank" rel="noopener" href="https://github.com/eclipse/paho.mqtt.c">https://github.com/eclipse/paho.mqtt.c</a></p>
+<p>通过源码阅读，进行学习</p>
+<h2 id="1-版本管理"><a href="#1-版本管理" class="headerlink" title="1.版本管理"></a>1.版本管理</h2><p>在阅读MQTT源码库的时候，个人觉得，非常值得我自己写库的时候学习的经验，最简单的一点就是版本管理。</p>
+<p>头文件里定义当前库的版本号；<br>提供接口获取当前链接的库的版本号；<br>通过版本比较，以此判断客户端程序使用库的时候，没有混淆不同的版本。</p>
+<p>PS：<br>这个设计真的很好，毕竟库的版本一直在迭代更新，如果没有一个版本管理，当编译时遇上了多个版本的同一个库，程序一旦链接了错误的版本，可能编译时可以成功编译，但是在运行时会出现各种奇奇怪怪得报错，而这种报错，往往非常难以排查。</p>
+<h2 id="2-注释合理"><a href="#2-注释合理" class="headerlink" title="2.注释合理"></a>2.注释合理</h2><p>MQTT源码库里的注释很详细，但是又不是那种对每一个函数、每一个参数、每一个返回值都进行长篇大论的累赘解释。MQTT源码库里的注释说明，其实是对重要接口的使用情景，注意事项（尤其是关于内存释放的提醒），以及接口设计的说明。</p>
+<p>感觉这种注释风格，非常值得学习。<br>毕竟很多注意事项，只有写代码的时候记得，等过上几个月再看，基本都忘的差不多了……对于后续维护来说，风格良好的注释真的重要。</p>
+<h2 id="3-接口的更新迭代都兼容了旧版本"><a href="#3-接口的更新迭代都兼容了旧版本" class="headerlink" title="3.接口的更新迭代都兼容了旧版本"></a>3.接口的更新迭代都兼容了旧版本</h2><p>MQTT源码库也更新了这么久了，必然有接口的变更，新的接口取代旧的接口，不过从这份源码来看，对于新旧版本的兼容，处理的很值得学习。客户端程序几乎不用改动，就可以从使用旧的库，替换成新的库。这种设计对于库的使用者来说，是非常友好的。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>以上是对于源码阅读最粗略的学习，更加具体的学习记录，将会在后续继续更新记录。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">通信协议</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/15/%E9%98%85%E8%AF%BBpaho.mqtt.c%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%9501/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-在线课程学习记录" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/02/27/%E5%9C%A8%E7%BA%BF%E8%AF%BE%E7%A8%8B%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">在线课程学习记录</a>
+    </h1>
+  
+
+        
+        <a href="/2019/02/27/%E5%9C%A8%E7%BA%BF%E8%AF%BE%E7%A8%8B%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" class="archive-article-date">
+  	<time datetime="2019-02-27T14:50:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="在线课程学习记录"><a href="#在线课程学习记录" class="headerlink" title="在线课程学习记录"></a>在线课程学习记录</h1><h2 id="matlab学习课程"><a href="#matlab学习课程" class="headerlink" title="matlab学习课程"></a>matlab学习课程</h2><p><a target="_blank" rel="noopener" href="https://www.xuexi.cn/lgpage/detail/index.html?id=7601754816855875029">https://www.xuexi.cn/lgpage/detail/index.html?id=7601754816855875029</a><br>//现代科学–MATLAB语言与应用<br>//东北大学</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/02/27/%E5%9C%A8%E7%BA%BF%E8%AF%BE%E7%A8%8B%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-explict关键字" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -548,11 +901,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
+                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
+                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
               </li>
              
               <li class="article-tag-list-item">

@@ -61,7 +61,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 93
+			总文章数 97
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -180,6 +180,297 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-gdb调试记录" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/12/04/gdb%E8%B0%83%E8%AF%95%E8%AE%B0%E5%BD%95/">gdb调试记录</a>
+    </h1>
+  
+
+        
+        <a href="/2022/12/04/gdb%E8%B0%83%E8%AF%95%E8%AE%B0%E5%BD%95/" class="archive-article-date">
+  	<time datetime="2022-12-04T15:03:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-12-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="gdb调试记录"><a href="#gdb调试记录" class="headerlink" title="gdb调试记录"></a>gdb调试记录</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>gdb调试C/C++程序<br>一般来说，windows下可以用visual studio就有很强大的代码调试工具，而在linux下，一般使用的gdb进行调试，这里做一个记录。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="http://c.biancheng.net/gdb/">http://c.biancheng.net/gdb/</a></p>
+<h2 id="常用操作"><a href="#常用操作" class="headerlink" title="常用操作"></a>常用操作</h2><p>以下以调试wx_app这个本地程序为例，这个程序是已经编译生成好的执行程序。</p>
+<h3 id="1-启动GDB"><a href="#1-启动GDB" class="headerlink" title="1.启动GDB"></a>1.启动GDB</h3><p>gdb 执行程序<br>注意，该指令在启动 GDB 的同时，会打印出一堆免责条款。通过添加 –silent（或者 -q、–quiet）选项，可将比部分信息屏蔽掉<br><img src="/assets/blogImg/gdb.jpg" alt="gdb.jpg"></p>
+<p><img src="/assets/blogImg/gdb2.jpg" alt="gdb2.jpg"></p>
+<h3 id="2-查看代码，运行程序"><a href="#2-查看代码，运行程序" class="headerlink" title="2.查看代码，运行程序"></a>2.查看代码，运行程序</h3><p>l指令 查看代码列表<br><img src="/assets/blogImg/gdb3.jpg" alt="gdb3.jpg"></p>
+<p>r指令 开始运行程序<br><img src="/assets/blogImg/gdb4.jpg" alt="gdb4.jpg"></p>
+<h3 id="3-设置普通断点"><a href="#3-设置普通断点" class="headerlink" title="3.设置普通断点"></a>3.设置普通断点</h3><p>b指令 设置断点<br>格式<br>b 函数名称<br><img src="/assets/blogImg/gdb5.jpg" alt="gdb5.jpg"></p>
+<p>命中断点<br>n 执行下一条语句<br>c 继续运行程序<br><img src="/assets/blogImg/gdb6.jpg" alt="gdb6.jpg"></p>
+<h3 id="4-设置断点常用的语法格式有以下2种"><a href="#4-设置断点常用的语法格式有以下2种" class="headerlink" title="4.设置断点常用的语法格式有以下2种"></a>4.设置断点常用的语法格式有以下2种</h3><p>1、(gdb) break location     // b location<br>在这个格式中，location 用于指定打断点的具体位置，其表示方式有多种，如表 1 所示。<br><img src="/assets/blogImg/gdb7.jpg" alt="gdb7.jpg"></p>
+<p>示例如下：<br>设置断点如下<br><img src="/assets/blogImg/gdb8.jpg" alt="gdb8.jpg"></p>
+<p>p指令 查看指定变量当前的值<br>命中断点如下<br><img src="/assets/blogImg/gdb9.jpg" alt="gdb9.jpg"></p>
+<p>2、(gdb) break … if cond   // b .. if cond<br> 在这个格式中，… 可以是表 1 中所有参数的值，用于指定打断点的具体位置；cond 为某个表达式。整体的含义为：每次程序执行到 … 位置时都计算 cond 的值，如果为 True，则程序在该位置暂停；反之，程序继续执行。</p>
+<h3 id="5-设置观察断点"><a href="#5-设置观察断点" class="headerlink" title="5.设置观察断点"></a>5.设置观察断点</h3><p>GDB 调试器支持在程序中打 3 种断点，分别为普通断点、观察断点和捕捉断点。其中 break 命令打的就是普通断点，而 watch 命令打的为观察断点。使用 catch 命令建立捕捉断点。</p>
+<p>借助观察断点可以监控程序中某个变量或者表达式的值，只要发生改变，程序就会停止执行。相比普通断点，观察断点不需要我们预测变量（表达式）值发生改变的具体位置。<br>对于监控 C、C++ 程序中某变量或表达式的值是否发生改变，watch 命令的语法非常简单，如下所示：<br>(gdb) watch cond<br>其中，conde 指的就是要监控的变量或表达式。</p>
+<p>和 watch 命令功能相似的，还有 rwatch 和 awatch 命令。其中：<br>rwatch 命令：只要程序中出现读取目标变量（表达式）的值的操作，程序就会停止运行；<br>awatch 命令：只要程序中出现读取目标变量（表达式）的值或者改变值的操作，程序就会停止运行。<br>强调一下，watch 命令的功能是：只有当被监控变量（表达式）的值发生改变，程序才会停止运行。<br><img src="/assets/blogImg/gdb10.jpg" alt="gdb10.jpg"></p>
+<p><img src="/assets/blogImg/gdb11.jpg" alt="gdb11.jpg"></p>
+<p>如果我们想查看当前建立的观察点的数量，借助如下指令即可：<br>(gdb) info watchpoints</p>
+<p>值得一提的是，对于使用 watch（rwatch、awatch）命令监控 C、C++ 程序中变量或者表达式的值，有以下几点需要注意：<br>1、当监控的变量（表达式）为局部变量（表达式）时，一旦局部变量（表达式）失效，则监控操作也随即失效；<br>2、如果监控的是一个指针变量（例如 *p），则 watch *p 和 watch p 是有区别的，前者监控的是 p 所指数据的变化情况，而后者监控的是 p 指针本身有没有改变指向；<br>3、这 3 个监控命令还可以用于监控数组中元素值的变化情况，例如对于 a[10] 这个数组，watch a 表示只要 a 数组中存储的数据发生改变，程序就会停止执行。</p>
+<h3 id="6-建立捕捉断点"><a href="#6-建立捕捉断点" class="headerlink" title="6.建立捕捉断点"></a>6.建立捕捉断点</h3><p>和前 2 种断点不同，普通断点作用于程序中的某一行，当程序运行至此行时停止执行，观察断点作用于某一变量或表达式，当该变量（表达式）的值发生改变时，程序暂停。而捕捉断点的作用是，监控程序中某一事件的发生，例如程序发生某种异常时、某一动态库被加载时等等，一旦目标时间发生，则程序停止执行。<br>用捕捉断点监控某一事件的发生，等同于在程序中该事件发生的位置打普通断点。<br>建立捕捉断点的方式很简单，就是使用 catch 命令，其基本格式为：<br>(gdb) catch event</p>
+<p>其中，event 参数表示要监控的具体事件。对于使用 GDB 调试 C、C++ 程序，常用的 event 事件类型如表 1 所示。<br><img src="/assets/blogImg/gdb12.jpg" alt="gdb12.jpg"></p>
+<h2 id="常用指令"><a href="#常用指令" class="headerlink" title="常用指令"></a>常用指令</h2><p>一般比较常用的调试指令如下<br><img src="/assets/blogImg/gdb15.jpg" alt="gdb15.jpg"></p>
+<p>还有遇到core dump的时候，输入<br>(gdb)bt<br>可以查看段错误崩溃在哪里</p>
+<h2 id="其他指令"><a href="#其他指令" class="headerlink" title="其他指令"></a>其他指令</h2><p>虽然不常用，但是偶尔也很有用，不再举例<br>（1）tbreak命令<br>tbreak 命令可以看到是 break 命令的另一个版本，tbreak 和 break 命令的用法和功能都非常相似，唯一的不同在于，使用 tbreak 命令打的断点仅会作用 1 次，即使程序暂停之后，该断点就会自动消失。<br>tbreak 命令的使用格式和 break 完全相同，有以下 2 种：<br>1、(gdb) tbreak location<br>2、(gdb) tbreak … if cond<br>其中，location、… 和 cond 的含义都和 break 命令中的参数含义相同，即表 1 也同样适用于 tbreak 命令。</p>
+<p>（2）rbreak命令<br>rbreak命令的使用语法格式为：<br>(gdb) rbreak regex<br>其中 regex 为一个正则表达式，程序中函数的函数名只要满足 regex 条件，rbreak 命令就会其内部的开头位置打断点。值得一提的是，rbreak 命令打的断点和 break 命令打断点的效果是一样的，会一直存在，不会自动消失。</p>
+<p>如下，通过执行rbreak rb_<em>指令，找到了程序中所有以 rb_</em> 开头的函数，并在这些函数内部的开头位置打上了断点<br><img src="/assets/blogImg/gdb16.jpg" alt="gdb16.jpg"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/12/04/gdb%E8%B0%83%E8%AF%95%E8%AE%B0%E5%BD%95/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-单元测试gtest框架" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/12/04/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95gtest%E6%A1%86%E6%9E%B6/">单元测试gtest框架</a>
+    </h1>
+  
+
+        
+        <a href="/2022/12/04/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95gtest%E6%A1%86%E6%9E%B6/" class="archive-article-date">
+  	<time datetime="2022-12-04T15:03:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-12-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="单元测试gtest框架"><a href="#单元测试gtest框架" class="headerlink" title="单元测试gtest框架"></a>单元测试gtest框架</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>对单元测试gtest框架的系统性学习，也是对《C++程序设计实践与技巧测试驱动开发》读书笔记</p>
+<p>代码下载地址<br><a target="_blank" rel="noopener" href="https://media.pragprog.com/titles/lotdd/code/lotdd-code.zip">https://media.pragprog.com/titles/lotdd/code/lotdd-code.zip</a></p>
+<h2 id="常用宏"><a href="#常用宏" class="headerlink" title="常用宏"></a>常用宏</h2><p>一些常用的宏</p>
+<h3 id="1-fixture-与-TEST宏与TEST-F宏"><a href="#1-fixture-与-TEST宏与TEST-F宏" class="headerlink" title="1.fixture 与 TEST宏与TEST_F宏"></a>1.fixture 与 TEST宏与TEST_F宏</h3><p>Google Mock允许我们定义一个fixture类，我们可以在这个类中为相关的测试声明函数和变量。从技术角度来说，所有的Google Mock测试都使用一个由Google Mock自己生成的fixture<br>fixture–一个跨测试可重用的类<br>如下，使用默认的fixture（用TEST宏）<br><img src="/assets/blogImg/gtest_1.jpg" alt="gtest_1.jpg"></p>
+<p>如下，自己声明一个fixture（用TEST_F宏）<br>如果想让测试能够访问fixture类的成员变量，那么就需要将TEST宏替换成TEST_F宏<br>（尾部的F表示fixture）<br>测试用例的名称必须与fixture的名称一样。<br><img src="/assets/blogImg/gtest_2.jpg" alt="gtest_2.jpg"></p>
+<h3 id="2-EXPECT-THAT宏与ASSERT-THAT宏"><a href="#2-EXPECT-THAT宏与ASSERT-THAT宏" class="headerlink" title="2.EXPECT_THAT宏与ASSERT_THAT宏"></a>2.EXPECT_THAT宏与ASSERT_THAT宏</h3><p>ASSERT_THAT断言失败的话，其他代码不能继续执行<br>EXPECT_THAT断言失败的话，其他代码继续执行</p>
+<p>ASSERT_THAT(实际值，期待值） 可以看出实际值在前<br><img src="/assets/blogImg/gtest_3.jpg" alt="gtest_3.jpg"></p>
+<h3 id="3-ASSERT-TRUE宏与ASSERT-FALSE宏"><a href="#3-ASSERT-TRUE宏与ASSERT-FALSE宏" class="headerlink" title="3.ASSERT_TRUE宏与ASSERT_FALSE宏"></a>3.ASSERT_TRUE宏与ASSERT_FALSE宏</h3><p><img src="/assets/blogImg/gtest_4.jpg" alt="gtest_4.jpg"></p>
+<h3 id="4-EXPECT-EQ宏与ASSERT-EQ宏"><a href="#4-EXPECT-EQ宏与ASSERT-EQ宏" class="headerlink" title="4.EXPECT_EQ宏与ASSERT_EQ宏"></a>4.EXPECT_EQ宏与ASSERT_EQ宏</h3><p>EXPECT_EQ(1, 1);        // EQ是equals的意思，判断两个对象是否相等<br>ASSERT_EQ（期待值，实际值） //此时，是期待值在前<br><img src="/assets/blogImg/gtest_5.jpg" alt="gtest_5.jpg"></p>
+<p>EXPECT_GT(2, 0);        // GT是greater then, 比 xx更大，通过是数值比较<br>EXPECT_FALSE( 3&gt;5);            // 断言结果是false，参数是返回类型bool的表达式或函数<br>EXPECT_TRUE( 3&gt;1);        // 断言结果是true，参数是返回类型bool的表达式或函数<br>EXPECT_STREQ(“aaa”, “aaa”);    // STREQ 是string equals，判断两个字符串是否相等</p>
+<h3 id="4-DISABLED-前缀"><a href="#4-DISABLED-前缀" class="headerlink" title="4.DISABLED_前缀"></a>4.DISABLED_前缀</h3><p>在测试名称前加上DISABLED_前缀的话，会跳过执行这个测试<br><img src="/assets/blogImg/gtest_6.jpg" alt="gtest_6.jpg"></p>
+<p><img src="/assets/blogImg/gtest_7.jpg" alt="gtest_7.jpg"></p>
+<p>当运行的时候，会提示有跳过的测试<br><img src="/assets/blogImg/gtest_8.jpg" alt="gtest_8.jpg"></p>
+<h3 id="5-测试崩溃"><a href="#5-测试崩溃" class="headerlink" title="5.测试崩溃"></a>5.测试崩溃</h3><p>如果希望遇到未处理的异常就让测试崩溃，可以用下面的命令行选项运行Google Mock:<br>–gtest_catch_exceptions=0</p>
+<h3 id="6-MATCHER-P宏"><a href="#6-MATCHER-P宏" class="headerlink" title="6.MATCHER_P宏"></a>6.MATCHER_P宏</h3><p>MATCHER_P自定义了一个匹配器，它接受一个参数。<br><img src="/assets/blogImg/gtest_9.jpg" alt="gtest_9.jpg"></p>
+<p><img src="/assets/blogImg/gtest_10.jpg" alt="gtest_10.jpg"></p>
+<h3 id="7-SetUp（）与TearDown"><a href="#7-SetUp（）与TearDown" class="headerlink" title="7.SetUp（）与TearDown()"></a>7.SetUp（）与TearDown()</h3><p>如果测试用例中，所有测试需要一条或更多的相同的初始化语句，那么就可以将它们写在fixture类的初始化函数中。在Google Mock中，必须将此函数命名为SetUp(它覆写了基类::testing::Test中的虚函数）<br>TearDown()是SetUp（）的逆过程，用于进行清理工作。<br><img src="/assets/blogImg/gtest_11.jpg" alt="gtest_11.jpg"></p>
+<p>以下的fixture里使用了智能指针，这样下面的示例里就可以不用写TearDown（）了<br><img src="/assets/blogImg/gtest_12.jpg" alt="gtest_12.jpg"></p>
+<h2 id="一些测试技巧"><a href="#一些测试技巧" class="headerlink" title="一些测试技巧"></a>一些测试技巧</h2><p>对书里提到的一些测试技巧的总结</p>
+<h3 id="1-运行测试的一个子集（–gtest-filter选项"><a href="#1-运行测试的一个子集（–gtest-filter选项" class="headerlink" title="1.运行测试的一个子集（–gtest_filter选项)"></a>1.运行测试的一个子集（–gtest_filter选项)</h3><p>如果所有的测试都跑一遍，需要很长的时间，而为了频繁的测试当前的修改，我们可以只测试其中的一个子集（当前修改的那个）<br>如下图，跑完所有的，会直接跑22个单元测试：<br><img src="/assets/blogImg/gtest_15.jpg" alt="gtest_15.jpg"></p>
+<p>假如当前我们只修改了ARetweetCollectionWithOneTweet这个fixture的内容，只需要单独测试这个子集，可以用gtest_filter过滤出自己需要跑的单元测试。<br>过滤器的语法是：测试用例名.测试名称<br>如果想要运行一个特定的测试，可以如下图：<br>./test –gtest_filter=ARetweetCollectionWithOneTweet.IsNoLongerEmpty<br><img src="/assets/blogImg/gtest_16.jpg" alt="gtest_16.jpg"></p>
+<p>最好不要养成每次只运行一个测试的习惯。可以使用通配符（<em>）运行多个测试。比如运行一下ARetweetCollectionWithOneTweet测试用例里的所有测试，如下图：<br>./test –gtest_filter=ARetweetCollectionWithOneTweet.</em><br><img src="/assets/blogImg/gtest_17.jpg" alt="gtest_17.jpg"></p>
+<p>可以使用冒号（：）来分割不同的过滤器。<br>如果GoogleMock遇到一个负号（-），那么其后的所有过滤器匹配的测试都将被忽略。<br>如下图所示：<br>./test –gtest_filter=<em>Retweet</em>.<em>:ATweet.</em>:-ATweet*.<em>Construct</em><br>注意：<br>-ATweet*.<em>Construct</em>告诉GoogleMock忽略名称中含有Construct的所有ATweet测试<br><img src="/assets/blogImg/gtest_18.jpg" alt="gtest_18.jpg"></p>
+<h2 id="测试思想"><a href="#测试思想" class="headerlink" title="测试思想"></a>测试思想</h2><p>书里提到的一些测试思想，很有启发性</p>
+<h3 id="1-测试行为而非方法"><a href="#1-测试行为而非方法" class="headerlink" title="1.测试行为而非方法"></a>1.测试行为而非方法</h3><p>TDD初学者常犯的一个错误是集中精力去测试成员函数。<br>比如实现了一个add（）成员函数，再写一个TEST（ARetweetCollection,Add)的测试。但是，写一个完全覆盖add()行为的测试需要考虑多种不同的情形。结果就是你必须将许多不同的行为编码到同一个测试。此时，测试就没有文档价值了，同时，理解一个测试花费的时间也会增加。<br>相反，你要把注意力放在行为或描述行为的情形上。比如，如果加入一个之前已经加入过的tweet会发生什么？如果客户传入为空呢？等等，这样就能全面的查看测试名称，并且了解系统支持的确定行为。</p>
+<h3 id="2-保持简单"><a href="#2-保持简单" class="headerlink" title="2.保持简单"></a>2.保持简单</h3><p>无谓的复杂性带来的成本是无止境的。相信你曾花费无数个小时去解读一个复杂的成员函数或错综复杂的设计。大多数时候，你都可以编写一个更简单的解决方案，从而节省每个人的时间。<br>有很多原因会导致开发人员制造出无谓的复杂性。<br>（1）时间压力<br>轻率使得复杂性不断累积，这将在多个方面（代码可理解性、修改代码的开销、构建时间）让你速度更慢。<br>（2）缺乏学习<br>在追求更好的代码的同时，也要承认自己制造的不良代码。这意味着你必须理解两者之间的差别。你可以通过团队成员结对编程或者审阅代码的方式获得真实的反馈。学习怎样识别设计缺陷和代码坏味。学习怎样以更好的方式去纠正它们，可以找几本关于创建简洁设计和代码的书本来学习。<br>（3）已有的复杂性<br>一个设计繁杂的已有代码库会让你在添加新行为时束手束脚。过长的方法会催生更冗长的方法，高耦合的设计也是孕育更加高耦合设计的温床。<br>（4）害怕去改代码<br>如果未经测试的话，你不会一直写出正确的代码。“如果没有出现问题，就不要去修复。”害怕修改代码会阻碍向更好的、可持续的设计进行重构。使用TDD的话，每个通过的测试都会提供改善代码的机会。<br>（5）臆测<br>“客户和账号之间可能存在多对多的关系，所以现在就把这个添加到系统中”或许大多数时候你是对的，但是你要承受过早引入的复杂性。有时候你会选择另外一个思路，这时，你将不断的为这个（无用的）额外的复杂性买单，或者也会花费大量的精力去移除这个没必要的复杂性。相反，你应该在真正需要的时候再考虑上述做法。通常，这样做不会带来额外的开销。<br>保持简单是你在持续变化的环境中的生存之道。<br>在敏捷开发里，每次迭代都会交付新特性，其中一些你可能从未考虑过。这是个挑战，如果系统不能适应新的改动，你就需要把新功能强加进系统。为此，最好的防范办法就是保持简单的设计：代码易读，没有冗余、没有无谓的复杂性。具有这些特征的系统会最大程度的降低维护成本。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/12/04/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95gtest%E6%A1%86%E6%9E%B6/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-计算机读书清单记录" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/11/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BB%E4%B9%A6%E6%B8%85%E5%8D%95%E8%AE%B0%E5%BD%95/">计算机读书清单记录</a>
+    </h1>
+  
+
+        
+        <a href="/2022/11/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BB%E4%B9%A6%E6%B8%85%E5%8D%95%E8%AE%B0%E5%BD%95/" class="archive-article-date">
+  	<time datetime="2022-11-29T12:55:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="计算机读书清单记录"><a href="#计算机读书清单记录" class="headerlink" title="计算机读书清单记录"></a>计算机读书清单记录</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>俗话说，好记性不如烂笔头，对于之前读过的书，简单的做个清单记录。<br>这些书都是买过实体书，觉得学有所得，触发个人一些思考和成长的书本，做个分类整理吧。</p>
+<h2 id="C-专业技术书籍"><a href="#C-专业技术书籍" class="headerlink" title="C++专业技术书籍"></a>C++专业技术书籍</h2><p>总结一下C++专业技术相关的书籍</p>
+<h3 id="1-《C-17入门经典》"><a href="#1-《C-17入门经典》" class="headerlink" title="1.《C++17入门经典》"></a>1.《C++17入门经典》</h3><p>源码下载地址：<br><a target="_blank" rel="noopener" href="https://codeload.github.com/Apress/beg-cplusplus17/zip/refs/heads/master">https://codeload.github.com/Apress/beg-cplusplus17/zip/refs/heads/master</a></p>
+<p>学习新语言特性的一本值得一看的书。</p>
+<h3 id="2-《windows黑客编程技术详解》"><a href="#2-《windows黑客编程技术详解》" class="headerlink" title="2.《windows黑客编程技术详解》"></a>2.《windows黑客编程技术详解》</h3><p>源码下载地址：<br><a target="_blank" rel="noopener" href="https://dl-01.vips100.com/v3/eb017cc77914a36f40141a7b332210b2224f444942f6b505404859b7185bf5b4/delivery/data/d0e588c7174b45b8b3e51913f2e51d58/?auth_key=1653918151-376ffe2da77847f3949ec2700a750e83-0-ae3169cb9db83f8f5ca1d436475d6669&amp;LBC=meta&amp;token=2cbfe0b93ebb1b1526d320d691f4c817da12cf6bd8151c07ff763cf123410f6eafbece8851723ddd11d02b5304a8e9bbba577b43bd3184fbde0d563a2ab6499ff598cceac5149b8e3cd380a8e2439bfc&amp;aid=315742&amp;rec_log=true&amp;neid=833113971&amp;nsid=673116&amp;lb_cl=c&amp;neid=833113971">https://dl-01.vips100.com/v3/eb017cc77914a36f40141a7b332210b2224f444942f6b505404859b7185bf5b4/delivery/data/d0e588c7174b45b8b3e51913f2e51d58/?auth_key=1653918151-376ffe2da77847f3949ec2700a750e83-0-ae3169cb9db83f8f5ca1d436475d6669&amp;LBC=meta&amp;token=2cbfe0b93ebb1b1526d320d691f4c817da12cf6bd8151c07ff763cf123410f6eafbece8851723ddd11d02b5304a8e9bbba577b43bd3184fbde0d563a2ab6499ff598cceac5149b8e3cd380a8e2439bfc&amp;aid=315742&amp;rec_log=true&amp;neid=833113971&amp;nsid=673116&amp;lb_cl=c&amp;neid=833113971</a></p>
+<p>哎，想当年年少轻狂，谁没有一个当黑客大神，纵横网络的梦呢。看看这些书，算是一种参与感了吧。就当是一场梦，看的时候还是很激动。</p>
+<h2 id="理论思想书籍"><a href="#理论思想书籍" class="headerlink" title="理论思想书籍"></a>理论思想书籍</h2><p>总结一下理论思想方面的书籍</p>
+<h3 id="1-《大话设计模式》"><a href="#1-《大话设计模式》" class="headerlink" title="1.《大话设计模式》"></a>1.《大话设计模式》</h3><p>这本书是目前看过就能理解设计模式的一本书，虽然依然也看过就忘，但是每次看的时候，都觉得跟着作者的思路很容易理解这些设计模式。</p>
+<h3 id="2-《人月神话》"><a href="#2-《人月神话》" class="headerlink" title="2.《人月神话》"></a>2.《人月神话》</h3><p>这本书可谓赫赫有名</p>
+<h3 id="3-《代码整洁之道》"><a href="#3-《代码整洁之道》" class="headerlink" title="3.《代码整洁之道》"></a>3.《代码整洁之道》</h3><p>最早看到这本书的时候，惊为天人。一下子在我脑海里种下了Clean Code的概念，也是我的追求。</p>
+<h2 id="通用技术"><a href="#通用技术" class="headerlink" title="通用技术"></a>通用技术</h2><h3 id="1-《C-程序设计实践与技巧测试驱动开发》"><a href="#1-《C-程序设计实践与技巧测试驱动开发》" class="headerlink" title="1.《C++程序设计实践与技巧测试驱动开发》"></a>1.《C++程序设计实践与技巧测试驱动开发》</h3><p>这本书讲的是不仅是一种单元测试的技术和思想，有些部分很值得再刷一遍。</p>
+<p>源码下载地址：<br><a target="_blank" rel="noopener" href="https://media.pragprog.com/titles/lotdd/code/lotdd-code.zip">https://media.pragprog.com/titles/lotdd/code/lotdd-code.zip</a></p>
+<h2 id="图像处理"><a href="#图像处理" class="headerlink" title="图像处理"></a>图像处理</h2><h3 id="1-《图像处理与计算机视觉算法及应用》第2版"><a href="#1-《图像处理与计算机视觉算法及应用》第2版" class="headerlink" title="1.《图像处理与计算机视觉算法及应用》第2版"></a>1.《图像处理与计算机视觉算法及应用》第2版</h3><p>顾名思义，讲的是图像处理相关内容</p>
+<p>源码下载地址：<br><a target="_blank" rel="noopener" href="http://down1.tupwk.com.cn/qhwkdownpage/978-7-302-28222-8.rar">http://down1.tupwk.com.cn/qhwkdownpage/978-7-302-28222-8.rar</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">阅读</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/11/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BB%E4%B9%A6%E6%B8%85%E5%8D%95%E8%AE%B0%E5%BD%95/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-opencv最小二乘法算法及相关函数" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -829,278 +1120,6 @@
 
 
   
-    <article id="post-kali系统下安装cmake" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/11/12/kali%E7%B3%BB%E7%BB%9F%E4%B8%8B%E5%AE%89%E8%A3%85cmake/">kali系统下安装cmake</a>
-    </h1>
-  
-
-        
-        <a href="/2022/11/12/kali%E7%B3%BB%E7%BB%9F%E4%B8%8B%E5%AE%89%E8%A3%85cmake/" class="archive-article-date">
-  	<time datetime="2022-11-12T11:09:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="kali系统下安装cmake"><a href="#kali系统下安装cmake" class="headerlink" title="kali系统下安装cmake"></a>kali系统下安装cmake</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在kali系统下安装cmake，因为kali系统与其他的ubuntu系统不同，直接用apt-get install是无法直接安装cmake的，这里记录下安装步骤</p>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44023460/article/details/112131732">https://blog.csdn.net/weixin_44023460/article/details/112131732</a><br>//基本上就是按照这个步骤来安装即可</p>
-<h2 id="安装记录"><a href="#安装记录" class="headerlink" title="安装记录"></a>安装记录</h2><p>记录一下个人安装步骤</p>
-<h3 id="1-完整安装步骤"><a href="#1-完整安装步骤" class="headerlink" title="1.完整安装步骤"></a>1.完整安装步骤</h3><p>以下为在kali系统下安装cmake的完整步骤</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install build-essential</span><br><span class="line">sudo wget http:<span class="comment">//www.cmake.org/files/v3.4/cmake-3.4.1.tar.gz\n</span></span><br><span class="line">ls</span><br><span class="line">tar -zxvf cmake-<span class="number">3.4</span><span class="number">.1</span>.tar.gz</span><br><span class="line">ls</span><br><span class="line">cd cmake-<span class="number">3.4</span><span class="number">.1</span></span><br><span class="line">ls</span><br><span class="line">./configure</span><br><span class="line">sudo make</span><br><span class="line">sudo apt-get install checkinstall</span><br><span class="line">sudo checkinstall</span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
-
-<p>如下图<br><img src="/assets/blogImg/kali_cmake.jpg" alt="kali_cmake"></p>
-<h3 id="2-检查是否安装成功"><a href="#2-检查是否安装成功" class="headerlink" title="2.检查是否安装成功"></a>2.检查是否安装成功</h3><p>上面的步骤都执行成功后，一般就是安装好cmake了，可以通过指令查看cmake版本来确认是否安装好cmake</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cmake --version</span><br></pre></td></tr></table></figure>
-
-<p>当输入指令后，终端显示当前安装的cmake版本号时，就说明已经配置好cmake环境了<br><img src="/assets/blogImg/kali_cmake2.jpg" alt="kali_cmake2"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">kali</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/11/12/kali%E7%B3%BB%E7%BB%9F%E4%B8%8B%E5%AE%89%E8%A3%85cmake/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-moveDragon小玩具" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/11/12/moveDragon%E5%B0%8F%E7%8E%A9%E5%85%B7/">moveDragon小玩具</a>
-    </h1>
-  
-
-        
-        <a href="/2022/11/12/moveDragon%E5%B0%8F%E7%8E%A9%E5%85%B7/" class="archive-article-date">
-  	<time datetime="2022-11-12T10:34:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="moveDragon小玩具"><a href="#moveDragon小玩具" class="headerlink" title="moveDragon小玩具"></a>moveDragon小玩具</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>其实一开始是因为听到了一首歌《得过且过的勇者》，觉得这个很有趣；<br>然后正好在玩一个linux的玩具sl，大家可能知道这个玩具，输入sl的时候，就会出来一个小火车呜呜呜，很有趣；<br>于是心血来潮觉得我也可以做一个类似的mv小玩具，哈哈哈，这里做一个代码记录</p>
-<h2 id="github上源码地址"><a href="#github上源码地址" class="headerlink" title="github上源码地址"></a>github上源码地址</h2><p>参考使用了：cowsay字符图案，sl源码</p>
-<p>这里我将moveDragon的代码上传到github上了，这里是地址，感兴趣的话可以下载编译玩一下<br><a target="_blank" rel="noopener" href="https://github.com/ThranduilELFKING/moveDragon.git">https://github.com/ThranduilELFKING/moveDragon.git</a></p>
-<p>本来是在2020年就做完了，应该把代码什么的放出来的，但是中间一直因为有些其他事情就耽误了，但是最终还是上传上来了~</p>
-<h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><p>1.首先，要有cmake编译环境<br>2.编译</p>
-<p>可以看到代码目录如下：</p>
-<p><img src="/assets/blogImg/move_dragon.jpg" alt="move_dragon"></p>
-<p>直接执行sh build.sh即可<br>然后进入build目录，启动moveDragon即可</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sh build.sh</span><br><span class="line">cd build</span><br><span class="line">./moveDragon</span><br></pre></td></tr></table></figure>
-
-<p>执行后的效果：<br><img src="/assets/blogImg/move_dragon2.jpg" alt="move_dragon2"></p>
-<h2 id="具体效果链接"><a href="#具体效果链接" class="headerlink" title="具体效果链接"></a>具体效果链接</h2><p>可以在B站看到我上传的一个效果视频<br><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1GA411v7Ja/?vd_source=7dc3f0bd6dd2626fdbf180d0632d1d01">https://www.bilibili.com/video/BV1GA411v7Ja/?vd_source=7dc3f0bd6dd2626fdbf180d0632d1d01</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">个人小工具</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/11/12/moveDragon%E5%B0%8F%E7%8E%A9%E5%85%B7/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-pthread相关报错" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/11/12/pthread%E7%9B%B8%E5%85%B3%E6%8A%A5%E9%94%99/">pthread相关报错</a>
-    </h1>
-  
-
-        
-        <a href="/2022/11/12/pthread%E7%9B%B8%E5%85%B3%E6%8A%A5%E9%94%99/" class="archive-article-date">
-  	<time datetime="2022-11-12T08:36:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="pthread相关报错"><a href="#pthread相关报错" class="headerlink" title="pthread相关报错"></a>pthread相关报错</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>最近在用gtest编译单元测试demo的时候，遇上了一个pthread报错，这里就整理一下常见的pthread相关报错，及对应的解决方案</p>
-<h2 id="报错提示“未定义的引用”"><a href="#报错提示“未定义的引用”" class="headerlink" title="报错提示“未定义的引用”"></a>报错提示“未定义的引用”</h2><p><img src="/assets/blogImg/pthread.jpg" alt="pthread"></p>
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>一般都是在链接pthread的库的时候，提示“pthread_xxxx 未定义的引用”这类<br>对于这个报错，有3种可能的原因</p>
-<h3 id="1-忘记在cmake里链接pthread库"><a href="#1-忘记在cmake里链接pthread库" class="headerlink" title="1.忘记在cmake里链接pthread库"></a>1.忘记在cmake里链接pthread库</h3><p>忘记链接pthread的库，那么直接在cmake里面加入对pthread库的链接即可<br>如下：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">……</span><br><span class="line">#将执行程序test链接pthread库</span><br><span class="line">add_executable(test $&#123;sources&#125;)</span><br><span class="line">target_link_libraries(test pthread)</span><br><span class="line">……</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-忘记在cmake里指定可以寻找到pthread库的路径"><a href="#2-忘记在cmake里指定可以寻找到pthread库的路径" class="headerlink" title="2.忘记在cmake里指定可以寻找到pthread库的路径"></a>2.忘记在cmake里指定可以寻找到pthread库的路径</h3><p>如果确认已经做了第一步，却还是提示未定义的引用，那么非常有可能是没有找到pthread库的路径，需要在cmake里指名pthread库的路径<br>如下：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">……</span><br><span class="line">#确认pthread库在/usr/lib下</span><br><span class="line">link_directories(</span><br><span class="line">   <span class="regexp">/usr/</span>lib</span><br><span class="line">)</span><br><span class="line">……</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-在cmake里链接pthread库的顺序不对"><a href="#3-在cmake里链接pthread库的顺序不对" class="headerlink" title="3.在cmake里链接pthread库的顺序不对"></a>3.在cmake里链接pthread库的顺序不对</h3><p>如果以上两步都确认是对的，依然还是提示未定义的引用，那么最大的可能就是链接顺序的问题<br>比如在以下这个cmake里面(会报错的版本):</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">……</span><br><span class="line">link_directories(</span><br><span class="line">   <span class="regexp">/usr/</span>lib</span><br><span class="line">)</span><br><span class="line">add_executable(test $&#123;sources&#125;)</span><br><span class="line">target_link_libraries(test pthread)</span><br><span class="line">target_link_libraries(test gmock)</span><br><span class="line">target_link_libraries(test gtest)</span><br><span class="line">……</span><br></pre></td></tr></table></figure>
-<p>对于这个报错提示，一直都是“pthread_xxxx 未定义的引用”</p>
-<p>排查下来，就是链接库的顺序问题，解决方案就是调整链接库的顺序，将对pthread的链接放在最后面<br>比如下面这个cmake（正确编译的版本）：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">……</span><br><span class="line">link_directories(</span><br><span class="line">   <span class="regexp">/usr/</span>lib</span><br><span class="line">)</span><br><span class="line">add_executable(test $&#123;sources&#125;)</span><br><span class="line">target_link_libraries(test gmock)</span><br><span class="line">target_link_libraries(test gtest)</span><br><span class="line">target_link_libraries(test pthread)</span><br><span class="line">……</span><br></pre></td></tr></table></figure>
-
-
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常见报错问题</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">第三方库</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/11/12/pthread%E7%9B%B8%E5%85%B3%E6%8A%A5%E9%94%99/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/2/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/4/">Next &amp;raquo;</a>
@@ -1222,11 +1241,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
+                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
+                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
               </li>
              
               <li class="article-tag-list-item">

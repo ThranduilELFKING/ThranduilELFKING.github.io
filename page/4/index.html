@@ -61,7 +61,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 93
+			总文章数 97
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -180,6 +180,278 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-kali系统下安装cmake" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/11/12/kali%E7%B3%BB%E7%BB%9F%E4%B8%8B%E5%AE%89%E8%A3%85cmake/">kali系统下安装cmake</a>
+    </h1>
+  
+
+        
+        <a href="/2022/11/12/kali%E7%B3%BB%E7%BB%9F%E4%B8%8B%E5%AE%89%E8%A3%85cmake/" class="archive-article-date">
+  	<time datetime="2022-11-12T11:09:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="kali系统下安装cmake"><a href="#kali系统下安装cmake" class="headerlink" title="kali系统下安装cmake"></a>kali系统下安装cmake</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在kali系统下安装cmake，因为kali系统与其他的ubuntu系统不同，直接用apt-get install是无法直接安装cmake的，这里记录下安装步骤</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44023460/article/details/112131732">https://blog.csdn.net/weixin_44023460/article/details/112131732</a><br>//基本上就是按照这个步骤来安装即可</p>
+<h2 id="安装记录"><a href="#安装记录" class="headerlink" title="安装记录"></a>安装记录</h2><p>记录一下个人安装步骤</p>
+<h3 id="1-完整安装步骤"><a href="#1-完整安装步骤" class="headerlink" title="1.完整安装步骤"></a>1.完整安装步骤</h3><p>以下为在kali系统下安装cmake的完整步骤</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install build-essential</span><br><span class="line">sudo wget http:<span class="comment">//www.cmake.org/files/v3.4/cmake-3.4.1.tar.gz\n</span></span><br><span class="line">ls</span><br><span class="line">tar -zxvf cmake-<span class="number">3.4</span><span class="number">.1</span>.tar.gz</span><br><span class="line">ls</span><br><span class="line">cd cmake-<span class="number">3.4</span><span class="number">.1</span></span><br><span class="line">ls</span><br><span class="line">./configure</span><br><span class="line">sudo make</span><br><span class="line">sudo apt-get install checkinstall</span><br><span class="line">sudo checkinstall</span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
+
+<p>如下图<br><img src="/assets/blogImg/kali_cmake.jpg" alt="kali_cmake"></p>
+<h3 id="2-检查是否安装成功"><a href="#2-检查是否安装成功" class="headerlink" title="2.检查是否安装成功"></a>2.检查是否安装成功</h3><p>上面的步骤都执行成功后，一般就是安装好cmake了，可以通过指令查看cmake版本来确认是否安装好cmake</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cmake --version</span><br></pre></td></tr></table></figure>
+
+<p>当输入指令后，终端显示当前安装的cmake版本号时，就说明已经配置好cmake环境了<br><img src="/assets/blogImg/kali_cmake2.jpg" alt="kali_cmake2"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">kali</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/11/12/kali%E7%B3%BB%E7%BB%9F%E4%B8%8B%E5%AE%89%E8%A3%85cmake/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-moveDragon小玩具" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/11/12/moveDragon%E5%B0%8F%E7%8E%A9%E5%85%B7/">moveDragon小玩具</a>
+    </h1>
+  
+
+        
+        <a href="/2022/11/12/moveDragon%E5%B0%8F%E7%8E%A9%E5%85%B7/" class="archive-article-date">
+  	<time datetime="2022-11-12T10:34:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="moveDragon小玩具"><a href="#moveDragon小玩具" class="headerlink" title="moveDragon小玩具"></a>moveDragon小玩具</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>其实一开始是因为听到了一首歌《得过且过的勇者》，觉得这个很有趣；<br>然后正好在玩一个linux的玩具sl，大家可能知道这个玩具，输入sl的时候，就会出来一个小火车呜呜呜，很有趣；<br>于是心血来潮觉得我也可以做一个类似的mv小玩具，哈哈哈，这里做一个代码记录</p>
+<h2 id="github上源码地址"><a href="#github上源码地址" class="headerlink" title="github上源码地址"></a>github上源码地址</h2><p>参考使用了：cowsay字符图案，sl源码</p>
+<p>这里我将moveDragon的代码上传到github上了，这里是地址，感兴趣的话可以下载编译玩一下<br><a target="_blank" rel="noopener" href="https://github.com/ThranduilELFKING/moveDragon.git">https://github.com/ThranduilELFKING/moveDragon.git</a></p>
+<p>本来是在2020年就做完了，应该把代码什么的放出来的，但是中间一直因为有些其他事情就耽误了，但是最终还是上传上来了~</p>
+<h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><p>1.首先，要有cmake编译环境<br>2.编译</p>
+<p>可以看到代码目录如下：</p>
+<p><img src="/assets/blogImg/move_dragon.jpg" alt="move_dragon"></p>
+<p>直接执行sh build.sh即可<br>然后进入build目录，启动moveDragon即可</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sh build.sh</span><br><span class="line">cd build</span><br><span class="line">./moveDragon</span><br></pre></td></tr></table></figure>
+
+<p>执行后的效果：<br><img src="/assets/blogImg/move_dragon2.jpg" alt="move_dragon2"></p>
+<h2 id="具体效果链接"><a href="#具体效果链接" class="headerlink" title="具体效果链接"></a>具体效果链接</h2><p>可以在B站看到我上传的一个效果视频<br><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1GA411v7Ja/?vd_source=7dc3f0bd6dd2626fdbf180d0632d1d01">https://www.bilibili.com/video/BV1GA411v7Ja/?vd_source=7dc3f0bd6dd2626fdbf180d0632d1d01</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">个人小工具</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/11/12/moveDragon%E5%B0%8F%E7%8E%A9%E5%85%B7/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-pthread相关报错" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/11/12/pthread%E7%9B%B8%E5%85%B3%E6%8A%A5%E9%94%99/">pthread相关报错</a>
+    </h1>
+  
+
+        
+        <a href="/2022/11/12/pthread%E7%9B%B8%E5%85%B3%E6%8A%A5%E9%94%99/" class="archive-article-date">
+  	<time datetime="2022-11-12T08:36:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="pthread相关报错"><a href="#pthread相关报错" class="headerlink" title="pthread相关报错"></a>pthread相关报错</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>最近在用gtest编译单元测试demo的时候，遇上了一个pthread报错，这里就整理一下常见的pthread相关报错，及对应的解决方案</p>
+<h2 id="报错提示“未定义的引用”"><a href="#报错提示“未定义的引用”" class="headerlink" title="报错提示“未定义的引用”"></a>报错提示“未定义的引用”</h2><p><img src="/assets/blogImg/pthread.jpg" alt="pthread"></p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>一般都是在链接pthread的库的时候，提示“pthread_xxxx 未定义的引用”这类<br>对于这个报错，有3种可能的原因</p>
+<h3 id="1-忘记在cmake里链接pthread库"><a href="#1-忘记在cmake里链接pthread库" class="headerlink" title="1.忘记在cmake里链接pthread库"></a>1.忘记在cmake里链接pthread库</h3><p>忘记链接pthread的库，那么直接在cmake里面加入对pthread库的链接即可<br>如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">……</span><br><span class="line">#将执行程序test链接pthread库</span><br><span class="line">add_executable(test $&#123;sources&#125;)</span><br><span class="line">target_link_libraries(test pthread)</span><br><span class="line">……</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-忘记在cmake里指定可以寻找到pthread库的路径"><a href="#2-忘记在cmake里指定可以寻找到pthread库的路径" class="headerlink" title="2.忘记在cmake里指定可以寻找到pthread库的路径"></a>2.忘记在cmake里指定可以寻找到pthread库的路径</h3><p>如果确认已经做了第一步，却还是提示未定义的引用，那么非常有可能是没有找到pthread库的路径，需要在cmake里指名pthread库的路径<br>如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">……</span><br><span class="line">#确认pthread库在/usr/lib下</span><br><span class="line">link_directories(</span><br><span class="line">   <span class="regexp">/usr/</span>lib</span><br><span class="line">)</span><br><span class="line">……</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-在cmake里链接pthread库的顺序不对"><a href="#3-在cmake里链接pthread库的顺序不对" class="headerlink" title="3.在cmake里链接pthread库的顺序不对"></a>3.在cmake里链接pthread库的顺序不对</h3><p>如果以上两步都确认是对的，依然还是提示未定义的引用，那么最大的可能就是链接顺序的问题<br>比如在以下这个cmake里面(会报错的版本):</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">……</span><br><span class="line">link_directories(</span><br><span class="line">   <span class="regexp">/usr/</span>lib</span><br><span class="line">)</span><br><span class="line">add_executable(test $&#123;sources&#125;)</span><br><span class="line">target_link_libraries(test pthread)</span><br><span class="line">target_link_libraries(test gmock)</span><br><span class="line">target_link_libraries(test gtest)</span><br><span class="line">……</span><br></pre></td></tr></table></figure>
+<p>对于这个报错提示，一直都是“pthread_xxxx 未定义的引用”</p>
+<p>排查下来，就是链接库的顺序问题，解决方案就是调整链接库的顺序，将对pthread的链接放在最后面<br>比如下面这个cmake（正确编译的版本）：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">……</span><br><span class="line">link_directories(</span><br><span class="line">   <span class="regexp">/usr/</span>lib</span><br><span class="line">)</span><br><span class="line">add_executable(test $&#123;sources&#125;)</span><br><span class="line">target_link_libraries(test gmock)</span><br><span class="line">target_link_libraries(test gtest)</span><br><span class="line">target_link_libraries(test pthread)</span><br><span class="line">……</span><br></pre></td></tr></table></figure>
+
+
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常见报错问题</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">第三方库</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/11/12/pthread%E7%9B%B8%E5%85%B3%E6%8A%A5%E9%94%99/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-vnc远程小工具" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -848,271 +1120,6 @@
 
 
   
-    <article id="post-ProcessExplorer常用操作" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/11/06/ProcessExplorer%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/">ProcessExplorer常用操作</a>
-    </h1>
-  
-
-        
-        <a href="/2022/11/06/ProcessExplorer%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/" class="archive-article-date">
-  	<time datetime="2022-11-06T13:24:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="ProcessExplorer常用操作"><a href="#ProcessExplorer常用操作" class="headerlink" title="ProcessExplorer常用操作"></a>ProcessExplorer常用操作</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>这是一款windows系统和应用程序监视工具，结合了文件监视和注册表监视两个工具的功能，至少可以当做是任务管理器的替代品，不过在windows下开发的话，在编码和调试过程中使用此工具会有小惊喜。</p>
-<h2 id="下载链接"><a href="#下载链接" class="headerlink" title="下载链接"></a>下载链接</h2><p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/sysinternals/downloads/process-explorer">https://learn.microsoft.com/en-us/sysinternals/downloads/process-explorer</a></p>
-<h2 id="树形结构"><a href="#树形结构" class="headerlink" title="树形结构"></a>树形结构</h2><p>1.可以准确显示进程的父子关系<br><img src="/assets/blogImg/pe_fz.jpg" alt="pe_fz.jpg"></p>
-<p>2.可以通过颜色判断当前进程处于的状态和类型，是挂起还是准备退出，是服务进程还是普通进程<br><img src="/assets/blogImg/pe_server.jpg" alt="pe_server.jpg"></p>
-<h2 id="显示进程的系统信息"><a href="#显示进程的系统信息" class="headerlink" title="显示进程的系统信息"></a>显示进程的系统信息</h2><p>1.选择相关的列，即可查看相关详细信息<br>点击”View”==》再点击”Select Colunms…”即可打开选项页面<br><img src="/assets/blogImg/pe_select_colunms.jpg" alt="pe_select_colunms.jpg"></p>
-<p>2.勾选自己调试时关心的信息列，即可<br>常用的选项一般在Process Image标签页下，勾选自己感兴趣的即可<br>点击”Select Colunms”选项后==》点击”Process Image”即可看到各种选项，选择自己需要的勾选即可<br><img src="/assets/blogImg/pe_columns.jpg" alt="pe_columns.jpg"></p>
-<h2 id="显示当前进程所加载的dll"><a href="#显示当前进程所加载的dll" class="headerlink" title="显示当前进程所加载的dll"></a>显示当前进程所加载的dll</h2><p>1.通过这种方式可以观察我们的进程是否被注入DLL<br>点击”View”==》再点击”Lower Pane View”==》再点击”DLLs”即可<br><img src="/assets/blogImg/pe_dll.jpg" alt="pe_dll.jpg"></p>
-<p>查看当前进程所加载的dll信息<br><img src="/assets/blogImg/pe_dll_info.jpg" alt="pe_dll_info.jpg"></p>
-<p>如果觉得当前展示的信息不够丰富，可以扩展展示列<br>鼠标放在”Name” “Description”…这一行，右键后，选择”Select Columns…”<br><img src="/assets/blogImg/pe_dll_kz.jpg" alt="pe_dll_kz.jpg"></p>
-<p>如下，在”DLL”标签页，选中”Version”字段，点击“确定”即可拓展一列，显示dll的版本信息<br><img src="/assets/blogImg/pe_kz_version.jpg" alt="pe_kz_version.jpg"><br>展示效果如下<br><img src="/assets/blogImg/pe_version.jpg" alt="pe_version.jpg"></p>
-<h2 id="显示当前进程所占的系统资源句柄"><a href="#显示当前进程所占的系统资源句柄" class="headerlink" title="显示当前进程所占的系统资源句柄"></a>显示当前进程所占的系统资源句柄</h2><p>1.查看当前进程占用的资源句柄表<br>点击”View”==》再点击”Lower Pane View”==》再点击”Handles”即可<br><img src="/assets/blogImg/pe_handles.jpg" alt="pe_handles.jpg"></p>
-<p>可以分析进程的逻辑，如占用的Event事件<br><img src="/assets/blogImg/pe_type.jpg" alt="pe_type.jpg"></p>
-<p>2.可以检查自己的程序是否有内核句柄泄露<br>打开”Select Columns”选项面板，打开”Handle”标签页，选择”Handle Value”选项，之后会显示句柄数<br><img src="/assets/blogImg/pe_handle_values.jpg" alt="pe_handle_values.jpg"></p>
-<p>一般来说，如果句柄数一直在上涨，很可能就是句柄泄露了<br><img src="/assets/blogImg/pe_handle_show.jpg" alt="pe_handle_show.jpg"></p>
-<h2 id="操纵进程及显示进程内部信息"><a href="#操纵进程及显示进程内部信息" class="headerlink" title="操纵进程及显示进程内部信息"></a>操纵进程及显示进程内部信息</h2><p>1.选中要查看的进程，右键，选择”Properties”即可<br><img src="/assets/blogImg/pe_properties.jpg" alt="pe_properties.jpg"></p>
-<p>在展开的属性标签页里，查看自己关注的信息，比如当前使用到的环节变量<br><img src="/assets/blogImg/pe_show_properties.jpg" alt="pe_show_properties.jpg"></p>
-<p>比如查看当前进程的用户组信息，特权等<br><img src="/assets/blogImg/pe_user.jpg" alt="pe_user.jpg"></p>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/iTBear/articles/2789151.html">https://www.cnblogs.com/iTBear/articles/2789151.html</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常用命令windows</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/11/06/ProcessExplorer%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-libcryptopp源码编译" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/11/06/libcryptopp%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/">libcryptopp源码编译</a>
-    </h1>
-  
-
-        
-        <a href="/2022/11/06/libcryptopp%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/" class="archive-article-date">
-  	<time datetime="2022-11-06T08:00:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="libcryptopp源码编译"><a href="#libcryptopp源码编译" class="headerlink" title="libcryptopp源码编译"></a>libcryptopp源码编译</h1><h2 id="详细步骤"><a href="#详细步骤" class="headerlink" title="详细步骤"></a>详细步骤</h2><p>1.下载源码，解压<br>2.修改GNUmakefile<br>因为是64位编译32位的库，还增加了-m32选项</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">CXXFLAGS += -pipe -fPIC</span><br><span class="line">CXXFLAGS += -m32</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>如下图：<br><img src="/assets/blogImg/cryptopp_complie.jpg" alt="cryptopp_complie"></p>
-<p>3.然后make</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">make libcryptopp.a libcryptopp.so cryptest</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p><img src="/assets/blogImg/cryptopp_complie_2.jpg" alt="cryptopp_complie_2"></p>
-<p>4.然后安装make install</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">可以指定安装路径，如不想安装到默认路径</span><br><span class="line">make install PREFIX=<span class="regexp">/usr/</span>local/selfpath</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><img src="/assets/blogImg/cryptopp_complie_3.jpg" alt="cryptopp_complie_3"></p>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://www.lwlwq.com/post-cryptopp.html">https://www.lwlwq.com/post-cryptopp.html</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">第三方库</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">交叉编译</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/11/06/libcryptopp%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-mosquitto源码编译" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/11/06/mosquitto%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/">mosquitto源码编译</a>
-    </h1>
-  
-
-        
-        <a href="/2022/11/06/mosquitto%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/" class="archive-article-date">
-  	<time datetime="2022-11-06T07:52:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="mosquitto源码编译"><a href="#mosquitto源码编译" class="headerlink" title="mosquitto源码编译"></a>mosquitto源码编译</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>linux下，有时候需要源码编译mosquitto，一般来说编译报错是和openssl相关，需要知名openssl的<br>头文件路径和库路径</p>
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p><img src="/assets/blogImg/mosquitto_complie.jpg" alt="mosquitto_complie.jpg"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">第三方库</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/11/06/mosquitto%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/3/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/5/">Next &amp;raquo;</a>
@@ -1234,11 +1241,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
+                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
+                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
               </li>
              
               <li class="article-tag-list-item">

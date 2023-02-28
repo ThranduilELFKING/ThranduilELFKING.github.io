@@ -61,7 +61,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 93
+			总文章数 97
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -180,6 +180,292 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-边缘检测算法分析" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/01/27/%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90/">边缘检测算法分析</a>
+    </h1>
+  
+
+        
+        <a href="/2023/01/27/%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90/" class="archive-article-date">
+  	<time datetime="2023-01-27T14:22:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-01-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="边缘检测算法分析"><a href="#边缘检测算法分析" class="headerlink" title="边缘检测算法分析"></a>边缘检测算法分析</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>边缘检测是图像分析中使用到的最常见的操作之一，边缘增强（edge enhancement）和边缘检测（edge detection）相关的算法可能是最多的。<br>这里对边缘检测算法做个大致的分析。</p>
+<h2 id="边缘检测基本概念"><a href="#边缘检测基本概念" class="headerlink" title="边缘检测基本概念"></a>边缘检测基本概念</h2><h3 id="1-目的"><a href="#1-目的" class="headerlink" title="1.目的"></a>1.目的</h3><p>从广义上来说，其原因在于边缘形成了一个对象的轮廓。对象是图像分析和视觉系统中重要的处理主体。边缘是对象和背景之间的边界，还能表示重叠对象之间的边界。<br>这意味着，如果图像中的边缘可以准确地被识别出来，那么所有的对象都可以被定位，而且对象的基本属性（例如面积、周长和形状）都可以被测量出来。<br>由于计算机视觉要涉及图像中对象的识别和分类，因此边缘检测成了一个基本工具。</p>
+<p>注意，无法判断图像中哪一部分为背景、哪一部分为对象，只能识别出各个区域之间的边界。</p>
+<p>边缘检测被称作图像分割（segmentation）的过程的一部分——图像分割的目的是识别出图像中的区域（region）</p>
+<h3 id="2-边缘检测与边缘增强"><a href="#2-边缘检测与边缘增强" class="headerlink" title="2.边缘检测与边缘增强"></a>2.边缘检测与边缘增强</h3><p>从技术上说，边缘检测是定位边缘像素的过程，而边缘增强是增加边缘与背景之间的对比度以便能够更清楚的看清边缘的过程。<br>在实践中，这两种术语经常互换使用，因为大部分边缘检测程序也会把边缘像素的值设置为特定的灰阶或颜色，使得边缘更容易被识别。</p>
+<h3 id="3-边缘跟踪"><a href="#3-边缘跟踪" class="headerlink" title="3.边缘跟踪"></a>3.边缘跟踪</h3><p>边缘跟踪（edge tracing）是沿着边缘进行跟踪的过程，这个过程通常会把边缘像素采集到一个列表中。这个过程以一个一致的方向进行，既可以顺时针，也可以逆时针绕着对象旋转。<br>链码算法（Chain coding）是边缘跟踪算法的一个特例。这种算法得到的结果是对象的一个非光栅表示，可以用于计算形状测量，或者对对象进行识别或分类。</p>
+<h3 id="4-经典的边缘检测算法"><a href="#4-经典的边缘检测算法" class="headerlink" title="4.经典的边缘检测算法"></a>4.经典的边缘检测算法</h3><p>经典的两种边缘检测算法是：Canny边缘检测器和Shen-Castan边缘检测器（也称作ISEF边缘检测器）。<br>这两种检测器都有坚实的理论基础，而且都声称具有一定程度的最优性；也就是说，这两种检测器都在特定的场景下可以达到最好效果。<br>具体这两种检测算法，可以看后续blog</p>
+<h2 id="传统的方法与理论"><a href="#传统的方法与理论" class="headerlink" title="传统的方法与理论"></a>传统的方法与理论</h2><h3 id="1-理论"><a href="#1-理论" class="headerlink" title="1.理论"></a>1.理论</h3><p>大部分好的算法都会事先声明清楚能够解决的问题，并且的都会对解决问题的方法以及方法能够正确工作的条件进行有说服力的的分析。<br>在这个框架基础下，要定义一个的边缘检测算法意味着首先要定义什么是边缘，然后利用这个定义提出边缘增强和边缘识别应该采用的方法。</p>
+<h3 id="2-理想阶梯型边缘"><a href="#2-理想阶梯型边缘" class="headerlink" title="2.理想阶梯型边缘"></a>2.理想阶梯型边缘</h3><p>边缘可能有多种定义，每一种定义都适用于某些特定的场合。</p>
+<p>理想阶梯型边缘（ideal step edge）是一种最常用也最有一般性的定义。如下图所示：<br><img src="/assets/blogImg/edge.jpg" alt="edge.jpg"><br>这里看出，边缘只不过是在某个位置发生的灰阶变化。<br>灰阶变化越大，边缘的检测也就越容易（不过在理想的情况下，任何灰阶变化都可以很容易地看出来）。</p>
+<h3 id="3-边缘检测的难点"><a href="#3-边缘检测的难点" class="headerlink" title="3.边缘检测的难点"></a>3.边缘检测的难点</h3><p>边缘检测的难点主要有两个：<br>（1）第一个难点来自于数码化。<br>图像的采样不可能使得整个边缘刚好落在像素边界上。事实上，灰阶的变化可能遍及多个像素(如图2-3的（b）~（d）所示)。<br>可以认为边缘的实际位置在连接低灰阶与高灰阶的斜坡（ramp）中央。这个斜坡只是数学意义上的斜坡，因为在图像数码化（采样）之后，这个斜坡实际上呈现的是阶梯锯齿状。<br>（2）第二个难点来自于无处不在的噪声问题。<br>由于受到很多因素的影响，例如光强度、相机和镜头的类型、移动、温度、大气效应、粉尘和其他因素，因此在场景中表示同样灰阶的像素很可能在图像中不是同样的灰阶。噪声是一种随机效应，因此只能通过统计的方式特征化。<br>噪声对图像造成的结果是使得有些像素的灰阶值产生随机的变化，因此理想边缘中的平滑线条和斜坡在真实的图像中是不可能遇到的。</p>
+<h3 id="4-边缘的模型"><a href="#4-边缘的模型" class="headerlink" title="4.边缘的模型"></a>4.边缘的模型</h3><p>在没有噪声的情况下，任何明显的灰阶变化都可以表示边缘。<br>在图像中几乎不可能真正遇到阶梯型边缘，因为：<br>（1）对象很少有如此清晰的轮廓；<br>（2）场景的采样永远都不会让边缘正好位于像素的边缘上；<br>（3）存在噪声</p>
+<p>斜坡是一个模型，它表示为了产生台阶，边缘本应该是什么样子，因此这是一个理想化的情况，而实际上遇到的是数据插值的结果。<br>尽管理想的阶梯边缘和斜坡边缘模型在过去通常用来设计新的边缘检测器，但是这种模型是一种简化的模型。</p>
+<h3 id="5-噪声"><a href="#5-噪声" class="headerlink" title="5.噪声"></a>5.噪声</h3><p>任何图像获取的过程都可能会产生某种类型的噪声，因此忽略噪声是没有意义的。没有噪声的理想情况在实践中永远也不会发生。<br>由于噪声的随机本质，因此无法准确的对其进行预测，而且无法在一个有噪声的图像中准确测量噪声，因为无法区分噪声对灰阶的影响以及像素数据对灰阶的影响。<br>然而，有时候可以通过噪声对图像造成的效果来对噪声进行特征化。<br>噪声的特征通常可以用带有特定平均值（mean）和标准偏差（standard deviation）的概率分布来表示。</p>
+<p>在图像分析中，特别关注的是以下两种类型的噪声：<br>（1）信号无关的噪声（signal-independent noise）<br>（2）信号相关的噪声（signal-dependent noise）</p>
+<h4 id="（1）信号无关的噪声"><a href="#（1）信号无关的噪声" class="headerlink" title="（1）信号无关的噪声"></a>（1）信号无关的噪声</h4><p>信号无关的噪声是一组随机的灰阶值，在统计意义上和图像数据无关，这些数据加入图像的像素中产生了带噪声的图像。<br>当一幅图像通过电信号的方式从一处传输到另一处的时候会产生这种噪声。<br>令A为完美图像，N为传输过程中产生的噪声，那么最终得到的图像B为： B = A + N<br>A和N互相没有关系。噪声图像N可能没有任何统计属性，但是通常假设N符合正态分布（高斯分布），其中平均值为0，标准偏差为某个测量到的值或者预先假设的值。</p>
+<p><img src="/assets/blogImg/edge1.jpg" alt="edge1.jpg"><br><img src="/assets/blogImg/edge2.jpg" alt="edge2.jpg"></p>
+<h4 id="（2）信号相关的噪声"><a href="#（2）信号相关的噪声" class="headerlink" title="（2）信号相关的噪声"></a>（2）信号相关的噪声</h4><p>在这种情况下，图像中每一点的噪声值的大小为这一点灰阶值的函数。<br>一些照片中的颗粒就是这种噪声的例子，而这种噪声通常都比较难以处理。不过幸运的是，这种情况不是太重要，如果照片采样合适的话，这种情况也是可以处理的。</p>
+<p>很难在各种不同的随机情形中都找到边缘，但是一个好的边缘检测器在这种情况下也应该能够判断边缘的位置。</p>
+<p>边缘是由灰阶（或色彩）等高线定义的。穿过等高线的时候，灰阶值会迅速变化；沿着等高线走，灰阶值的变化会更加轻柔，有可能是随机变化。因此可以得出结论：边缘具有一个可测量的方向。</p>
+<h2 id="定位边缘"><a href="#定位边缘" class="headerlink" title="定位边缘"></a>定位边缘</h2><p>边缘像素和噪声像素都具有的特点是，相比周围像素有明显的灰阶变化。<br>而边缘像素互相连接，构成了等高线，因此可以通过这一个特性将边缘像素和噪声像素区分开来。</p>
+<p>3种常见的算子可以用于定位边缘。<br>（1）导数算子<br>这种算子被设计为标识发生巨大强度变化的地方。<br>（2）类似于模板匹配的方案<br>其中边缘由一个很小的图像进行建模，这个图像表现出了完美边缘的抽象属性。<br>（3）使用边缘的数学模型<br>其中最好的也使用了噪声模型，并且努力吧噪声因素考虑进去。<br>这一种类型的算子，是我们主要需要关注的。</p>
+<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><p>给图片添加噪声的算法代码：<br><a target="_blank" rel="noopener" href="https://github.com/ThranduilELFKING/study-openCV/tree/main/makenoise">https://github.com/ThranduilELFKING/study-openCV/tree/main/makenoise</a></p>
+<p>估计噪声的算法代码：<br><a target="_blank" rel="noopener" href="https://github.com/ThranduilELFKING/study-openCV/tree/main/measurenoise">https://github.com/ThranduilELFKING/study-openCV/tree/main/measurenoise</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">opencv</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">边缘检测</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/01/27/%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-图像处理与计算机视觉算法及应用学习记录" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/01/26/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E4%B8%8E%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E7%AE%97%E6%B3%95%E5%8F%8A%E5%BA%94%E7%94%A8%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">图像处理与计算机视觉算法及应用学习记录</a>
+    </h1>
+  
+
+        
+        <a href="/2023/01/26/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E4%B8%8E%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E7%AE%97%E6%B3%95%E5%8F%8A%E5%BA%94%E7%94%A8%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" class="archive-article-date">
+  	<time datetime="2023-01-26T13:45:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-01-26</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="图像处理与计算机视觉算法及应用学习记录"><a href="#图像处理与计算机视觉算法及应用学习记录" class="headerlink" title="图像处理与计算机视觉算法及应用学习记录"></a>图像处理与计算机视觉算法及应用学习记录</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>初步浏览下，对一些对我有启发思想进行记录。</p>
+<h2 id="启发性预言"><a href="#启发性预言" class="headerlink" title="启发性预言"></a>启发性预言</h2><p>鉴于这本书大约是2011年出版，可以感觉到作者基于当时的发展情况，做出一些猜测，到今天基本被证实是真正发生的事情，还是蛮有意思的。</p>
+<h3 id="1-基于内容的搜索"><a href="#1-基于内容的搜索" class="headerlink" title="1.基于内容的搜索"></a>1.基于内容的搜索</h3><p>基于内容的搜索指的是通过图像中的信息获取其他图像。就好像是说“找出另一张与这张图片类似的图片”。<br>基于内容的搜索会成为未来20年的重要技术。<br>这项技术可以有效地使用现代大容量的磁盘驱动器；而且随着低成本高分辨率数码相机的普及，可以预见人们越来越需要在大量大图像（海量像素数）中搜索图像。</p>
+<h2 id="视觉系统实践"><a href="#视觉系统实践" class="headerlink" title="视觉系统实践"></a>视觉系统实践</h2><h3 id="1-基础知识"><a href="#1-基础知识" class="headerlink" title="1.基础知识"></a>1.基础知识</h3><p>（1）图像由像素组成，在一副典型图像中，约有400~600万个像素，每一个像素表示图像中那一个点的颜色。<br>（2）有一些图像格式的原点在左上角（事实上大部分都是），还有一些图像格式的原点在左下角（只有Microsoft是这样的）。<br>（3）当图像数据结构是openCV里的IplImage数据结构时，有些有用的字段包括：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">origin   ---   获取坐标系统的原点。这是一个整数，<span class="number">0</span>表示左上角，<span class="number">1</span>表示左下角。</span><br><span class="line">roi      ---   指向定义了正在处理的图像中兴趣区（region <span class="keyword">of</span> interest）的结构体的指针。 </span><br></pre></td></tr></table></figure>
+<p>（4）当读取彩色RGB图像时，用openCV里的IplImage数据结构载入图像，这种表达形式中的每一个像素都表达为3个字节：一个表示红色，一个表示绿色，一个表示蓝色。<br>字节顺序为b、g、r，从图像的第一行开始，按列步进，然后再显示下一行。如下所示：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">              第一列                  第二列              第三列                ……</span><br><span class="line">第一行  b(<span class="number">0</span>,<span class="number">0</span>) g(<span class="number">0</span>,<span class="number">0</span>) r(<span class="number">0</span>,<span class="number">0</span>)   b(<span class="number">0</span>,<span class="number">1</span>) g(<span class="number">0</span>,<span class="number">1</span>) r(<span class="number">0</span>,<span class="number">1</span>)  b(<span class="number">0</span>,<span class="number">2</span>) g(<span class="number">0</span>,<span class="number">2</span>) r(<span class="number">0</span>,<span class="number">2</span>)</span><br><span class="line">第二行  b(<span class="number">1</span>,<span class="number">0</span>) g(<span class="number">1</span>,<span class="number">0</span>) r(<span class="number">1</span>,<span class="number">0</span>)   b(<span class="number">1</span>,<span class="number">1</span>) g(<span class="number">1</span>,<span class="number">1</span>) r(<span class="number">1</span>,<span class="number">1</span>)  b(<span class="number">1</span>,<span class="number">2</span>) g(<span class="number">1</span>,<span class="number">2</span>) r(<span class="number">1</span>,<span class="number">2</span>)</span><br><span class="line">……</span><br></pre></td></tr></table></figure>
+<p>这意味着第一行中像素的RGB值表示为那一行所有像素的反序（b，g，r），然后继续表示下一行，从列0开始，以此类推，直到最后一行。<br>（5）如果图像是彩色的，如果才能转换为灰阶呢？<br>这里的一个方案是：<br>一个彩色图像可以转换为3个单色图像（一个红色图像、一个绿色图像、一个蓝色图像），将3通道彩色图像转换为灰阶图像，使用的方法是计算RGB值的平均值</p>
+<h3 id="2-图像显示"><a href="#2-图像显示" class="headerlink" title="2.图像显示"></a>2.图像显示</h3><p>openCV的用户界面函数封装在名为highgui的库中，基本概念如下：<br>通过cvNamedWindow函数创建一个窗口，这个函数给窗口指定了一个名称。所有的窗口都是通过窗口名称而不是指针访问的。<br>在创建窗口时，可以指定autosize属性，也可以不指定。接下来，可以用cvShowImage函数在已有窗口中显示图像。<br>对于指定了autosize属性的窗口，窗口可以更改大小以适应图像大小，否则图像会被缩放以适应窗口大小。</p>
+<p>不论何时，调用cvShowImage，通过参数传入的图像都显示在指定窗口中。通过这种方式，可以显示一个图像连续处理的过程，因而可以创建并显示简单的动画。<br>窗口创建之后，可以通过cvMoveWindow(name,x,y)移动窗口。也可以像其他窗口一样通过鼠标移动。</p>
+<h3 id="3-图像捕捉"><a href="#3-图像捕捉" class="headerlink" title="3.图像捕捉"></a>3.图像捕捉</h3><p>在一个视觉系统中，其他类型的数据和设备可能是非常有价值的图像源，其中最重要的就是网络摄像头了。这类设备通常都是数码相机，几乎都由USB供电，图像大小为640x480或更高。它们能够以视频的速率获得彩色图像，使得这一类摄像头特别适合用于某些类型的视觉应用程序：监视器、机器人、游戏、生物统计以及其他一些很容易使用到计算机而又不必使用非常高质量的图像的场合。</p>
+<p>结合openCV<br>（1）如果网络摄像头正确地安装了，那么openCV就能检测到它，捕捉函数就应该能够从中获得图像。<br>（2）openCV使用模式为：<br>首先声明并初始化一个摄像头，然后使用系统创建的句柄。假设这一步成功了，那么就能够通过这个句柄获得图像了。</p>
+<p>示例demo，比如测试笔记本的摄像头是否好用，可以用下面这个示例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;iostream&gt;</span><br><span class="line">#include &lt;opencv2/core/core.hpp&gt;</span><br><span class="line">#include &lt;opencv2/opencv.hpp&gt;</span><br><span class="line">#include &lt;opencv2/imgproc/types_c.h&gt;</span><br><span class="line">using namespace cv;</span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">int <span class="function"><span class="title">main</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="comment">//VideoCapture参数为0，表示打开笔记本内置摄像头；</span></span><br><span class="line">    <span class="comment">//VideoCapture参数是视频文件路径，则表示打开指定视频文件；</span></span><br><span class="line">    VideoCapture capture(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//没有打开摄像头的话，就返回</span></span><br><span class="line">    <span class="keyword">if</span> (!capture.isOpened()) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Mat img1;</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        Mat frame;</span><br><span class="line">        capture &gt;&gt; frame;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//进行滤波</span></span><br><span class="line">        blur(frame, frame, Size(<span class="number">3</span>, <span class="number">3</span>));</span><br><span class="line">        <span class="comment">//可以实现图像反转，（可以控制图像成y轴反转，x轴反转，x,y都反转的效果）</span></span><br><span class="line">        <span class="comment">//如果不进行反转的话，可以看到展示的内容与实际的内容是成左右相反的</span></span><br><span class="line">        flip(frame, frame, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">        imshow(<span class="string">&quot;视频&quot;</span>, frame);</span><br><span class="line">        <span class="comment">//延迟30毫秒</span></span><br><span class="line">        waitKey(<span class="number">30</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//按esc键退出</span></span><br><span class="line">        <span class="keyword">if</span> (cv::waitKey(<span class="number">50</span>) == <span class="number">27</span>) &#123;</span><br><span class="line">            <span class="comment">//保存当前屏幕上的图像到本地</span></span><br><span class="line">            <span class="comment">//SaveImage(&quot;Image.png&quot;, frame, 0);</span></span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//释放所有分配的资源，避免后续出现问题</span></span><br><span class="line">    capture.release();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">opencv</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/01/26/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E4%B8%8E%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E7%AE%97%E6%B3%95%E5%8F%8A%E5%BA%94%E7%94%A8%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-模板匹配" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/01/12/%E6%A8%A1%E6%9D%BF%E5%8C%B9%E9%85%8D/">模板匹配</a>
+    </h1>
+  
+
+        
+        <a href="/2023/01/12/%E6%A8%A1%E6%9D%BF%E5%8C%B9%E9%85%8D/" class="archive-article-date">
+  	<time datetime="2023-01-12T12:39:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-01-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="模板匹配"><a href="#模板匹配" class="headerlink" title="模板匹配"></a>模板匹配</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>模板匹配其实就是在一张大图片里找到指定的目标的方法。这里对单匹配、多匹配做一个学习记录。主要依赖的是openCV提供的算法库。</p>
+<h2 id="模板匹配-1"><a href="#模板匹配-1" class="headerlink" title="模板匹配"></a>模板匹配</h2><p>模板匹配是用来在一幅大图里搜寻模板图像位置的方法。<br><img src="/assets/blogImg/match_templ.jpg" alt="match_templ.jpg"></p>
+<p>模板匹配也是应用卷积来实现的：假设原图大小为W x H,模板图大小为w x h,那么生成图大小是(W - w + 1) x (H - h + 1),生成图中的每个像素值表示原图与模板的匹配程度。</p>
+<h2 id="opencv提供的函数"><a href="#opencv提供的函数" class="headerlink" title="opencv提供的函数"></a>opencv提供的函数</h2><h3 id="模板匹配函数原型"><a href="#模板匹配函数原型" class="headerlink" title="模板匹配函数原型"></a>模板匹配函数原型</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> cv::matchTemplate(cv::InputArray image, <span class="attr">cv</span>::InputArray templ, <span class="attr">cv</span>::OutputArray result, int method)</span><br></pre></td></tr></table></figure>
+<p>注意：<br>（1）如果模板图templ大小比image大，那么可能会导致crash<br>（2）method有6种方法，<br><img src="/assets/blogImg/match_templ2.jpg" alt="match_templ2.jpg"></p>
+<h3 id="寻找位置函数原型"><a href="#寻找位置函数原型" class="headerlink" title="寻找位置函数原型"></a>寻找位置函数原型</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> cv::minMaxLoc(cv::InputArray src, double *minVal, double *maxVal = (double *)<span class="number">0</span>, <span class="attr">cv</span>::Point *minLoc = (cv::Point *)<span class="number">0</span>, <span class="attr">cv</span>::Point *maxLoc = (cv::Point *)<span class="number">0</span>, <span class="attr">cv</span>::InputArray mask = noArray())</span><br></pre></td></tr></table></figure>
+<p>功能：从一个矩阵中找出全局的最大值和最小值。找出最大和最小元素的值和他们的位置。极值是遍历整个矩阵找到，或者当掩码不是一个空矩阵时，是通过遍历指定矩阵区域找到。<br>注意：<br>（1）函数不适用于多通道矩阵，如果需要遍历所有的通道来找到最大和最小值，首先使用函数Mat::reshape转换为单通道矩阵。或者你可以使用函数extractImageCOI，mixChannels, or split 来提取特定通道。<br>（2）具体的参数解释：<br><img src="/assets/blogImg/match_templ3.jpg" alt="match_templ3.jpg"></p>
+<p>一个简单的模板匹配的demo如下：<br><img src="/assets/blogImg/match_templ4.jpg" alt="match_templ4.jpg"></p>
+<h2 id="单对象模板匹配（单模板）"><a href="#单对象模板匹配（单模板）" class="headerlink" title="单对象模板匹配（单模板）"></a>单对象模板匹配（单模板）</h2><p>单对象模板匹配的原理也很简单，就是不断的在原图中移动模板图像去比较。</p>
+<h2 id="多对象模板匹配（单模板）"><a href="#多对象模板匹配（单模板）" class="headerlink" title="多对象模板匹配（单模板）"></a>多对象模板匹配（单模板）</h2><h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>单个匹配是找最大匹配的点，所以只能匹配一次。<br>对于多对象匹配，我们需要设定一个匹配阈值来匹配多次。</p>
+<p>假设正在搜索一个多次出现的对象，cv.minMaxLoc()不会给出所有的位置。在这种情况下，我们将使用阈值化。</p>
+<h3 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">#include <span class="string">&quot;opencv2/core.hpp&quot;</span></span><br><span class="line">#include <span class="string">&quot;opencv2/calib3d.hpp&quot;</span></span><br><span class="line">#include <span class="string">&quot;opencv2/highgui.hpp&quot;</span></span><br><span class="line">#include <span class="string">&quot;opencv2/imgproc.hpp&quot;</span></span><br><span class="line">#include <span class="string">&quot;opencv2/features2d.hpp&quot;</span></span><br><span class="line">#include <span class="string">&quot;opencv2/features2d/features2d.hpp&quot;</span></span><br><span class="line"></span><br><span class="line">#include &lt;iostream&gt;</span><br><span class="line"></span><br><span class="line">int <span class="function"><span class="title">main</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">	<span class="attr">cv</span>::Mat src = cv::imread(<span class="string">&quot;E:\\opencv-image\\src_cir6.png&quot;</span>, <span class="attr">cv</span>::IMREAD_GRAYSCALE);</span><br><span class="line">	cv::Mat templ = cv::imread(<span class="string">&quot;E:\\opencv-image\\templ.png&quot;</span>, <span class="attr">cv</span>::IMREAD_GRAYSCALE);</span><br><span class="line"></span><br><span class="line">	cv::Mat image_matched;</span><br><span class="line">	<span class="comment">//模板匹配</span></span><br><span class="line">	cv::matchTemplate(src, templ, image_matched, <span class="attr">cv</span>::TM_CCOEFF_NORMED);</span><br><span class="line">	cv::normalize(image_matched, image_matched, <span class="number">0</span>, <span class="number">1</span>, <span class="attr">cv</span>::NORM_MINMAX);</span><br><span class="line"></span><br><span class="line">	double minVal, maxVal;</span><br><span class="line">	maxVal = <span class="number">0</span>;</span><br><span class="line">	cv::Point minLoc, maxLoc;</span><br><span class="line">	<span class="comment">//寻找最佳匹配位置</span></span><br><span class="line">	cv::minMaxLoc(image_matched, &amp;minVal, &amp;maxVal, &amp;minLoc, &amp;maxLoc);</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;cv::minMaxLoc : \n&quot;</span>;</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;minVal: &quot;</span> &lt;&lt; minVal &lt;&lt; <span class="string">&quot;, maxVal : &quot;</span> &lt;&lt; maxVal &lt;&lt; std::endl;</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;minLoc : ( &quot;</span> &lt;&lt; minLoc.x &lt;&lt; <span class="string">&quot;, &quot;</span> &lt;&lt; minLoc.y &lt;&lt; <span class="string">&quot; ) \n&quot;</span>;</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;maxLoc : ( &quot;</span> &lt;&lt; maxLoc.x &lt;&lt; <span class="string">&quot;, &quot;</span> &lt;&lt; maxLoc.y &lt;&lt; <span class="string">&quot; ) \n&quot;</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//多目标匹配</span></span><br><span class="line">	double quality = <span class="number">0.88</span>;  <span class="comment">//匹配质量（0~1），越接近1，匹配程度越高</span></span><br><span class="line">	<span class="keyword">if</span> (quality &lt;= <span class="number">0.0</span>)quality = <span class="number">0.0</span>;</span><br><span class="line">	<span class="keyword">if</span> (quality &gt;= <span class="number">1.0</span>)quality = <span class="number">1.0</span>;</span><br><span class="line">	double thresh = maxVal * quality;<span class="comment">//像素阈值</span></span><br><span class="line">	<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; image_matched.rows; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span> (int j = <span class="number">0</span>; j &lt; image_matched.cols; j++)</span><br><span class="line">		&#123;</span><br><span class="line">			double val = image_matched.at&lt;float&gt;(i, j);<span class="comment">//灰度值</span></span><br><span class="line"></span><br><span class="line">			<span class="comment">//3*3邻域非极大值抑制</span></span><br><span class="line">			<span class="keyword">if</span> (val &gt; thresh)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="comment">//当前像素的灰度值大于阈值且该像素是其3*3邻域最大值时，判定其为目标</span></span><br><span class="line">				<span class="keyword">if</span> (image_matched.at&lt;float&gt;(i - <span class="number">1</span>, j - <span class="number">1</span>) &lt; val &amp;&amp;</span><br><span class="line">					image_matched.at&lt;float&gt;(i - <span class="number">1</span>, j) &lt; val &amp;&amp;</span><br><span class="line">					image_matched.at&lt;float&gt;(i - <span class="number">1</span>, j + <span class="number">1</span>) &lt; val &amp;&amp;</span><br><span class="line">					image_matched.at&lt;float&gt;(i, j - <span class="number">1</span>) &lt; val &amp;&amp;</span><br><span class="line">					image_matched.at&lt;float&gt;(i, j + <span class="number">1</span>) &lt; val &amp;&amp;</span><br><span class="line">					image_matched.at&lt;float&gt;(i + <span class="number">1</span>, j - <span class="number">1</span>) &lt; val &amp;&amp;</span><br><span class="line">					image_matched.at&lt;float&gt;(i + <span class="number">1</span>, j) &lt; val &amp;&amp;</span><br><span class="line">					image_matched.at&lt;float&gt;(i + <span class="number">1</span>, j + <span class="number">1</span>) &lt; val)</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="comment">//结果绘制</span></span><br><span class="line">					<span class="attr">cv</span>::rectangle(src, <span class="attr">cv</span>::Rect(j, i, templ.cols, templ.rows), <span class="attr">cv</span>::Scalar(<span class="number">0</span>, <span class="number">255</span>, <span class="number">0</span>), <span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">					char text[<span class="number">10</span>];</span><br><span class="line">					float score = image_matched.at&lt;float&gt;(i, j);</span><br><span class="line">					sprintf_s(text, <span class="string">&quot;%.2f&quot;</span>, score);</span><br><span class="line">					putText(src, text, <span class="attr">cv</span>::Point(j, i), <span class="attr">cv</span>::FONT_HERSHEY_SIMPLEX, <span class="number">0.8</span>, <span class="attr">cv</span>::Scalar(<span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>), <span class="number">2</span>);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="attr">cv</span>::imshow(<span class="string">&quot;image_matched&quot;</span>, src);</span><br><span class="line"></span><br><span class="line">	cv::waitKey(<span class="number">300000</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>模板图templ.png如下所示：<br><img src="/assets/blogImg/match_templ5.jpg" alt="match_templ5.jpg"></p>
+<p>源图像（待匹配图）src_cir6.png如下图所示：<br><img src="/assets/blogImg/match_templ6.jpg" alt="match_templ6.jpg"></p>
+<p>匹配结果图image_matched如下图所示：<br><img src="/assets/blogImg/match_templ7.jpg" alt="match_templ7.jpg"></p>
+<p>可以看到，源图像中6个圆模板都被识别了出来。而且模板图中空白的地方可以重叠。</p>
+<h2 id="模板匹配的method六种方法详情（了解一下）"><a href="#模板匹配的method六种方法详情（了解一下）" class="headerlink" title="模板匹配的method六种方法详情（了解一下）"></a>模板匹配的method六种方法详情（了解一下）</h2><p>主要是了解一下就好<br><img src="/assets/blogImg/match_templ8.jpg" alt="match_templ8.jpg"><br><img src="/assets/blogImg/match_templ9.jpg" alt="match_templ9.jpg"></p>
+<h2 id="模板匹配的局限性"><a href="#模板匹配的局限性" class="headerlink" title="模板匹配的局限性"></a>模板匹配的局限性</h2><p>在应用模板匹配法进行图像匹配时，应注意以下几点：<br>（1）归一化互相关注进行匹配，模板应在（M-P+1）×（N-Q+1）个参考位置上进行相关计算，计算量非常大，必要时可以采用序贯相似检验算法、幅度排序相关算法、FFT相关算法、分层搜索序贯判决等方法对其进行改进，以提高运算速度。<br>（2）模板匹配具有自身的局限性，主要表现在它只能进行平行移动，若原图像中的匹配目标发生旋转或大小变化，该算法无效。<br>（3）若原图像中要匹配的目标只有部分可见，该算法也无法完成匹配。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/ybqjymy/p/15338560.html">https://www.cnblogs.com/ybqjymy/p/15338560.html</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/Zero___Chen/article/details/125119050">https://blog.csdn.net/Zero___Chen/article/details/125119050</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">opencv</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/01/12/%E6%A8%A1%E6%9D%BF%E5%8C%B9%E9%85%8D/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-使用gperftools工具分析程序性能" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -845,297 +1131,6 @@
 
 
   
-    <article id="post-gdb调试记录" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/12/04/gdb%E8%B0%83%E8%AF%95%E8%AE%B0%E5%BD%95/">gdb调试记录</a>
-    </h1>
-  
-
-        
-        <a href="/2022/12/04/gdb%E8%B0%83%E8%AF%95%E8%AE%B0%E5%BD%95/" class="archive-article-date">
-  	<time datetime="2022-12-04T15:03:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-12-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="gdb调试记录"><a href="#gdb调试记录" class="headerlink" title="gdb调试记录"></a>gdb调试记录</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>gdb调试C/C++程序<br>一般来说，windows下可以用visual studio就有很强大的代码调试工具，而在linux下，一般使用的gdb进行调试，这里做一个记录。</p>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="http://c.biancheng.net/gdb/">http://c.biancheng.net/gdb/</a></p>
-<h2 id="常用操作"><a href="#常用操作" class="headerlink" title="常用操作"></a>常用操作</h2><p>以下以调试wx_app这个本地程序为例，这个程序是已经编译生成好的执行程序。</p>
-<h3 id="1-启动GDB"><a href="#1-启动GDB" class="headerlink" title="1.启动GDB"></a>1.启动GDB</h3><p>gdb 执行程序<br>注意，该指令在启动 GDB 的同时，会打印出一堆免责条款。通过添加 –silent（或者 -q、–quiet）选项，可将比部分信息屏蔽掉<br><img src="/assets/blogImg/gdb.jpg" alt="gdb.jpg"></p>
-<p><img src="/assets/blogImg/gdb2.jpg" alt="gdb2.jpg"></p>
-<h3 id="2-查看代码，运行程序"><a href="#2-查看代码，运行程序" class="headerlink" title="2.查看代码，运行程序"></a>2.查看代码，运行程序</h3><p>l指令 查看代码列表<br><img src="/assets/blogImg/gdb3.jpg" alt="gdb3.jpg"></p>
-<p>r指令 开始运行程序<br><img src="/assets/blogImg/gdb4.jpg" alt="gdb4.jpg"></p>
-<h3 id="3-设置普通断点"><a href="#3-设置普通断点" class="headerlink" title="3.设置普通断点"></a>3.设置普通断点</h3><p>b指令 设置断点<br>格式<br>b 函数名称<br><img src="/assets/blogImg/gdb5.jpg" alt="gdb5.jpg"></p>
-<p>命中断点<br>n 执行下一条语句<br>c 继续运行程序<br><img src="/assets/blogImg/gdb6.jpg" alt="gdb6.jpg"></p>
-<h3 id="4-设置断点常用的语法格式有以下2种"><a href="#4-设置断点常用的语法格式有以下2种" class="headerlink" title="4.设置断点常用的语法格式有以下2种"></a>4.设置断点常用的语法格式有以下2种</h3><p>1、(gdb) break location     // b location<br>在这个格式中，location 用于指定打断点的具体位置，其表示方式有多种，如表 1 所示。<br><img src="/assets/blogImg/gdb7.jpg" alt="gdb7.jpg"></p>
-<p>示例如下：<br>设置断点如下<br><img src="/assets/blogImg/gdb8.jpg" alt="gdb8.jpg"></p>
-<p>p指令 查看指定变量当前的值<br>命中断点如下<br><img src="/assets/blogImg/gdb9.jpg" alt="gdb9.jpg"></p>
-<p>2、(gdb) break … if cond   // b .. if cond<br> 在这个格式中，… 可以是表 1 中所有参数的值，用于指定打断点的具体位置；cond 为某个表达式。整体的含义为：每次程序执行到 … 位置时都计算 cond 的值，如果为 True，则程序在该位置暂停；反之，程序继续执行。</p>
-<h3 id="5-设置观察断点"><a href="#5-设置观察断点" class="headerlink" title="5.设置观察断点"></a>5.设置观察断点</h3><p>GDB 调试器支持在程序中打 3 种断点，分别为普通断点、观察断点和捕捉断点。其中 break 命令打的就是普通断点，而 watch 命令打的为观察断点。使用 catch 命令建立捕捉断点。</p>
-<p>借助观察断点可以监控程序中某个变量或者表达式的值，只要发生改变，程序就会停止执行。相比普通断点，观察断点不需要我们预测变量（表达式）值发生改变的具体位置。<br>对于监控 C、C++ 程序中某变量或表达式的值是否发生改变，watch 命令的语法非常简单，如下所示：<br>(gdb) watch cond<br>其中，conde 指的就是要监控的变量或表达式。</p>
-<p>和 watch 命令功能相似的，还有 rwatch 和 awatch 命令。其中：<br>rwatch 命令：只要程序中出现读取目标变量（表达式）的值的操作，程序就会停止运行；<br>awatch 命令：只要程序中出现读取目标变量（表达式）的值或者改变值的操作，程序就会停止运行。<br>强调一下，watch 命令的功能是：只有当被监控变量（表达式）的值发生改变，程序才会停止运行。<br><img src="/assets/blogImg/gdb10.jpg" alt="gdb10.jpg"></p>
-<p><img src="/assets/blogImg/gdb11.jpg" alt="gdb11.jpg"></p>
-<p>如果我们想查看当前建立的观察点的数量，借助如下指令即可：<br>(gdb) info watchpoints</p>
-<p>值得一提的是，对于使用 watch（rwatch、awatch）命令监控 C、C++ 程序中变量或者表达式的值，有以下几点需要注意：<br>1、当监控的变量（表达式）为局部变量（表达式）时，一旦局部变量（表达式）失效，则监控操作也随即失效；<br>2、如果监控的是一个指针变量（例如 *p），则 watch *p 和 watch p 是有区别的，前者监控的是 p 所指数据的变化情况，而后者监控的是 p 指针本身有没有改变指向；<br>3、这 3 个监控命令还可以用于监控数组中元素值的变化情况，例如对于 a[10] 这个数组，watch a 表示只要 a 数组中存储的数据发生改变，程序就会停止执行。</p>
-<h3 id="6-建立捕捉断点"><a href="#6-建立捕捉断点" class="headerlink" title="6.建立捕捉断点"></a>6.建立捕捉断点</h3><p>和前 2 种断点不同，普通断点作用于程序中的某一行，当程序运行至此行时停止执行，观察断点作用于某一变量或表达式，当该变量（表达式）的值发生改变时，程序暂停。而捕捉断点的作用是，监控程序中某一事件的发生，例如程序发生某种异常时、某一动态库被加载时等等，一旦目标时间发生，则程序停止执行。<br>用捕捉断点监控某一事件的发生，等同于在程序中该事件发生的位置打普通断点。<br>建立捕捉断点的方式很简单，就是使用 catch 命令，其基本格式为：<br>(gdb) catch event</p>
-<p>其中，event 参数表示要监控的具体事件。对于使用 GDB 调试 C、C++ 程序，常用的 event 事件类型如表 1 所示。<br><img src="/assets/blogImg/gdb12.jpg" alt="gdb12.jpg"></p>
-<h2 id="常用指令"><a href="#常用指令" class="headerlink" title="常用指令"></a>常用指令</h2><p>一般比较常用的调试指令如下<br><img src="/assets/blogImg/gdb15.jpg" alt="gdb15.jpg"></p>
-<p>还有遇到core dump的时候，输入<br>(gdb)bt<br>可以查看段错误崩溃在哪里</p>
-<h2 id="其他指令"><a href="#其他指令" class="headerlink" title="其他指令"></a>其他指令</h2><p>虽然不常用，但是偶尔也很有用，不再举例<br>（1）tbreak命令<br>tbreak 命令可以看到是 break 命令的另一个版本，tbreak 和 break 命令的用法和功能都非常相似，唯一的不同在于，使用 tbreak 命令打的断点仅会作用 1 次，即使程序暂停之后，该断点就会自动消失。<br>tbreak 命令的使用格式和 break 完全相同，有以下 2 种：<br>1、(gdb) tbreak location<br>2、(gdb) tbreak … if cond<br>其中，location、… 和 cond 的含义都和 break 命令中的参数含义相同，即表 1 也同样适用于 tbreak 命令。</p>
-<p>（2）rbreak命令<br>rbreak命令的使用语法格式为：<br>(gdb) rbreak regex<br>其中 regex 为一个正则表达式，程序中函数的函数名只要满足 regex 条件，rbreak 命令就会其内部的开头位置打断点。值得一提的是，rbreak 命令打的断点和 break 命令打断点的效果是一样的，会一直存在，不会自动消失。</p>
-<p>如下，通过执行rbreak rb_<em>指令，找到了程序中所有以 rb_</em> 开头的函数，并在这些函数内部的开头位置打上了断点<br><img src="/assets/blogImg/gdb16.jpg" alt="gdb16.jpg"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/12/04/gdb%E8%B0%83%E8%AF%95%E8%AE%B0%E5%BD%95/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-单元测试gtest框架" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/12/04/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95gtest%E6%A1%86%E6%9E%B6/">单元测试gtest框架</a>
-    </h1>
-  
-
-        
-        <a href="/2022/12/04/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95gtest%E6%A1%86%E6%9E%B6/" class="archive-article-date">
-  	<time datetime="2022-12-04T15:03:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-12-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="单元测试gtest框架"><a href="#单元测试gtest框架" class="headerlink" title="单元测试gtest框架"></a>单元测试gtest框架</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>对单元测试gtest框架的系统性学习，也是对《C++程序设计实践与技巧测试驱动开发》读书笔记</p>
-<p>代码下载地址<br><a target="_blank" rel="noopener" href="https://media.pragprog.com/titles/lotdd/code/lotdd-code.zip">https://media.pragprog.com/titles/lotdd/code/lotdd-code.zip</a></p>
-<h2 id="常用宏"><a href="#常用宏" class="headerlink" title="常用宏"></a>常用宏</h2><p>一些常用的宏</p>
-<h3 id="1-fixture-与-TEST宏与TEST-F宏"><a href="#1-fixture-与-TEST宏与TEST-F宏" class="headerlink" title="1.fixture 与 TEST宏与TEST_F宏"></a>1.fixture 与 TEST宏与TEST_F宏</h3><p>Google Mock允许我们定义一个fixture类，我们可以在这个类中为相关的测试声明函数和变量。从技术角度来说，所有的Google Mock测试都使用一个由Google Mock自己生成的fixture<br>fixture–一个跨测试可重用的类<br>如下，使用默认的fixture（用TEST宏）<br><img src="/assets/blogImg/gtest_1.jpg" alt="gtest_1.jpg"></p>
-<p>如下，自己声明一个fixture（用TEST_F宏）<br>如果想让测试能够访问fixture类的成员变量，那么就需要将TEST宏替换成TEST_F宏<br>（尾部的F表示fixture）<br>测试用例的名称必须与fixture的名称一样。<br><img src="/assets/blogImg/gtest_2.jpg" alt="gtest_2.jpg"></p>
-<h3 id="2-EXPECT-THAT宏与ASSERT-THAT宏"><a href="#2-EXPECT-THAT宏与ASSERT-THAT宏" class="headerlink" title="2.EXPECT_THAT宏与ASSERT_THAT宏"></a>2.EXPECT_THAT宏与ASSERT_THAT宏</h3><p>ASSERT_THAT断言失败的话，其他代码不能继续执行<br>EXPECT_THAT断言失败的话，其他代码继续执行</p>
-<p>ASSERT_THAT(实际值，期待值） 可以看出实际值在前<br><img src="/assets/blogImg/gtest_3.jpg" alt="gtest_3.jpg"></p>
-<h3 id="3-ASSERT-TRUE宏与ASSERT-FALSE宏"><a href="#3-ASSERT-TRUE宏与ASSERT-FALSE宏" class="headerlink" title="3.ASSERT_TRUE宏与ASSERT_FALSE宏"></a>3.ASSERT_TRUE宏与ASSERT_FALSE宏</h3><p><img src="/assets/blogImg/gtest_4.jpg" alt="gtest_4.jpg"></p>
-<h3 id="4-EXPECT-EQ宏与ASSERT-EQ宏"><a href="#4-EXPECT-EQ宏与ASSERT-EQ宏" class="headerlink" title="4.EXPECT_EQ宏与ASSERT_EQ宏"></a>4.EXPECT_EQ宏与ASSERT_EQ宏</h3><p>EXPECT_EQ(1, 1);        // EQ是equals的意思，判断两个对象是否相等<br>ASSERT_EQ（期待值，实际值） //此时，是期待值在前<br><img src="/assets/blogImg/gtest_5.jpg" alt="gtest_5.jpg"></p>
-<p>EXPECT_GT(2, 0);        // GT是greater then, 比 xx更大，通过是数值比较<br>EXPECT_FALSE( 3&gt;5);            // 断言结果是false，参数是返回类型bool的表达式或函数<br>EXPECT_TRUE( 3&gt;1);        // 断言结果是true，参数是返回类型bool的表达式或函数<br>EXPECT_STREQ(“aaa”, “aaa”);    // STREQ 是string equals，判断两个字符串是否相等</p>
-<h3 id="4-DISABLED-前缀"><a href="#4-DISABLED-前缀" class="headerlink" title="4.DISABLED_前缀"></a>4.DISABLED_前缀</h3><p>在测试名称前加上DISABLED_前缀的话，会跳过执行这个测试<br><img src="/assets/blogImg/gtest_6.jpg" alt="gtest_6.jpg"></p>
-<p><img src="/assets/blogImg/gtest_7.jpg" alt="gtest_7.jpg"></p>
-<p>当运行的时候，会提示有跳过的测试<br><img src="/assets/blogImg/gtest_8.jpg" alt="gtest_8.jpg"></p>
-<h3 id="5-测试崩溃"><a href="#5-测试崩溃" class="headerlink" title="5.测试崩溃"></a>5.测试崩溃</h3><p>如果希望遇到未处理的异常就让测试崩溃，可以用下面的命令行选项运行Google Mock:<br>–gtest_catch_exceptions=0</p>
-<h3 id="6-MATCHER-P宏"><a href="#6-MATCHER-P宏" class="headerlink" title="6.MATCHER_P宏"></a>6.MATCHER_P宏</h3><p>MATCHER_P自定义了一个匹配器，它接受一个参数。<br><img src="/assets/blogImg/gtest_9.jpg" alt="gtest_9.jpg"></p>
-<p><img src="/assets/blogImg/gtest_10.jpg" alt="gtest_10.jpg"></p>
-<h3 id="7-SetUp（）与TearDown"><a href="#7-SetUp（）与TearDown" class="headerlink" title="7.SetUp（）与TearDown()"></a>7.SetUp（）与TearDown()</h3><p>如果测试用例中，所有测试需要一条或更多的相同的初始化语句，那么就可以将它们写在fixture类的初始化函数中。在Google Mock中，必须将此函数命名为SetUp(它覆写了基类::testing::Test中的虚函数）<br>TearDown()是SetUp（）的逆过程，用于进行清理工作。<br><img src="/assets/blogImg/gtest_11.jpg" alt="gtest_11.jpg"></p>
-<p>以下的fixture里使用了智能指针，这样下面的示例里就可以不用写TearDown（）了<br><img src="/assets/blogImg/gtest_12.jpg" alt="gtest_12.jpg"></p>
-<h2 id="一些测试技巧"><a href="#一些测试技巧" class="headerlink" title="一些测试技巧"></a>一些测试技巧</h2><p>对书里提到的一些测试技巧的总结</p>
-<h3 id="1-运行测试的一个子集（–gtest-filter选项"><a href="#1-运行测试的一个子集（–gtest-filter选项" class="headerlink" title="1.运行测试的一个子集（–gtest_filter选项)"></a>1.运行测试的一个子集（–gtest_filter选项)</h3><p>如果所有的测试都跑一遍，需要很长的时间，而为了频繁的测试当前的修改，我们可以只测试其中的一个子集（当前修改的那个）<br>如下图，跑完所有的，会直接跑22个单元测试：<br><img src="/assets/blogImg/gtest_15.jpg" alt="gtest_15.jpg"></p>
-<p>假如当前我们只修改了ARetweetCollectionWithOneTweet这个fixture的内容，只需要单独测试这个子集，可以用gtest_filter过滤出自己需要跑的单元测试。<br>过滤器的语法是：测试用例名.测试名称<br>如果想要运行一个特定的测试，可以如下图：<br>./test –gtest_filter=ARetweetCollectionWithOneTweet.IsNoLongerEmpty<br><img src="/assets/blogImg/gtest_16.jpg" alt="gtest_16.jpg"></p>
-<p>最好不要养成每次只运行一个测试的习惯。可以使用通配符（<em>）运行多个测试。比如运行一下ARetweetCollectionWithOneTweet测试用例里的所有测试，如下图：<br>./test –gtest_filter=ARetweetCollectionWithOneTweet.</em><br><img src="/assets/blogImg/gtest_17.jpg" alt="gtest_17.jpg"></p>
-<p>可以使用冒号（：）来分割不同的过滤器。<br>如果GoogleMock遇到一个负号（-），那么其后的所有过滤器匹配的测试都将被忽略。<br>如下图所示：<br>./test –gtest_filter=<em>Retweet</em>.<em>:ATweet.</em>:-ATweet*.<em>Construct</em><br>注意：<br>-ATweet*.<em>Construct</em>告诉GoogleMock忽略名称中含有Construct的所有ATweet测试<br><img src="/assets/blogImg/gtest_18.jpg" alt="gtest_18.jpg"></p>
-<h2 id="测试思想"><a href="#测试思想" class="headerlink" title="测试思想"></a>测试思想</h2><p>书里提到的一些测试思想，很有启发性</p>
-<h3 id="1-测试行为而非方法"><a href="#1-测试行为而非方法" class="headerlink" title="1.测试行为而非方法"></a>1.测试行为而非方法</h3><p>TDD初学者常犯的一个错误是集中精力去测试成员函数。<br>比如实现了一个add（）成员函数，再写一个TEST（ARetweetCollection,Add)的测试。但是，写一个完全覆盖add()行为的测试需要考虑多种不同的情形。结果就是你必须将许多不同的行为编码到同一个测试。此时，测试就没有文档价值了，同时，理解一个测试花费的时间也会增加。<br>相反，你要把注意力放在行为或描述行为的情形上。比如，如果加入一个之前已经加入过的tweet会发生什么？如果客户传入为空呢？等等，这样就能全面的查看测试名称，并且了解系统支持的确定行为。</p>
-<h3 id="2-保持简单"><a href="#2-保持简单" class="headerlink" title="2.保持简单"></a>2.保持简单</h3><p>无谓的复杂性带来的成本是无止境的。相信你曾花费无数个小时去解读一个复杂的成员函数或错综复杂的设计。大多数时候，你都可以编写一个更简单的解决方案，从而节省每个人的时间。<br>有很多原因会导致开发人员制造出无谓的复杂性。<br>（1）时间压力<br>轻率使得复杂性不断累积，这将在多个方面（代码可理解性、修改代码的开销、构建时间）让你速度更慢。<br>（2）缺乏学习<br>在追求更好的代码的同时，也要承认自己制造的不良代码。这意味着你必须理解两者之间的差别。你可以通过团队成员结对编程或者审阅代码的方式获得真实的反馈。学习怎样识别设计缺陷和代码坏味。学习怎样以更好的方式去纠正它们，可以找几本关于创建简洁设计和代码的书本来学习。<br>（3）已有的复杂性<br>一个设计繁杂的已有代码库会让你在添加新行为时束手束脚。过长的方法会催生更冗长的方法，高耦合的设计也是孕育更加高耦合设计的温床。<br>（4）害怕去改代码<br>如果未经测试的话，你不会一直写出正确的代码。“如果没有出现问题，就不要去修复。”害怕修改代码会阻碍向更好的、可持续的设计进行重构。使用TDD的话，每个通过的测试都会提供改善代码的机会。<br>（5）臆测<br>“客户和账号之间可能存在多对多的关系，所以现在就把这个添加到系统中”或许大多数时候你是对的，但是你要承受过早引入的复杂性。有时候你会选择另外一个思路，这时，你将不断的为这个（无用的）额外的复杂性买单，或者也会花费大量的精力去移除这个没必要的复杂性。相反，你应该在真正需要的时候再考虑上述做法。通常，这样做不会带来额外的开销。<br>保持简单是你在持续变化的环境中的生存之道。<br>在敏捷开发里，每次迭代都会交付新特性，其中一些你可能从未考虑过。这是个挑战，如果系统不能适应新的改动，你就需要把新功能强加进系统。为此，最好的防范办法就是保持简单的设计：代码易读，没有冗余、没有无谓的复杂性。具有这些特征的系统会最大程度的降低维护成本。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/12/04/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95gtest%E6%A1%86%E6%9E%B6/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-计算机读书清单记录" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/11/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BB%E4%B9%A6%E6%B8%85%E5%8D%95%E8%AE%B0%E5%BD%95/">计算机读书清单记录</a>
-    </h1>
-  
-
-        
-        <a href="/2022/11/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BB%E4%B9%A6%E6%B8%85%E5%8D%95%E8%AE%B0%E5%BD%95/" class="archive-article-date">
-  	<time datetime="2022-11-29T12:55:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="计算机读书清单记录"><a href="#计算机读书清单记录" class="headerlink" title="计算机读书清单记录"></a>计算机读书清单记录</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>俗话说，好记性不如烂笔头，对于之前读过的书，简单的做个清单记录。<br>这些书都是买过实体书，觉得学有所得，触发个人一些思考和成长的书本，做个分类整理吧。</p>
-<h2 id="C-专业技术书籍"><a href="#C-专业技术书籍" class="headerlink" title="C++专业技术书籍"></a>C++专业技术书籍</h2><p>总结一下C++专业技术相关的书籍</p>
-<h3 id="1-《C-17入门经典》"><a href="#1-《C-17入门经典》" class="headerlink" title="1.《C++17入门经典》"></a>1.《C++17入门经典》</h3><p>源码下载地址：<br><a target="_blank" rel="noopener" href="https://codeload.github.com/Apress/beg-cplusplus17/zip/refs/heads/master">https://codeload.github.com/Apress/beg-cplusplus17/zip/refs/heads/master</a></p>
-<p>学习新语言特性的一本值得一看的书。</p>
-<h3 id="2-《windows黑客编程技术详解》"><a href="#2-《windows黑客编程技术详解》" class="headerlink" title="2.《windows黑客编程技术详解》"></a>2.《windows黑客编程技术详解》</h3><p>源码下载地址：<br><a target="_blank" rel="noopener" href="https://dl-01.vips100.com/v3/eb017cc77914a36f40141a7b332210b2224f444942f6b505404859b7185bf5b4/delivery/data/d0e588c7174b45b8b3e51913f2e51d58/?auth_key=1653918151-376ffe2da77847f3949ec2700a750e83-0-ae3169cb9db83f8f5ca1d436475d6669&amp;LBC=meta&amp;token=2cbfe0b93ebb1b1526d320d691f4c817da12cf6bd8151c07ff763cf123410f6eafbece8851723ddd11d02b5304a8e9bbba577b43bd3184fbde0d563a2ab6499ff598cceac5149b8e3cd380a8e2439bfc&amp;aid=315742&amp;rec_log=true&amp;neid=833113971&amp;nsid=673116&amp;lb_cl=c&amp;neid=833113971">https://dl-01.vips100.com/v3/eb017cc77914a36f40141a7b332210b2224f444942f6b505404859b7185bf5b4/delivery/data/d0e588c7174b45b8b3e51913f2e51d58/?auth_key=1653918151-376ffe2da77847f3949ec2700a750e83-0-ae3169cb9db83f8f5ca1d436475d6669&amp;LBC=meta&amp;token=2cbfe0b93ebb1b1526d320d691f4c817da12cf6bd8151c07ff763cf123410f6eafbece8851723ddd11d02b5304a8e9bbba577b43bd3184fbde0d563a2ab6499ff598cceac5149b8e3cd380a8e2439bfc&amp;aid=315742&amp;rec_log=true&amp;neid=833113971&amp;nsid=673116&amp;lb_cl=c&amp;neid=833113971</a></p>
-<p>哎，想当年年少轻狂，谁没有一个当黑客大神，纵横网络的梦呢。看看这些书，算是一种参与感了吧。就当是一场梦，看的时候还是很激动。</p>
-<h2 id="理论思想书籍"><a href="#理论思想书籍" class="headerlink" title="理论思想书籍"></a>理论思想书籍</h2><p>总结一下理论思想方面的书籍</p>
-<h3 id="1-《大话设计模式》"><a href="#1-《大话设计模式》" class="headerlink" title="1.《大话设计模式》"></a>1.《大话设计模式》</h3><p>这本书是目前看过就能理解设计模式的一本书，虽然依然也看过就忘，但是每次看的时候，都觉得跟着作者的思路很容易理解这些设计模式。</p>
-<h3 id="2-《人月神话》"><a href="#2-《人月神话》" class="headerlink" title="2.《人月神话》"></a>2.《人月神话》</h3><p>这本书可谓赫赫有名</p>
-<h3 id="3-《代码整洁之道》"><a href="#3-《代码整洁之道》" class="headerlink" title="3.《代码整洁之道》"></a>3.《代码整洁之道》</h3><p>最早看到这本书的时候，惊为天人。一下子在我脑海里种下了Clean Code的概念，也是我的追求。</p>
-<h2 id="通用技术"><a href="#通用技术" class="headerlink" title="通用技术"></a>通用技术</h2><h3 id="1-《C-程序设计实践与技巧测试驱动开发》"><a href="#1-《C-程序设计实践与技巧测试驱动开发》" class="headerlink" title="1.《C++程序设计实践与技巧测试驱动开发》"></a>1.《C++程序设计实践与技巧测试驱动开发》</h3><p>这本书讲的是不仅是一种单元测试的技术和思想，有些部分很值得再刷一遍。</p>
-<p>源码下载地址：<br><a target="_blank" rel="noopener" href="https://media.pragprog.com/titles/lotdd/code/lotdd-code.zip">https://media.pragprog.com/titles/lotdd/code/lotdd-code.zip</a></p>
-<h2 id="图像处理"><a href="#图像处理" class="headerlink" title="图像处理"></a>图像处理</h2><h3 id="1-《图像处理与计算机视觉算法及应用》第2版"><a href="#1-《图像处理与计算机视觉算法及应用》第2版" class="headerlink" title="1.《图像处理与计算机视觉算法及应用》第2版"></a>1.《图像处理与计算机视觉算法及应用》第2版</h3><p>顾名思义，讲的是图像处理相关内容</p>
-<p>源码下载地址：<br><a target="_blank" rel="noopener" href="http://down1.tupwk.com.cn/qhwkdownpage/978-7-302-28222-8.rar">http://down1.tupwk.com.cn/qhwkdownpage/978-7-302-28222-8.rar</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">阅读</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/11/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%BB%E4%B9%A6%E6%B8%85%E5%8D%95%E8%AE%B0%E5%BD%95/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/3/">Next &amp;raquo;</a>
@@ -1257,11 +1252,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
+                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
+                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
               </li>
              
               <li class="article-tag-list-item">
