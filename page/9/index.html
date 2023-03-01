@@ -61,7 +61,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 97
+			总文章数 99
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -180,6 +180,93 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-mqtt连接时报错-8" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/05/mqtt%E8%BF%9E%E6%8E%A5%E6%97%B6%E6%8A%A5%E9%94%99-8/">mqtt连接时报错-8</a>
+    </h1>
+  
+
+        
+        <a href="/2019/09/05/mqtt%E8%BF%9E%E6%8E%A5%E6%97%B6%E6%8A%A5%E9%94%99-8/" class="archive-article-date">
+  	<time datetime="2019-09-05T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="mqtt连接时报错-8"><a href="#mqtt连接时报错-8" class="headerlink" title="mqtt连接时报错-8"></a>mqtt连接时报错-8</h1><h1 id="mqtt连接时报错，错误码是-8"><a href="#mqtt连接时报错，错误码是-8" class="headerlink" title="mqtt连接时报错，错误码是-8"></a>mqtt连接时报错，错误码是-8</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>使用mqtt-c库，创建mqtt连接的时候报错，错误码是-8</p>
+<h2 id="问题排查"><a href="#问题排查" class="headerlink" title="问题排查"></a>问题排查</h2><p>根据头文件来看</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#define MQTTASYNC_BAD_STRUCTURE -<span class="number">8</span></span><br></pre></td></tr></table></figure>
+<p>错误码是-8的时候，表示创建连接的mqtt的结构体是错误的</p>
+<p>经过排查之后，发现，是mqtt的库版本不对。<br>因为系统里同时安装了两个版本的mqtt的库，一个是最新的，一个是原本用的旧版本的，在编译的时候，用了最新的mqtt的版本编译。</p>
+<p>但是把程序给别人的时候，别人用的是旧版本的mqtt的动态库，所以当程序执行的时候，当创建连接时，会报错-8</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在多个人使用同一个第三方库的时候，一定一定要注意，版本的问题；要保证大家使用的是统一的版本号编译的第三方动态库！</p>
+<p>版本差异导致报错，这种问题真的很坑……</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常见报错问题</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">通信协议</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/09/05/mqtt%E8%BF%9E%E6%8E%A5%E6%97%B6%E6%8A%A5%E9%94%99-8/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-windows下命令行查看进程号" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -967,85 +1054,6 @@
 
 
   
-    <article id="post-学习使用libxml2库" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/13/%E5%AD%A6%E4%B9%A0%E4%BD%BF%E7%94%A8libxml2%E5%BA%93/">学习使用libxml2库</a>
-    </h1>
-  
-
-        
-        <a href="/2019/08/13/%E5%AD%A6%E4%B9%A0%E4%BD%BF%E7%94%A8libxml2%E5%BA%93/" class="archive-article-date">
-  	<time datetime="2019-08-13T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="学习使用libxml2库"><a href="#学习使用libxml2库" class="headerlink" title="学习使用libxml2库"></a>学习使用libxml2库</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>由于之前一直使用json进行信息的配置和传输，不过这次由于项目需要，所以接触了一下XML，经过一些选择，最终决定用libxml2库，进行一下学习记录</p>
-<p>libxml2库官方说明：<a target="_blank" rel="noopener" href="http://www.xmlsoft.org/index.html">http://www.xmlsoft.org/index.html</a></p>
-<h2 id="XML结构"><a href="#XML结构" class="headerlink" title="XML结构"></a>XML结构</h2><p>xml结构图<br><img src="/assets/blogImg/xmltype.jpg" alt="xmltype.jpg"></p>
-<p>图片来源于网上：<a target="_blank" rel="noopener" href="https://youtu.be/KeLiQXqVgMI">https://youtu.be/KeLiQXqVgMI</a> 该视频的截图</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">第三方库</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/08/13/%E5%AD%A6%E4%B9%A0%E4%BD%BF%E7%94%A8libxml2%E5%BA%93/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/8/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/10/">Next &amp;raquo;</a>
@@ -1167,11 +1175,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
+                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
+                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
               </li>
              
               <li class="article-tag-list-item">

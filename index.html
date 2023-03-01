@@ -61,7 +61,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 97
+			总文章数 99
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -181,6 +181,97 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-linux下C-执行shell命令" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/03/01/linux%E4%B8%8BC-%E6%89%A7%E8%A1%8Cshell%E5%91%BD%E4%BB%A4/">linux下C++执行shell命令</a>
+    </h1>
+  
+
+        
+        <a href="/2023/03/01/linux%E4%B8%8BC-%E6%89%A7%E8%A1%8Cshell%E5%91%BD%E4%BB%A4/" class="archive-article-date">
+  	<time datetime="2023-03-01T11:49:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-03-01</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="linux下C-执行shell命令"><a href="#linux下C-执行shell命令" class="headerlink" title="linux下C++执行shell命令"></a>linux下C++执行shell命令</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>linux下C++执行shell命令的几种方式的学习记录。<br>Linux下C++中执行shell命令可以有多种方式：system函数、exec族函数等，但最灵活的还是popen</p>
+<h2 id="system-函数"><a href="#system-函数" class="headerlink" title="system()函数"></a>system()函数</h2><p>system()函数只能运行命令，不能获取输出<br>简单示例如下<br><img src="/assets/blogImg/shell.jpg" alt="shell.jpg"></p>
+<h2 id="popen-函数"><a href="#popen-函数" class="headerlink" title="popen()函数"></a>popen()函数</h2><p>C＋＋中使用popen运行linux系统命令并获取输出。<br>通过popen创建子进程，执行对应命令，并通过fgets获取输出，然后pclose关闭并获取执行结果。</p>
+<p>popen：创建一个管道；<br>pclose：关闭I/O流，等待命令执行结束，然后返回shell的终止状态（执行结果）；</p>
+<p>函数定义：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FILE * popen(<span class="keyword">const</span> char *command , <span class="keyword">const</span> char *type )</span><br></pre></td></tr></table></figure>
+<p>函数说明：<br>调用fork产生子进程，从子进程中调用/bin/sh  -c来执行参数command的指令。<br>command参数：要执行的shell命令字符串<br>type参数：只能是读或者写中的一种。如果 type 为 r，那么调用进程读进 command 的标准输出。如果 type 为 w，那么调用进程写到 command 的标准输入。<br>注意：<br>popen创建的管道，默认读取的是标准输出stdout，但很多程序（如ffmpeg相关的）输出到stderr上，为了能方便地读取这些输出，需要在执行命令时，对输出做重定向（<cmd> 2&gt;&amp;1）。</p>
+<h3 id="popen函数示例代码一（未增加重定向）"><a href="#popen函数示例代码一（未增加重定向）" class="headerlink" title="popen函数示例代码一（未增加重定向）"></a>popen函数示例代码一（未增加重定向）</h3><p><img src="/assets/blogImg/shell2.jpg" alt="shell2.jpg"></p>
+<p>执行效果如下：<br><img src="/assets/blogImg/shell3.jpg" alt="shell3.jpg"></p>
+<p>假如把命令输入错误了，执行一下看看效果：<br>把示例代码一的这个命令内容输入为下面的样子，其他代码不变<br><img src="/assets/blogImg/shell4.jpg" alt="shell4.jpg"><br>编译后执行效果如下：<br><img src="/assets/blogImg/shell5.jpg" alt="shell5.jpg"></p>
+<h3 id="popen示例代码二（增加重定向）"><a href="#popen示例代码二（增加重定向）" class="headerlink" title="popen示例代码二（增加重定向）"></a>popen示例代码二（增加重定向）</h3><p>只需要对命令增加（<cmd> 2&gt;&amp;1）内容即可，其他部分代码不变<br><img src="/assets/blogImg/shell6.jpg" alt="shell6.jpg"><br>编译后，执行错误命令的效果如下：<br><img src="/assets/blogImg/shell7.jpg" alt="shell7.jpg"></p>
+<p>把代码里的错误命令改成对的ls -al，其他不变<br><img src="/assets/blogImg/shell8.jpg" alt="shell8.jpg"></p>
+<p>然后编译执行看下效果<br><img src="/assets/blogImg/shell9.jpg" alt="shell9.jpg"></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>如果需要执行shell命令并获取输出结果，那么最好采用重定向的方式。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42428854/article/details/120485677">https://blog.csdn.net/weixin_42428854/article/details/120485677</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/alwaysrun/article/details/109695107">https://blog.csdn.net/alwaysrun/article/details/109695107</a></p>
+<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><p><a target="_blank" rel="noopener" href="https://github.com/ThranduilELFKING/toolsUse/blob/main/execShellCmd/execShellCmd.cpp">https://github.com/ThranduilELFKING/toolsUse/blob/main/execShellCmd/execShellCmd.cpp</a><br>//未重定向popen源码<br><a target="_blank" rel="noopener" href="https://github.com/ThranduilELFKING/toolsUse/blob/main/execShellCmd/execShellCmdOut.cpp">https://github.com/ThranduilELFKING/toolsUse/blob/main/execShellCmd/execShellCmdOut.cpp</a><br>//重定向popen源码</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础技能C++</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/03/01/linux%E4%B8%8BC-%E6%89%A7%E8%A1%8Cshell%E5%91%BD%E4%BB%A4/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-一个进程最多可以创建多少个线程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -242,6 +333,10 @@
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">基础技能</a>
+        		</li>
+      		 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
         		</li>
@@ -982,95 +1077,6 @@
 
 
   
-    <article id="post-边缘检测之导数算子" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/01/27/%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B%E4%B9%8B%E5%AF%BC%E6%95%B0%E7%AE%97%E5%AD%90/">边缘检测之导数算子</a>
-    </h1>
-  
-
-        
-        <a href="/2023/01/27/%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B%E4%B9%8B%E5%AF%BC%E6%95%B0%E7%AE%97%E5%AD%90/" class="archive-article-date">
-  	<time datetime="2023-01-27T14:52:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-01-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="导数算子"><a href="#导数算子" class="headerlink" title="导数算子"></a>导数算子</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>由于边缘是由灰阶值的变化定义的，因此对这种变化敏感的算子就可以用作边缘检测器。<br>导数算子是可以实现这种功能的：<br>导数的意义之一就是表示函数值的变化率，而图像中的灰阶值的变化率在边缘附近很大，在常量区域很小。</p>
-<h2 id="理论"><a href="#理论" class="headerlink" title="理论"></a>理论</h2><p>由于图像是二维的，因此应该考虑很多方向上的灰阶值变化。基于这个原因，我们采用了图像关于主方向x,y的偏导数。<br>对边缘实际方向的估计可以将x方向和y方向的导数看做实际方向上沿两条轴的分量，然后通过计算向量和得到。</p>
-<p>这里使用的算子刚好是梯度（gradient），如果把图像看做是一个二变量的函数A(x,y),那么梯度可以定义为：<br><img src="/assets/blogImg/gradient.jpg" alt="gradient.jpg"><br>这是一个二维向量。<br>当然，一幅图像不是一个函数，因而不能通过这种方式进行求导。<br>由于图像是离散的，因此我们使用差分运算，即：一个像素点的导数可以由一块局部区域内灰阶值的变化来近似。</p>
-<h3 id="近似方案一"><a href="#近似方案一" class="headerlink" title="近似方案一"></a>近似方案一</h3><p><img src="/assets/blogImg/gradient2.jpg" alt="gradient2.jpg"><br>这种情况的假设为灰阶值在像素之间线性变化，因此不论在哪里取导数，导数的值都是直线的斜率。<br>这种近似的问题在于斜率的计算并不是在点(x,y),而是在(x - 1/2, y - 1/2)点处。<br>因此，边缘的位置会在原来的基础上向-x和-y方向偏移半个像素。</p>
-<h3 id="近似方案二"><a href="#近似方案二" class="headerlink" title="近似方案二"></a>近似方案二</h3><p><img src="/assets/blogImg/gradient3.jpg" alt="gradient3.jpg"><br><img src="/assets/blogImg/gradient4.jpg" alt="gradient4.jpg"><br>这个算子关于像素(x,y)是对称的，不过没有考虑像素(x,y)的值。</p>
-<p>不管采用什么算子来计算梯度，得到的向量都能表示边缘在那个像素处的强度以及边缘的方向。<br>梯度向量的长度为一个直角三角形斜边的长度，而这个长度反映了给定像素上的边缘强度（或称边缘响应，edge response）。<br>在这个像素上边缘的方向为直角三角形斜边和轴的夹角。<br><img src="/assets/blogImg/gradient5.jpg" alt="gradient5.jpg"><br>边缘大小的值为一个实数，通常通过取整操作转换成整数。<br>任何像素的梯度值如果超过了一个指定的阈值，这个像素就被称为一个边缘像素，而其他像素则不是。<br>（一般，会将一定范围内的灰阶值的中值作为阈值）<br>从技术上说，边缘检测器只会报告出边缘像素，而边缘增强操作将边缘像素绘制在原始图像上。<br>边缘增强的测试图像能够粗略的表明边缘检测算法的成功性。</p>
-<h2 id="度量边缘检测方法的好坏"><a href="#度量边缘检测方法的好坏" class="headerlink" title="度量边缘检测方法的好坏"></a>度量边缘检测方法的好坏</h2><p>我们需要一个能够绝对表示边缘检测方法好坏的数值度量值用于评判。通常来说，没有这样的度量。<br>对边缘检测器可能失败或出错的方式，我们进行思考：<br>（1）首先，边缘检测器可能在没有边缘存在的时候报告边缘，可能的原因包括噪声、阈值和糟糕的设计，这种情形称作错误肯定（false positive）。<br>（2）此外，边缘检测器也可能在存在边缘像素的地方没有报告边缘的存在，这种情形称作错误否定（false negative）。<br>（3）最后，边缘像素的位置可能是错误的。<br>能够报告出边缘像素正确位置的边缘检测器显然比那些无法报告出正确位置的要好，因此我们找些测试图像，这些测试图像的边缘像素的数目和位置都是已知的，而且应用噪声的类型和数量都是已知的，因此对这些标准图像应用边缘检测器可以给出这些边缘检测器效果好坏的近似评估。</p>
-<h3 id="Pratt边缘检测器性能评估法（Pratt测试法）"><a href="#Pratt边缘检测器性能评估法（Pratt测试法）" class="headerlink" title="Pratt边缘检测器性能评估法（Pratt测试法）"></a>Pratt边缘检测器性能评估法（Pratt测试法）</h3><p>这种方法，考虑的是边缘的实际位置。<br><img src="/assets/blogImg/gradient6.jpg" alt="gradient6.jpg"></p>
-<h3 id="Kitchen-and-Rosenfeld评估法（KR测试法）"><a href="#Kitchen-and-Rosenfeld评估法（KR测试法）" class="headerlink" title="Kitchen and Rosenfeld评估法（KR测试法）"></a>Kitchen and Rosenfeld评估法（KR测试法）</h3><p>这种方法基于局部边缘一致性（local edge coherence）。<br>这种方法并没有考虑边缘的实际位置，因此是Pratt度量的一种补充。<br>这种方法考虑的是边缘像素和局部周边边缘像素的匹配程度。<br>（1）首先，定义了一个函数，测量一个边缘像素在左侧的连续性如何，这个函数如下所示：<br><img src="/assets/blogImg/gradient7.jpg" alt="gradient7.jpg"><br>（2）还有一个类似的函数，用于测量一个边缘像素在右侧的连续性如何，如下所示：<br><img src="/assets/blogImg/gradient8.jpg" alt="gradient8.jpg"><br>（3）然后在应用一个细度的测度。<br>边缘应该是一条细线，即1个像素宽。更大宽度的线条表示存在错误肯定的情况，原因可能是因为边缘检测器对同一个边缘进行了多次响应。<br>细度T的度量表示的是以要测量的像素为中心的3x3区域中的6个像素，即去除中心像素和L(k)和R(k)找到的两个像素（边缘像素）得到的6个像素。<br>（4）边缘检测器的整体评估函数如下所示：<br><img src="/assets/blogImg/gradient9.jpg" alt="gradient9.jpg"></p>
-<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><p>导数算子方案一：<br><a target="_blank" rel="noopener" href="https://github.com/ThranduilELFKING/study-openCV/tree/main/gradient1">https://github.com/ThranduilELFKING/study-openCV/tree/main/gradient1</a><br>导数算子方案二：<br><a target="_blank" rel="noopener" href="https://github.com/ThranduilELFKING/study-openCV/tree/main/gradient2">https://github.com/ThranduilELFKING/study-openCV/tree/main/gradient2</a><br>pratt测试法：<br><a target="_blank" rel="noopener" href="https://github.com/ThranduilELFKING/study-openCV/tree/main/pratt">https://github.com/ThranduilELFKING/study-openCV/tree/main/pratt</a><br>KR测试法：<br><a target="_blank" rel="noopener" href="https://github.com/ThranduilELFKING/study-openCV/tree/main/kr">https://github.com/ThranduilELFKING/study-openCV/tree/main/kr</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">opencv</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">边缘检测</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2023/01/27/%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B%E4%B9%8B%E5%AF%BC%E6%95%B0%E7%AE%97%E5%AD%90/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
@@ -1192,11 +1198,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
+                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
+                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
               </li>
              
               <li class="article-tag-list-item">

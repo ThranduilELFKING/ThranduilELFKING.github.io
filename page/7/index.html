@@ -61,7 +61,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 97
+			总文章数 99
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -180,6 +180,87 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-树莓派配置基础环境-ssh-root-静态ip" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/11/15/%E6%A0%91%E8%8E%93%E6%B4%BE%E9%85%8D%E7%BD%AE%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83-ssh-root-%E9%9D%99%E6%80%81ip/">树莓派配置基础环境-ssh-root-静态ip</a>
+    </h1>
+  
+
+        
+        <a href="/2020/11/15/%E6%A0%91%E8%8E%93%E6%B4%BE%E9%85%8D%E7%BD%AE%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83-ssh-root-%E9%9D%99%E6%80%81ip/" class="archive-article-date">
+  	<time datetime="2020-11-15T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="树莓派配置基础环境-ssh-root-静态ip"><a href="#树莓派配置基础环境-ssh-root-静态ip" class="headerlink" title="树莓派配置基础环境-ssh-root-静态ip"></a>树莓派配置基础环境-ssh-root-静态ip</h1><h2 id="配置root用户"><a href="#配置root用户" class="headerlink" title="配置root用户"></a>配置root用户</h2><p>在终端进行如下操作即可：<br>sudo passwd root<br>然后根据提示输入root用户的密码<br>再重复输入一次刚刚设置的密码</p>
+<p>切换root用户操作如下即可：<br>su -<br>输入设置的root用户的密码</p>
+<h2 id="配置开启ssh"><a href="#配置开启ssh" class="headerlink" title="配置开启ssh"></a>配置开启ssh</h2><p>操作如下即可：<br>sudo vim /etc/ssh/sshd-config<br>修改 PermitRootLogin yes<br>然后保存修改<br>然后执行sudo systemctl restart ssh<br>再通过ss -tnl查看是否开启成功即可</p>
+<h2 id="配置静态ip如下"><a href="#配置静态ip如下" class="headerlink" title="配置静态ip如下"></a>配置静态ip如下</h2><p>在需要无线网络连接的情况下，配置eth0的静态ip如下：<br>sudo vim /etc/network/interfaces<br>然后再文件里增加以下内容<br>auto lo<br>iface lo inet loopback<br>auto eth0<br>iface eth0 inet static<br>address 192.168.0.1 //IP地址<br>netmask 255.255.255.0 //掩码<br>然后保存<br>但是此时，如果不设置一下wlan0，那么会发现虽然静态ip设置成功了，但是树莓派却无法联网了<br>所以还要在interfaces文件里追加以下内容<br>auto wlan0<br>iface wlan0 inet dhcp<br>wpa_conf /etc/wpa_supplicant/wpa_supplicant.conf<br>然后保存<br>退出文件<br>重启树莓派即可</p>
+<h2 id="如图，配置动态IP"><a href="#如图，配置动态IP" class="headerlink" title="如图，配置动态IP"></a>如图，配置动态IP</h2><p><img src="/assets/blogImg/shu_ip_dhcp.jpg" alt="shu_ip_dhpc"></p>
+<h2 id="如图，配置静态IP"><a href="#如图，配置静态IP" class="headerlink" title="如图，配置静态IP"></a>如图，配置静态IP</h2><p><img src="/assets/blogImg/shu_ip_static.jpg" alt="shu_ip_static"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常用基础配置</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/11/15/%E6%A0%91%E8%8E%93%E6%B4%BE%E9%85%8D%E7%BD%AE%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83-ssh-root-%E9%9D%99%E6%80%81ip/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-虚拟机安装官方树莓派系统并配置交叉编译链" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -975,98 +1056,6 @@
 
 
   
-    <article id="post-ifconfig指令配置网卡信息" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/03/29/ifconfig%E6%8C%87%E4%BB%A4%E9%85%8D%E7%BD%AE%E7%BD%91%E5%8D%A1%E4%BF%A1%E6%81%AF/">ifconfig指令配置网卡信息</a>
-    </h1>
-  
-
-        
-        <a href="/2020/03/29/ifconfig%E6%8C%87%E4%BB%A4%E9%85%8D%E7%BD%AE%E7%BD%91%E5%8D%A1%E4%BF%A1%E6%81%AF/" class="archive-article-date">
-  	<time datetime="2020-03-29T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="ifconfig指令配置网卡信息"><a href="#ifconfig指令配置网卡信息" class="headerlink" title="ifconfig指令配置网卡信息"></a>ifconfig指令配置网卡信息</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>linux/unix系统下，输入ifconfig指令，发现只有lo本地回环，没有网卡信息，为了能够正常上网，需要配置一下网卡信息</p>
-<p>当输入指令</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ifconfig eth0 <span class="number">192.168</span><span class="number">.1</span><span class="number">.100</span></span><br><span class="line">(可以自行设置ip地址）</span><br></pre></td></tr></table></figure>
-
-<p>会提示报错信息</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SIOCSIFADDR: No such device</span><br><span class="line"><span class="attr">eth0</span>: ERROR <span class="keyword">while</span> getting interface flags: No such device</span><br></pre></td></tr></table></figure>
-
-<p>此时，我们会发现设置网卡eth0失败了，提示我们没有这个网卡。那么，很有可能，我们的网卡不叫“eth0”这个名字，而不是我们真的没有网卡。</p>
-<h2 id="ifconfig-a"><a href="#ifconfig-a" class="headerlink" title="ifconfig -a"></a>ifconfig -a</h2><p>输入指令</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig -a</span><br></pre></td></tr></table></figure>
-
-<p>此时，我们可以看到系统列出来我们所有的网卡名，如下图：</p>
-<p><img src="/assets/blogImg/ifconfig-a.jpg" alt="ifconfig-a指令显示所有网卡"></p>
-<h2 id="配置网卡的ip"><a href="#配置网卡的ip" class="headerlink" title="配置网卡的ip"></a>配置网卡的ip</h2><p>接下来，我们发现自己系统的网卡果然没有eth0这个网卡名，但是有en0，所以，接下来我们设置来配置这个网卡的ip</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ifconfig en0 <span class="number">192.168</span><span class="number">.1</span><span class="number">.100</span></span><br><span class="line">(可以自行设置ip地址）</span><br></pre></td></tr></table></figure>
-<p>然后回车后，就发现设置ip成功啦～</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>一般情况下，因为我们常见的linux下的网卡名字都是eth0，所以习惯性的就直接配置eth0的ip，但是有的系统并不是用eth0当网卡名，所以还是要先输入ifconfig -a指令，来查看一下我们当前的系统下，网卡的名字都是什么，然后再去配置ip</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常用基础配置</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/03/29/ifconfig%E6%8C%87%E4%BB%A4%E9%85%8D%E7%BD%AE%E7%BD%91%E5%8D%A1%E4%BF%A1%E6%81%AF/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/6/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/8/">Next &amp;raquo;</a>
@@ -1188,11 +1177,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
+                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
+                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
               </li>
              
               <li class="article-tag-list-item">

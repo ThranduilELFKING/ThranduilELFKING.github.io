@@ -61,7 +61,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 97
+			总文章数 99
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -180,6 +180,111 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-opencv滤波及边缘检测" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/12/04/opencv%E6%BB%A4%E6%B3%A2%E5%8F%8A%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/">opencv滤波及算子</a>
+    </h1>
+  
+
+        
+        <a href="/2022/12/04/opencv%E6%BB%A4%E6%B3%A2%E5%8F%8A%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/" class="archive-article-date">
+  	<time datetime="2022-12-04T15:03:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-12-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="opencv滤波及算子"><a href="#opencv滤波及算子" class="headerlink" title="opencv滤波及算子"></a>opencv滤波及算子</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在学习opencv进行图片处理的过程中，无法避免的就是对图片进行预处理，一般都是要进行图片滤波，这里记录一下个人最常用的均值滤波和高斯滤波、Sobel算子</p>
+<h2 id="均值滤波"><a href="#均值滤波" class="headerlink" title="均值滤波"></a>均值滤波</h2><p>这是一个平滑图片的函数，它将一个区域内所有点的灰度值的平均值作为这个点的灰度值。</p>
+<p>像该函数对领域点的灰度值进行权重相加最后设置灰度值，这样的操作又叫卷积，这样的滤波器叫线性滤波器。</p>
+<p><strong>函数原型</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> blur(InputArray src,OutputArray dst, Size ksize, Point anchor=Point(-<span class="number">1</span>,-<span class="number">1</span>), int borderType=BORDER_DEFAULT )</span><br></pre></td></tr></table></figure>
+<p><strong>参数解释</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">src：输入图像，即源图像，填Mat类的对象即可。该函数对通道是独立处理的，且可以处理任意通道数的图片，但需要注意，待处理的图片深度应该为CV_8U, CV_16U, CV_16S, CV_32F 以及 CV_64F之一。</span><br><span class="line">dst：即目标图像，需要和源图片有一样的尺寸和类型。比如可以用Mat::Clone，以源图片为模板，来初始化得到如假包换的目标图。</span><br><span class="line">ksize：内核的大小。一般这样写cv::Size( w,h )来表示内核的大小( 其中，w 为像素宽度， h为像素高度)。cv::Size（<span class="number">3</span>,<span class="number">3</span>）就表示3x3的核大小，cv::Size（<span class="number">5</span>,<span class="number">5</span>）就表示5x5的核大小</span><br><span class="line">anchor：表示锚点（即被平滑的那个点），注意他有默认值cv::Point(-<span class="number">1</span>,-<span class="number">1</span>)。如果这个点坐标是负值的话，就表示取核的中心为锚点，所以默认值cv::Point(-<span class="number">1</span>,-<span class="number">1</span>)表示这个锚点在核的中心。</span><br><span class="line">borderType：用于推断图像外部像素的某种边界模式。有默认值BORDER_DEFAULT，我们一般不去管它。</span><br></pre></td></tr></table></figure>
+
+<h2 id="高斯滤波"><a href="#高斯滤波" class="headerlink" title="高斯滤波"></a>高斯滤波</h2><p>高斯滤波器能够有效的抑制噪声，平滑图像。高斯滤波器相比于均值滤波器对图像个模糊程度较小。<br>高斯模糊和均值模糊其原理上的唯一区别只是在于卷积核的值不同罢了。<br>高斯卷积核矩阵值服从二维高斯函数，也就是说一个图像与服从二维高斯分布的函数做卷积，由于高斯函数是连续的，要将二维高斯函数进行采样和离散化，最后得到服从高斯函数规律的卷积核矩阵。</p>
+<p><strong>函数原型</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> GaussianBlur(InputArray src, OutputArray dst, Size ksize, double sigmaX, double sigmaY=<span class="number">0</span>, int borderType=BORDER_DEFAULT )</span><br></pre></td></tr></table></figure>
+<p><strong>参数解释</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">src：输入图片</span><br><span class="line">dst：输出图片</span><br><span class="line">ksize：为高斯滤波器窗口大小</span><br><span class="line">sigmaX：X方向滤波系数</span><br><span class="line">sigmaY：Y方向滤波系数</span><br><span class="line">borderType：一般默认边缘插值方法</span><br></pre></td></tr></table></figure>
+
+<h2 id="Sobel算子"><a href="#Sobel算子" class="headerlink" title="Sobel算子"></a>Sobel算子</h2><p>Sobel算子主要用于边缘检测;<br>边缘:是像素值发生跃迁的地方,是图像的显著特征之一,在图像特征提取, 对象检测, 模式识别等方面都有重要的作用;<br>如何提取边缘,对图像求它的一阶导数;delta = f(x) - f(x-1), delta越大,说明在x方向变化越大;</p>
+<h3 id="Sobel算子-1"><a href="#Sobel算子-1" class="headerlink" title="Sobel算子"></a>Sobel算子</h3><p>是离散微分算子,用来计算图像灰度的近似梯度<br>Sobel算子功能集合高斯平滑和微分求导;<br>又被称为一阶微分算子,求导算子,在水平和垂直两个方向上求导,得到图像x方法与y方向梯度图像;</p>
+<p><img src="/assets/blogImg/sobel.jpg" alt="sobel.jpg"><br>那么最终的图像梯度:<br><img src="/assets/blogImg/sobel2.jpg" alt="sobel2.jpg"><br>可以近似为:<br>G=|Gx|+|Gy|</p>
+<p><strong>Sobel算子函数原型</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> Sobel( InputArray src, OutputArray dst, int ddepth,</span><br><span class="line">           int dx, int dy, int ksize = <span class="number">3</span>,</span><br><span class="line">           double scale = <span class="number">1</span>, double delta = <span class="number">0</span>,</span><br><span class="line">           int borderType = BORDER_DEFAULT );</span><br></pre></td></tr></table></figure>
+<p><strong>参数解释</strong><br>src表示输入的灰度图像<br>dst表示输出的梯度;<br>ddepth表示输出梯度的数据类型,必须大于输入的图像数据类型,关系如下图所示:<br><img src="/assets/blogImg/sobel3.jpg" alt="sobel3.jpg"><br>dx=1, dy=0表示对x方向计算梯度;<br>dx=0, dy=1表示对y方向计算梯度;<br>dx大于等于0，dy大于等于0，并且dx+dy==1<br>ksize: 表示Sobel算子的大小；它必须是1、3、5或7。注意：只可以是小于7 的奇数。<br>如果ksize&lt;0的时候，那么使用scharr内核过滤因子。scharr的内核过滤因子大小为3。<br>scale    表示缩放导数的比例常数，默认情况下没有伸缩系数。<br>delta    表示一个可选的增量，将会加到最终的dst中，同样，默认情况下没有额外的值加到dst中。<br>borderType 边界类型<br><img src="/assets/blogImg/sobel4.jpg" alt="sobel4.jpg"></p>
+<h3 id="改进的Sobel算子"><a href="#改进的Sobel算子" class="headerlink" title="改进的Sobel算子"></a>改进的Sobel算子</h3><p>当内核大小为3时,以上Sobel可能产生比较明显的误差(毕竟,Sobel算子只是求取了导数的近似值),为了解决这一问题,OpenCV提供了Scharr函数,但该函数仅作用域大小为3的内核;计算速度与Sobel函数一样快,但结果更加精确,不怕干扰,其内核为:<br><img src="/assets/blogImg/sobel5.jpg" alt="sobel5.jpg"></p>
+<p><strong>Scharr算子函数原型</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> Scharr( InputArray src, OutputArray dst, int ddepth,</span><br><span class="line">            int dx, int dy, double scale = <span class="number">1</span>, double delta = <span class="number">0</span>,</span><br><span class="line">            int borderType = BORDER_DEFAULT );</span><br></pre></td></tr></table></figure>
+<p><strong>参数解释</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">参数与Sobel算子基本一致;</span><br><span class="line">但是不需要设置核的大小,因为Scharr默认就是<span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h3><p>Sobel算子的示例代码如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;opencv2\opencv.hpp&gt;   </span><br><span class="line">#include&lt;opencv2\highgui\highgui.hpp&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">using namespace cv;</span><br><span class="line"></span><br><span class="line"><span class="comment">//边缘检测</span></span><br><span class="line">int <span class="function"><span class="title">main</span>(<span class="params"></span>)</span></span><br><span class="line">&#123;</span><br><span class="line">	Mat img = imread(<span class="string">&quot;lol3.jpg&quot;</span>);</span><br><span class="line">	</span><br><span class="line">	imshow(<span class="string">&quot;原始图&quot;</span>, img);</span><br><span class="line"></span><br><span class="line">	Mat grad_x, grad_y;</span><br><span class="line">	Mat abs_grad_x, abs_grad_y, dst;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//求x方向梯度</span></span><br><span class="line">	Sobel(img, grad_x, CV_16S, <span class="number">1</span>, <span class="number">0</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">1</span>,BORDER_DEFAULT);</span><br><span class="line">	convertScaleAbs(grad_x, abs_grad_x);</span><br><span class="line">	imshow(<span class="string">&quot;x方向soble&quot;</span>, abs_grad_x);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//求y方向梯度</span></span><br><span class="line">	Sobel(img, grad_y,CV_16S,<span class="number">0</span>, <span class="number">1</span>,<span class="number">3</span>, <span class="number">1</span>, <span class="number">1</span>, BORDER_DEFAULT);</span><br><span class="line">	convertScaleAbs(grad_y,abs_grad_y);</span><br><span class="line">	imshow(<span class="string">&quot;y向soble&quot;</span>, abs_grad_y);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//合并梯度</span></span><br><span class="line">	addWeighted(abs_grad_x, <span class="number">0.5</span>, abs_grad_y, <span class="number">0.5</span>, <span class="number">0</span>, dst);</span><br><span class="line">	imshow(<span class="string">&quot;整体方向soble&quot;</span>, dst);</span><br><span class="line"></span><br><span class="line">	waitKey(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_46196863/article/details/112209430">https://blog.csdn.net/weixin_46196863/article/details/112209430</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/chenzhen0530/p/14690472.html">https://www.cnblogs.com/chenzhen0530/p/14690472.html</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/chenzhen0530/p/14660498.html">https://www.cnblogs.com/chenzhen0530/p/14660498.html</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/skyfsm/p/6879265.html">https://www.cnblogs.com/skyfsm/p/6879265.html</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">opencv</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/12/04/opencv%E6%BB%A4%E6%B3%A2%E5%8F%8A%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-gdb调试记录" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -1033,93 +1138,6 @@
 
 
   
-    <article id="post-kali配置vscode" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/11/12/kali%E9%85%8D%E7%BD%AEvscode/">kali配置vscode</a>
-    </h1>
-  
-
-        
-        <a href="/2022/11/12/kali%E9%85%8D%E7%BD%AEvscode/" class="archive-article-date">
-  	<time datetime="2022-11-12T15:49:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="kali配置vscode"><a href="#kali配置vscode" class="headerlink" title="kali配置vscode"></a>kali配置vscode</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在kali系统上安装vscode作为编辑器，做个记录</p>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/single_g_l/article/details/123244421">https://blog.csdn.net/single_g_l/article/details/123244421</a><br>//按照这个流程就行了</p>
-<h2 id="安装记录"><a href="#安装记录" class="headerlink" title="安装记录"></a>安装记录</h2><h3 id="1-下载地址"><a href="#1-下载地址" class="headerlink" title="1.下载地址"></a>1.下载地址</h3><p>下载kali系统下的vscode的deb包<br><a target="_blank" rel="noopener" href="https://az764295.vo.msecnd.net/stable/f80445acd5a3dadef24aa209168452a3d97cc326/code_1.64.2-1644445741_amd64.deb">https://az764295.vo.msecnd.net/stable/f80445acd5a3dadef24aa209168452a3d97cc326/code_1.64.2-1644445741_amd64.deb</a></p>
-<h3 id="2-安装"><a href="#2-安装" class="headerlink" title="2.安装"></a>2.安装</h3><p>用命令安装<br>sudo dpkg -i 安装包完整路径.deb</p>
-<p>如下示例</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo dpkg -i ./code_1<span class="number">.64</span><span class="number">.2</span>-1644445741_amd64.deb</span><br></pre></td></tr></table></figure>
-
-<p>查看安装后的vscode<br>效果如下：<br><img src="/assets/blogImg/kali_vs.jpg" alt="kali_vs"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">kali</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/11/12/kali%E9%85%8D%E7%BD%AEvscode/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/2/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/4/">Next &amp;raquo;</a>
@@ -1241,11 +1259,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
+                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
+                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
               </li>
              
               <li class="article-tag-list-item">
