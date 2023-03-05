@@ -61,7 +61,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 99
+			总文章数 105
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -180,6 +180,176 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-Marr-Hildreth边缘检测器" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/01/27/Marr-Hildreth%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B%E5%99%A8/">Marr-Hildreth边缘检测器</a>
+    </h1>
+  
+
+        
+        <a href="/2023/01/27/Marr-Hildreth%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B%E5%99%A8/" class="archive-article-date">
+  	<time datetime="2023-01-27T14:54:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-01-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="边缘模型：Marr-Hildreth边缘检测器"><a href="#边缘模型：Marr-Hildreth边缘检测器" class="headerlink" title="边缘模型：Marr-Hildreth边缘检测器"></a>边缘模型：Marr-Hildreth边缘检测器</h1><h2 id="理论"><a href="#理论" class="headerlink" title="理论"></a>理论</h2><p>David Marr表示：“早期视觉处理的目标是对图像构建一个原始但丰富的描述，用于确定可视表面的反射系数和光强度，以及它们相对于观察者的方向的距离”。<br>他把最低级别的描述称为原始要素图（primal sketch），其中最主要的组成部分即为边缘。</p>
+<p><img src="/assets/blogImg/marr.jpg" alt="marr.jpg"><br><img src="/assets/blogImg/marr2.jpg" alt="marr2.jpg"></p>
+<h2 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h2><p>对比导数算子，基于模板的边缘检测，Marr-Hildreth边缘检测器在低信噪比的情况下要远好于前面两类边缘检测器。<br>某些情况，由于方法本身的问题，局部性并不是特别好，而且边缘并不总是很细。</p>
+<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><p>Marr-Hildreth算法源码：<br><a target="_blank" rel="noopener" href="https://github.com/ThranduilELFKING/study-openCV/tree/main/marr">https://github.com/ThranduilELFKING/study-openCV/tree/main/marr</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">opencv</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">边缘检测</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/01/27/Marr-Hildreth%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B%E5%99%A8/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-基于模板的边缘检测" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/01/27/%E5%9F%BA%E4%BA%8E%E6%A8%A1%E6%9D%BF%E7%9A%84%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/">基于模板的边缘检测</a>
+    </h1>
+  
+
+        
+        <a href="/2023/01/27/%E5%9F%BA%E4%BA%8E%E6%A8%A1%E6%9D%BF%E7%9A%84%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/" class="archive-article-date">
+  	<time datetime="2023-01-27T14:54:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-01-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="基于模板的边缘检测"><a href="#基于模板的边缘检测" class="headerlink" title="基于模板的边缘检测"></a>基于模板的边缘检测</h1><h2 id="理论"><a href="#理论" class="headerlink" title="理论"></a>理论</h2><p>基于模板的边缘检测背后的思想，是将一个小的离散的模板作为边缘的模型。<br>模板既可以尝试对边缘的灰阶的变化进行建模，也可以尝试近似一个导数算子（这种方式最为常见）。</p>
+<p>基于模板的边缘检测器的数目非常多，常见的有两种，因为这两种检测器在使用小模板的时候能够获得的边缘像素集合质量最高。<br>（1）Sobel边缘检测器<br>（2）Kirsch边缘检测器</p>
+<h2 id="Sobel算法"><a href="#Sobel算法" class="headerlink" title="Sobel算法"></a>Sobel算法</h2><p>Sobel边缘检测器，使用具有如下值的卷积掩模（convolution mask）作为模板：<br><img src="/assets/blogImg/sobeltempl.jpg" alt="sobeltempl.jpg"><br>可以把这些模板看做某一个像素上的梯度，这个像素对应模板的中心位置。<br>注意，对角线上的元素的权重值比水平方向和垂直方向上的元素的权重值要小。<br>Sobel算子的x分量为Sx，y分量为Sy；把这些分量看做梯度意味着么一个像素的强度和方向可以用梯度向量的数学公式来计算。<br>数学公式2-6如下：<br><img src="/assets/blogImg/gradient5.jpg" alt="gradient5.jpg"></p>
+<p>对于一幅图像中坐标为(i,j)的像素来说，Sx和Sy可以通过以下公式计算：<br><img src="/assets/blogImg/sobeltempl2.jpg" alt="sobeltempl2.jpg"><br><img src="/assets/blogImg/sobeltempl3.jpg" alt="sobeltempl3.jpg"></p>
+<h2 id="Kirsch算法"><a href="#Kirsch算法" class="headerlink" title="Kirsch算法"></a>Kirsch算法</h2><p>Kirsch算法，使用的模板的目标和Sobel中使用模板的目标不同。对于3x3的例子来说，模板表述如下：<br><img src="/assets/blogImg/sobeltempl4.jpg" alt="sobeltempl4.jpg"><br>这些掩模试图对多种方向边缘周围的灰阶变化类型进行建模，而不是对梯度的近似。<br>8个罗盘方向的每一个方向都对应了一个掩模。<br>（例如，对掩模K0的大响应表示在对应掩模中心位置的像素为垂直边缘（水平梯度）。）<br>为了找出边缘，要在图像I的每一个像素位置对所有的掩模进行卷积运算。算子在一个像素的响应为这8个掩模响应中的最大值。<br>每一个边缘像素的方向可以量化为这8种可能性，值为π/4*i，其中i为具有最大响应的掩模编号。</p>
+<h2 id="Sobel与Kirsch对比"><a href="#Sobel与Kirsch对比" class="headerlink" title="Sobel与Kirsch对比"></a>Sobel与Kirsch对比</h2><p>从评估结果和测试图像的外观来看，Kirsch算子应该是这两种模板算子中表现最好的，不过两者的结果非常相似。<br>这两种模板算子的表现结果都比简单的导数算子要好，特别是在噪声增加的情况下。</p>
+<p>注意，在目前研究的所有情况中，边缘检测算法中没有指名的因素会对检测的效果造成影响。<br>其中重要的因素包括阈值方法的选用，但是有时候在检测之前会进行简单的去噪操作，在检测之后会进行边缘细化操作。</p>
+<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><p>Sobel算法<br><a target="_blank" rel="noopener" href="https://github.com/ThranduilELFKING/study-openCV/tree/main/sobel">https://github.com/ThranduilELFKING/study-openCV/tree/main/sobel</a><br>Kirsch算法<br><a target="_blank" rel="noopener" href="https://github.com/ThranduilELFKING/study-openCV/tree/main/Kirsch">https://github.com/ThranduilELFKING/study-openCV/tree/main/Kirsch</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">opencv</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">边缘检测</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/01/27/%E5%9F%BA%E4%BA%8E%E6%A8%A1%E6%9D%BF%E7%9A%84%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-边缘检测之导数算子" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -926,198 +1096,9 @@
 
 
   
-    <article id="post-opencv图像分割之大津算法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/12/11/opencv%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2%E4%B9%8B%E5%A4%A7%E6%B4%A5%E7%AE%97%E6%B3%95/">opencv图像分割之大津算法</a>
-    </h1>
-  
-
-        
-        <a href="/2022/12/11/opencv%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2%E4%B9%8B%E5%A4%A7%E6%B4%A5%E7%AE%97%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2022-12-11T15:03:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-12-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">opencv</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/12/11/opencv%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2%E4%B9%8B%E5%A4%A7%E6%B4%A5%E7%AE%97%E6%B3%95/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-opencv算法之Canny边缘检测" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/12/11/opencv%E7%AE%97%E6%B3%95%E4%B9%8BCanny%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/">opencv算法之Canny边缘检测</a>
-    </h1>
-  
-
-        
-        <a href="/2022/12/11/opencv%E7%AE%97%E6%B3%95%E4%B9%8BCanny%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/" class="archive-article-date">
-  	<time datetime="2022-12-11T15:03:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-12-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="opencv算法之Canny边缘检测"><a href="#opencv算法之Canny边缘检测" class="headerlink" title="opencv算法之Canny边缘检测"></a>opencv算法之Canny边缘检测</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>对Canny边缘检测算法有更深入的学习和总结</p>
-<h2 id="Canny边缘检测的一般标准"><a href="#Canny边缘检测的一般标准" class="headerlink" title="Canny边缘检测的一般标准"></a>Canny边缘检测的一般标准</h2><p>Canny边缘检测器是由John F. Canny在1986年提出,Canny被称为最优检测器,其目标满足以下三个主要标准:<br>（1）低错误率:边缘检测器应该只对边缘有响应，而且应该找到所有的边缘像素，不应该错过任何边缘像素。<br>（对已有的边界能够有很好的检测，也即意味着需要尽可能准确的捕获图像中尽可能多的边缘。）<br>（2）局部性（Localization）（良好的定位）:边缘检测器检测到的边缘像素距离实际边缘的距离应该越小越好。<br>（即检测到的边缘像素和实际边缘像素之间的距离必须最小化，即检测到的边缘应精确定位在真实边缘的中心。）<br>（3）最小响应:如果在一处只存在一个边缘像素，那么边缘检测器不应该识别出多个边缘像素。<br>（即每边只有一个响应，图像中给定的边缘应只被标记一次，并且在可能的情况下，图像的噪声不应产生假的边缘。）</p>
-<h2 id="理论"><a href="#理论" class="headerlink" title="理论"></a>理论</h2><p>Canny假定阶梯型边缘会受到高斯白噪声的影响。<br>边缘检测器被假定为一个卷积过滤器f,f应该平滑噪声并定位边缘。<br>问题在于，要找到一种过滤器能够在满足三个标准的上达到最优。</p>
-<h3 id="理论阐释"><a href="#理论阐释" class="headerlink" title="理论阐释"></a>理论阐释</h3><p>在一个维度上，过滤器f对一个边缘G的响应由以下卷积积分给出：<br><img src="/assets/blogImg/canny_1.jpg" alt="canny_1.jpg"><br><img src="/assets/blogImg/canny_2.jpg" alt="canny_2.jpg"><br>G可以在x和y方向求导。<br>Canny的边缘检测最优化过滤器近似为G’,因此利用G’对输入图像进行卷积操作，即使在存在噪声的情况下，我们也可以得到一个增强边缘的图像E，这个图像被集成为边缘图像模型的一部分。<br><img src="/assets/blogImg/canny_3.jpg" alt="canny_3.jpg"></p>
-<p>注意：<br>如果M中的像素为边缘像素，那么这些像素的值就会比较大；如果不是，则比较小。因此可以利用阈值操作将边缘像素展示为白色，并将背景展示为黑色。这样做并不能获得非常好的结果，而是必须部分根据每一个像素上梯度的方向来对图像进行阈值操作。<br>基本的思想是：<br>每一个边缘像素都关联了一个方向，在一个边缘像素上的梯度的大小应该比在边缘两侧的像素上的梯度大小要大。</p>
-<h3 id="以几何图像的方式阐释canny边缘检测过程"><a href="#以几何图像的方式阐释canny边缘检测过程" class="headerlink" title="以几何图像的方式阐释canny边缘检测过程"></a>以几何图像的方式阐释canny边缘检测过程</h3><p><img src="/assets/blogImg/canny_4.jpg" alt="canny_4.jpg"><br><img src="/assets/blogImg/canny_5.jpg" alt="canny_5.jpg"></p>
-<h2 id="Canny算法主要步骤"><a href="#Canny算法主要步骤" class="headerlink" title="Canny算法主要步骤"></a>Canny算法主要步骤</h2><p>Canny算法主要包含5个步骤，具体如下：</p>
-<h3 id="（1）过滤噪声"><a href="#（1）过滤噪声" class="headerlink" title="（1）过滤噪声"></a>（1）过滤噪声</h3><p>使用高斯滤波器算法，平滑图像，滤除噪声</p>
-<p>高斯核如下：<br><img src="/assets/blogImg/canny.jpg" alt="canny.jpg"></p>
-<h3 id="（2）计算图像中每个像素点的梯度强度和方向"><a href="#（2）计算图像中每个像素点的梯度强度和方向" class="headerlink" title="（2）计算图像中每个像素点的梯度强度和方向"></a>（2）计算图像中每个像素点的梯度强度和方向</h3><p>将图像转为灰度空间，计算图像梯度<br>利用Sobel算子计算x, y两个方向的梯度，返回水平Gx和垂直Gy的一阶导数值。以此来计算梯度强度G和梯度方向。</p>
-<p>如下所示<br><img src="/assets/blogImg/canny1.jpg" alt="canny1.jpg"></p>
-<p>其次,计算梯度的强度和方向:<br><img src="/assets/blogImg/canny2.jpg" alt="canny2.jpg"></p>
-<p>其中,梯度的方向被四舍五入到[0, 45, 90, 135]这几个角度;</p>
-<h3 id="（3）非极大值抑制算子-NMS"><a href="#（3）非极大值抑制算子-NMS" class="headerlink" title="（3）非极大值抑制算子(NMS)"></a>（3）非极大值抑制算子(NMS)</h3><p>抑制那些梯度不够大的像素点,只保留最大的像素点,以消除边缘检测带来的杂散影响。</p>
-<p>非极大值抑制是一种边缘稀疏技术，作用在于瘦边。在对图片进行梯度计算之后，仅仅基于梯度值提取的边缘仍然比较模糊。根据标准，对边缘有且应当只有一个准确的响应。而非极大值抑制可以帮助将将局部最大值之外的所有梯度值抑制为0</p>
-<p>对梯度图像中每个像素进行非极大值抑制的算法步骤为：<br>(1) 将当前像素的梯度强度与沿正负梯度方向上的两个像素进行比较。<br>(2) 如果当前像素的梯度值与另外两个像素值相比最大，则该像素点保留为边缘点，否则该像素点被抑制。</p>
-<p>通常为了更加精确的计算，在跨梯度方向的两个相邻像素之间使用线性插值来得到要比较的像素梯度。<br><img src="/assets/blogImg/canny3.jpg" alt="canny3.jpg"></p>
-<p>如Fig1所示，将梯度分为8个方向，分别为E、NE、N、NW、W、SW、S、SE。其中0代表[0° ,45°], 1代表[45° ,90°]，2代表[-90° ,-45°]，3代表[-45° ,0°]。<br>像素点P的梯度方向为θ，则像素点P1和P2的梯度线性插值为：<br><img src="/assets/blogImg/canny4.jpg" alt="canny4.jpg"></p>
-<p>因此非极大值抑制的伪代码如下：<br><img src="/assets/blogImg/canny5.jpg" alt="canny5.jpg"><br>需要注意的是，如何标志方向并不重要，重要的是梯度方向的计算要和梯度算子的选取保持一致。</p>
-<h3 id="（4）双阈值算法检测边缘"><a href="#（4）双阈值算法检测边缘" class="headerlink" title="（4）双阈值算法检测边缘"></a>（4）双阈值算法检测边缘</h3><p>应用双阈值检测来确定真正的边缘和潜在的边缘。<br>在施加非极大值抑制之后，剩余的像素可以更准确地表示图像中的实际边缘。然而，仍然存在由于噪声和颜色变化引起的一些边缘像素。为了解决这些杂散响应，必须用弱梯度值过滤边缘像素，并保留具有高梯度值的边缘像素，可以通过选择高低阈值来实现。<br>如果边缘像素的梯度值高于高阈值，则将其标记为强边缘像素；<br>如果边缘像素的梯度值小于高阈值并且大于低阈值，则将其标记为弱边缘像素；<br>如果边缘像素的梯度值小于低阈值，则会被抑制。<br>阈值的选择取决于给定输入图像的内容。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">经过NMS算法后,设置两个阈值T1,T2,通常T1是T2的<span class="number">1</span>/<span class="number">2</span>或者<span class="number">1</span>/<span class="number">3</span>;</span><br><span class="line">梯度值大于T2的像素点称为强边缘,保留作为图像边缘;</span><br><span class="line">梯度值小于T1的像素点不是边缘,舍弃;</span><br><span class="line">针对梯度值大于T1,小于T2的像素点,称为弱边缘;</span><br></pre></td></tr></table></figure>
-
-<p>双阈值检测的伪代码如下：<br><img src="/assets/blogImg/canny6.jpg" alt="canny6.jpg"></p>
-<h3 id="（5）滞后阈值（即连接边缘）"><a href="#（5）滞后阈值（即连接边缘）" class="headerlink" title="（5）滞后阈值（即连接边缘）"></a>（5）滞后阈值（即连接边缘）</h3><p>通过抑制孤立的弱边缘最终完成边缘检测。</p>
-<p>到目前为止，被划分为强边缘的像素点已经被确定为边缘，因为它们是从图像中的真实 边缘中提取出来的。<br>然而，对于弱边缘像素，将会有一些争论，因为这些像素可以从真实边缘提取也可以是因噪声或颜色变化引起的。为了获得准确的结果，应该抑制由后者引起的弱边缘。<br>通常，由真实边缘引起的弱边缘像素将连接到强边缘像素，而噪声响应未连接。为了跟踪边缘连接，通过查看弱边缘像素及其8个邻域像素，只要其中一个为强边缘像素，则该弱边缘点就可以保留为真实的边缘。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">针对弱边缘,需要进一步判定其是否的真正的边缘像素点?</span><br><span class="line">判别的方法就是:</span><br><span class="line">当弱边缘像素点周围<span class="number">8</span>个领域内存在强边缘像素时,则该弱边缘变成强边缘点,否则不是边缘点;</span><br></pre></td></tr></table></figure>
-
-<p>这部分的伪代码如下：<br><img src="/assets/blogImg/canny7.jpg" alt="canny7.jpg"></p>
-<h2 id="函数原型"><a href="#函数原型" class="headerlink" title="函数原型"></a>函数原型</h2><p>Canny边缘检测的函数原型如下</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> Canny( InputArray image, OutputArray edges,</span><br><span class="line">           double threshold1, double threshold2,</span><br><span class="line">           int apertureSize = <span class="number">3</span>, bool L2gradient = <span class="literal">false</span> );</span><br></pre></td></tr></table></figure>
-<p><strong>参数解释</strong></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">src：输入图像,必须是<span class="number">8</span>-bits;</span><br><span class="line">edges：输出的图像边缘</span><br><span class="line">threshold1, threshold2：对应于上述的T1,T2;</span><br><span class="line">apertureSize：是Sobel算子的大小;</span><br><span class="line">L2gradient：表示计算梯度值时是否使用L2(就是默认的计算方式);</span><br><span class="line">如果设置L2gradient=True,则梯度值的计算方式为:</span><br><span class="line">G=|Gx|+|Gy|</span><br></pre></td></tr></table></figure>
-
-<h2 id="算法源码"><a href="#算法源码" class="headerlink" title="算法源码"></a>算法源码</h2><p>canny边缘检测算法源码<br><a target="_blank" rel="noopener" href="https://github.com/ThranduilELFKING/study-openCV/tree/main/canny">https://github.com/ThranduilELFKING/study-openCV/tree/main/canny</a></p>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_46196863/article/details/112209430">https://blog.csdn.net/weixin_46196863/article/details/112209430</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/chenzhen0530/p/14690472.html">https://www.cnblogs.com/chenzhen0530/p/14690472.html</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/chenzhen0530/p/14660498.html">https://www.cnblogs.com/chenzhen0530/p/14660498.html</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/skyfsm/p/6879265.html">https://www.cnblogs.com/skyfsm/p/6879265.html</a><br><a target="_blank" rel="noopener" href="https://www.yanxishe.com/columnDetail/18324">https://www.yanxishe.com/columnDetail/18324</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">opencv</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">边缘检测</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/12/11/opencv%E7%AE%97%E6%B3%95%E4%B9%8BCanny%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/3/">Next &amp;raquo;</a>
+      <a class="extend prev" rel="prev" href="/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/3/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -1248,11 +1229,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">常用基础配置</a>
+                <a href="javascript:void(0)" class="js-tag color3">基础技能C++</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">基础技能C++</a>
+                <a href="javascript:void(0)" class="js-tag color2">常用基础配置</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1297,6 +1278,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">星座学</a>
               </li>
              
               <li class="article-tag-list-item">

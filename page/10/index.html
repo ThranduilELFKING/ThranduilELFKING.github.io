@@ -61,7 +61,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 99
+			总文章数 105
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -180,6 +180,278 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-CMakeLists.txt学习记录1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/18/CMakeLists.txt%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%951/">CMakeLists.txt学习记录（一）</a>
+    </h1>
+  
+
+        
+        <a href="/2019/08/18/CMakeLists.txt%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%951/" class="archive-article-date">
+  	<time datetime="2019-08-18T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-18</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="CMakeLists-txt学习记录（一）"><a href="#CMakeLists-txt学习记录（一）" class="headerlink" title="CMakeLists.txt学习记录（一）"></a>CMakeLists.txt学习记录（一）</h1><h2 id="CMakeLists-txt-学习"><a href="#CMakeLists-txt-学习" class="headerlink" title="CMakeLists.txt 学习"></a>CMakeLists.txt 学习</h2><p>参考资料来自于官方：<a target="_blank" rel="noopener" href="https://cmake.org/cmake-tutorial/">https://cmake.org/cmake-tutorial/</a></p>
+<h2 id="官方代码如下："><a href="#官方代码如下：" class="headerlink" title="官方代码如下："></a>官方代码如下：</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//官方demo，求一个数的开方</span></span><br><span class="line"><span class="comment">//tutorial.xxx</span></span><br><span class="line"><span class="comment">// A simple program that computes the square root of a number</span></span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;math.h&gt;</span><br><span class="line">#include <span class="string">&quot;TutorialConfig.h&quot;</span></span><br><span class="line"> </span><br><span class="line">int main (int argc, char *argv[])</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">if</span> (argc &lt; <span class="number">2</span>)</span><br><span class="line">    &#123;</span><br><span class="line">    fprintf(stdout,<span class="string">&quot;%s Version %d.%d\n&quot;</span>,</span><br><span class="line">            argv[<span class="number">0</span>],</span><br><span class="line">            Tutorial_VERSION_MAJOR,</span><br><span class="line">            Tutorial_VERSION_MINOR);</span><br><span class="line">    fprintf(stdout,<span class="string">&quot;Usage: %s number\n&quot;</span>,argv[<span class="number">0</span>]);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  double inputValue = atof(argv[<span class="number">1</span>]);</span><br><span class="line">  double outputValue = sqrt(inputValue);</span><br><span class="line">  fprintf(stdout,<span class="string">&quot;The square root of %g is %g\n&quot;</span>,</span><br><span class="line">          inputValue, outputValue);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对于这个demo，我们如果想通过写CMakeLists.txt文件来编译它，并且，想要给这个执行文件加上版本信息，可以通过以下的选项设置</p>
+<h2 id="1-增加版本信息的配置文件TutorialConfig-h-in"><a href="#1-增加版本信息的配置文件TutorialConfig-h-in" class="headerlink" title="1. 增加版本信息的配置文件TutorialConfig.h.in"></a>1. 增加版本信息的配置文件TutorialConfig.h.in</h2><p>内容如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//TutorialConfig.h.in</span></span><br><span class="line"><span class="comment">//官方源码如下：</span></span><br><span class="line"><span class="comment">// the configured options and settings for Tutorial</span></span><br><span class="line">#define Tutorial_VERSION_MAJOR @Tutorial_VERSION_MAJOR@</span><br><span class="line">#define Tutorial_VERSION_MINOR @Tutorial_VERSION_MINOR@</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-根据tutorial-cxx指定的头文件TutorialConfig-h来看，我们要将生成的配置信息保存在这个头文件里，我们可以利用CMakeLists-txt给我们生成这个文件"><a href="#2-根据tutorial-cxx指定的头文件TutorialConfig-h来看，我们要将生成的配置信息保存在这个头文件里，我们可以利用CMakeLists-txt给我们生成这个文件" class="headerlink" title="2. 根据tutorial.cxx指定的头文件TutorialConfig.h来看，我们要将生成的配置信息保存在这个头文件里，我们可以利用CMakeLists.txt给我们生成这个文件"></a>2. 根据tutorial.cxx指定的头文件TutorialConfig.h来看，我们要将生成的配置信息保存在这个头文件里，我们可以利用CMakeLists.txt给我们生成这个文件</h2><h2 id="3-以下是CMakeLists-txt的内容"><a href="#3-以下是CMakeLists-txt的内容" class="headerlink" title="3. 以下是CMakeLists.txt的内容"></a>3. 以下是CMakeLists.txt的内容</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//CMakeLists.txt</span></span><br><span class="line"><span class="comment">//官方内容如下：</span></span><br><span class="line">cmake_minimum_required (VERSION <span class="number">2.6</span>)</span><br><span class="line">project (Tutorial)</span><br><span class="line"># The version number.</span><br><span class="line">set (Tutorial_VERSION_MAJOR <span class="number">1</span>)</span><br><span class="line">set (Tutorial_VERSION_MINOR <span class="number">0</span>)</span><br><span class="line"> </span><br><span class="line"># configure a header file to pass some <span class="keyword">of</span> the CMake settings</span><br><span class="line"># to the source code</span><br><span class="line">configure_file (</span><br><span class="line">  <span class="string">&quot;$&#123;PROJECT_SOURCE_DIR&#125;/TutorialConfig.h.in&quot;</span></span><br><span class="line">  <span class="string">&quot;$&#123;PROJECT_BINARY_DIR&#125;/TutorialConfig.h&quot;</span></span><br><span class="line">  )</span><br><span class="line"> </span><br><span class="line"># add the binary tree to the search path <span class="keyword">for</span> include files</span><br><span class="line"># so that we will find TutorialConfig.h</span><br><span class="line">include_directories(<span class="string">&quot;$&#123;PROJECT_BINARY_DIR&#125;&quot;</span>)</span><br><span class="line"> </span><br><span class="line"># add the executable</span><br><span class="line">add_executable(Tutorial tutorial.cxx)</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-接下来是跑一下官方的demo"><a href="#4-接下来是跑一下官方的demo" class="headerlink" title="4.接下来是跑一下官方的demo"></a>4.接下来是跑一下官方的demo</h2><p>根据官方教程搭建下来，目前，目录结构应该是这样的<br><img src="/assets/blogImg/cmake_1_01.jpg" alt="mulujiegou.jpg"></p>
+<p>然后cmake .编译一下，通过CMakeLists.txt生成TutorialConfig.h等后续依赖文件出来<br><img src="/assets/blogImg/cmake_1_02.jpg" alt="bianyi.jpg"></p>
+<p>浏览一下目录结构，可以看下，此时，目录结构应该是这样的<br><img src="/assets/blogImg/cmake_1_03.jpg" alt="bianyihoudemulu.jpg"></p>
+<p>开始make编译出最终生成的执行文件<br><img src="/assets/blogImg/cmake_1_04.jpg" alt="shengchengexe.jpg"></p>
+<p>执行一下，可以看版本信息</p>
+<p><img src="/assets/blogImg/cmake_1_05.jpg" alt="version.jpg"></p>
+<p>带参数的执行，可以看到，程序可以输出用户指定的数据的开方</p>
+<p><img src="/assets/blogImg/cmake_1_06.jpg" alt="result.jpg"></p>
+<p>由此，跟着官方走了一遍流程，实现了可以通过CMakeLists.txt指定程序的版本信息的程序<br>以上是本次follow官方demo的学习过程（一）</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">基础技能</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/08/18/CMakeLists.txt%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%951/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-关于本次博客搭建" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/13/%E5%85%B3%E4%BA%8E%E6%9C%AC%E6%AC%A1%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">关于本次博客搭建</a>
+    </h1>
+  
+
+        
+        <a href="/2019/08/13/%E5%85%B3%E4%BA%8E%E6%9C%AC%E6%AC%A1%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" class="archive-article-date">
+  	<time datetime="2019-08-13T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-13</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="关于本次博客搭建"><a href="#关于本次博客搭建" class="headerlink" title="关于本次博客搭建"></a>关于本次博客搭建</h1><h1 id="记录一下本次搭建blog的过程"><a href="#记录一下本次搭建blog的过程" class="headerlink" title="记录一下本次搭建blog的过程"></a>记录一下本次搭建blog的过程</h1><p>因为感觉有博客就很有意思的亚子，所以这两天趁着台风天也没法出去玩，索性捣腾一下个人博客的搭建好了，本次只是记录了我这次搭建blog参考的视频教程，因为CodeSheep这位大佬的视频讲的真的好，mac系统下跟着他的视频一步一步走，就很顺理成章的搭建完成了呢～</p>
+<h2 id="本次mac搭建的时候，follow的视频教程"><a href="#本次mac搭建的时候，follow的视频教程" class="headerlink" title="本次mac搭建的时候，follow的视频教程"></a>本次mac搭建的时候，follow的视频教程</h2><p>视频链接：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/av44544186/">https://www.bilibili.com/video/av44544186/</a></p>
+<p>只是有一点需要注意的：需要用root用户进行一系列操作<br>（一开始没有注意到，所以出来了一些报错信息，后来仔细一看，大佬用的是root用户进行的一系列操作）</p>
+<p>剩下的就是follow大佬的视频，一步一步慢慢走，看完这个视频，就可以在mac环境下搭建自己的个人博客啦～</p>
+<h2 id="在windows下搭建的时候，follow的网上的一个教程"><a href="#在windows下搭建的时候，follow的网上的一个教程" class="headerlink" title="在windows下搭建的时候，follow的网上的一个教程"></a>在windows下搭建的时候，follow的网上的一个教程</h2><p>教程链接：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/26625249">https://zhuanlan.zhihu.com/p/26625249</a></p>
+<p>因为还有一台windows的电脑，所以就也闲的无聊，就在windows上也搭建啦一下，其实和在mac上基本没有什么差别，只有2-3个极其个别的操作指令可能略有不同，不过follow这个教程一步步搭建，基本没有问题的～</p>
+<h2 id="关于主题，follow的开源项目"><a href="#关于主题，follow的开源项目" class="headerlink" title="关于主题，follow的开源项目"></a>关于主题，follow的开源项目</h2><p>因为搭建了blog之后，就找了一些主题，看了一些之后，还是选择了用CodeSheep大佬推荐的yilia主题，再次也非常感谢litten分享的开源主题</p>
+<p>主题链接：<a target="_blank" rel="noopener" href="https://github.com/litten/hexo-theme-yilia">https://github.com/litten/hexo-theme-yilia</a></p>
+<p>这套主题感觉也非常适合新手上手，操作非常友好，界面也很简洁，非常感谢大佬们的开源分享～</p>
+<h2 id="记录"><a href="#记录" class="headerlink" title="记录"></a>记录</h2><p>本次是记录在搭建个人博客的时候，查找到的特别好的学习资料，非常的感谢大佬们在网上的分享～</p>
+<p>台风天的时候，我们家猫咪在我的电脑旁边睡的安稳，我看着各个教程，写着算是第一篇不注水的博客，感觉也别有一番意思～</p>
+<p>blog里若有什么描述不当的bug，bug属于我，荣誉属于分享技术的大佬</p>
+<h2 id="睡觉毫无形象的小橘"><a href="#睡觉毫无形象的小橘" class="headerlink" title="睡觉毫无形象的小橘"></a>睡觉毫无形象的小橘</h2><p>小橘同学，你这睡姿真的毫无形象呀～<br><img src="/assets/blogImg/xiaoju_taifeng.jpg" alt="xiaoju_taifeng.jpg"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">hexo博客搭建</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/08/13/%E5%85%B3%E4%BA%8E%E6%9C%AC%E6%AC%A1%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-在mac上配置dpkg" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/13/%E5%9C%A8mac%E4%B8%8A%E9%85%8D%E7%BD%AEdpkg/">在mac上配置dpkg</a>
+    </h1>
+  
+
+        
+        <a href="/2019/08/13/%E5%9C%A8mac%E4%B8%8A%E9%85%8D%E7%BD%AEdpkg/" class="archive-article-date">
+  	<time datetime="2019-08-13T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-13</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="在mac上配置dpkg"><a href="#在mac上配置dpkg" class="headerlink" title="在mac上配置dpkg"></a>在mac上配置dpkg</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在mac上安装dpkg，从网上找了一个安装教程，基本跟着教程走就顺利安装完成啦～</p>
+<p>安装教程链接：<a target="_blank" rel="noopener" href="https://mrmad.com.tw/macos-dpkg-deb">https://mrmad.com.tw/macos-dpkg-deb</a></p>
+<h2 id="根据教程走的时候，遇上的一些问题"><a href="#根据教程走的时候，遇上的一些问题" class="headerlink" title="根据教程走的时候，遇上的一些问题"></a>根据教程走的时候，遇上的一些问题</h2><p>安装MacPorts卡住了，”正在运行软件包脚本”<br>当在安装MacPort的时候卡住了很久的时候，可以先关闭正在安装的MacPort的进程，然后断开wifi，重新安装即可</p>
+<p>1.关闭正在安装的MacPort的进程</p>
+<p>在终端输入以下指令，查找MacPort安装进程的进程PID</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps aux|grep install</span><br></pre></td></tr></table></figure>
+
+<p><img src="/assets/blogImg/close_mac_port.jpg" alt="close_mac_port.jpg"></p>
+<p>查找MacPort安装进程</p>
+<p>找到进程的PID以后，关掉它</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo kill PID进程号</span><br></pre></td></tr></table></figure>
+
+<p><img src="/assets/blogImg/close_port_pid.jpg" alt="close_port_pid.jpg"></p>
+<p>关闭安装进程</p>
+<p>2.关闭wifi</p>
+<p>3.重新安装下载的MacPort的pkg安装包即可安装成功</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常用基础配置</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/08/13/%E5%9C%A8mac%E4%B8%8A%E9%85%8D%E7%BD%AEdpkg/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-学习使用libxml2库" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -537,87 +809,6 @@
 
 
   
-    <article id="post-CMakeLists-txt学习记录三" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/01/CMakeLists-txt%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95%E4%B8%89/">CMakeLists.txt学习记录三</a>
-    </h1>
-  
-
-        
-        <a href="/2019/03/01/CMakeLists-txt%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95%E4%B8%89/" class="archive-article-date">
-  	<time datetime="2019-03-01T11:44:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="CMakeLists-txt学习记录三"><a href="#CMakeLists-txt学习记录三" class="headerlink" title="CMakeLists.txt学习记录三"></a>CMakeLists.txt学习记录三</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>以一个实例，来整体使用一下之前学习的技巧</p>
-<h2 id="以做过的一个项目为例"><a href="#以做过的一个项目为例" class="headerlink" title="以做过的一个项目为例"></a>以做过的一个项目为例</h2><p>编写magazine/test/CMakeLists.txt<br>test目录下，是对代码增加的单元测试模块<br>目的：magazine/test/CMakeLists.txt将所有的测试代码整合编译，生成一个执行文件。（现在是每个test下的子目录各自生成一个可执行文件）<br><img src="/assets/blogImg/cmake2_1.jpg" alt="cmake2_1.jpg"><br><img src="/assets/blogImg/cmake2_2.jpg" alt="cmake2_2.jpg"><br><img src="/assets/blogImg/cmake2_3.jpg" alt="cmake2_3.jpg"></p>
-<p>因此，magazine/test/CMakeLists.txt内容如下：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line"># 旧的写法</span><br><span class="line"># 各个子目录下，各自编译生成测试执行文件</span><br><span class="line">#add_subdirectory(test_readwrite)</span><br><span class="line">#add_subdirectory(utility)</span><br><span class="line">#add_subdirectory(check_neighbor)</span><br><span class="line">#add_subdirectory(test_searchloc)</span><br><span class="line">#add_subdirectory(test_searchtool)</span><br><span class="line">#add_subdirectory(test_load_unload)</span><br><span class="line">#add_subdirectory(search_empty_location)</span><br><span class="line"></span><br><span class="line">cmake_minimum_required (VERSION <span class="number">2.6</span>)</span><br><span class="line"></span><br><span class="line">set(projName <span class="string">&quot;all_test&quot;</span>)</span><br><span class="line">set(LIB_USE usint finch  finchstr nutaccess  torino gmock  gmock_main  gtest  gtest_main )</span><br><span class="line"></span><br><span class="line">project ($&#123;projName&#125;)</span><br><span class="line">set(PREFIX <span class="string">&quot;$ENV&#123;NUTHOME&#125;&quot;</span>)</span><br><span class="line">set(CMAKE_INSTALL_PREFIX <span class="string">&quot;$&#123;PREFIX&#125;&quot;</span> CACHE PATH <span class="string">&quot;install dir&quot;</span> FORCE)</span><br><span class="line">set(CMAKE_BUILD_TYPE Debug)</span><br><span class="line">set(CMAKE_CXX_FLAGS_DEBUG <span class="string">&quot;$ENV&#123;CXXFLAGS&#125; -O0 -Wall -g -ggdb -fprofile-arcs -ftest-coverage&quot;</span>)</span><br><span class="line">set(CMAKE_CXX_FLAGS_RELEASE <span class="string">&quot;$ENV&#123;CXXFLAGS&#125; -O3 -Wall&quot;</span>)</span><br><span class="line"># 使用gtest需要C++<span class="number">11</span>编译选项</span><br><span class="line">set(CMAKE_CXX_FLAGS <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -std=c++0x&quot;</span>)</span><br><span class="line">add_definitions(-DULAPI)</span><br><span class="line"># 自定义的宏GT_TEST</span><br><span class="line"># 部分测试代码，只在定义了GT_TEST时才会编译，因此这里添加宏GT_TEST</span><br><span class="line">add_definitions(-DGT_TEST)</span><br><span class="line"></span><br><span class="line"># 引入头文件</span><br><span class="line">INCLUDE_DIRECTORIES(</span><br><span class="line">    ../include/</span><br><span class="line">    <span class="regexp">/usr/</span>local/include/</span><br><span class="line">    $&#123;PREFIX&#125;/include</span><br><span class="line">    $&#123;PREFIX&#125;/include/finch-inc</span><br><span class="line">    $&#123;PREFIX&#125;/include/usint</span><br><span class="line">    $&#123;PREFIX&#125;/include/hal</span><br><span class="line">    $&#123;PREFIX&#125;/include/ollie</span><br><span class="line">    $&#123;PREFIX&#125;/include/torino</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"># 引入源文件</span><br><span class="line">set(srcdirs</span><br><span class="line">  ../src/</span><br><span class="line">)</span><br><span class="line">foreach(srctmp $&#123;srcdirs&#125;)</span><br><span class="line">  aux_source_directory($&#123;srctmp&#125; source_files)</span><br><span class="line">endforeach()</span><br><span class="line"></span><br><span class="line"># 引入所有的测试代码源文件</span><br><span class="line">set(srctestdirs</span><br><span class="line">  $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/</span><br><span class="line">  $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/check_neighbor</span><br><span class="line">  $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/search_empty_location</span><br><span class="line">  $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/test_load_unload</span><br><span class="line">  $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/test_plugins</span><br><span class="line">  $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/test_readwrite</span><br><span class="line">  $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/test_searchloc</span><br><span class="line">  $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/test_searchtool</span><br><span class="line">  $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/test_test</span><br><span class="line">  $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/utility</span><br><span class="line">)</span><br><span class="line">foreach(srcdir $&#123;srctestdirs&#125;)</span><br><span class="line">  include_directories($&#123;include_directories&#125;)</span><br><span class="line">  aux_source_directory($&#123;srcdir&#125; source_test_files)</span><br><span class="line">endforeach()</span><br><span class="line"># 每个测试代码子目录，都有一个main.cpp，方便在各自的子目录下生成单元测试的可执行文件</span><br><span class="line"># 这里需要从source_test_files文件列表中，剔除各个子单元测试目录下的main.cpp，</span><br><span class="line"># 只保留最外面生成整体单元测试的那个$&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/main.cpp</span><br><span class="line">list(REMOVE_ITEM source_test_files $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/check_neighbor/main.cpp)</span><br><span class="line">list(REMOVE_ITEM source_test_files $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/search_empty_location/main.cpp)</span><br><span class="line">list(REMOVE_ITEM source_test_files $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/test_load_unload/main.cpp)</span><br><span class="line">list(REMOVE_ITEM source_test_files $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/test_plugins/main.cpp)</span><br><span class="line">list(REMOVE_ITEM source_test_files $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/test_readwrite/main.cpp)</span><br><span class="line">list(REMOVE_ITEM source_test_files $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/test_searchloc/main.cpp)</span><br><span class="line">list(REMOVE_ITEM source_test_files $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/test_searchtool/main.cpp)</span><br><span class="line">list(REMOVE_ITEM source_test_files $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/test_test/main.cpp)</span><br><span class="line">list(REMOVE_ITEM source_test_files $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/utility/main.cpp)</span><br><span class="line"></span><br><span class="line"># 指定链接库路径</span><br><span class="line">LINK_DIRECTORIES(</span><br><span class="line">    $&#123;PREFIX&#125;/lib</span><br><span class="line">)</span><br><span class="line">#FIND_PACKAGE(wxWidgets REQUIRED core base adv)</span><br><span class="line">#INCLUDE($&#123;wxWidgets_USE_FILE&#125;)</span><br><span class="line"></span><br><span class="line"># 生成单元测试执行程序</span><br><span class="line"># 为了看覆盖率，除了将测试代码$&#123;source_test_files&#125;编进来，还必须要将源代码$&#123;source_files&#125;都编译进来</span><br><span class="line">add_executable($&#123;projName&#125; $&#123;source_test_files&#125; $&#123;source_files&#125;)</span><br><span class="line">target_link_libraries($&#123;projName&#125; $&#123;LIB_USE&#125;  pthread )</span><br><span class="line"># 安装</span><br><span class="line">INSTALL(TARGETS $&#123;projName&#125; DESTINATION bin/test/)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">基础技能</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/01/CMakeLists-txt%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95%E4%B8%89/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-在线课程学习记录" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -639,6 +830,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h1 id="在线课程学习记录"><a href="#在线课程学习记录" class="headerlink" title="在线课程学习记录"></a>在线课程学习记录</h1><h2 id="matlab学习课程"><a href="#matlab学习课程" class="headerlink" title="matlab学习课程"></a>matlab学习课程</h2><p><a target="_blank" rel="noopener" href="https://www.xuexi.cn/lgpage/detail/index.html?id=7601754816855875029">https://www.xuexi.cn/lgpage/detail/index.html?id=7601754816855875029</a><br>//现代科学–MATLAB语言与应用<br>//东北大学</p>
+<h2 id="经济学思维方式"><a href="#经济学思维方式" class="headerlink" title="经济学思维方式"></a>经济学思维方式</h2><p><a target="_blank" rel="noopener" href="https://www.xuexi.cn/lgpage/detail/index.html?id=9033784240088711496">https://www.xuexi.cn/lgpage/detail/index.html?id=9033784240088711496</a><br>//西安交通大学<br>//很有意思</p>
 
       
 
@@ -694,37 +886,43 @@
 
 
   
-    <article id="post-explict关键字" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-初始化语句c-17" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/25/explict%E5%85%B3%E9%94%AE%E5%AD%97/">explict关键字</a>
+      <a class="article-title" href="/2018/03/05/%E5%88%9D%E5%A7%8B%E5%8C%96%E8%AF%AD%E5%8F%A5c-17/">初始化语句c++17</a>
     </h1>
   
 
         
-        <a href="/2018/02/25/explict%E5%85%B3%E9%94%AE%E5%AD%97/" class="archive-article-date">
-  	<time datetime="2018-02-25T13:40:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-25</time>
+        <a href="/2018/03/05/%E5%88%9D%E5%A7%8B%E5%8C%96%E8%AF%AD%E5%8F%A5c-17/" class="archive-article-date">
+  	<time datetime="2018-03-05T11:49:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-05</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="explict关键字"><a href="#explict关键字" class="headerlink" title="explict关键字"></a>explict关键字</h1><h2 id="explicit关键字"><a href="#explicit关键字" class="headerlink" title="explicit关键字"></a>explicit关键字</h2><p>explicit关键字只能用于修饰只有一个参数的类构造函数, 它的作用是表明该构造函数是显式的, 而非隐式的<br>它相对应的另一个关键字是implicit, 意思是隐式的,类构造函数默认情况下即声明为implicit(隐式)<br>在C++中, 如果的构造函数只有一个参数时, 那么在编译的时候就会有一个缺省的转换操作:将该构造函数对应数据类型的数据转换为该类对象. </p>
-<h2 id="示例一"><a href="#示例一" class="headerlink" title="示例一"></a>示例一</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Class VisString&#123;</span><br><span class="line"><span class="attr">public</span>:</span><br><span class="line">	VisString(int size);</span><br><span class="line">	VisString(<span class="keyword">const</span> char* p);</span><br><span class="line">	~VisString();</span><br><span class="line">&#125;;</span><br><span class="line">以下这些写法都是ok的（从编译通过的角度来说）</span><br><span class="line">VisString string1(<span class="number">24</span>)；</span><br><span class="line">VisString string2 = <span class="number">10</span>；</span><br><span class="line">VisString string4(<span class="string">&quot;aaaa&quot;</span>); </span><br><span class="line">VisString string5 = <span class="string">&quot;bbb&quot;</span>；</span><br><span class="line">VisString string6 = <span class="string">&#x27;c&#x27;</span>;   <span class="comment">// 这样也是OK的, 其实调用的是VisString (int size), 且size等于&#x27;c&#x27;的ascii码  </span></span><br><span class="line">string1 = <span class="number">2</span>；</span><br><span class="line">string2 = <span class="number">3</span>；</span><br><span class="line">VisString  string3 = string1;        <span class="comment">// 这样也是OK的, 至少编译是没问题的, 但是如果析构函数里用free释放类里的内存指针时可能会报错，必须重载运算符=，并在其中处理内存释放才可以正确处理</span></span><br></pre></td></tr></table></figure>
-<p>也就是说 “VisString string2 = 10;” 这段代码, 编译器自动将整型转换为VisString 类对象, 实际上等同于下面的操作:</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">VisString string2(<span class="number">10</span>);  </span><br></pre></td></tr></table></figure>
+        <h1 id="初始化语句"><a href="#初始化语句" class="headerlink" title="初始化语句"></a>初始化语句</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>c++17在初始化语句这块，有一些调整，还是蛮有意思的。</p>
+<h2 id="示例一（旧语法）"><a href="#示例一（旧语法）" class="headerlink" title="示例一（旧语法）"></a>示例一（旧语法）</h2><p>我们将input字符转换为小写字符lower，然后使用转换结果检查输入是否为一个字符，如果是，就生成一些输出。<br>（这里是为了举例，所以不考虑本应该使用可移植的std::isalpha()函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">auto lower &#123;static_cast&lt;char&gt;(std::tolower(input))&#125;;</span><br><span class="line"><span class="keyword">if</span>(lower &gt;= <span class="string">&#x27;a&#x27;</span> &amp;&amp; lower &lt;= <span class="string">&#x27;z&#x27;</span>) &#123;</span><br><span class="line">    <span class="attr">std</span>::cout &lt;&lt; <span class="string">&quot;You&#x27;ve entered the letter &#x27;&quot;</span> &lt;&lt; lower &lt;&lt; <span class="string">&#x27;\&#x27;&#x27;</span> &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//...more code that does not use lower</span></span><br></pre></td></tr></table></figure>
+<p>可以看到，lower变量只在if语句中使用，之后的任何代码都不再使用该变量。</p>
+<h2 id="示例二（旧语法）"><a href="#示例二（旧语法）" class="headerlink" title="示例二（旧语法）"></a>示例二（旧语法）</h2><p>一般来说，将变量的作用域限制到使用它们的区域，被认为是一种良好的编程风格，即使这意味着要像下面这样添加额外的作用域：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    auto lower &#123;static_cast&lt;char&gt;(std::tolower(input))&#125;;</span><br><span class="line">    <span class="keyword">if</span>(lower &gt;= <span class="string">&#x27;a&#x27;</span> &amp;&amp; lower &lt;= <span class="string">&#x27;z&#x27;</span>) &#123;</span><br><span class="line">        <span class="attr">std</span>::cout &lt;&lt; <span class="string">&quot;You&#x27;ve entered the letter &#x27;&quot;</span> &lt;&lt; lower &lt;&lt; <span class="string">&#x27;\&#x27;&#x27;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// ...more code (lower does not exist here)</span></span><br></pre></td></tr></table></figure>
+<p>这么做的结果是，对于剩余的代码来说，是lower变量从未存在过。<br>引入一个额外的作用域（和缩进）来将局部变量绑定到if语句，这种模式相当常见。</p>
+<h2 id="示例三（c-17新语法）"><a href="#示例三（c-17新语法）" class="headerlink" title="示例三（c++17新语法）"></a>示例三（c++17新语法）</h2><p>c++17引入了一种新语法。这种语法的一般形式如下所示：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(initialization; condition) ...</span><br><span class="line"></span><br><span class="line">在计算condition表达式（即<span class="keyword">if</span>语句的布尔表达式）之前，会先执行initialization（初始化语句）。</span><br><span class="line">这种初始化语句主要用于声明<span class="keyword">if</span>语句的局部变量。</span><br><span class="line"></span><br><span class="line">在初始化语句中声明的变量可用在<span class="keyword">if</span>语句的条件表达式中，以及<span class="keyword">if</span>语句或语句块中。</span><br><span class="line">对于<span class="keyword">if</span>-<span class="keyword">else</span>语句，还可以用在<span class="keyword">else</span>的语句或语句块中。</span><br><span class="line">但是对于<span class="keyword">if</span>或<span class="keyword">if</span>-<span class="keyword">else</span>语句之后的代码来说，这些变量好像从来没有存在过。</span><br></pre></td></tr></table></figure>
 
-<h2 id="示例二"><a href="#示例二" class="headerlink" title="示例二"></a>示例二</h2><p>当加入一个explict关键字，再来看</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Class VisString&#123;</span><br><span class="line"><span class="attr">public</span>:</span><br><span class="line">	explict VisString(int size);</span><br><span class="line">	VisString(<span class="keyword">const</span> char* p);</span><br><span class="line">	~VisString();</span><br><span class="line">&#125;;</span><br><span class="line">对照示例一来看，那些原本ok的操作，有一部分是不可行的了</span><br><span class="line">VisString string1(<span class="number">24</span>);     <span class="comment">// 这样是OK的  </span></span><br><span class="line">VisString string2 = <span class="number">10</span>;   <span class="comment">// 这样是不行的, 因为explicit关键字取消了隐式转换 </span></span><br><span class="line">VisString string4(<span class="string">&quot;aaaa&quot;</span>); <span class="comment">// 这样是OK的  </span></span><br><span class="line">VisString string5 = <span class="string">&quot;bbb&quot;</span>； <span class="comment">// 这样是OK的  </span></span><br><span class="line">VisString  string6 = <span class="string">&#x27;c&#x27;</span>;   <span class="comment">// 这样是不行的, 其实调用的是VisString (int size), 且size等于&#x27;c&#x27;的ascii码, 但explicit关键字取消了隐式转换  </span></span><br><span class="line">VisString  string3 = string1;        <span class="comment">// 这样也是不行的, 因为取消了隐式转换, 除非类实现操作符&quot;=&quot;的重载 </span></span><br></pre></td></tr></table></figure>
+<p>为了完整起见，c++17还为switch语句添加了一种类似的语法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">switch</span>(initialization; condition) ...</span><br></pre></td></tr></table></figure>
 
-<p>从以上两个示例看到，explicit关键字的作用就是防止类构造函数的隐式自动转换。<br>explicit关键字只对有一个参数的类构造函数有效, 如果类构造函数参数大于或等于两个时, 是不会产生隐式转换的, 所以explicit关键字也就无效了.<br>但是, 也有一个例外, 就是当除了第一个参数以外的其他参数都有默认值的时候, explicit关键字依然有效, 此时, 当调用构造函数时只传入一个参数, 等效于只有一个参数的类构造函数,</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>explicit关键字只需用于类内的单参数构造函数前面。由于无参数的构造函数和多参数的构造函数总是显式调用，这种情况在构造函数前加explicit无意义。<br>google的c++规范中提到explicit的优点是可以避免不合时宜的类型变换，缺点无。所以google约定所有单参数的构造函数都必须是显式的，只有极少数情况下拷贝构造函数可以不声明称explicit。例如作为其他类的透明包装器的类。<br>effective c++中说：被声明为explicit的构造函数通常比其non-explicit兄弟更受欢迎。因为它们禁止编译器执行非预期（往往也不被期望）的类型转换。除非我有一个好理由允许构造函数被用于隐式类型转换，否则我会把它声明为explicit。</p>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/k6604125/article/details/126524992">https://blog.csdn.net/k6604125/article/details/126524992</a></p>
+<p>此时，重写前面的示例为如下语句：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(auto lower&#123;static_cast&lt;char&gt;(std::tolower(input))&#125;; lower &gt;= <span class="string">&#x27;a&#x27;</span> &amp;&amp; lower &lt;= <span class="string">&#x27;z&#x27;</span>) &#123;</span><br><span class="line">    <span class="attr">std</span>::cout &lt;&lt; <span class="string">&quot;You&#x27;ve entered the letter &#x27;&quot;</span> &lt;&lt; lower &lt;&lt; <span class="string">&#x27;\&#x27;&#x27;</span> &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// ...more code(lower does not exist here)</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>这些扩展的if和switch语句仍然是新鲜出炉的，还没有被C++开发人员所熟知，而使用陌生的语法可能会影响代码的可读性。<br>因此，如果在一支团队里工作，则应该先与同事进行确认，然后再决定是否想要在代码中使用这种语法。<br>另一方法，如果没有引领趋势的人使用新的语法，新的语法又怎么能够被人接受？</p>
 
       
 
@@ -750,7 +948,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/02/25/explict%E5%85%B3%E9%94%AE%E5%AD%97/">展开全文 >></a>
+          <a class="article-more-a" href="/2018/03/05/%E5%88%9D%E5%A7%8B%E5%8C%96%E8%AF%AD%E5%8F%A5c-17/">展开全文 >></a>
         </p>
       
 
@@ -780,33 +978,46 @@
 
 
   
-    <article id="post-常用cplus语法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-switch-case语句" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/22/%E5%B8%B8%E7%94%A8cplus%E8%AF%AD%E6%B3%95/">常用c++语法</a>
+      <a class="article-title" href="/2018/03/05/switch-case%E8%AF%AD%E5%8F%A5/">switch-case语句</a>
     </h1>
   
 
         
-        <a href="/2018/02/22/%E5%B8%B8%E7%94%A8cplus%E8%AF%AD%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2018-02-22T14:15:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-22</time>
+        <a href="/2018/03/05/switch-case%E8%AF%AD%E5%8F%A5/" class="archive-article-date">
+  	<time datetime="2018-03-05T09:27:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-05</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="常用c-语法"><a href="#常用c-语法" class="headerlink" title="常用c++语法"></a>常用c++语法</h1><h2 id="枚举数据类型"><a href="#枚举数据类型" class="headerlink" title="枚举数据类型"></a>枚举数据类型</h2><p>类型安全的枚举非常适合于表示固定的值集，尤其是有名称的值集，例如一星期的天数或扑克牌的花色。</p>
-<p>定义语句如下示例：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">enum <span class="class"><span class="keyword">class</span> <span class="title">Day</span> </span>&#123;Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday&#125;;</span><br><span class="line"></span><br><span class="line">enum <span class="class"><span class="keyword">class</span> <span class="title">Punctuation</span> : <span class="title">char</span> </span>&#123; Comma = <span class="string">&#x27;,&#x27;</span>, Exclamation = <span class="string">&#x27;!&#x27;</span>, Question = <span class="string">&#x27;?&#x27;</span> &#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果把Day类型的变量值设置为不在花括号中的值，代码就不编译。</span><br><span class="line">类型Day的用法和任何基本类型相似。</span><br><span class="line">引用枚举时，必须用类型名限定它。</span><br><span class="line">枚举成员的类型规范放在枚举类型名的后面，用冒号隔开。</span><br><span class="line">可以给枚举类型指定任何整数类型。</span><br><span class="line"></span><br><span class="line">Day today &#123;<span class="attr">Day</span>::Wednesday&#125;;</span><br><span class="line">Punctuation ch&#123; <span class="attr">Punctuation</span>::Comma &#125;;</span><br><span class="line"></span><br><span class="line">如果输出today的值，就必须要把它转换为数值类型，因为标准输出流不能识别Day类型：</span><br><span class="line"><span class="attr">std</span>::cout &lt;&lt; <span class="string">&quot;Today is &quot;</span> &lt;&lt; static_cast&lt;int&gt;(today) &lt;&lt; std::endl;</span><br><span class="line">std::cout &lt;&lt; <span class="string">&quot;Question is &quot;</span> &lt;&lt; static_cast&lt;char&gt;(ch) &lt;&lt; std::endl;</span><br></pre></td></tr></table></figure>
-<p>注意：<br>枚举成员的值必须是编译器的常量，即编译器可以计算出来的常量表达式。<br>这种表达式只包括字面量、以前定义的枚举成员和声明为const的变量。<br>不能使用非const变量，即便已使用字面量初始化，也不行。</p>
-<p>这里使用的c++17之后的新语法。旧语法在定义时没有使用class关键字。<br>例如，Day枚举可以定义为：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">enum Day &#123;Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday&#125;;</span><br></pre></td></tr></table></figure>
-<p>如果给枚举类型使用enum class，代码就不容易出错。<br>例如，旧式枚举成员在转换为整型甚至浮点类型时，不进行强制转换，这很容易导致出错。强类型的enum class是比旧式的enum类型更安全更好的选择。</p>
+        <h1 id="switch-case语句"><a href="#switch-case语句" class="headerlink" title="switch-case语句"></a>switch-case语句</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>对switch语句一个整体的记录。</p>
+<h2 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h2><p>switch语句可以从多个选项中选择。<br>选项用一组固定的整数或枚举值标识，根据给定整数或枚举常量的值确定选择哪个选项。</p>
+<p>示例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">顾客买彩票，中奖号码：<span class="number">147</span>是一等奖，<span class="number">387</span>是二等奖，<span class="number">29</span>，<span class="number">78</span>就是三等奖。可以这么编写</span><br><span class="line"></span><br><span class="line"><span class="comment">//ticket_numer是彩票号码，整型数字</span></span><br><span class="line"><span class="keyword">switch</span> (ticket_number)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">147</span>:</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;You win first prize !&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">387</span>:</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;You win second prize !&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">29</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="number">78</span>:</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;You win third prize !&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Sorry, you lose.&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>只能对整形值（int、long、unsigned short等）、字符值（char等）和枚举类型值使用switch语句。<br>从技术角度看，也允许对布尔值使用switch语句，但是这种情况下，其实应该使用if/else语句。</p>
+<p>每个case值都必须是唯一的，但不必按一定的顺序。<br>任何两个case值都不能相同的原因是，如果输入某个指定值，编译器就无法确定应执行哪些语句。<br>但是case值不同，并不表示必须执行不同的操作。<br>几个case值可以共享相同的操作。</p>
+<p>case值必须是整数常量表达式，即编译器可以在编译时计算的表达式，所以常常是字面量或用字面量初始化的const变量。</p>
+<p>一般情况下，case标签后面可以有许多语句，且不需要把它们括在花括号中。</p>
+<p>default标签标识默认的case。如果选择表达式不对应任何一个case值，就执行默认case后面的语句。<br>对于default标签，并不是必须把它作为最后一个标签。<br>常常把它放在最后，但是原则上，default标签可以放到普通case标签之间的任何位置。<br>并不一定要有default标签，如果没有指定，且没有选中任何case值，switch语句就什么也不做。</p>
+<p>从逻辑上看，每一个case语句后面的break语句是必需的，它在case语句执行后跳出switch语句。<br>如果省略case后面的break语句，就将执行该case后的所有语句。<br>注意在最后一个case后面（通常是default）不需要break语句，因为此时程序将退出switch语句。但是加上break语句是一个很好的编程习惯，因为这可以避免以后由于添加另一个case而导致的问题。</p>
+<p>break语句并不是使控制权移除switch语句的唯一方式。<br>如果case标签后的代码包含return语句，则控制权不仅立即离开switch语句，还将离开包含switch语句的函数。</p>
+<h2 id="贯穿"><a href="#贯穿" class="headerlink" title="贯穿"></a>贯穿</h2><p>很多时候，确实break语句是疏忽大意的表现，说明存在bug。<br>但是，贯穿并不一定总是意味着错误。有时候，故意写一个利用贯穿行为是switch语句会很有用。</p>
+<p>示例如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">顾客买彩票，中奖号码：<span class="number">147</span>是一等奖，<span class="number">387</span>是二等奖，<span class="number">29</span>，<span class="number">78</span>,<span class="number">929</span>就是三等奖,而赢得三等奖的特殊号码<span class="number">929</span>可以获得额外的神秘奖励。</span><br><span class="line"></span><br><span class="line"><span class="comment">//ticket_numer是彩票号码，整型数字</span></span><br><span class="line"><span class="keyword">switch</span> (ticket_number)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">147</span>:</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;You win first prize !&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">387</span>:</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;You win second prize !&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">929</span>:</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;You win a special bonus prize !&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">29</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="number">78</span>:</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;You win third prize !&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Sorry, you lose.&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对于这种代码，令人烦恼的地方是，尽管在这里贯穿并不是错误，但是编译器可能还是会发出贯穿警告。<br>而作为有自尊心的程序员，我们希望编译的程序里没有任何警告。<br>对于这种情况，一种方法是重写代码，加上赢得三等奖的输出语句。但是一般来说，我们应该避免重复代码。<br>那么，还有什么办法呢？<br>C++17中添加了一个新的语言功能，可告诉编译器和阅读的人，我们在某个地方故意使用了贯穿行为：<br>在原本会编写break语句的地方，添加一个[[fallthrough]]语句：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">……</span><br><span class="line"><span class="keyword">case</span> <span class="number">929</span>:</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;You win a special bonus prize !&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    [[fallthrough]];</span><br><span class="line"><span class="keyword">case</span> <span class="number">29</span>:</span><br><span class="line"><span class="keyword">case</span> <span class="number">78</span>:</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;You win third prize !&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">……</span><br></pre></td></tr></table></figure>
+
+<p>对于空的case，例如对应29号的case，也可以使用[[fallthrough]]，但并不是必须这么做。对于这种情况，编译器本来就不会发出警告。</p>
 
       
 
@@ -832,85 +1043,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/02/22/%E5%B8%B8%E7%94%A8cplus%E8%AF%AD%E6%B3%95/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-常见数学函数与运算符" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/02/12/%E5%B8%B8%E8%A7%81%E6%95%B0%E5%AD%A6%E5%87%BD%E6%95%B0%E4%B8%8E%E8%BF%90%E7%AE%97%E7%AC%A6/">常见数学函数与运算符</a>
-    </h1>
-  
-
-        
-        <a href="/2017/02/12/%E5%B8%B8%E8%A7%81%E6%95%B0%E5%AD%A6%E5%87%BD%E6%95%B0%E4%B8%8E%E8%BF%90%E7%AE%97%E7%AC%A6/" class="archive-article-date">
-  	<time datetime="2017-02-12T08:25:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="常见数学函数与运算符"><a href="#常见数学函数与运算符" class="headerlink" title="常见数学函数与运算符"></a>常见数学函数与运算符</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>借用我们老师之前一直说的话，“你读书时应该去了解但是没有了解清楚的那些知识，终究还是要还（补）回去的。”</p>
-<h2 id="op-赋值运算符"><a href="#op-赋值运算符" class="headerlink" title="op=赋值运算符"></a>op=赋值运算符</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">int x = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">如果对x递增，可以像下面这么写</span><br><span class="line">x = x + <span class="number">3</span>;</span><br><span class="line"></span><br><span class="line">也有更简略的编写方式(用op=赋值运算符来编写)</span><br><span class="line">x += <span class="number">3</span>;</span><br></pre></td></tr></table></figure>
-
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础技能C++</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/02/12/%E5%B8%B8%E8%A7%81%E6%95%B0%E5%AD%A6%E5%87%BD%E6%95%B0%E4%B8%8E%E8%BF%90%E7%AE%97%E7%AC%A6/">展开全文 >></a>
+          <a class="article-more-a" href="/2018/03/05/switch-case%E8%AF%AD%E5%8F%A5/">展开全文 >></a>
         </p>
       
 
@@ -942,7 +1075,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/9/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span>
+      <a class="extend prev" rel="prev" href="/page/9/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/11/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -1073,11 +1206,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">常用基础配置</a>
+                <a href="javascript:void(0)" class="js-tag color3">基础技能C++</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">基础技能C++</a>
+                <a href="javascript:void(0)" class="js-tag color2">常用基础配置</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1122,6 +1255,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">设计模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">星座学</a>
               </li>
              
               <li class="article-tag-list-item">
