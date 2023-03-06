@@ -6,17 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>switch-case语句 | ThranduilELFKING</title>
+  <title>数组 | ThranduilELFKING</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="switch-case语句背景对switch语句一个整体的记录。 基本用法switch语句可以从多个选项中选择。选项用一组固定的整数或枚举值标识，根据给定整数或枚举常量的值确定选择哪个选项。 示例： 12345678910111213141516171819顾客买彩票，中奖号码：147是一等奖，387是二等奖，29，78就是三等奖。可以这么编写&#x2F;&#x2F;ticket_numer是彩票号码，整型数字swi">
+  <meta name="description" content="数组背景对一系列基础概念的整合。（对大学笔记的一个整理） 基本概念数组可以存储相同类型的多个数据项。实际上，只要有可用的内存，数组就可以存储任何类型的数据。 数组是表示一系列内存空间的变量，每个内存空间都可以存储相同类型的一个数据项。 数组的大小必须用常量整数表达式来指定。编译器在编译时能够计算的任何整数表达式都可以用来指定数组的大小，不过最常用的是整数字面量，或是使用字面量初始化的const整型">
 <meta property="og:type" content="article">
-<meta property="og:title" content="switch-case语句">
-<meta property="og:url" content="http://example.com/2018/03/05/switch-case%E8%AF%AD%E5%8F%A5/index.html">
+<meta property="og:title" content="数组">
+<meta property="og:url" content="http://example.com/2013/03/05/%E6%95%B0%E7%BB%84/index.html">
 <meta property="og:site_name" content="ThranduilELFKING">
-<meta property="og:description" content="switch-case语句背景对switch语句一个整体的记录。 基本用法switch语句可以从多个选项中选择。选项用一组固定的整数或枚举值标识，根据给定整数或枚举常量的值确定选择哪个选项。 示例： 12345678910111213141516171819顾客买彩票，中奖号码：147是一等奖，387是二等奖，29，78就是三等奖。可以这么编写&#x2F;&#x2F;ticket_numer是彩票号码，整型数字swi">
+<meta property="og:description" content="数组背景对一系列基础概念的整合。（对大学笔记的一个整理） 基本概念数组可以存储相同类型的多个数据项。实际上，只要有可用的内存，数组就可以存储任何类型的数据。 数组是表示一系列内存空间的变量，每个内存空间都可以存储相同类型的一个数据项。 数组的大小必须用常量整数表达式来指定。编译器在编译时能够计算的任何整数表达式都可以用来指定数组的大小，不过最常用的是整数字面量，或是使用字面量初始化的const整型">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2018-03-05T09:27:38.000Z">
-<meta property="article:modified_time" content="2023-03-05T11:48:20.789Z">
+<meta property="article:published_time" content="2013-03-05T14:10:05.000Z">
+<meta property="article:modified_time" content="2023-03-06T13:29:39.458Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="基础技能C++">
 <meta name="twitter:card" content="summary">
@@ -66,7 +66,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 105
+			总文章数 109
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -184,46 +184,64 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-switch-case语句" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-数组" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      switch-case语句
+      数组
     </h1>
   
 
         
-        <a href="/2018/03/05/switch-case%E8%AF%AD%E5%8F%A5/" class="archive-article-date">
-  	<time datetime="2018-03-05T09:27:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-05</time>
+        <a href="/2013/03/05/%E6%95%B0%E7%BB%84/" class="archive-article-date">
+  	<time datetime="2013-03-05T14:10:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-03-05</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="switch-case语句"><a href="#switch-case语句" class="headerlink" title="switch-case语句"></a>switch-case语句</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>对switch语句一个整体的记录。</p>
-<h2 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h2><p>switch语句可以从多个选项中选择。<br>选项用一组固定的整数或枚举值标识，根据给定整数或枚举常量的值确定选择哪个选项。</p>
-<p>示例：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">顾客买彩票，中奖号码：<span class="number">147</span>是一等奖，<span class="number">387</span>是二等奖，<span class="number">29</span>，<span class="number">78</span>就是三等奖。可以这么编写</span><br><span class="line"></span><br><span class="line"><span class="comment">//ticket_numer是彩票号码，整型数字</span></span><br><span class="line"><span class="keyword">switch</span> (ticket_number)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">147</span>:</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;You win first prize !&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">387</span>:</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;You win second prize !&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">29</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="number">78</span>:</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;You win third prize !&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Sorry, you lose.&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <h1 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>对一系列基础概念的整合。（对大学笔记的一个整理）</p>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>数组可以存储相同类型的多个数据项。<br>实际上，只要有可用的内存，数组就可以存储任何类型的数据。</p>
+<p>数组是表示一系列内存空间的变量，每个内存空间都可以存储相同类型的一个数据项。</p>
+<p>数组的大小必须用常量整数表达式来指定。<br>编译器在编译时能够计算的任何整数表达式都可以用来指定数组的大小，不过最常用的是整数字面量，或是使用字面量初始化的const整型变量。</p>
+<p>使用一个整数可以引用数组元素，把该整数称为数组的索引。<br>数组元素的索引是指该元素与数组中第一个元素的偏移值。<br>要引用元素，可以在数组名后面的方括号中放置其索引。</p>
+<h2 id="示例一"><a href="#示例一" class="headerlink" title="示例一"></a>示例一</h2><p>假如定义一个包含366个温度值的数组</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Define an array of 366 temperatures</span></span><br><span class="line">double temperatures[<span class="number">366</span>]; </span><br><span class="line"></span><br><span class="line">这个语句定义了一个double类型的数组，其名称是temperatures，有<span class="number">366</span>个值。</span><br><span class="line">把数据值称为元素，把在括号中指定的元素个数称为数组的大小。</span><br><span class="line">数组元素没有在这个语句中初始化，所以它们包含垃圾值。</span><br></pre></td></tr></table></figure>
 
-<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>只能对整形值（int、long、unsigned short等）、字符值（char等）和枚举类型值使用switch语句。<br>从技术角度看，也允许对布尔值使用switch语句，但是这种情况下，其实应该使用if/else语句。</p>
-<p>每个case值都必须是唯一的，但不必按一定的顺序。<br>任何两个case值都不能相同的原因是，如果输入某个指定值，编译器就无法确定应执行哪些语句。<br>但是case值不同，并不表示必须执行不同的操作。<br>几个case值可以共享相同的操作。</p>
-<p>case值必须是整数常量表达式，即编译器可以在编译时计算的表达式，所以常常是字面量或用字面量初始化的const变量。</p>
-<p>一般情况下，case标签后面可以有许多语句，且不需要把它们括在花括号中。</p>
-<p>default标签标识默认的case。如果选择表达式不对应任何一个case值，就执行默认case后面的语句。<br>对于default标签，并不是必须把它作为最后一个标签。<br>常常把它放在最后，但是原则上，default标签可以放到普通case标签之间的任何位置。<br>并不一定要有default标签，如果没有指定，且没有选中任何case值，switch语句就什么也不做。</p>
-<p>从逻辑上看，每一个case语句后面的break语句是必需的，它在case语句执行后跳出switch语句。<br>如果省略case后面的break语句，就将执行该case后的所有语句。<br>注意在最后一个case后面（通常是default）不需要break语句，因为此时程序将退出switch语句。但是加上break语句是一个很好的编程习惯，因为这可以避免以后由于添加另一个case而导致的问题。</p>
-<p>break语句并不是使控制权移除switch语句的唯一方式。<br>如果case标签后的代码包含return语句，则控制权不仅立即离开switch语句，还将离开包含switch语句的函数。</p>
-<h2 id="贯穿"><a href="#贯穿" class="headerlink" title="贯穿"></a>贯穿</h2><p>很多时候，确实break语句是疏忽大意的表现，说明存在bug。<br>但是，贯穿并不一定总是意味着错误。有时候，故意写一个利用贯穿行为是switch语句会很有用。</p>
-<p>示例如下：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">顾客买彩票，中奖号码：<span class="number">147</span>是一等奖，<span class="number">387</span>是二等奖，<span class="number">29</span>，<span class="number">78</span>,<span class="number">929</span>就是三等奖,而赢得三等奖的特殊号码<span class="number">929</span>可以获得额外的神秘奖励。</span><br><span class="line"></span><br><span class="line"><span class="comment">//ticket_numer是彩票号码，整型数字</span></span><br><span class="line"><span class="keyword">switch</span> (ticket_number)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">147</span>:</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;You win first prize !&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">387</span>:</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;You win second prize !&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">929</span>:</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;You win a special bonus prize !&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">29</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="number">78</span>:</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;You win third prize !&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Sorry, you lose.&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="示例二"><a href="#示例二" class="headerlink" title="示例二"></a>示例二</h2><p>要把temperatures数组的第四个元素设置成99.9</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Set the fourth array element to 99.9</span></span><br><span class="line">temperatures[<span class="number">4</span>] = <span class="number">99.9</span>;</span><br></pre></td></tr></table></figure>
 
-<p>对于这种代码，令人烦恼的地方是，尽管在这里贯穿并不是错误，但是编译器可能还是会发出贯穿警告。<br>而作为有自尊心的程序员，我们希望编译的程序里没有任何警告。<br>对于这种情况，一种方法是重写代码，加上赢得三等奖的输出语句。但是一般来说，我们应该避免重复代码。<br>那么，还有什么办法呢？<br>C++17中添加了一个新的语言功能，可告诉编译器和阅读的人，我们在某个地方故意使用了贯穿行为：<br>在原本会编写break语句的地方，添加一个[[fallthrough]]语句：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">……</span><br><span class="line"><span class="keyword">case</span> <span class="number">929</span>:</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;You win a special bonus prize !&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    [[fallthrough]];</span><br><span class="line"><span class="keyword">case</span> <span class="number">29</span>:</span><br><span class="line"><span class="keyword">case</span> <span class="number">78</span>:</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;You win third prize !&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">……</span><br></pre></td></tr></table></figure>
+<h2 id="示例三"><a href="#示例三" class="headerlink" title="示例三"></a>示例三</h2><p>定义带初始值的数组</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Define &amp; initialize array of 6 heights</span></span><br><span class="line">unsigned int height[<span class="number">6</span>] &#123;<span class="number">26</span>, <span class="number">37</span>, <span class="number">47</span>, <span class="number">55</span>, <span class="number">63</span>, <span class="number">75</span>&#125;;</span><br><span class="line"></span><br><span class="line">初始化列表包含<span class="number">6</span>个逗号相隔开的值。</span><br><span class="line">每个数组元素都按顺序被赋予列表中的一个初始值。</span><br><span class="line">如下所示：</span><br><span class="line">-----------------------------------------------------------------------</span><br><span class="line">height[<span class="number">0</span>] |  height[<span class="number">1</span>] | height[<span class="number">2</span>] | height[<span class="number">3</span>] | height[<span class="number">4</span>] | height[<span class="number">5</span>]</span><br><span class="line">-----------------------------------------------------------------------</span><br><span class="line">    <span class="number">26</span>    |    <span class="number">37</span>      |   <span class="number">47</span>      |     <span class="number">55</span>    |     <span class="number">63</span>    |     <span class="number">75</span></span><br><span class="line">-----------------------------------------------------------------------</span><br></pre></td></tr></table></figure>
 
-<p>对于空的case，例如对应29号的case，也可以使用[[fallthrough]]，但并不是必须这么做。对于这种情况，编译器本来就不会发出警告。</p>
+<h2 id="示例四"><a href="#示例四" class="headerlink" title="示例四"></a>示例四</h2><p>常用的一些用法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Element values: 22 33 55 0 0 0</span></span><br><span class="line">unsigned int height[<span class="number">6</span>] &#123;<span class="number">22</span>, <span class="number">33</span>, <span class="number">55</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//All elements 0</span></span><br><span class="line">unsigned int height[<span class="number">6</span>] &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//编译器将阻止修改这6个数组元素中的任何一个（无论是赋值、递增还是其他操作）-</span></span><br><span class="line"><span class="keyword">const</span> unsigned int height[<span class="number">6</span>] &#123;<span class="number">26</span>, <span class="number">37</span>, <span class="number">47</span>, <span class="number">55</span>, <span class="number">63</span>, <span class="number">75</span>&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例五"><a href="#示例五" class="headerlink" title="示例五"></a>示例五</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">unsigned int height[<span class="number">6</span>] &#123;<span class="number">22</span>, <span class="number">33</span>, <span class="number">55</span>&#125;;</span><br><span class="line"><span class="comment">//The sum of three elements</span></span><br><span class="line">unsigned int sum&#123;&#125;;</span><br><span class="line">sum = height[<span class="number">0</span>] + height [<span class="number">1</span>] + height[<span class="number">2</span>];</span><br><span class="line"><span class="comment">//Copy 3rd element value to 6th element</span></span><br><span class="line">height[<span class="number">5</span>] = height[<span class="number">2</span>];</span><br><span class="line"></span><br><span class="line">可以在赋值语句中把一个元素赋值给另一个元素。</span><br></pre></td></tr></table></figure>
+
+<h2 id="用初始化列表定义数组的大小"><a href="#用初始化列表定义数组的大小" class="headerlink" title="用初始化列表定义数组的大小"></a>用初始化列表定义数组的大小</h2><p>在数组的定义中提供一个或多个初始值，就可以忽略数组的大小。<br>元素的个数就是初始值的个数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">int values[] &#123;<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>&#125;;</span><br><span class="line">这条语句定义了一个数组，它包含<span class="number">6</span>个int类型的元素，其初始值分别是<span class="number">2</span>、<span class="number">3</span>、<span class="number">4</span>、<span class="number">5</span>、<span class="number">6</span>、<span class="number">7</span></span><br><span class="line">这等价于：</span><br><span class="line">int values[<span class="number">6</span>] &#123;<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>&#125;;</span><br></pre></td></tr></table></figure>
+<p>忽略数组大小的优点是，数组的大小不会出错，编译器会自动确定它。</p>
+<h2 id="确定数组的大小"><a href="#确定数组的大小" class="headerlink" title="确定数组的大小"></a>确定数组的大小</h2><p>有时候，需要一种确定数组大小的验证方法。</p>
+<h3 id="size-t类型"><a href="#size-t类型" class="headerlink" title="size_t类型"></a>size_t类型</h3><p>size_t并不是内置的基本类型名称，如int，float等；而是标准库定义的一个类型别名。<br>更具体的说，它是某个不带符号的整数类型的别名，并且足够大，能够容纳编译器支持的任何类型（包括数组）。别名在cstddef头文件以及其他一些头文件中定义。<br>但是，在实际应用中，大多数时候不需要使用#include来显式包含这些头文件，就能够使用size_t别名；通过包含其他更加高级的头文件（比如iostream头文件），常常就已经间接定义了这个别名。</p>
+<h3 id="sizeof运算符"><a href="#sizeof运算符" class="headerlink" title="sizeof运算符"></a>sizeof运算符</h3><p>sizeof运算符返回size_t的值，它是不带符号的整数类型，一般用于计算对象占用内存的字节数和数组的元素个数。</p>
+<p>sizeof运算符返回变量占用的字节数，它适用于整个数组和单个数组元素。<br>因此sizeof运算符提供了确定数组中元素个数的方法：<br>只需要用数组的大小除以单个元素的大小即可。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">int values[] &#123; <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>&#125;;</span><br><span class="line"><span class="comment">//使用sizeof运算符可以获得数组的大小为9</span></span><br><span class="line">int size = sizeof(values) / sizeof(values[<span class="number">0</span>]);</span><br><span class="line"></span><br><span class="line">分析：</span><br><span class="line">编译器会通过数组定义的初始值的数量来确定values数组的元素个数。</span><br><span class="line">sizeof(values)表达式会计算出整个数组占用的内存字节数。</span><br><span class="line">sizeof(values[<span class="number">0</span>])表达式则计算出一个元素占用的字节数。</span><br><span class="line">使用哪一个元素都可以，但一般选择第一个元素。</span><br><span class="line">sizeof(values) / sizeof(values[<span class="number">0</span>])表达式将整个数组占用的字节数除以一个元素占用的字节数，得到数组的元素个数。</span><br></pre></td></tr></table></figure>
+
+<h3 id="std-size-函数（c-17中新添加到标准库的）"><a href="#std-size-函数（c-17中新添加到标准库的）" class="headerlink" title="std::size()函数（c++17中新添加到标准库的）"></a>std::size()函数（c++17中新添加到标准库的）</h3><p>如果实现支持，那么最简单也最推荐使用的方法是使用标准库的array头文件中提供的std::size()函数。<br>从技术上讲，std::size()主要是在iterator头文件中定义。但是，这是一个非常常用的函数，所以标准库保证了在包含array头文件（以及其他几个头文件）时，也可以使用std::size()。<br>因为我们主要是对数组使用std::size()，所以认为，记住包含array头文件比记住包含iterator头文件更容易。</p>
+<p>std::size()函数不只用于数组，还可以用来获得标准库定义的任何元素集合的大小，包括std::vector&lt;&gt;和std::array&lt;&gt;容器。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int values[] &#123; <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>&#125;;</span><br><span class="line"><span class="comment">//使用std::size(values)表达式可以获得数组的大小为9</span></span><br><span class="line">int size = std::size(values);</span><br></pre></td></tr></table></figure>
+
+<p>使用std::size()显然比sizeof表达式更容易理解。<br>因此，只要有可能，就应该总是使用std::size()。</p>
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>（1）数组的类型决定了存储每个数组元素所需的内存量。<br>数组的所有元素都存储在一个连续的内存块中。<br>（假如unsigned int类型的值在计算机上需要4个字节，上述示例三中的height数组就需要占用24个字节。）</p>
+<p>（2）初始化列表中元素的个数不能超过数组的元素个数，否则编译失败。<br>初始化列表中元素的个数可以小于数组的元素个数，此时没有提供初始值的元素就初始化为0<br>（对于bool元素数组则为false）</p>
+<p>（3）要定义不能修改值的数组，只需要在类型前面加个const关键字。</p>
+<p>（4）不能利用赋值语句把整个数组的所有元素赋值到另一个数组的元素。<br>只能操作数组中的各个元素。<br>因此，要将一个数组的值复制到另一个数组中，就必须一次复制一个值。此时需要使用循环。</p>
+<p>（5）编译器不会检查数组索引值是否有效。<br>程序员需要自己确保引用的元素不会超出数组边界。<br>如果使用超出数组有效范围的索引值来存储数据，那么可能会无意中重写内存中的数据，或导致所谓的段错误（segmentation fault）或非法访问（access violation）。<br>这两个术语的含义是相同的，指操作系统在检测到未授权的内存访问时引发的错误。<br>无论是哪种情况，程序几乎一定会异常结束。</p>
 
       
 
@@ -266,7 +284,7 @@
 
       <!--显示阅读次数-->
       
-        <a class="cloud-tie-join-count" href="/2018/03/05/switch-case%E8%AF%AD%E5%8F%A5/" style="color:gray;font-size:14px;">
+        <a class="cloud-tie-join-count" href="/2013/03/05/%E6%95%B0%E7%BB%84/" style="color:gray;font-size:14px;">
           <span class="icon-smile"></span>
           <span id="busuanzi_container_page_pv">
             阅读量(<span id="busuanzi_value_page_pv"></span>)
@@ -323,7 +341,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2018/03/05/switch-case%E8%AF%AD%E5%8F%A5/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2013/03/05/%E6%95%B0%E7%BB%84/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -337,18 +355,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2018/03/05/%E5%88%9D%E5%A7%8B%E5%8C%96%E8%AF%AD%E5%8F%A5c-17/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2013/03/06/for%E5%BE%AA%E7%8E%AF/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          初始化语句c++17
+          for循环
         
       </div>
     </a>
   
   
-    <a href="/2018/03/05/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%88%AB%E5%90%8D/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">数据类型的别名using与typedef</div>
+    <a href="/2013/03/05/switch-case%E8%AF%AD%E5%8F%A5/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">switch-case语句</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -510,11 +528,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">基础技能C++</a>
+                <a href="javascript:void(0)" class="js-tag color2">常用基础配置</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">常用基础配置</a>
+                <a href="javascript:void(0)" class="js-tag color3">基础技能C++</a>
               </li>
              
               <li class="article-tag-list-item">
