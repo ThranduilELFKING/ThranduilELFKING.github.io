@@ -61,7 +61,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 111
+			总文章数 115
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -180,6 +180,341 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-windows下查看dll库里编译的导出接口内容" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/31/windows%E4%B8%8B%E6%9F%A5%E7%9C%8Bdll%E5%BA%93%E9%87%8C%E7%BC%96%E8%AF%91%E7%9A%84%E5%AF%BC%E5%87%BA%E6%8E%A5%E5%8F%A3%E5%86%85%E5%AE%B9/">windows下查看dll库里编译的导出接口内容</a>
+    </h1>
+  
+
+        
+        <a href="/2019/08/31/windows%E4%B8%8B%E6%9F%A5%E7%9C%8Bdll%E5%BA%93%E9%87%8C%E7%BC%96%E8%AF%91%E7%9A%84%E5%AF%BC%E5%87%BA%E6%8E%A5%E5%8F%A3%E5%86%85%E5%AE%B9/" class="archive-article-date">
+  	<time datetime="2019-08-31T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-31</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="windows下查看dll库里编译的导出接口内容"><a href="#windows下查看dll库里编译的导出接口内容" class="headerlink" title="windows下查看dll库里编译的导出接口内容"></a>windows下查看dll库里编译的导出接口内容</h1><h1 id="windows下查看dll库里编译的导出接口内容-1"><a href="#windows下查看dll库里编译的导出接口内容-1" class="headerlink" title="windows下查看dll库里编译的导出接口内容"></a>windows下查看dll库里编译的导出接口内容</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>之前在windows下，链接一个dll库的时候，报错的大概意思是说”xxx某个接口未定义”，于是就想着查看一下这个dll库，对外暴露的API到底是不是真的不存在，所以查找了一下，windows下，查看dll库编译的内容</p>
+<h2 id="查看dll库里编译的导出接口"><a href="#查看dll库里编译的导出接口" class="headerlink" title="查看dll库里编译的导出接口"></a>查看dll库里编译的导出接口</h2><p>在安装了vs的前提下</p>
+<ol>
+<li>输入win+r 然后cmd， 召唤出dos终端</li>
+<li>找到vs安装目录下C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\Tools，找到vsvar开头的一个bat文件，然后拖到dos终端<br>（找到自己对应的vs安装目录下的，Tools工具路径下，找到vsvar开头的bat文件，然后拖拽到终端）</li>
+<li>在dos终端下，输入dumpbin /exports dll库的绝对路径，即可查看dll库里，对外暴露的API的内容</li>
+</ol>
+<p>大概效果如下：</p>
+<p><img src="/assets/blogImg/dumpbin_exports_dll.jpg" alt="查看dll库可导出接口有哪些"></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>解决方案：<a target="_blank" rel="noopener" href="https://blog.csdn.net/z8110/article/details/89393549">https://blog.csdn.net/z8110/article/details/89393549</a><br>非常感谢hpuzsk在csdn的一篇blog里提供的解决方案，非常非常好用～ 讲解的非常仔细～<br>对这个方案记录备份一下，免得之后忘记了～</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常用命令windows</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/08/31/windows%E4%B8%8B%E6%9F%A5%E7%9C%8Bdll%E5%BA%93%E9%87%8C%E7%BC%96%E8%AF%91%E7%9A%84%E5%AF%BC%E5%87%BA%E6%8E%A5%E5%8F%A3%E5%86%85%E5%AE%B9/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-将linux下源码文件直接放在windows下vs编译的时候的报错" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/31/%E5%B0%86linux%E4%B8%8B%E6%BA%90%E7%A0%81%E6%96%87%E4%BB%B6%E7%9B%B4%E6%8E%A5%E6%94%BE%E5%9C%A8windows%E4%B8%8Bvs%E7%BC%96%E8%AF%91%E7%9A%84%E6%97%B6%E5%80%99%E7%9A%84%E6%8A%A5%E9%94%99/">将linux下源码文件，直接放在windows下vs编译的时候，关于undeclared identifier的奇怪报错</a>
+    </h1>
+  
+
+        
+        <a href="/2019/08/31/%E5%B0%86linux%E4%B8%8B%E6%BA%90%E7%A0%81%E6%96%87%E4%BB%B6%E7%9B%B4%E6%8E%A5%E6%94%BE%E5%9C%A8windows%E4%B8%8Bvs%E7%BC%96%E8%AF%91%E7%9A%84%E6%97%B6%E5%80%99%E7%9A%84%E6%8A%A5%E9%94%99/" class="archive-article-date">
+  	<time datetime="2019-08-31T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-31</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="将linux下源码文件，直接放在windows下vs编译的时候，关于undeclared-identifier的奇怪报错"><a href="#将linux下源码文件，直接放在windows下vs编译的时候，关于undeclared-identifier的奇怪报错" class="headerlink" title="将linux下源码文件，直接放在windows下vs编译的时候，关于undeclared identifier的奇怪报错"></a>将linux下源码文件，直接放在windows下vs编译的时候，关于undeclared identifier的奇怪报错</h1><h1 id="将linux下源码文件，直接放在windows下vs编译的时候，关于undeclared-identifier的奇怪报错-1"><a href="#将linux下源码文件，直接放在windows下vs编译的时候，关于undeclared-identifier的奇怪报错-1" class="headerlink" title="将linux下源码文件，直接放在windows下vs编译的时候，关于undeclared identifier的奇怪报错"></a>将linux下源码文件，直接放在windows下vs编译的时候，关于undeclared identifier的奇怪报错</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>我的一个工程里的源文件就叫他a.cpp,在linux下可以正常的编译，由于工程需要移植到windos下，所以我把a.cpp源文件移动到windows下的工程里，然后编译，编译的时候，发现有两个特别诡异的报错，报错内容如下：</p>
+<p><img src="/assets/blogImg/copy_cpp_error.jpg" alt="直接将cpp从Linux下挪到windows下报错"></p>
+<p>更为奇怪的是，如果我在windows操作系统下，将a.cpp文件，用sublime.txt打开，然后再全选内容，拷贝到vs到工程里报错的a.cpp文件里，然后发现可以成功编译！</p>
+<h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>经过一系列脑壳疼的排查，最终发现，这是因为，linux下和windows下的换行符不一样！！！<br>如果用sublime.txt把报错的源文件a.cpp的所有\n替换成windows下的\r\n,然后再保存文件，把保存修改的文件，挪到vs里直接编译，发现阔以了！！！</p>
+<p>vs是不支持把linux下的换行符主动转成windows下的换行符的！！！巨坑</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>后来，查看了网友将linux和windows换行符的区别，讲的特别好<br>链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/stpeace/article/details/45767245">https://blog.csdn.net/stpeace/article/details/45767245</a></p>
+<p>讲解的特别精彩的截图片段<br><img src="/assets/blogImg/huanhangfu.jpg" alt="linux与windows换行符的区别"></p>
+<h2 id="吐槽"><a href="#吐槽" class="headerlink" title="吐槽"></a>吐槽</h2><p>不得不说，像换行符这种巨坑的问题，排查起来简直特别特别坑……</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常见报错问题</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/08/31/%E5%B0%86linux%E4%B8%8B%E6%BA%90%E7%A0%81%E6%96%87%E4%BB%B6%E7%9B%B4%E6%8E%A5%E6%94%BE%E5%9C%A8windows%E4%B8%8Bvs%E7%BC%96%E8%AF%91%E7%9A%84%E6%97%B6%E5%80%99%E7%9A%84%E6%8A%A5%E9%94%99/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-linux下使用nm指令查看静态库or动态库编译内容" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/30/linux%E4%B8%8B%E4%BD%BF%E7%94%A8nm%E6%8C%87%E4%BB%A4%E6%9F%A5%E7%9C%8B%E9%9D%99%E6%80%81%E5%BA%93or%E5%8A%A8%E6%80%81%E5%BA%93%E7%BC%96%E8%AF%91%E5%86%85%E5%AE%B9/">linux下使用nm指令查看静态库/动态库编译内容</a>
+    </h1>
+  
+
+        
+        <a href="/2019/08/30/linux%E4%B8%8B%E4%BD%BF%E7%94%A8nm%E6%8C%87%E4%BB%A4%E6%9F%A5%E7%9C%8B%E9%9D%99%E6%80%81%E5%BA%93or%E5%8A%A8%E6%80%81%E5%BA%93%E7%BC%96%E8%AF%91%E5%86%85%E5%AE%B9/" class="archive-article-date">
+  	<time datetime="2019-08-30T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="linux下使用nm指令查看静态库-动态库编译内容"><a href="#linux下使用nm指令查看静态库-动态库编译内容" class="headerlink" title="linux下使用nm指令查看静态库/动态库编译内容"></a>linux下使用nm指令查看静态库/动态库编译内容</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>之前其实没有关注过，库里面到底是哪些内容，然而最近遇上了一个链接库的问题，然后关注了一下这个问题，查到使用nm指令，即可查看到linux下，静态库，动态库里到底编译了哪些内容</p>
+<h2 id="使用nm指令查看静态库编译的内容"><a href="#使用nm指令查看静态库编译的内容" class="headerlink" title="使用nm指令查看静态库编译的内容"></a>使用nm指令查看静态库编译的内容</h2><p>指令格式为：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//查看静态库编译内容</span></span><br><span class="line">nm 静态库名称</span><br></pre></td></tr></table></figure>
+
+<p>效果大概如下图所示：</p>
+<p><img src="/assets/blogImg/nm_a.jpg" alt="nm_a.jpg"></p>
+<p>查看静态库编译内容</p>
+<p>可以看到编译的变量和函数接口</p>
+<h2 id="使用nm指令查看动态库编译的内容"><a href="#使用nm指令查看动态库编译的内容" class="headerlink" title="使用nm指令查看动态库编译的内容"></a>使用nm指令查看动态库编译的内容</h2><p>指令格式为：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//查看动态库编译内容</span></span><br><span class="line">nm 动态库名称</span><br></pre></td></tr></table></figure>
+
+<p>效果大概如下图：<br><img src="/assets/blogImg/nm_so.jpg" alt="nm_so.jpg"></p>
+<p>查看动态库编译内容</p>
+<h2 id="记录"><a href="#记录" class="headerlink" title="记录"></a>记录</h2><p>虽然大部分时间里，我并不需要知道库里面到底编译了什么内容，但是有时候在链接第三方库的时候，在排查相关bug的时候，知道库里面到底编译了什么，还是很有帮助的，因此做个记录</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">常用命令linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/08/30/linux%E4%B8%8B%E4%BD%BF%E7%94%A8nm%E6%8C%87%E4%BB%A4%E6%9F%A5%E7%9C%8B%E9%9D%99%E6%80%81%E5%BA%93or%E5%8A%A8%E6%80%81%E5%BA%93%E7%BC%96%E8%AF%91%E5%86%85%E5%AE%B9/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-windows下用VisualStudio编译libiconv库" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/29/windows%E4%B8%8B%E7%94%A8VisualStudio%E7%BC%96%E8%AF%91libiconv%E5%BA%93/">windows下用VisualStudio编译libiconv库</a>
+    </h1>
+  
+
+        
+        <a href="/2019/08/29/windows%E4%B8%8B%E7%94%A8VisualStudio%E7%BC%96%E8%AF%91libiconv%E5%BA%93/" class="archive-article-date">
+  	<time datetime="2019-08-29T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="windows下用VisualStudio编译libiconv库"><a href="#windows下用VisualStudio编译libiconv库" class="headerlink" title="windows下用VisualStudio编译libiconv库"></a>windows下用VisualStudio编译libiconv库</h1><h1 id="windows下用VisualStudio编译libiconv库-1"><a href="#windows下用VisualStudio编译libiconv库-1" class="headerlink" title="windows下用VisualStudio编译libiconv库"></a>windows下用VisualStudio编译libiconv库</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>由于在linux下使用libiconv库进行gbk32与utf-8转码，在移植到windows平台的时候，发现系统里是没有libiconv库，所以从网上找了一些资源和教程，最终发现了一个很给力的解决办法，因此来记录一下备份一下</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p><a target="_blank" rel="noopener" href="https://www.codeproject.com/Articles/302012/How-to-Build-libiconv-with-Microsoft-Visual-Studio">https://www.codeproject.com/Articles/302012/How-to-Build-libiconv-with-Microsoft-Visual-Studio</a></p>
+<p>该链接libiconv的版本：1.14版本<br>这个链接给出的解决方案很给力，大神给出了详细的修改源码的过程</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">第三方库</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/08/29/windows%E4%B8%8B%E7%94%A8VisualStudio%E7%BC%96%E8%AF%91libiconv%E5%BA%93/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-CMakeLists.txt学习记录1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -724,336 +1059,6 @@
 
 
   
-    <article id="post-阅读paho.mqtt.c源码学习记录01" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/15/%E9%98%85%E8%AF%BBpaho.mqtt.c%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%9501/">阅读paho.mqtt.c源码学习记录01</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/15/%E9%98%85%E8%AF%BBpaho.mqtt.c%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%9501/" class="archive-article-date">
-  	<time datetime="2019-05-15T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="阅读paho-mqtt-c源码学习记录01"><a href="#阅读paho-mqtt-c源码学习记录01" class="headerlink" title="阅读paho.mqtt.c源码学习记录01"></a>阅读paho.mqtt.c源码学习记录01</h1><h1 id="阅读paho-mqtt-c源码学习记录01-1"><a href="#阅读paho-mqtt-c源码学习记录01-1" class="headerlink" title="阅读paho.mqtt.c源码学习记录01"></a>阅读paho.mqtt.c源码学习记录01</h1><p>MQTT协议是当前非常流行的一个工业物联网协议，它具有很多优势，比如：轻量，且对流量占有小的优势；基于订阅/发布模式；有心跳/遗言机智；通过qos控制消息接收质量等。</p>
-<p>目前，基于MQTT协议封装的c的库，如下：<br><a target="_blank" rel="noopener" href="https://github.com/eclipse/paho.mqtt.c">https://github.com/eclipse/paho.mqtt.c</a></p>
-<p>通过源码阅读，进行学习</p>
-<h2 id="1-版本管理"><a href="#1-版本管理" class="headerlink" title="1.版本管理"></a>1.版本管理</h2><p>在阅读MQTT源码库的时候，个人觉得，非常值得我自己写库的时候学习的经验，最简单的一点就是版本管理。</p>
-<p>头文件里定义当前库的版本号；<br>提供接口获取当前链接的库的版本号；<br>通过版本比较，以此判断客户端程序使用库的时候，没有混淆不同的版本。</p>
-<p>PS：<br>这个设计真的很好，毕竟库的版本一直在迭代更新，如果没有一个版本管理，当编译时遇上了多个版本的同一个库，程序一旦链接了错误的版本，可能编译时可以成功编译，但是在运行时会出现各种奇奇怪怪得报错，而这种报错，往往非常难以排查。</p>
-<h2 id="2-注释合理"><a href="#2-注释合理" class="headerlink" title="2.注释合理"></a>2.注释合理</h2><p>MQTT源码库里的注释很详细，但是又不是那种对每一个函数、每一个参数、每一个返回值都进行长篇大论的累赘解释。MQTT源码库里的注释说明，其实是对重要接口的使用情景，注意事项（尤其是关于内存释放的提醒），以及接口设计的说明。</p>
-<p>感觉这种注释风格，非常值得学习。<br>毕竟很多注意事项，只有写代码的时候记得，等过上几个月再看，基本都忘的差不多了……对于后续维护来说，风格良好的注释真的重要。</p>
-<h2 id="3-接口的更新迭代都兼容了旧版本"><a href="#3-接口的更新迭代都兼容了旧版本" class="headerlink" title="3.接口的更新迭代都兼容了旧版本"></a>3.接口的更新迭代都兼容了旧版本</h2><p>MQTT源码库也更新了这么久了，必然有接口的变更，新的接口取代旧的接口，不过从这份源码来看，对于新旧版本的兼容，处理的很值得学习。客户端程序几乎不用改动，就可以从使用旧的库，替换成新的库。这种设计对于库的使用者来说，是非常友好的。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>以上是对于源码阅读最粗略的学习，更加具体的学习记录，将会在后续继续更新记录。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">通信协议</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/15/%E9%98%85%E8%AF%BBpaho.mqtt.c%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%9501/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-在线课程学习记录" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/27/%E5%9C%A8%E7%BA%BF%E8%AF%BE%E7%A8%8B%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">在线课程学习记录</a>
-    </h1>
-  
-
-        
-        <a href="/2019/02/27/%E5%9C%A8%E7%BA%BF%E8%AF%BE%E7%A8%8B%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" class="archive-article-date">
-  	<time datetime="2019-02-27T14:50:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="在线课程学习记录"><a href="#在线课程学习记录" class="headerlink" title="在线课程学习记录"></a>在线课程学习记录</h1><h2 id="matlab学习课程"><a href="#matlab学习课程" class="headerlink" title="matlab学习课程"></a>matlab学习课程</h2><p><a target="_blank" rel="noopener" href="https://www.xuexi.cn/lgpage/detail/index.html?id=7601754816855875029">https://www.xuexi.cn/lgpage/detail/index.html?id=7601754816855875029</a><br>//现代科学–MATLAB语言与应用<br>//东北大学</p>
-<h2 id="经济学思维方式"><a href="#经济学思维方式" class="headerlink" title="经济学思维方式"></a>经济学思维方式</h2><p><a target="_blank" rel="noopener" href="https://www.xuexi.cn/lgpage/detail/index.html?id=9033784240088711496">https://www.xuexi.cn/lgpage/detail/index.html?id=9033784240088711496</a><br>//西安交通大学<br>//很有意思</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/02/27/%E5%9C%A8%E7%BA%BF%E8%AF%BE%E7%A8%8B%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-逗号运算符" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/06/%E9%80%97%E5%8F%B7%E8%BF%90%E7%AE%97%E7%AC%A6/">逗号运算符</a>
-    </h1>
-  
-
-        
-        <a href="/2018/03/06/%E9%80%97%E5%8F%B7%E8%BF%90%E7%AE%97%E7%AC%A6/" class="archive-article-date">
-  	<time datetime="2018-03-06T13:49:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="逗号运算符"><a href="#逗号运算符" class="headerlink" title="逗号运算符"></a>逗号运算符</h1><h2 id="逗号运算符-1"><a href="#逗号运算符-1" class="headerlink" title="逗号运算符"></a>逗号运算符</h2><p>尽管逗号看起来像是一个分隔符，但实际上它是一个二元运算符。<br>可以把两个表达式组合到一个表达式中，组合后的表达式的结果就是其右操作数的结果。<br>也就是说，只要能编写表达式，就可以编写用逗号隔开的的一组表达式。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">int i &#123;<span class="number">1</span>&#125;;</span><br><span class="line">int value1 &#123;<span class="number">1</span>&#125;;</span><br><span class="line">int value2 &#123;<span class="number">1</span>&#125;;</span><br><span class="line">int value3 &#123;<span class="number">1</span>&#125;;</span><br><span class="line">std::cout &lt;&lt; (value1 += ++i, value2 += ++i, values3 += ++i) &lt;&lt; std::endl;</span><br><span class="line"></span><br><span class="line">分析：</span><br><span class="line">结果是，value1递增<span class="number">2</span>， 等于<span class="number">3</span>；</span><br><span class="line">value2递增<span class="number">3</span>，等于<span class="number">4</span>；</span><br><span class="line">value3递增<span class="number">4</span>，等于<span class="number">5</span>。</span><br><span class="line">复合表达式的值是该系列中最右边表达式的值，所以输出值应是<span class="number">5</span>。</span><br></pre></td></tr></table></figure>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础技能C++</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/03/06/%E9%80%97%E5%8F%B7%E8%BF%90%E7%AE%97%E7%AC%A6/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-初始化语句c-17" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/05/%E5%88%9D%E5%A7%8B%E5%8C%96%E8%AF%AD%E5%8F%A5c-17/">初始化语句c++17</a>
-    </h1>
-  
-
-        
-        <a href="/2018/03/05/%E5%88%9D%E5%A7%8B%E5%8C%96%E8%AF%AD%E5%8F%A5c-17/" class="archive-article-date">
-  	<time datetime="2018-03-05T11:49:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="初始化语句"><a href="#初始化语句" class="headerlink" title="初始化语句"></a>初始化语句</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>c++17在初始化语句这块，有一些调整，还是蛮有意思的。</p>
-<h2 id="示例一（旧语法）"><a href="#示例一（旧语法）" class="headerlink" title="示例一（旧语法）"></a>示例一（旧语法）</h2><p>我们将input字符转换为小写字符lower，然后使用转换结果检查输入是否为一个字符，如果是，就生成一些输出。<br>（这里是为了举例，所以不考虑本应该使用可移植的std::isalpha()函数。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">auto lower &#123;static_cast&lt;char&gt;(std::tolower(input))&#125;;</span><br><span class="line"><span class="keyword">if</span>(lower &gt;= <span class="string">&#x27;a&#x27;</span> &amp;&amp; lower &lt;= <span class="string">&#x27;z&#x27;</span>) &#123;</span><br><span class="line">    <span class="attr">std</span>::cout &lt;&lt; <span class="string">&quot;You&#x27;ve entered the letter &#x27;&quot;</span> &lt;&lt; lower &lt;&lt; <span class="string">&#x27;\&#x27;&#x27;</span> &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//...more code that does not use lower</span></span><br></pre></td></tr></table></figure>
-<p>可以看到，lower变量只在if语句中使用，之后的任何代码都不再使用该变量。</p>
-<h2 id="示例二（旧语法）"><a href="#示例二（旧语法）" class="headerlink" title="示例二（旧语法）"></a>示例二（旧语法）</h2><p>一般来说，将变量的作用域限制到使用它们的区域，被认为是一种良好的编程风格，即使这意味着要像下面这样添加额外的作用域：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    auto lower &#123;static_cast&lt;char&gt;(std::tolower(input))&#125;;</span><br><span class="line">    <span class="keyword">if</span>(lower &gt;= <span class="string">&#x27;a&#x27;</span> &amp;&amp; lower &lt;= <span class="string">&#x27;z&#x27;</span>) &#123;</span><br><span class="line">        <span class="attr">std</span>::cout &lt;&lt; <span class="string">&quot;You&#x27;ve entered the letter &#x27;&quot;</span> &lt;&lt; lower &lt;&lt; <span class="string">&#x27;\&#x27;&#x27;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// ...more code (lower does not exist here)</span></span><br></pre></td></tr></table></figure>
-<p>这么做的结果是，对于剩余的代码来说，是lower变量从未存在过。<br>引入一个额外的作用域（和缩进）来将局部变量绑定到if语句，这种模式相当常见。</p>
-<h2 id="示例三（c-17新语法）"><a href="#示例三（c-17新语法）" class="headerlink" title="示例三（c++17新语法）"></a>示例三（c++17新语法）</h2><p>c++17引入了一种新语法。这种语法的一般形式如下所示：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(initialization; condition) ...</span><br><span class="line"></span><br><span class="line">在计算condition表达式（即<span class="keyword">if</span>语句的布尔表达式）之前，会先执行initialization（初始化语句）。</span><br><span class="line">这种初始化语句主要用于声明<span class="keyword">if</span>语句的局部变量。</span><br><span class="line"></span><br><span class="line">在初始化语句中声明的变量可用在<span class="keyword">if</span>语句的条件表达式中，以及<span class="keyword">if</span>语句或语句块中。</span><br><span class="line">对于<span class="keyword">if</span>-<span class="keyword">else</span>语句，还可以用在<span class="keyword">else</span>的语句或语句块中。</span><br><span class="line">但是对于<span class="keyword">if</span>或<span class="keyword">if</span>-<span class="keyword">else</span>语句之后的代码来说，这些变量好像从来没有存在过。</span><br></pre></td></tr></table></figure>
-
-<p>为了完整起见，c++17还为switch语句添加了一种类似的语法：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">switch</span>(initialization; condition) ...</span><br></pre></td></tr></table></figure>
-
-<p>此时，重写前面的示例为如下语句：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(auto lower&#123;static_cast&lt;char&gt;(std::tolower(input))&#125;; lower &gt;= <span class="string">&#x27;a&#x27;</span> &amp;&amp; lower &lt;= <span class="string">&#x27;z&#x27;</span>) &#123;</span><br><span class="line">    <span class="attr">std</span>::cout &lt;&lt; <span class="string">&quot;You&#x27;ve entered the letter &#x27;&quot;</span> &lt;&lt; lower &lt;&lt; <span class="string">&#x27;\&#x27;&#x27;</span> &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// ...more code(lower does not exist here)</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>这些扩展的if和switch语句仍然是新鲜出炉的，还没有被C++开发人员所熟知，而使用陌生的语法可能会影响代码的可读性。<br>因此，如果在一支团队里工作，则应该先与同事进行确认，然后再决定是否想要在代码中使用这种语法。<br>另一方法，如果没有引领趋势的人使用新的语法，新的语法又怎么能够被人接受？</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础技能C++</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/03/05/%E5%88%9D%E5%A7%8B%E5%8C%96%E8%AF%AD%E5%8F%A5c-17/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/9/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/11/">Next &amp;raquo;</a>
@@ -1167,6 +1172,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">opencv</a>
               </li>
              
@@ -1175,19 +1188,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
+                <a href="javascript:void(0)" class="js-tag color3">基础技能C++</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
+                <a href="javascript:void(0)" class="js-tag color4">CPU</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">CNC</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">常见报错问题</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">基础技能C++</a>
               </li>
              
               <li class="article-tag-list-item">

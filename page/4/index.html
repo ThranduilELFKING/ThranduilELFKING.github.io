@@ -61,7 +61,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 111
+			总文章数 115
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -180,6 +180,383 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-opencv最小二乘法算法及相关函数" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/11/29/opencv%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95%E7%AE%97%E6%B3%95%E5%8F%8A%E7%9B%B8%E5%85%B3%E5%87%BD%E6%95%B0/">opencv最小二乘法算法及相关函数</a>
+    </h1>
+  
+
+        
+        <a href="/2022/11/29/opencv%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95%E7%AE%97%E6%B3%95%E5%8F%8A%E7%9B%B8%E5%85%B3%E5%87%BD%E6%95%B0/" class="archive-article-date">
+  	<time datetime="2022-11-29T12:13:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="opencv最小二乘法算法及相关函数"><a href="#opencv最小二乘法算法及相关函数" class="headerlink" title="opencv最小二乘法算法及相关函数"></a>opencv最小二乘法算法及相关函数</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>对opencv的学习，对最小二乘法拟合圆算法的学习记录</p>
+<h2 id="相关函数"><a href="#相关函数" class="headerlink" title="相关函数"></a>相关函数</h2><p>在实现最小二乘法的时候，用到的一些opencv的函数，做个记录</p>
+<h3 id="1-cv-copyMakeBorder"><a href="#1-cv-copyMakeBorder" class="headerlink" title="1.cv::copyMakeBorder"></a>1.cv::copyMakeBorder</h3><p>卷积操作时,图像边界可以填充或者不填充,如果我们需要填充呢?opencv提供了copyMakeBorder函数,可以实现边界填充功能。</p>
+<p>头文件声明</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;opencv2/core.hpp&gt;</span><br></pre></td></tr></table></figure>
+<p>函数原型</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CV_EXPORTS_W <span class="keyword">void</span> copyMakeBorder(InputArray src, OutputArray dst,</span><br><span class="line">                                 int top, int bottom, int left, int right,</span><br><span class="line">                                 int borderType, <span class="keyword">const</span> Scalar&amp; value = Scalar() );</span><br></pre></td></tr></table></figure>
+<p>参数解析</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">src：原图</span><br><span class="line">dst：结果图像，其大小为Size(src.cols+left+right, src.rows+top+bottom)</span><br><span class="line">top：指定图像上方填充多少像素。其他方向同理</span><br><span class="line">bottom</span><br><span class="line">left</span><br><span class="line">right</span><br><span class="line">borderType：填充类型</span><br><span class="line">value：borderType==BORDER_CONSTANT的填充值。默认值为<span class="number">0</span>的Scalar</span><br><span class="line">函数将源图像复制到目标图像的中间。在源图像左侧、右侧、上方和下方的区域进行像素填充</span><br><span class="line">填充类型</span><br><span class="line">borderType == BORDER_CONSTRAINT：指定像素值进行填充</span><br><span class="line">borderType== BORDER_REPLICATE：使用边缘像素值进行填充</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-cv-HoughCircles"><a href="#2-cv-HoughCircles" class="headerlink" title="2.cv::HoughCircles"></a>2.cv::HoughCircles</h3><p>霍夫变换找圆，需要注意的是，使用此函数可以很容易地检测出圆的圆心，但是它可能找不到合适的圆半径。</p>
+<p>函数原型</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> HoughCircles(InputArray image,OutputArray circles, int method, double dp, double minDist, double param1=<span class="number">100</span>,double param2=<span class="number">100</span>, int minRadius=<span class="number">0</span>, int maxRadius=<span class="number">0</span> )</span><br></pre></td></tr></table></figure>
+<p>参数解析</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">image：输入图像，即源图像，需为<span class="number">8</span>位的灰度单通道图像。</span><br><span class="line">circles：经过调用HoughCircles函数后此参数存储了检测到的圆的输出矢量，每个矢量由包含了<span class="number">3</span>个元素的浮点矢量(x, y, radius)表示。（即圆心坐标和半径）</span><br><span class="line">method：即使用的检测方法，目前OpenCV中就霍夫梯度法一种可以使用，它的标识符为CV_HOUGH_GRADIENT，在此参数处填这个标识符即可。</span><br><span class="line">dp：用来检测圆心的累加器图像的分辨率于输入图像之比的倒数，且此参数允许创建一个比输入图像分辨率低的累加器。例如，如果dp= <span class="number">1</span>时，累加器和输入图像具有相同的分辨率。如果dp=<span class="number">2</span>，累加器便有输入图像一半那么大的宽度和高度。</span><br><span class="line">minDist：为霍夫变换检测到的圆的圆心之间的最小距离，即让我们的算法能明显区分的两个不同圆之间的最小距离。这个参数如果太小的话，多个相邻的圆可能被错误地检测成了一个重合的圆。反之，这个参数设置太大的话，某些圆就不能被检测出来了。</span><br><span class="line">param1：有默认值<span class="number">100</span>。它是第三个参数method设置的检测方法的对应的参数。对当前唯一的方法霍夫梯度法CV_HOUGH_GRADIENT，它表示传递给canny边缘检测算子的高阈值，而低阈值为高阈值的一半。</span><br><span class="line">param2：也有默认值<span class="number">100</span>。它是第三个参数method设置的检测方法的对应的参数。对当前唯一的方法霍夫梯度法CV_HOUGH_GRADIENT，它表示在检测阶段圆心的累加器阈值。它越小的话，就可以检测到更多根本不存在的圆，而它越大的话，能通过检测的圆就更加接近完美的圆形了。</span><br><span class="line">minRadius：有默认值<span class="number">0</span>，表示圆半径的最小值。</span><br><span class="line">maxRadius：也有默认值<span class="number">0</span>，表示圆半径的最大值。</span><br></pre></td></tr></table></figure>
+
+<h2 id="最小二乘法拟合圆的原理"><a href="#最小二乘法拟合圆的原理" class="headerlink" title="最小二乘法拟合圆的原理"></a>最小二乘法拟合圆的原理</h2><p>最小二乘法(least squares analysis)是一种数学优化技术，它通过最小化误差的平方和找到一组数据的最佳函数匹配。最小二乘法是用最简的方法求得一些绝对不可知的真值，而令误差平方之和为最小来寻找一组数据的最佳匹配函数的计算方法，最小二乘法通常用于曲线拟合 (least squares fitting) 。</p>
+<p>最小二乘圆拟合方法是一种基于统计的检测方法，即便是图像中圆形目标受光照强度不均等因素的影响而产生边缘缺失，也不会影响圆心的定位和半径的检测，若边缘定位精确轮廓清晰，最小二乘法可实现亚像素级别的精确拟合定位。</p>
+<p>下面是拟合圆曲线的公式推导过程</p>
+<p><img src="/assets/blogImg/circle_1.jpg" alt="circle_1.jpg"><br><img src="/assets/blogImg/circle_2.jpg" alt="circle_2.jpg"><br><img src="/assets/blogImg/circle_3.jpg" alt="circle_3.jpg"><br><img src="/assets/blogImg/circle_4.jpg" alt="circle_4.jpg"><br><img src="/assets/blogImg/circle_5.jpg" alt="circle_5.jpg"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://zj-image-processing.readthedocs.io/zh_CN/latest/opencv/code/[copyMakeBorder]%E6%B7%BB%E5%8A%A0%E8%BE%B9%E7%95%8C/">https://zj-image-processing.readthedocs.io/zh_CN/latest/opencv/code/[copyMakeBorder]%E6%B7%BB%E5%8A%A0%E8%BE%B9%E7%95%8C/</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/cqltbe131421/article/details/60870756">https://blog.csdn.net/cqltbe131421/article/details/60870756</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/Jacky_Ponder/article/details/70314919">https://blog.csdn.net/Jacky_Ponder/article/details/70314919</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">opencv</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/11/29/opencv%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95%E7%AE%97%E6%B3%95%E5%8F%8A%E7%9B%B8%E5%85%B3%E5%87%BD%E6%95%B0/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-gtest单元测试结果可视化" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/11/16/gtest%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C%E5%8F%AF%E8%A7%86%E5%8C%96/">gtest单元测试结果可视化</a>
+    </h1>
+  
+
+        
+        <a href="/2022/11/16/gtest%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C%E5%8F%AF%E8%A7%86%E5%8C%96/" class="archive-article-date">
+  	<time datetime="2022-11-16T14:12:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="gtest单元测试结果可视化"><a href="#gtest单元测试结果可视化" class="headerlink" title="gtest单元测试结果可视化"></a>gtest单元测试结果可视化</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>有些代码框架下，比较适合写单元测试，这里记录一次用gtest框架进行单元测试到最后结果可视化的案例流程</p>
+<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><h3 id="（1）环境配置"><a href="#（1）环境配置" class="headerlink" title="（1）环境配置"></a>（1）环境配置</h3><p>本地开发环境是linux Ubuntu14<br>在linux下这些操作应该都是通用的<br>预先要准备好的环境有 gtest，gmock环境<br>然后下载lcov进行可视化<br>sudo apt-get install lcov即可安装</p>
+<h3 id="（2）修改CMakeLists-txt"><a href="#（2）修改CMakeLists-txt" class="headerlink" title="（2）修改CMakeLists.txt"></a>（2）修改CMakeLists.txt</h3><p>在原本编译通过的CMakeLists.txt里，增加如下选项</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># gcov相关编译选项</span><br><span class="line">SET(GCC_COVERAGE_COMPILE_FLAGS <span class="string">&quot;-g -O0 -coverage -fprofile-arcs -ftest-coverage&quot;</span>)</span><br><span class="line">SET(GCC_COVERAGE_LINK_FLAGS <span class="string">&quot;-coverage -lgcov&quot;</span>)</span><br><span class="line">SET(CMAKE_CXX_FLAGS <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; $&#123;GCC_COVERAGE_COMPILE_FLAGS&#125;&quot;</span>)</span><br><span class="line">SET(CMAKE_EXE_LINKER_FLAGS <span class="string">&quot;$&#123;CMAKE_EXE_LINKER_FLAGS&#125; $&#123;GCC_COVERAGE_LINK_FLAGS&#125;&quot;</span>)</span><br><span class="line"></span><br><span class="line">target_link_libraries(test gcov)</span><br></pre></td></tr></table></figure>
+
+<p>如下图所示<br><img src="/assets/blogImg/gtest1.jpg" alt="gtest1.jpg"></p>
+<h3 id="（3）生成可视化目标文件"><a href="#（3）生成可视化目标文件" class="headerlink" title="（3）生成可视化目标文件"></a>（3）生成可视化目标文件</h3><p>在cmake ,make，运行程序后查看是否生成目标文件<br>生成测试程序test<br><img src="/assets/blogImg/gtest2.jpg" alt="gtest2.jpg"></p>
+<p>此时到build/CMakeFiles/test.dir/目录下，可以看到很多gcno文件，如下图所示<br><img src="/assets/blogImg/gtest3.jpg" alt="gtest3.jpg"></p>
+<p>运行一下test程序<br><img src="/assets/blogImg/gtest4.jpg" alt="gtest4.jpg"></p>
+<p>当运行完test程序后，再进入build/CMakeFiles/test.dir/目录下，除了原本的gcno文件，还有生成的gcda文件（之后可视化，需要这两类文件都存在）<br><img src="/assets/blogImg/gtest5.jpg" alt="gtest5.jpg"></p>
+<p>到此，目标文件都生成了</p>
+<h3 id="（4）可视化"><a href="#（4）可视化" class="headerlink" title="（4）可视化"></a>（4）可视化</h3><p>输入以下指令</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">完整指令如下</span><br><span class="line">lcov -c -o test.info -d .</span><br><span class="line"></span><br><span class="line">参数解释</span><br><span class="line">-c 生成覆盖率信息</span><br><span class="line">-o 生成目标文件</span><br><span class="line">-d 目录</span><br><span class="line">. 当前目录</span><br></pre></td></tr></table></figure>
+
+<p>即可在当前文件夹下，生成test.info文件<br><img src="/assets/blogImg/gtest6.jpg" alt="gtest6.jpg"></p>
+<p>将test.info继续生成可视化的html，进行结果的可视化<br>输入以下指令</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">genhtml test.info -o ./output</span><br><span class="line">参数解释</span><br><span class="line">tst.info 需要生成覆盖率信息的源文件</span><br><span class="line">-o 生成结果目录</span><br></pre></td></tr></table></figure>
+
+<p>如下图所示<br><img src="/assets/blogImg/gtest7.jpg" alt="gtest7.jpg"></p>
+<p>可以看出，执行完上面的指令后，生成了一个output子文件夹，进入文件夹内，可以看到生成的index.html可视化页面<br><img src="/assets/blogImg/gtest8.jpg" alt="gtest8.jpg"></p>
+<p>用浏览器打开html后效果如下<br>点击左侧的链接后，可以看到每个代码cpp文件的覆盖率<br><img src="/assets/blogImg/gtest9.jpg" alt="gtest9.jpg"></p>
+<p>点击左侧的链接后，可以点进去看每个cpp文件<br><img src="/assets/blogImg/gtest10.jpg" alt="gtest10.jpg"></p>
+<p>如下所示，点入Charutil.cpp文件链接，可以看到蓝色选中的代码段，都是被测试覆盖过的<br><img src="/assets/blogImg/gtest11.jpg" alt="gtest11.jpg"></p>
+<p>到此，单元测试的可视化工作便完成了。这里以一个案例，做一个记录。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://www.yanbinghu.com/2017/08/06/13981.html">https://www.yanbinghu.com/2017/08/06/13981.html</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/11/16/gtest%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C%E5%8F%AF%E8%A7%86%E5%8C%96/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-linux下安装软件时提示libnss3不能满足依赖关系" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/11/15/linux%E4%B8%8B%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6%E6%97%B6%E6%8F%90%E7%A4%BAlibnss3%E4%B8%8D%E8%83%BD%E6%BB%A1%E8%B6%B3%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB/">linux下安装软件时提示libnss3不能满足依赖关系</a>
+    </h1>
+  
+
+        
+        <a href="/2022/11/15/linux%E4%B8%8B%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6%E6%97%B6%E6%8F%90%E7%A4%BAlibnss3%E4%B8%8D%E8%83%BD%E6%BB%A1%E8%B6%B3%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB/" class="archive-article-date">
+  	<time datetime="2022-11-15T13:46:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="linux下安装软件时提示libnss3不能满足依赖关系"><a href="#linux下安装软件时提示libnss3不能满足依赖关系" class="headerlink" title="linux下安装软件时提示libnss3不能满足依赖关系"></a>linux下安装软件时提示libnss3不能满足依赖关系</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>当安装新的软件sudo apt-get install gcovr<br>报错提示如下：<br>“下列软件包有未满足的依赖关系：<br> code : 依赖: libnss3 (&gt;= 2:3.26) 但是 2:3.21-0ubuntu0.14.04.2 正要被安装”<br>很多软件的安装，都逃不开这个报错，所以只能解决一下</p>
+<p>报错如下：<br><img src="/assets/blogImg/install_err.jpg" alt="install_err.jpg"><br><img src="/assets/blogImg/install_err2.jpg" alt="install_err2.jpg"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/u013398960/article/details/99194375">https://blog.csdn.net/u013398960/article/details/99194375</a><br>//按照这个方案可以解决问题，在此做个记录</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>对于这个问题，看报错提示，可以看出，只能去更新libnss3的版本</p>
+<h3 id="（1）修改软件源"><a href="#（1）修改软件源" class="headerlink" title="（1）修改软件源"></a>（1）修改软件源</h3><p>首先在/etc/apt/sources.list文件最后添加以下三行，不需要重启</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/apt/sources.list</span><br><span class="line"></span><br><span class="line">然后将以下内容追加到文件里</span><br><span class="line">deb http:<span class="comment">//mirrors.163.com/ubuntu/ trusty main universe restricted multiverse</span></span><br><span class="line">deb-src http:<span class="comment">//mirrors.163.com/ubuntu/ trusty main universe restricted multiverse #Added by software-properties</span></span><br><span class="line">deb http:<span class="comment">//cz.archive.ubuntu.com/ubuntu trusty-updates main</span></span><br></pre></td></tr></table></figure>
+
+<p>如下图所示<br><img src="/assets/blogImg/install_ok.jpg" alt="install_ok.jpg"></p>
+<h3 id="（2）执行update操作"><a href="#（2）执行update操作" class="headerlink" title="（2）执行update操作"></a>（2）执行update操作</h3><p>然后只需执行sudo apt-get update即可<br><img src="/assets/blogImg/install_ok2.jpg" alt="install_ok2.jpg"></p>
+<h3 id="（3）在执行install操作"><a href="#（3）在执行install操作" class="headerlink" title="（3）在执行install操作"></a>（3）在执行install操作</h3><p>然后执行sudo apt-get -f install<br><img src="/assets/blogImg/install_ok3.jpg" alt="install_ok3.jpg"></p>
+<h3 id="（4）查看当前版本"><a href="#（4）查看当前版本" class="headerlink" title="（4）查看当前版本"></a>（4）查看当前版本</h3><p>输入apt-cache show  libnss3 指令查看当前版本<br><img src="/assets/blogImg/install_ok4.jpg" alt="install_ok4.jpg"></p>
+<p>即可发现libnss3版本已经更新成功</p>
+<h3 id="（5）再去安装软件即可"><a href="#（5）再去安装软件即可" class="headerlink" title="（5）再去安装软件即可"></a>（5）再去安装软件即可</h3><p>再去执行sudo apt-get install lcov指令即可安装成功<br><img src="/assets/blogImg/install_ok5.jpg" alt="install_ok5.jpg"></p>
+<p>到此为止，这个问题便解决了</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常见报错问题</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/11/15/linux%E4%B8%8B%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6%E6%97%B6%E6%8F%90%E7%A4%BAlibnss3%E4%B8%8D%E8%83%BD%E6%BB%A1%E8%B6%B3%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-linux下执行update操作时失败" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/11/15/linux%E4%B8%8B%E6%89%A7%E8%A1%8Cupdate%E6%93%8D%E4%BD%9C%E6%97%B6%E5%A4%B1%E8%B4%A5/">linux下执行update操作时失败</a>
+    </h1>
+  
+
+        
+        <a href="/2022/11/15/linux%E4%B8%8B%E6%89%A7%E8%A1%8Cupdate%E6%93%8D%E4%BD%9C%E6%97%B6%E5%A4%B1%E8%B4%A5/" class="archive-article-date">
+  	<time datetime="2022-11-15T13:36:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="linux下执行update操作时失败"><a href="#linux下执行update操作时失败" class="headerlink" title="linux下执行update操作时失败"></a>linux下执行update操作时失败</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在终端输入sudo apt-get update命令的时候，一直有报错提示<br>“不能连接到 archive.ubuntukylin.com：10006”<br>因此排查了一下到底是什么问题，做个记录</p>
+<p>报错如下<br><img src="/assets/blogImg/update_err.jpg" alt="update_err.jpg"><br><img src="/assets/blogImg/update_err2.jpg" alt="update_err2.jpg"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/yuliangybzc/article/details/100973417">https://blog.csdn.net/yuliangybzc/article/details/100973417</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/shanpenghui/article/details/108552367">https://blog.csdn.net/shanpenghui/article/details/108552367</a><br>//按照以上两个链接的步骤，即可解决问题</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>完整解决步骤如下：<br>（1）首先执行下面的命令：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">whereis sogoupinyin.list</span><br></pre></td></tr></table></figure>
+
+<p>（2）然后进入相应的文件夹中执行：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim ./sogoupinyin.list</span><br></pre></td></tr></table></figure>
+
+<p>（3）最后在下面命令前面加“＃”</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">deb http:<span class="comment">//archive.ubuntukylin.com:10006/ubuntukylin xenial main</span></span><br></pre></td></tr></table></figure>
+
+<p>（4）还要修改/etc/apt/sources.list.d/sogoupinyin.list目录下的</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo gedit /etc/apt/sources.list.d/sogoupinyin.list</span><br><span class="line">同样把文件里的这句话注释掉</span><br><span class="line">#deb http:<span class="comment">//archive.ubuntukylin.com:10006/ubuntukylin xenial main</span></span><br></pre></td></tr></table></figure>
+
+<p>（5）之后，再sudo apt-get update即可更新成功<br>如下图所示<br><img src="/assets/blogImg/update_ok.jpg" alt="update_ok.jpg"><br><img src="/assets/blogImg/update_ok2.jpg" alt="update_ok2.jpg"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>正如网友所说，导致一直update失败的原因，一开始是在找软件源的问题，但是这个问题其实不是出在软件源上，而是其他的源出问题了。一般来说，这些源都是在/etc/apt/sourcelist.d/这个文件夹里面，去里面一个个把错误的源删掉或者更新，之后就不会出现这个报错了。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常见报错问题</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/11/15/linux%E4%B8%8B%E6%89%A7%E8%A1%8Cupdate%E6%93%8D%E4%BD%9C%E6%97%B6%E5%A4%B1%E8%B4%A5/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-ttyrec导出格式设置为mp4或gif" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -724,322 +1101,6 @@
 
 
   
-    <article id="post-vnc远程小工具" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/11/10/vnc%E8%BF%9C%E7%A8%8B%E5%B0%8F%E5%B7%A5%E5%85%B7/">vnc远程小工具</a>
-    </h1>
-  
-
-        
-        <a href="/2022/11/10/vnc%E8%BF%9C%E7%A8%8B%E5%B0%8F%E5%B7%A5%E5%85%B7/" class="archive-article-date">
-  	<time datetime="2022-11-10T12:24:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/11/10/vnc%E8%BF%9C%E7%A8%8B%E5%B0%8F%E5%B7%A5%E5%85%B7/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-wireshark抓包分析神器" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/11/10/wireshark%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90%E7%A5%9E%E5%99%A8/">wireshark抓包分析神器</a>
-    </h1>
-  
-
-        
-        <a href="/2022/11/10/wireshark%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90%E7%A5%9E%E5%99%A8/" class="archive-article-date">
-  	<time datetime="2022-11-10T12:23:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/11/10/wireshark%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90%E7%A5%9E%E5%99%A8/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-rsa加密" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/11/10/rsa%E5%8A%A0%E5%AF%86/">rsa加密</a>
-    </h1>
-  
-
-        
-        <a href="/2022/11/10/rsa%E5%8A%A0%E5%AF%86/" class="archive-article-date">
-  	<time datetime="2022-11-10T12:23:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="rsa加密"><a href="#rsa加密" class="headerlink" title="rsa加密"></a>rsa加密</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>网络通信一般都是需要对信息加密的，这里讨论一下rsa加密</p>
-<h2 id="rsa加密限制"><a href="#rsa加密限制" class="headerlink" title="rsa加密限制"></a>rsa加密限制</h2><p>虽然rsa加密效果好，但是加密开销大，1024字节的秘钥，只能支持加密128字节的内容，其中还要留出11字节左右用于保存秘钥信息；<br>因此，rsa一般不用于加密大文件，如果一定要用rsa加密大文件，则需要将文件分块加密；<br>一般，rsa加密，用于加密其它加密算法的秘钥，具体内容，由其它加密算法加密；</p>
-<h2 id="一个关于rsa的加密方案（之前在做项目的时候自己写的）"><a href="#一个关于rsa的加密方案（之前在做项目的时候自己写的）" class="headerlink" title="一个关于rsa的加密方案（之前在做项目的时候自己写的）"></a>一个关于rsa的加密方案（之前在做项目的时候自己写的）</h2><p>这个项目里，需要进行网络传输大量数据，而这些数据为了安全在传输过程中都需要加密，这里同时使用了3种加密算法：rsa、aes、base64</p>
-<p>加密过程：<br>1.用秘钥password通过aes加密很大的数据内容content；<br>2.用rsa加密password<br>3.用base64再次加密password及content (方便读，否则都是乱码）</p>
-<p>解密过程：（与上面的加密过程对应）<br>1.用base64解密password和content<br>2.用rsa解密password<br>3.用秘钥password通过aes解密很大的数据内容content</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">第三方库</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">加密</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/11/10/rsa%E5%8A%A0%E5%AF%86/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-git常用操作" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/11/10/git%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/">git常用操作</a>
-    </h1>
-  
-
-        
-        <a href="/2022/11/10/git%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/" class="archive-article-date">
-  	<time datetime="2022-11-10T12:23:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="git常用操作"><a href="#git常用操作" class="headerlink" title="git常用操作"></a>git常用操作</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>一般来说，大型项目有很多分支，一开始我们各自在自己的分支上进行开发，到最后合并的master分支上去</p>
-<h2 id="1-常用指令cherry-pick"><a href="#1-常用指令cherry-pick" class="headerlink" title="1.常用指令cherry-pick"></a>1.常用指令cherry-pick</h2><p>在开发一个新功能的时候，可以使用这个指令<br>（1）可以先切换在master分支下<br>同步当前最新master代码<br>然后在此基础上创建最新的个人分支</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git checkout master</span><br><span class="line">git pulll</span><br><span class="line">git checkout -b xxx/feat-<span class="number">11</span>-<span class="number">10</span></span><br></pre></td></tr></table></figure>
-
-<p>这样，我们就创建了一个新的分支xxx/feat-11-10，可以用git status确认一下我们当前确实在这个分支上，如下图<br><img src="/assets/blogImg/git_new.jpg" alt="git_new"></p>
-<p>（2）然后在xxx/feat-11-10这个分支上开发我们的代码<br>开发完成后，添加所有当前修改内容，并创建一个commit</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;feat:增加了一个新功能&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>这样我们就提交了一次commit，可以通过git log查看commit的记录<br>commit 41484d78558eceab6edf2f7c0c55d9c7c5bf5aff</p>
-<p><img src="/assets/blogImg/git_new_1.jpg" alt="git_new_1"></p>
-<p>（3）将本次提交合并到master分支<br>从本地分支xxx/feat-11-10切换到master分支<br>因为我们没有在master分支上修改，所以没有污染这个master分支，直接同步服务器上最新代码即可<br>同步了服务器最新代码之后，我们做一下cherry-pick将本地修改提交的commit切过来<br>如果有冲突的话，就一个个修改冲突，然后再git add . 再git cherry-pick –continue；如果没有冲突，就直接git cherry-pick –continue就行</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git checkout master</span><br><span class="line">git pull origin master</span><br><span class="line">git cherry-pick 41484d78558eceab6edf2f7c0c55d9c7c5bf5aff</span><br><span class="line">git cherry-pick --<span class="keyword">continue</span></span><br></pre></td></tr></table></figure>
-
-<p>进行如下操作<br><img src="/assets/blogImg/git_new_2.jpg" alt="git_new_2"></p>
-<p>最后用git log看一下，确认在master分支上，已经将本地分支xxx/feat-11-10的commit切过来了</p>
-<p><img src="/assets/blogImg/git_new_3.jpg" alt="git_new_3"></p>
-<h2 id="2-常用指令reset"><a href="#2-常用指令reset" class="headerlink" title="2.常用指令reset"></a>2.常用指令reset</h2><h3 id="2-1回退到某个提交"><a href="#2-1回退到某个提交" class="headerlink" title="2.1回退到某个提交"></a>2.1回退到某个提交</h3><p>(1)如果在当前的干净分支上，修改了一些东西，提交了一个commit，然后又修改了一些东西，想把上一个提交撤销，两次修改并到一个commit里面</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset commit_id</span><br></pre></td></tr></table></figure>
-
-<p>如下所示：<br>回退到指定的版本acbc4ee9745486dc0bc39a4d03c351fba528c545<br>而用git status来看的时候，发现本地的修改commit还在<br><img src="/assets/blogImg/git_reset.jpg" alt="git_reset"></p>
-<p>(2)如果在当前的干净分支上，修改了一些东西，后来发现不需要这些改动，想直接回退到某个旧的分支</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard commit_id</span><br></pre></td></tr></table></figure>
-
-<p>如图所示：<br>回退到旧的版本，并且把比这个版本新的提交都清理掉了<br><img src="/assets/blogImg/git_reset_1.jpg" alt="git_reset_1"></p>
-<h3 id="2-2同步分支"><a href="#2-2同步分支" class="headerlink" title="2.2同步分支"></a>2.2同步分支</h3><p>（1）如果当前在一个落后的分支OSv1.0上，需要将master分支上的所有提交都同步过来</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">首先切到OSv1<span class="number">.0</span>分支上</span><br><span class="line"></span><br><span class="line">git reset --hard origin/master</span><br><span class="line">git push -f</span><br><span class="line"></span><br><span class="line">这样就可以将master上所有的提交都覆盖到OSv1<span class="number">.0</span>分支上了</span><br></pre></td></tr></table></figure>
-
-<p>如下图所示：<br>将master分支上的所有提交覆盖到OSv1.0分支上<br><img src="/assets/blogImg/git_hebin.jpg" alt="git_hebin"></p>
-<p>然后再强推到服务器上，即可在服务器端，也用master的提交覆盖到OSv1.0分支上<br><img src="/assets/blogImg/git_push.jpg" alt="git_push"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/11/10/git%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/3/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/5/">Next &amp;raquo;</a>
@@ -1153,6 +1214,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">opencv</a>
               </li>
              
@@ -1161,19 +1230,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
+                <a href="javascript:void(0)" class="js-tag color3">基础技能C++</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
+                <a href="javascript:void(0)" class="js-tag color4">CPU</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">CNC</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">常见报错问题</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">基础技能C++</a>
               </li>
              
               <li class="article-tag-list-item">

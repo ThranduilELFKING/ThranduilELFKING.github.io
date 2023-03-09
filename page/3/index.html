@@ -61,7 +61,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 111
+			总文章数 115
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -180,6 +180,376 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-使用gperftools工具分析程序性能" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/01/05/%E4%BD%BF%E7%94%A8gperftools%E5%B7%A5%E5%85%B7%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E6%80%A7%E8%83%BD/">使用gperftools工具分析程序性能</a>
+    </h1>
+  
+
+        
+        <a href="/2023/01/05/%E4%BD%BF%E7%94%A8gperftools%E5%B7%A5%E5%85%B7%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E6%80%A7%E8%83%BD/" class="archive-article-date">
+  	<time datetime="2023-01-05T12:56:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-01-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="使用gperftools工具分析程序性能"><a href="#使用gperftools工具分析程序性能" class="headerlink" title="使用gperftools工具分析程序性能"></a>使用gperftools工具分析程序性能</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>有时候需要分析一下程序的性能如何，然后去查找程序性能的瓶颈，进行性能优化。这里可以使用gperftools工具来帮助定位性能的瓶颈位置，进行程序性能分析。这里做一个环境配置及使用的记录。</p>
+<h2 id="安装gperftools"><a href="#安装gperftools" class="headerlink" title="安装gperftools"></a>安装gperftools</h2><p>源码地址：<br><a target="_blank" rel="noopener" href="https://github.com/gperftools/gperftools">https://github.com/gperftools/gperftools</a></p>
+<p>安装步骤：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//如果是64位系统的，需要安装libunwind-dev，如果是32位系统不必</span></span><br><span class="line">sudo apt-get install libunwind-dev</span><br><span class="line"></span><br><span class="line">git clone https:<span class="comment">//github.com/gperftools/gperftools.git</span></span><br><span class="line">cd gperftools</span><br><span class="line">sh autogen.sh</span><br><span class="line"># <span class="built_in">require</span> autoconf installed</span><br><span class="line">./configure</span><br><span class="line">make all</span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
+
+<p>本地32位系统ubuntu14.04安装如下：<br><img src="/assets/blogImg/gperftools.jpg" alt="gperftools.jpg"></p>
+<h2 id="使用gperftools工具"><a href="#使用gperftools工具" class="headerlink" title="使用gperftools工具"></a>使用gperftools工具</h2><p>使用gperftools工具需要在cmake里增加一些配置，运行程序时也需要配置环境，最后使用命令生成可视化程序性能分析报告。</p>
+<h3 id="（1）需要配置cmake"><a href="#（1）需要配置cmake" class="headerlink" title="（1）需要配置cmake"></a>（1）需要配置cmake</h3><p>在cmake里增加一行配置如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">target_link_libraries($&#123;YOUR_PROGRAM&#125; pthread profiler tcmalloc)</span><br></pre></td></tr></table></figure>
+
+<p>如下图所示<br><img src="/assets/blogImg/gperftools2.jpg" alt="gperftools2.jpg"></p>
+<h3 id="（2）运行程序"><a href="#（2）运行程序" class="headerlink" title="（2）运行程序"></a>（2）运行程序</h3><p>运行程序的命令如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">env HEAPPROFILE=./mybin.hprof ./wx_app</span><br></pre></td></tr></table></figure>
+<p>本地运行程序如下：<br><img src="/assets/blogImg/gperftools3.jpg" alt="gperftools3.jpg"></p>
+<p>这样就会生成报告mybin.hprof.0001.heap，如下图所示<br><img src="/assets/blogImg/gperftools4.jpg" alt="gperftools4.jpg"></p>
+<p>注意：按照代码的意思应该是生成.hprof文件，但是自己结果只生成了一个heap文件（mybin.hprof.0001.heap），但是并不影响后面的操作</p>
+<h3 id="（3）进行pprof分析"><a href="#（3）进行pprof分析" class="headerlink" title="（3）进行pprof分析"></a>（3）进行pprof分析</h3><p>程序分析指令如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pprof --text ./wx_app ./mybin.hprof<span class="number">.0001</span>.heap </span><br></pre></td></tr></table></figure>
+<p>如下图所示<br><img src="/assets/blogImg/gperftools5.jpg" alt="gperftools5.jpg"></p>
+<p>说明：<br>(1) 第一列表示直接使用了多少内存，单位为MB<br>(2) 第四列包含了该方法自己占用的以及所有他调用所占用的内存<br>(3) 第二列和第五列分别是第一列和第四列的百分比表示<br>(4) 第三列是第二列的一个综合</p>
+<h3 id="（4）生成可视化报告"><a href="#（4）生成可视化报告" class="headerlink" title="（4）生成可视化报告"></a>（4）生成可视化报告</h3><p>另外，看pprof的参数，可以生成gif或者pdf文件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pprof --gif ./wx_app ./mybin.hprof<span class="number">.0001</span>.heap &gt; a.gif</span><br><span class="line">pprof --pdf ./wx_app ./mybin.hprof<span class="number">.0001</span>.heap &gt; a.pdf</span><br></pre></td></tr></table></figure>
+
+<p>如果生成报告的时候有报错<br><img src="/assets/blogImg/gperftools6.jpg" alt="gperftools6.jpg"></p>
+<p>那么需要安装如下依赖</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install graphviz</span><br></pre></td></tr></table></figure>
+<p>如下图所示<br><img src="/assets/blogImg/gperftools7.jpg" alt="gperftools7.jpg"></p>
+<p>然后再次生成报告<br><img src="/assets/blogImg/gperftools8.jpg" alt="gperftools8.jpg"></p>
+<p>打开pdf即可看到可视化报告<br><img src="/assets/blogImg/gperftools9.jpg" alt="gperftools9.jpg"></p>
+<p>可以看出来，最影响性能的是_init，这个_init是gui图形初始化，经过查看，这个初始化是一个巨大的函数（超过3k行），里面没有细分多个栈（子函数）。<br>优化思路是可以先拆开若干小的函数，再看看哪里花的时间多。<br>这个属于是启动项优化，优化一下，启动更快。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="http://pkxpp.github.io/2017/03/30/gperftools%E5%AE%89%E8%A3%85/">http://pkxpp.github.io/2017/03/30/gperftools%E5%AE%89%E8%A3%85/</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/01/05/%E4%BD%BF%E7%94%A8gperftools%E5%B7%A5%E5%85%B7%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E6%80%A7%E8%83%BD/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-make选项之VERBOSE" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/01/05/make%E9%80%89%E9%A1%B9%E4%B9%8BVERBOSE/">make选项之VERBOSE</a>
+    </h1>
+  
+
+        
+        <a href="/2023/01/05/make%E9%80%89%E9%A1%B9%E4%B9%8BVERBOSE/" class="archive-article-date">
+  	<time datetime="2023-01-05T12:55:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-01-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="make选项之VERBOSE"><a href="#make选项之VERBOSE" class="headerlink" title="make选项之VERBOSE"></a>make选项之VERBOSE</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>有时候需要看到程序链接了哪些库，但是ldd看的时候，可能不那么全，而且还需要等生成执行程序后看，在编译的时候，就想看到编译过程中执行程序（or库）到底链接了哪些库的话，可以用make的VERBOSE选项</p>
+<h2 id="使用说明"><a href="#使用说明" class="headerlink" title="使用说明"></a>使用说明</h2><p>用make的VERBOSE选项的效果就是可以看到所有实际链接的库。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">使用方法：</span><br><span class="line"></span><br><span class="line">cmake ..</span><br><span class="line">make VERBOSE=<span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p>注意：VERBOSE区分大小写，小写的话，是没有效果的<br>如下图所示：<br><img src="/assets/blogImg/make_VERBOSE.jpg" alt="make_VERBOSE.jpg"></p>
+<p>编译时的显示效果如下所示，可以看到这些具体的链接内容都是可以看见的，<br>比如以下可以看到链接了profiler和tcmalloc库等等。可以看到完整的编译链命令。<br><img src="/assets/blogImg/make_VERBOSE2.jpg" alt="make_VERBOSE2.jpg"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/anlongstar/article/details/124789160">https://blog.csdn.net/anlongstar/article/details/124789160</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/01/05/make%E9%80%89%E9%A1%B9%E4%B9%8BVERBOSE/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-gmock之匹配器" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/01/04/gmock%E4%B9%8B%E5%8C%B9%E9%85%8D%E5%99%A8/">gmock之匹配器</a>
+    </h1>
+  
+
+        
+        <a href="/2023/01/04/gmock%E4%B9%8B%E5%8C%B9%E9%85%8D%E5%99%A8/" class="archive-article-date">
+  	<time datetime="2023-01-04T12:05:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-01-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="gmock之匹配器"><a href="#gmock之匹配器" class="headerlink" title="gmock之匹配器"></a>gmock之匹配器</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>继续学习gtest框架，有时候会需要mock数据，这里是对自定义Matcher的学习记录</p>
+<h2 id="内置的Matcher"><a href="#内置的Matcher" class="headerlink" title="内置的Matcher"></a>内置的Matcher</h2><p>gmock框架中自带Matcher只针对c++内置类型，如string，int，float等等<br>使用内置Matcher的示例如下：<br><img src="/assets/blogImg/gmock_matcher.jpg" alt="gmock_matcher.jpg"></p>
+<p>arg是这个宏中的一个参数，代表被匹配的对象，在这里也就是address，如下图所示<br><img src="/assets/blogImg/gmock_matcher2.jpg" alt="gmock_matcher2.jpg"></p>
+<h2 id="自定义的Matcher"><a href="#自定义的Matcher" class="headerlink" title="自定义的Matcher"></a>自定义的Matcher</h2><p>gmock框架中自带Matcher只针对c++内置类型，如string，int，float等等，有时候无法满足项目要求，所以需要编写自己的Matcher对象。<br>在测试重载的mock函数时，需要对Matcher做特别的封装，否则编译在查找重载函数时会出现歧义。<br>编写自己的Matcher对象在gmock1.4后变得很容易，gmock框架为我们做了大部分的事情。<br>以下是两个简单的举例。</p>
+<h3 id="1-结构体作为自定义Matcher参数"><a href="#1-结构体作为自定义Matcher参数" class="headerlink" title="(1) 结构体作为自定义Matcher参数"></a>(1) 结构体作为自定义Matcher参数</h3><p>看看如下的代码：<br><img src="/assets/blogImg/gmock_matcher3.jpg" alt="gmock_matcher3.jpg"></p>
+<p>以上MATCHER_P就是自定义的Matcher<br>MATCHER_P中的P代表参数，MATCHER_P其实应该写成“MATCHER_P1”，表示该matcher的构造函数只接受一个参数，同样的还有“MATCHER_P2、MATCHER_P3,…, MATCHER_P10”。宏的第一个参数代表该Matcher的类名，第二个参数代表Matcher的构造函数中的第一个参数，最后一个空内容的字符代表失败时输出信息，为空那么gmock会默认为你填写相关信息。</p>
+<p>arg是这个宏中的一个参数，代表被匹配的对象，在这里也就是address，如下图所示<br><img src="/assets/blogImg/gmock_matcher4.jpg" alt="gmock_matcher4.jpg"></p>
+<p>测试用例编写，如下所示<br><img src="/assets/blogImg/gmock_matcher5.jpg" alt="gmock_matcher5.jpg"></p>
+<h3 id="2-一个string作为自定义Matcher参数"><a href="#2-一个string作为自定义Matcher参数" class="headerlink" title="(2) 一个string作为自定义Matcher参数"></a>(2) 一个string作为自定义Matcher参数</h3><p>另一个简单的示例如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//判断当前的参数的值是否符合预期</span></span><br><span class="line"><span class="function"><span class="title">MATCHER_P</span>(<span class="params">IsEqualStr, expected, <span class="string">&quot;&quot;</span></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> </span><br><span class="line">        arg == expected;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> std::string m_content = <span class="string">&quot;hello-world&quot;</span>;</span><br><span class="line"><span class="function"><span class="title">TEST_F</span>(<span class="params">AnAddressExtractor, ReturnContent</span>)</span> &#123;</span><br><span class="line">    <span class="attr">std</span>::string expected_str = <span class="string">&quot;hello-world&quot;</span>;</span><br><span class="line">    <span class="comment">//此时实际就是判断expected_str字符串是否与m_content相等</span></span><br><span class="line">    ASSERT_THAT(expected_str, IsEqualStr(m_content));</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-结论："><a href="#3-结论：" class="headerlink" title="(3) 结论："></a>(3) 结论：</h3><p>1.使用宏MATCHER_P快速编写自己的Matcher对象。<br>2.在自定义Matcher中使用gtest断言，可以方便验证mock函数的输入否和期望。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/bourneli/archive/2012/09/08/2676990.html">https://www.cnblogs.com/bourneli/archive/2012/09/08/2676990.html</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/01/04/gmock%E4%B9%8B%E5%8C%B9%E9%85%8D%E5%99%A8/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-gtest深入学习笔记二" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/12/11/gtest%E6%B7%B1%E5%85%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/">gtest深入学习笔记二</a>
+    </h1>
+  
+
+        
+        <a href="/2022/12/11/gtest%E6%B7%B1%E5%85%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/" class="archive-article-date">
+  	<time datetime="2022-12-11T15:28:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-12-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="gtest深入学习笔记二"><a href="#gtest深入学习笔记二" class="headerlink" title="gtest深入学习笔记二"></a>gtest深入学习笔记二</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>继续深入学习gtest，记录一下学习笔记</p>
+<h2 id="基于异常的测试"><a href="#基于异常的测试" class="headerlink" title="基于异常的测试"></a>基于异常的测试</h2><p>一般来说，工程师应该知道代码什么时候出现哪些错误，也应当知道什么时候抛出异常，什么时候需要用try-catch块来保护程序。唯有对代码执行路径了如指掌，方能知道该在什么时候处理异常。</p>
+<h3 id="（1）ASSERT-ANY-THROW宏、-ASSERT-THROW宏捕获异常"><a href="#（1）ASSERT-ANY-THROW宏、-ASSERT-THROW宏捕获异常" class="headerlink" title="（1）ASSERT_ANY_THROW宏、 ASSERT_THROW宏捕获异常"></a>（1）ASSERT_ANY_THROW宏、 ASSERT_THROW宏捕获异常</h3><p>直接用try-catch捕获异常<br>如果宏内的表达式不抛出异常，那么测试失败<br>失败案例如下：<br>源码代码片段如下<br><img src="/assets/blogImg/gtest2_1.jpg" alt="gtest2_1.jpg"></p>
+<p>单元测试代码段如下<br><img src="/assets/blogImg/gtest2_2.jpg" alt="gtest2_2.jpg"></p>
+<p>运行测试程序后，得到如下结果<br><img src="/assets/blogImg/gtest2_3.jpg" alt="gtest2_3.jpg"></p>
+<p>为了得到通过单元测试的结果，可以修改上面的源码代码段如下<br><img src="/assets/blogImg/gtest2_4.jpg" alt="gtest2_4.jpg"></p>
+<p>单元测试代码不用改，再次运行测试程序，结果如下<br><img src="/assets/blogImg/gtest2_5.jpg" alt="gtest2_5.jpg"></p>
+<h3 id="（2）如果必须要验证异常抛出后的条件，那么可以使用try-catch块"><a href="#（2）如果必须要验证异常抛出后的条件，那么可以使用try-catch块" class="headerlink" title="（2）如果必须要验证异常抛出后的条件，那么可以使用try-catch块"></a>（2）如果必须要验证异常抛出后的条件，那么可以使用try-catch块</h3><p>例如，想要验证异常对象的文本信息<br>源码片段如下<br><img src="/assets/blogImg/gtest2_6.jpg" alt="gtest2_6.jpg"></p>
+<p>单元测试代码如下<br><img src="/assets/blogImg/gtest2_7.jpg" alt="gtest2_7.jpg"></p>
+<p>测试结果<br><img src="/assets/blogImg/gtest2_8.jpg" alt="gtest2_8.jpg"></p>
+<h2 id="探查私有成员"><a href="#探查私有成员" class="headerlink" title="探查私有成员"></a>探查私有成员</h2><p>Tell-Don’t-Ask设计理念，你应该告诉一个对象去做一些工作，然后让它自主完成任务。如果在这期间频繁地过问对象，那么就违反了Tell-Don’t-Ask原则。<br>如果一个系统包含大量的对象查询，它是纠缠不清且极度复杂的。</p>
+<p>两个问题<br>（1）可以对私有成员变量编写测试吗？<br>（2）可以对私有成员函数编写测试吗？<br>回答：<br>从技术层面来说，为那些非公用接口的成员提供访问通道是可以接受的。可以将测试声明为待测试类的友元，但最好不要这么做！！也可以将数据暴露为公有的，但如果仅仅只是为了测试的话，这也是不太可以接受的。一般来说，如果要对私有成员进行测试，这有可能是代码设计坏味。无论什么时候，如果暴露数据仅仅是为了测试，那么就需要考虑用验证行为的方式来代替。</p>
+<h2 id="探查私有行为"><a href="#探查私有行为" class="headerlink" title="探查私有行为"></a>探查私有行为</h2><p>做测试驱动开发时，所有东西都来自于类的公共接口设计。为了添加详细的行为，做测试驱动开发这个行为时，就好像你的测试就是此类的产品客户。随着细节越来越多，代码越来越复杂，自然的就需要考虑到重构来优化代码。<br>大多数时候，当你觉得需要测试私有行为时，可以尝试将代码重构，将代码移动到另一个类，或者为之创建一个新类。</p>
+<p>（1）问题：如果这样编写程序的话，最后会不会得到数以千计的特定功能的类？<br>答：当然会多出来一些类，但不会到数以千计这么夸张。每个类都会非常小，这样也易于理解/测试/维护，编译也很快。<br>（2）问题：我不倡议创建更多的类怎么办？<br>答：这时就可以真正的利用OO（Object-Oriented，面向对象）了。当你创建更多单一目标的类，并且每个类包含一些单一责任的方法时，你会发现更多的重用契机。重用一个庞杂的类是不可能的。相反，遵循单一责任原则的类会让你看到减少代码量的可能。<br>（3）问题：如果面对的是遗留代码呢？<br>假如要先从一个有几十个成员函数的类下手，其中许多还是私有成员。这跟私有行为类似，可以先简单的弱化访问关系，并为一些私有函数添加相应测试。（也就是重构部分代码，再次提醒，不用担心类的泛滥，这不会发生。）将函数移至更好的场所。</p>
+<h2 id="测试和测试驱动"><a href="#测试和测试驱动" class="headerlink" title="测试和测试驱动"></a>测试和测试驱动</h2><h3 id="（1）测试驱动"><a href="#（1）测试驱动" class="headerlink" title="（1）测试驱动"></a>（1）测试驱动</h3><p>测试驱动开发中虽然有测试两个字，但是它更多的是和设计有关，而非测试。<br>虽然在这个TDD（测试驱动开发，Test-Driven Development)过程中，会编写单元测试，但它们基本就是一些副产品。TDD的真正目的是让你一直保持设计整洁，这样在引入新的行为或者改变现有行为时，会更加从容，不会太费力。<br>从测试驱动的角度来说，你写测试的目的是为了保证代码能够符合预定规范。<br>从TDD的角度来说，如果一旦对所构建的东西有足够的信心，就可以停止TDD了。<br>可以在测试驱动开发时编写额外的事后测试。但通常而言，一旦认定有一个正确且干净的实现，并且这个实现能覆盖你要支持的情形，那么就可以立即停止TDD。也就是说，在你想不出可以写出不能通过的测试时，就可以停止。</p>
+<h3 id="（2）测试"><a href="#（2）测试" class="headerlink" title="（2）测试"></a>（2）测试</h3><p>而从测试的角度来看，寻求的是创建具有高覆盖率的测试。<br>所写的测试有五类情形：无（zero）、有（one)，多（many），边界（boundary）和异常（exceptional）。<br>与TDD相反，优秀的测试人员会竭尽所能的去覆盖上面所说的五类情形。</p>
+<h2 id="参数化测试（了解即可，尽量少用）"><a href="#参数化测试（了解即可，尽量少用）" class="headerlink" title="参数化测试（了解即可，尽量少用）"></a>参数化测试（了解即可，尽量少用）</h2><p>对于更复杂的代码，或许有着覆盖一大堆情形的测试会让我们更有信心。<br>如果你需要测试大量的简单数据，那么参数化测试可能是一个很好的选择。</p>
+<p>以下是参数化测试的例子<br>源码及单元测试代码如下：<br><img src="/assets/blogImg/gtest2_9.jpg" alt="gtest2_9.jpg"></p>
+<p>测试结果如下：<br><img src="/assets/blogImg/gtest2_10.jpg" alt="gtest2_10.jpg"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/12/11/gtest%E6%B7%B1%E5%85%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-opencv图像分割之大津算法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -766,383 +1136,6 @@
 
 
   
-    <article id="post-opencv最小二乘法算法及相关函数" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/11/29/opencv%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95%E7%AE%97%E6%B3%95%E5%8F%8A%E7%9B%B8%E5%85%B3%E5%87%BD%E6%95%B0/">opencv最小二乘法算法及相关函数</a>
-    </h1>
-  
-
-        
-        <a href="/2022/11/29/opencv%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95%E7%AE%97%E6%B3%95%E5%8F%8A%E7%9B%B8%E5%85%B3%E5%87%BD%E6%95%B0/" class="archive-article-date">
-  	<time datetime="2022-11-29T12:13:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="opencv最小二乘法算法及相关函数"><a href="#opencv最小二乘法算法及相关函数" class="headerlink" title="opencv最小二乘法算法及相关函数"></a>opencv最小二乘法算法及相关函数</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>对opencv的学习，对最小二乘法拟合圆算法的学习记录</p>
-<h2 id="相关函数"><a href="#相关函数" class="headerlink" title="相关函数"></a>相关函数</h2><p>在实现最小二乘法的时候，用到的一些opencv的函数，做个记录</p>
-<h3 id="1-cv-copyMakeBorder"><a href="#1-cv-copyMakeBorder" class="headerlink" title="1.cv::copyMakeBorder"></a>1.cv::copyMakeBorder</h3><p>卷积操作时,图像边界可以填充或者不填充,如果我们需要填充呢?opencv提供了copyMakeBorder函数,可以实现边界填充功能。</p>
-<p>头文件声明</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;opencv2/core.hpp&gt;</span><br></pre></td></tr></table></figure>
-<p>函数原型</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CV_EXPORTS_W <span class="keyword">void</span> copyMakeBorder(InputArray src, OutputArray dst,</span><br><span class="line">                                 int top, int bottom, int left, int right,</span><br><span class="line">                                 int borderType, <span class="keyword">const</span> Scalar&amp; value = Scalar() );</span><br></pre></td></tr></table></figure>
-<p>参数解析</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">src：原图</span><br><span class="line">dst：结果图像，其大小为Size(src.cols+left+right, src.rows+top+bottom)</span><br><span class="line">top：指定图像上方填充多少像素。其他方向同理</span><br><span class="line">bottom</span><br><span class="line">left</span><br><span class="line">right</span><br><span class="line">borderType：填充类型</span><br><span class="line">value：borderType==BORDER_CONSTANT的填充值。默认值为<span class="number">0</span>的Scalar</span><br><span class="line">函数将源图像复制到目标图像的中间。在源图像左侧、右侧、上方和下方的区域进行像素填充</span><br><span class="line">填充类型</span><br><span class="line">borderType == BORDER_CONSTRAINT：指定像素值进行填充</span><br><span class="line">borderType== BORDER_REPLICATE：使用边缘像素值进行填充</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-cv-HoughCircles"><a href="#2-cv-HoughCircles" class="headerlink" title="2.cv::HoughCircles"></a>2.cv::HoughCircles</h3><p>霍夫变换找圆，需要注意的是，使用此函数可以很容易地检测出圆的圆心，但是它可能找不到合适的圆半径。</p>
-<p>函数原型</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> HoughCircles(InputArray image,OutputArray circles, int method, double dp, double minDist, double param1=<span class="number">100</span>,double param2=<span class="number">100</span>, int minRadius=<span class="number">0</span>, int maxRadius=<span class="number">0</span> )</span><br></pre></td></tr></table></figure>
-<p>参数解析</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">image：输入图像，即源图像，需为<span class="number">8</span>位的灰度单通道图像。</span><br><span class="line">circles：经过调用HoughCircles函数后此参数存储了检测到的圆的输出矢量，每个矢量由包含了<span class="number">3</span>个元素的浮点矢量(x, y, radius)表示。（即圆心坐标和半径）</span><br><span class="line">method：即使用的检测方法，目前OpenCV中就霍夫梯度法一种可以使用，它的标识符为CV_HOUGH_GRADIENT，在此参数处填这个标识符即可。</span><br><span class="line">dp：用来检测圆心的累加器图像的分辨率于输入图像之比的倒数，且此参数允许创建一个比输入图像分辨率低的累加器。例如，如果dp= <span class="number">1</span>时，累加器和输入图像具有相同的分辨率。如果dp=<span class="number">2</span>，累加器便有输入图像一半那么大的宽度和高度。</span><br><span class="line">minDist：为霍夫变换检测到的圆的圆心之间的最小距离，即让我们的算法能明显区分的两个不同圆之间的最小距离。这个参数如果太小的话，多个相邻的圆可能被错误地检测成了一个重合的圆。反之，这个参数设置太大的话，某些圆就不能被检测出来了。</span><br><span class="line">param1：有默认值<span class="number">100</span>。它是第三个参数method设置的检测方法的对应的参数。对当前唯一的方法霍夫梯度法CV_HOUGH_GRADIENT，它表示传递给canny边缘检测算子的高阈值，而低阈值为高阈值的一半。</span><br><span class="line">param2：也有默认值<span class="number">100</span>。它是第三个参数method设置的检测方法的对应的参数。对当前唯一的方法霍夫梯度法CV_HOUGH_GRADIENT，它表示在检测阶段圆心的累加器阈值。它越小的话，就可以检测到更多根本不存在的圆，而它越大的话，能通过检测的圆就更加接近完美的圆形了。</span><br><span class="line">minRadius：有默认值<span class="number">0</span>，表示圆半径的最小值。</span><br><span class="line">maxRadius：也有默认值<span class="number">0</span>，表示圆半径的最大值。</span><br></pre></td></tr></table></figure>
-
-<h2 id="最小二乘法拟合圆的原理"><a href="#最小二乘法拟合圆的原理" class="headerlink" title="最小二乘法拟合圆的原理"></a>最小二乘法拟合圆的原理</h2><p>最小二乘法(least squares analysis)是一种数学优化技术，它通过最小化误差的平方和找到一组数据的最佳函数匹配。最小二乘法是用最简的方法求得一些绝对不可知的真值，而令误差平方之和为最小来寻找一组数据的最佳匹配函数的计算方法，最小二乘法通常用于曲线拟合 (least squares fitting) 。</p>
-<p>最小二乘圆拟合方法是一种基于统计的检测方法，即便是图像中圆形目标受光照强度不均等因素的影响而产生边缘缺失，也不会影响圆心的定位和半径的检测，若边缘定位精确轮廓清晰，最小二乘法可实现亚像素级别的精确拟合定位。</p>
-<p>下面是拟合圆曲线的公式推导过程</p>
-<p><img src="/assets/blogImg/circle_1.jpg" alt="circle_1.jpg"><br><img src="/assets/blogImg/circle_2.jpg" alt="circle_2.jpg"><br><img src="/assets/blogImg/circle_3.jpg" alt="circle_3.jpg"><br><img src="/assets/blogImg/circle_4.jpg" alt="circle_4.jpg"><br><img src="/assets/blogImg/circle_5.jpg" alt="circle_5.jpg"></p>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://zj-image-processing.readthedocs.io/zh_CN/latest/opencv/code/[copyMakeBorder]%E6%B7%BB%E5%8A%A0%E8%BE%B9%E7%95%8C/">https://zj-image-processing.readthedocs.io/zh_CN/latest/opencv/code/[copyMakeBorder]%E6%B7%BB%E5%8A%A0%E8%BE%B9%E7%95%8C/</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/cqltbe131421/article/details/60870756">https://blog.csdn.net/cqltbe131421/article/details/60870756</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/Jacky_Ponder/article/details/70314919">https://blog.csdn.net/Jacky_Ponder/article/details/70314919</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">opencv</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/11/29/opencv%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95%E7%AE%97%E6%B3%95%E5%8F%8A%E7%9B%B8%E5%85%B3%E5%87%BD%E6%95%B0/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-gtest单元测试结果可视化" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/11/16/gtest%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C%E5%8F%AF%E8%A7%86%E5%8C%96/">gtest单元测试结果可视化</a>
-    </h1>
-  
-
-        
-        <a href="/2022/11/16/gtest%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C%E5%8F%AF%E8%A7%86%E5%8C%96/" class="archive-article-date">
-  	<time datetime="2022-11-16T14:12:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="gtest单元测试结果可视化"><a href="#gtest单元测试结果可视化" class="headerlink" title="gtest单元测试结果可视化"></a>gtest单元测试结果可视化</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>有些代码框架下，比较适合写单元测试，这里记录一次用gtest框架进行单元测试到最后结果可视化的案例流程</p>
-<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><h3 id="（1）环境配置"><a href="#（1）环境配置" class="headerlink" title="（1）环境配置"></a>（1）环境配置</h3><p>本地开发环境是linux Ubuntu14<br>在linux下这些操作应该都是通用的<br>预先要准备好的环境有 gtest，gmock环境<br>然后下载lcov进行可视化<br>sudo apt-get install lcov即可安装</p>
-<h3 id="（2）修改CMakeLists-txt"><a href="#（2）修改CMakeLists-txt" class="headerlink" title="（2）修改CMakeLists.txt"></a>（2）修改CMakeLists.txt</h3><p>在原本编译通过的CMakeLists.txt里，增加如下选项</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># gcov相关编译选项</span><br><span class="line">SET(GCC_COVERAGE_COMPILE_FLAGS <span class="string">&quot;-g -O0 -coverage -fprofile-arcs -ftest-coverage&quot;</span>)</span><br><span class="line">SET(GCC_COVERAGE_LINK_FLAGS <span class="string">&quot;-coverage -lgcov&quot;</span>)</span><br><span class="line">SET(CMAKE_CXX_FLAGS <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; $&#123;GCC_COVERAGE_COMPILE_FLAGS&#125;&quot;</span>)</span><br><span class="line">SET(CMAKE_EXE_LINKER_FLAGS <span class="string">&quot;$&#123;CMAKE_EXE_LINKER_FLAGS&#125; $&#123;GCC_COVERAGE_LINK_FLAGS&#125;&quot;</span>)</span><br><span class="line"></span><br><span class="line">target_link_libraries(test gcov)</span><br></pre></td></tr></table></figure>
-
-<p>如下图所示<br><img src="/assets/blogImg/gtest1.jpg" alt="gtest1.jpg"></p>
-<h3 id="（3）生成可视化目标文件"><a href="#（3）生成可视化目标文件" class="headerlink" title="（3）生成可视化目标文件"></a>（3）生成可视化目标文件</h3><p>在cmake ,make，运行程序后查看是否生成目标文件<br>生成测试程序test<br><img src="/assets/blogImg/gtest2.jpg" alt="gtest2.jpg"></p>
-<p>此时到build/CMakeFiles/test.dir/目录下，可以看到很多gcno文件，如下图所示<br><img src="/assets/blogImg/gtest3.jpg" alt="gtest3.jpg"></p>
-<p>运行一下test程序<br><img src="/assets/blogImg/gtest4.jpg" alt="gtest4.jpg"></p>
-<p>当运行完test程序后，再进入build/CMakeFiles/test.dir/目录下，除了原本的gcno文件，还有生成的gcda文件（之后可视化，需要这两类文件都存在）<br><img src="/assets/blogImg/gtest5.jpg" alt="gtest5.jpg"></p>
-<p>到此，目标文件都生成了</p>
-<h3 id="（4）可视化"><a href="#（4）可视化" class="headerlink" title="（4）可视化"></a>（4）可视化</h3><p>输入以下指令</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">完整指令如下</span><br><span class="line">lcov -c -o test.info -d .</span><br><span class="line"></span><br><span class="line">参数解释</span><br><span class="line">-c 生成覆盖率信息</span><br><span class="line">-o 生成目标文件</span><br><span class="line">-d 目录</span><br><span class="line">. 当前目录</span><br></pre></td></tr></table></figure>
-
-<p>即可在当前文件夹下，生成test.info文件<br><img src="/assets/blogImg/gtest6.jpg" alt="gtest6.jpg"></p>
-<p>将test.info继续生成可视化的html，进行结果的可视化<br>输入以下指令</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">genhtml test.info -o ./output</span><br><span class="line">参数解释</span><br><span class="line">tst.info 需要生成覆盖率信息的源文件</span><br><span class="line">-o 生成结果目录</span><br></pre></td></tr></table></figure>
-
-<p>如下图所示<br><img src="/assets/blogImg/gtest7.jpg" alt="gtest7.jpg"></p>
-<p>可以看出，执行完上面的指令后，生成了一个output子文件夹，进入文件夹内，可以看到生成的index.html可视化页面<br><img src="/assets/blogImg/gtest8.jpg" alt="gtest8.jpg"></p>
-<p>用浏览器打开html后效果如下<br>点击左侧的链接后，可以看到每个代码cpp文件的覆盖率<br><img src="/assets/blogImg/gtest9.jpg" alt="gtest9.jpg"></p>
-<p>点击左侧的链接后，可以点进去看每个cpp文件<br><img src="/assets/blogImg/gtest10.jpg" alt="gtest10.jpg"></p>
-<p>如下所示，点入Charutil.cpp文件链接，可以看到蓝色选中的代码段，都是被测试覆盖过的<br><img src="/assets/blogImg/gtest11.jpg" alt="gtest11.jpg"></p>
-<p>到此，单元测试的可视化工作便完成了。这里以一个案例，做一个记录。</p>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://www.yanbinghu.com/2017/08/06/13981.html">https://www.yanbinghu.com/2017/08/06/13981.html</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/11/16/gtest%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C%E5%8F%AF%E8%A7%86%E5%8C%96/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-linux下安装软件时提示libnss3不能满足依赖关系" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/11/15/linux%E4%B8%8B%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6%E6%97%B6%E6%8F%90%E7%A4%BAlibnss3%E4%B8%8D%E8%83%BD%E6%BB%A1%E8%B6%B3%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB/">linux下安装软件时提示libnss3不能满足依赖关系</a>
-    </h1>
-  
-
-        
-        <a href="/2022/11/15/linux%E4%B8%8B%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6%E6%97%B6%E6%8F%90%E7%A4%BAlibnss3%E4%B8%8D%E8%83%BD%E6%BB%A1%E8%B6%B3%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB/" class="archive-article-date">
-  	<time datetime="2022-11-15T13:46:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="linux下安装软件时提示libnss3不能满足依赖关系"><a href="#linux下安装软件时提示libnss3不能满足依赖关系" class="headerlink" title="linux下安装软件时提示libnss3不能满足依赖关系"></a>linux下安装软件时提示libnss3不能满足依赖关系</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>当安装新的软件sudo apt-get install gcovr<br>报错提示如下：<br>“下列软件包有未满足的依赖关系：<br> code : 依赖: libnss3 (&gt;= 2:3.26) 但是 2:3.21-0ubuntu0.14.04.2 正要被安装”<br>很多软件的安装，都逃不开这个报错，所以只能解决一下</p>
-<p>报错如下：<br><img src="/assets/blogImg/install_err.jpg" alt="install_err.jpg"><br><img src="/assets/blogImg/install_err2.jpg" alt="install_err2.jpg"></p>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/u013398960/article/details/99194375">https://blog.csdn.net/u013398960/article/details/99194375</a><br>//按照这个方案可以解决问题，在此做个记录</p>
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>对于这个问题，看报错提示，可以看出，只能去更新libnss3的版本</p>
-<h3 id="（1）修改软件源"><a href="#（1）修改软件源" class="headerlink" title="（1）修改软件源"></a>（1）修改软件源</h3><p>首先在/etc/apt/sources.list文件最后添加以下三行，不需要重启</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/apt/sources.list</span><br><span class="line"></span><br><span class="line">然后将以下内容追加到文件里</span><br><span class="line">deb http:<span class="comment">//mirrors.163.com/ubuntu/ trusty main universe restricted multiverse</span></span><br><span class="line">deb-src http:<span class="comment">//mirrors.163.com/ubuntu/ trusty main universe restricted multiverse #Added by software-properties</span></span><br><span class="line">deb http:<span class="comment">//cz.archive.ubuntu.com/ubuntu trusty-updates main</span></span><br></pre></td></tr></table></figure>
-
-<p>如下图所示<br><img src="/assets/blogImg/install_ok.jpg" alt="install_ok.jpg"></p>
-<h3 id="（2）执行update操作"><a href="#（2）执行update操作" class="headerlink" title="（2）执行update操作"></a>（2）执行update操作</h3><p>然后只需执行sudo apt-get update即可<br><img src="/assets/blogImg/install_ok2.jpg" alt="install_ok2.jpg"></p>
-<h3 id="（3）在执行install操作"><a href="#（3）在执行install操作" class="headerlink" title="（3）在执行install操作"></a>（3）在执行install操作</h3><p>然后执行sudo apt-get -f install<br><img src="/assets/blogImg/install_ok3.jpg" alt="install_ok3.jpg"></p>
-<h3 id="（4）查看当前版本"><a href="#（4）查看当前版本" class="headerlink" title="（4）查看当前版本"></a>（4）查看当前版本</h3><p>输入apt-cache show  libnss3 指令查看当前版本<br><img src="/assets/blogImg/install_ok4.jpg" alt="install_ok4.jpg"></p>
-<p>即可发现libnss3版本已经更新成功</p>
-<h3 id="（5）再去安装软件即可"><a href="#（5）再去安装软件即可" class="headerlink" title="（5）再去安装软件即可"></a>（5）再去安装软件即可</h3><p>再去执行sudo apt-get install lcov指令即可安装成功<br><img src="/assets/blogImg/install_ok5.jpg" alt="install_ok5.jpg"></p>
-<p>到此为止，这个问题便解决了</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常见报错问题</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/11/15/linux%E4%B8%8B%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6%E6%97%B6%E6%8F%90%E7%A4%BAlibnss3%E4%B8%8D%E8%83%BD%E6%BB%A1%E8%B6%B3%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-linux下执行update操作时失败" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/11/15/linux%E4%B8%8B%E6%89%A7%E8%A1%8Cupdate%E6%93%8D%E4%BD%9C%E6%97%B6%E5%A4%B1%E8%B4%A5/">linux下执行update操作时失败</a>
-    </h1>
-  
-
-        
-        <a href="/2022/11/15/linux%E4%B8%8B%E6%89%A7%E8%A1%8Cupdate%E6%93%8D%E4%BD%9C%E6%97%B6%E5%A4%B1%E8%B4%A5/" class="archive-article-date">
-  	<time datetime="2022-11-15T13:36:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="linux下执行update操作时失败"><a href="#linux下执行update操作时失败" class="headerlink" title="linux下执行update操作时失败"></a>linux下执行update操作时失败</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在终端输入sudo apt-get update命令的时候，一直有报错提示<br>“不能连接到 archive.ubuntukylin.com：10006”<br>因此排查了一下到底是什么问题，做个记录</p>
-<p>报错如下<br><img src="/assets/blogImg/update_err.jpg" alt="update_err.jpg"><br><img src="/assets/blogImg/update_err2.jpg" alt="update_err2.jpg"></p>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/yuliangybzc/article/details/100973417">https://blog.csdn.net/yuliangybzc/article/details/100973417</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/shanpenghui/article/details/108552367">https://blog.csdn.net/shanpenghui/article/details/108552367</a><br>//按照以上两个链接的步骤，即可解决问题</p>
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>完整解决步骤如下：<br>（1）首先执行下面的命令：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">whereis sogoupinyin.list</span><br></pre></td></tr></table></figure>
-
-<p>（2）然后进入相应的文件夹中执行：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim ./sogoupinyin.list</span><br></pre></td></tr></table></figure>
-
-<p>（3）最后在下面命令前面加“＃”</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">deb http:<span class="comment">//archive.ubuntukylin.com:10006/ubuntukylin xenial main</span></span><br></pre></td></tr></table></figure>
-
-<p>（4）还要修改/etc/apt/sources.list.d/sogoupinyin.list目录下的</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo gedit /etc/apt/sources.list.d/sogoupinyin.list</span><br><span class="line">同样把文件里的这句话注释掉</span><br><span class="line">#deb http:<span class="comment">//archive.ubuntukylin.com:10006/ubuntukylin xenial main</span></span><br></pre></td></tr></table></figure>
-
-<p>（5）之后，再sudo apt-get update即可更新成功<br>如下图所示<br><img src="/assets/blogImg/update_ok.jpg" alt="update_ok.jpg"><br><img src="/assets/blogImg/update_ok2.jpg" alt="update_ok2.jpg"></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>正如网友所说，导致一直update失败的原因，一开始是在找软件源的问题，但是这个问题其实不是出在软件源上，而是其他的源出问题了。一般来说，这些源都是在/etc/apt/sourcelist.d/这个文件夹里面，去里面一个个把错误的源删掉或者更新，之后就不会出现这个报错了。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常见报错问题</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2022/11/15/linux%E4%B8%8B%E6%89%A7%E8%A1%8Cupdate%E6%93%8D%E4%BD%9C%E6%97%B6%E5%A4%B1%E8%B4%A5/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/2/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/4/">Next &amp;raquo;</a>
@@ -1256,6 +1249,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">opencv</a>
               </li>
              
@@ -1264,19 +1265,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
+                <a href="javascript:void(0)" class="js-tag color3">基础技能C++</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
+                <a href="javascript:void(0)" class="js-tag color4">CPU</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">CNC</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">常见报错问题</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">基础技能C++</a>
               </li>
              
               <li class="article-tag-list-item">

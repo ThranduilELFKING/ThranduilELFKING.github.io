@@ -61,7 +61,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 111
+			总文章数 115
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -180,6 +180,374 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-RT-Thread学习记录" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/03/09/RT-Thread%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">RT-Thread学习记录</a>
+    </h1>
+  
+
+        
+        <a href="/2023/03/09/RT-Thread%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" class="archive-article-date">
+  	<time datetime="2023-03-09T14:03:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-03-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="RT-Thread学习记录"><a href="#RT-Thread学习记录" class="headerlink" title="RT-Thread学习记录"></a>RT-Thread学习记录</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>最近在学习LinuxCNC相关的内容，这里对RT-Thread做一个学习记录。</p>
+<h2 id="RT-Thread"><a href="#RT-Thread" class="headerlink" title="RT-Thread"></a>RT-Thread</h2><p>RT-Thread 是一款完全由国内团队开发维护的嵌入式实时操作系统（RTOS），具有完全的自主知识产权。<br>RT-Thread，全称是Real Time-Thread，顾名思义，它是一个嵌入式实时多线程操作系统， 基本属性之一是支持多任务，允许多个任务同时运行并不意味着处理器在同一时刻真地执行了多个任务。 事实上，一个处理器核心在某一时刻只能运行一个任务，由于每次对一个任务的执行时间很短、 任务与任务之间通过任务调度器进行非常快速地切换（调度器根据优先级决定此刻该执行的任务）， 给人造成多个任务在一个时刻同时运行的错觉。在 RT-Thread 系统中，任务通过线程实现的， RT-Thread 中的线程调度器也就是以上提到的任务调度器。</p>
+<p>RT-Thread 主要采用 C 语言编写，浅显易懂，方便移植。它把面向对象的设计方法应用到实时系统设计中， 使得代码风格优雅、架构清晰、系统模块化并且可裁剪性非常好。针对资源受限的微控制器（MCU）系统， 可通过方便易用的工具，裁剪出仅需要 3KB Flash、1.2KB RAM 内存资源的 NANO 版本（NANO 是 RT-Thread 官方于 2017 年 7 月份发布的一个极简版内核)；而对于资源丰富的物联网设备， RT-Thread又能使用在线的软件包管理工具，配合系统配置工具实现直观快速的模块化裁剪， 无缝地导入丰富的软件功能包，实现类似 Android 的图形界面及触摸滑动效果、智能语音交互效果等复杂功能。</p>
+<p>相较于 Linux 操作系统，RT-Thread 体积小，成本低，功耗低、启动快速，除此以外 RT-Thread 还具有实时性高、占用资源小等特点，非常适用于各种资源受限（如成本、功耗限制等）的场合。 虽然 32 位 MCU 是它的主要运行平台，实际上很多带有 MMU、基于 ARM9、ARM11 甚至 Cortex-A 系列级别 CPU 的应用处理器在特定应用场合也适合使用 RT-Thread。</p>
+<h2 id="RT-Thread架构"><a href="#RT-Thread架构" class="headerlink" title="RT-Thread架构"></a>RT-Thread架构</h2><p>近年来，物联网（Internet Of Things，IoT）概念广为普及，物联网市场发展迅猛， 嵌入式设备的联网已是大势所趋。终端联网使得软件复杂性大幅增加，传统的 RTOS 内核已经越来越难满足市场的需求，在这种情况下，物联网操作系统（IoT OS）的概念应运而生。<br>物联网操作系统是指以操作系统内核（可以是 RTOS、Linux 等）为基础， 包括如文件系统、图形库等较为完整的中间件组件，具备低功耗、安全、 通信协议支持和云端连接能力的软件平台，RT-Thread 就是一个 IoT OS。</p>
+<p>RT-Thread 与其他很多 RTOS 如 FreeRTOS、uC/OS 的主要区别之一是， 它不仅仅是一个实时内核，还具备丰富的中间层组件，RT-Thread 软件框架图如下所示。<br><img src="/assets/blogImg/rt.jpg" alt="rt.jpg"></p>
+<h2 id="具体包括以下部分"><a href="#具体包括以下部分" class="headerlink" title="具体包括以下部分"></a>具体包括以下部分</h2><p>内核层：RT-Thread 内核，是 RT-Thread 的核心部分，包括了内核系统中对象的实现， 例如多线程及其调度、信号量、邮箱、消息队列、内存管理、定时器等； libcpu/BSP（芯片移植相关文件 / 板级支持包）与硬件密切相关，由外设驱动和 CPU 移植构成。</p>
+<p>组件与服务层：组件是基于 RT-Thread 内核之上的上层软件，例如虚拟文件系统、FinSH 命令行界面、 网络框架、设备框架等。采用模块化设计，做到组件内部高内聚，组件之间低耦合。</p>
+<p>RT-Thread 软件包：运行于 RT-Thread 物联网操作系统平台上，面向不同应用领域的通用软件组件， 由描述信息、源代码或库文件组成。RT-Thread 提供了开放的软件包平台， 这里存放了官方提供或开发者提供的软件包，该平台为开发者提供了众多可重用软件包的选择， 这也是 RT-Thread 生态的重要组成部分。软件包生态对于一个操作系统的选择至关重要， 因为这些软件包具有很强的可重用性，模块化程度很高，极大的方便应用开发者在最短时间内， 打造出自己想要的系统。RT-Thread 已经支持的软件包数量已经达到 60+，如下举例：</p>
+<p>物联网相关的软件包：Paho MQTT、WebClient、mongoose、WebTerminal 等等。</p>
+<p>脚本语言相关的软件包：目前支持 JerryScript、MicroPython。</p>
+<p>多媒体相关的软件包：Openmv、mupdf。</p>
+<p>工具类软件包：CmBacktrace、EasyFlash、EasyLogger、SystemView。</p>
+<p>系统相关的软件包：RTGUI、Persimmon UI、lwext4、partition、SQLite 等等。</p>
+<p>外设库与驱动类软件包：RealTek RTL8710BN SDK。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://www.rt-thread.org/document/api/index.html">https://www.rt-thread.org/document/api/index.html</a><br><a target="_blank" rel="noopener" href="https://www.rt-thread.org/document/api/udpserver_sample_8c-example.html">https://www.rt-thread.org/document/api/udpserver_sample_8c-example.html</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础技能C++</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CPU</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CNC</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/03/09/RT-Thread%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-linux中线程与CPU核的绑定" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/03/09/linux%E4%B8%AD%E7%BA%BF%E7%A8%8B%E4%B8%8ECPU%E6%A0%B8%E7%9A%84%E7%BB%91%E5%AE%9A/">linux中线程与CPU核的绑定</a>
+    </h1>
+  
+
+        
+        <a href="/2023/03/09/linux%E4%B8%AD%E7%BA%BF%E7%A8%8B%E4%B8%8ECPU%E6%A0%B8%E7%9A%84%E7%BB%91%E5%AE%9A/" class="archive-article-date">
+  	<time datetime="2023-03-09T13:32:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-03-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="linux中线程与CPU核的绑定"><a href="#linux中线程与CPU核的绑定" class="headerlink" title="linux中线程与CPU核的绑定"></a>linux中线程与CPU核的绑定</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在多核平台上，可以通过将线程、进程绑定到CPU核上，进行性能优化。<br>这里对线程与CPU核的绑定进行一下学习记录。</p>
+<h2 id="线程与CPU和的绑定"><a href="#线程与CPU和的绑定" class="headerlink" title="线程与CPU和的绑定"></a>线程与CPU和的绑定</h2><p>不管是线程还是进程，都是通过设置亲和性(affinity)来达到目的。<br>对于进程的情况，一般是使用sched_setaffinity这个函数来实现。<br>与进程的情况相似，线程亲和性的设置和获取主要通过下面两个函数来实现：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">int pthread_setaffinity_np(pthread_t thread, size_t cpusetsize，</span><br><span class="line"><span class="keyword">const</span> cpu_set_t *cpuset);</span><br><span class="line"></span><br><span class="line">int pthread_getaffinity_np(pthread_t thread, size_t cpusetsize, </span><br><span class="line">cpu_set_t *cpuset);</span><br></pre></td></tr></table></figure>
+
+<p>函数分析：<br>从函数名以及参数名都很明了，唯一需要点解释下的可能就是cpu_set_t这个结构体了。这个结构体的理解类似于select中的fd_set，可以理解为cpu集，也是通过约定好的宏来进行清除、设置以及判断：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//初始化，设为空</span></span><br><span class="line"><span class="keyword">void</span> CPU_ZERO (cpu_set_t *set); </span><br><span class="line"><span class="comment">//将某个cpu加入cpu集中 </span></span><br><span class="line"><span class="keyword">void</span> CPU_SET (int cpu, cpu_set_t *set); </span><br><span class="line"><span class="comment">//将某个cpu从cpu集中移出 </span></span><br><span class="line"><span class="keyword">void</span> CPU_CLR (int cpu, cpu_set_t *set); </span><br><span class="line"><span class="comment">//判断某个cpu是否已在cpu集中设置了 </span></span><br><span class="line">int CPU_ISSET (int cpu, <span class="keyword">const</span> cpu_set_t *set); </span><br></pre></td></tr></table></figure>
+<p>cpu集可以认为是一个掩码，每个设置的位都对应一个可以合法调度的 cpu，而未设置的位则对应一个不可调度的 CPU。换而言之，线程都被绑定了，只能在那些对应位被设置了的处理器上运行。通常，掩码中的所有位都被置位了，也就是可以在所有的cpu中调度。   </p>
+<h2 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h2><p><img src="/assets/blogImg/affinity.jpg" alt="affinity.jpg"><br><img src="/assets/blogImg/affinity2.jpg" alt="affinity2.jpg"></p>
+<p>编译</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g++ main.cpp -fpermissive -lpthread</span><br></pre></td></tr></table></figure>
+
+<p>这段代码将使myfun线程在所有cpu中依次执行一段时间，在我的四核cpu上，执行结果如下<br><img src="/assets/blogImg/affinity3.jpg" alt="affinity3.jpg"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在一些嵌入式设备中，运行的进程线程比较单一，如果指定进程线程运行于特定的cpu核，减少进程、线程的核间切换，有可能可以获得更高的性能。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/vanishfan/archive/2012/11/16/2773325.html">https://www.cnblogs.com/vanishfan/archive/2012/11/16/2773325.html</a></p>
+<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><p><a target="_blank" rel="noopener" href="https://github.com/ThranduilELFKING/toolsUse/blob/main/affinity/main.cpp">https://github.com/ThranduilELFKING/toolsUse/blob/main/affinity/main.cpp</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础技能C++</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CPU</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CNC</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/03/09/linux%E4%B8%AD%E7%BA%BF%E7%A8%8B%E4%B8%8ECPU%E6%A0%B8%E7%9A%84%E7%BB%91%E5%AE%9A/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-sysconf函数" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/03/09/sysconf%E5%87%BD%E6%95%B0/">sysconf函数</a>
+    </h1>
+  
+
+        
+        <a href="/2023/03/09/sysconf%E5%87%BD%E6%95%B0/" class="archive-article-date">
+  	<time datetime="2023-03-09T12:47:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-03-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="sysconf函数"><a href="#sysconf函数" class="headerlink" title="sysconf函数"></a>sysconf函数</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>当前计算机都是多核的，linux2.6提供了进程绑定cpu功能，将进程指定到某个core上执行，方便管理进程。linux提供了sysconf系统调用可以获取系统的cpu个数和可用的cpu个数。</p>
+<h2 id="sysconf函数-1"><a href="#sysconf函数-1" class="headerlink" title="sysconf函数"></a>sysconf函数</h2><p>man sysconf函数</p>
+<h2 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h2><p><img src="/assets/blogImg/sysconf.jpg" alt="sysconf.jpg"><br>运行结果<br>我本地的虚拟机里分配了4个CPU处理器<br><img src="/assets/blogImg/sysconf2.jpg" alt="sysconf2.jpg"></p>
+<p>结果分析</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">_SC_NPROCESSORS_CONF   获取配置的CPU处理器数量。</span><br><span class="line">_SC_NPROCESSORS_ONLN   获取当前在线（可用）的处理器数量。</span><br><span class="line">_SC_PAGESIZE           页的大小（以字节为单位）。不得小于 <span class="number">1</span>。（某些系统改为使用 PAGE_SIZE。）</span><br><span class="line">_SC_PHYS_PAGES         获取物理内存的页数。请注意，此值与 _SC_PAGESIZE 的值的乘积可能会溢出。</span><br><span class="line">_SC_AVPHYS_PAGES       获取当前可用的物理内存页数。</span><br><span class="line">_SC_OPEN_MAX           获取一个进程在任何时候可以打开的最大文件数。不得小于 _POSIX_OPEN_MAX(<span class="number">20</span>).</span><br><span class="line">_SC_CLK_TCK            获取每秒的时钟滴答数。相应的变量已过时。它当然被称为时钟时钟。 （注意：宏 CLOCKS_PER_SEC 没有给出信息：它必须等于<span class="number">1000000</span>。）</span><br><span class="line">_SC_HOST_NAME_MAX      获取主机名的最大长度，不包括终止空字节，由gethostname(<span class="number">2</span>) 返回。必须不小于 _POSIX_HOST_NAME_MAX (<span class="number">255</span>)。</span><br></pre></td></tr></table></figure>
+
+<p>其他的获取系统执行的配置信息的选项可以用man指令查看</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">man sysconf</span><br></pre></td></tr></table></figure>
+<p>演示查看效果如下；<br><img src="/assets/blogImg/sysconf3.jpg" alt="sysconf3.jpg"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/anker/p/3751369.html">https://www.cnblogs.com/anker/p/3751369.html</a></p>
+<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><p><a target="_blank" rel="noopener" href="https://github.com/ThranduilELFKING/toolsUse/blob/main/sysconfig/main.cpp">https://github.com/ThranduilELFKING/toolsUse/blob/main/sysconfig/main.cpp</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础技能C++</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CPU</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CNC</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/03/09/sysconf%E5%87%BD%E6%95%B0/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-linuxCNC学习网站" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/03/09/linuxCNC%E5%AD%A6%E4%B9%A0%E7%BD%91%E7%AB%99/">linuxCNC学习网站</a>
+    </h1>
+  
+
+        
+        <a href="/2023/03/09/linuxCNC%E5%AD%A6%E4%B9%A0%E7%BD%91%E7%AB%99/" class="archive-article-date">
+  	<time datetime="2023-03-09T12:39:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-03-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="linuxCNC学习网站"><a href="#linuxCNC学习网站" class="headerlink" title="linuxCNC学习网站"></a>linuxCNC学习网站</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>对linuxCNC的学习记录，这里做个整理</p>
+<h2 id="常用网站"><a href="#常用网站" class="headerlink" title="常用网站"></a>常用网站</h2><p><a target="_blank" rel="noopener" href="https://www.rt-thread.org/document/api/group__mutex.html">https://www.rt-thread.org/document/api/group__mutex.html</a><br>//RT-Thread API参考手册<br><a target="_blank" rel="noopener" href="https://www.rtai.org/userfiles/documentation/documents/RTAI_User_Manual_34_03.pdf">https://www.rtai.org/userfiles/documentation/documents/RTAI_User_Manual_34_03.pdf</a><br>//RTAI 3.4 User Manual rev 0.3</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CNC</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/03/09/linuxCNC%E5%AD%A6%E4%B9%A0%E7%BD%91%E7%AB%99/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-UML图总结三" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -745,359 +1113,6 @@
 
 
   
-    <article id="post-ps教程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/02/23/ps%E6%95%99%E7%A8%8B/">ps教程</a>
-    </h1>
-  
-
-        
-        <a href="/2023/02/23/ps%E6%95%99%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2023-02-23T14:51:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-02-23</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="ps教程"><a href="#ps教程" class="headerlink" title="ps教程"></a>ps教程</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>系统的学习一下</p>
-<h2 id="ps快捷键"><a href="#ps快捷键" class="headerlink" title="ps快捷键"></a>ps快捷键</h2><p>（1）放大和缩放画面<br>Alt+鼠标滚轮<br>Alt+触摸板上下滑动<br>双击抓手工具，也可以快速实现适应屏幕大小<br>双击缩放工具，快速显示图像实际像素大小<br>Ctrl+”加号” 放大快捷键<br>Ctrl+”减号” 缩小快捷键<br>点击“窗口”菜单，选择导航器，也可以快速缩放图像<br><img src="/assets/blogImg/daohangqi.jpg" alt="daohangqi.jpg"><br>（2）新建空白项目<br>Ctrl+N<br>（3）修改图像大小<br>Ctrl+Alt+I<br>（4）打开文档<br>Ctrl+O<br>（5）存储文档<br>Ctrl+S<br>另存为<br>Ctrl+Shift+S<br>（6）关闭文档<br>Ctrl+W<br>（7）打开首选项<br>Ctrl+K<br>这里可以修改历史记录、暂存盘等<br>（8）打开快捷键菜单<br>Ctrl+Shif+Alt+K<br>（9）新建图层<br>Ctrl+Shift+N<br>（10）移动图层的顺序<br>Ctrl+[ 选中的图层向下移动<br>Ctrl+] 选择的图层向上移动<br>（5）拷贝图层<br>鼠标选中某个图层，按住Alt键不松，一直拖拽到想要的位置，看到鼠标变成双箭头，然后松开后就会发现已经复制了目标图层；<br>Ctrl+J也可以复制选中的图层<br>Alt+拖拽感兴趣的图层对象，也可以复制图层<br>（6）删除图层<br>鼠标选中某个图层，按Delete键即可<br>（7）召唤抓手工具<br>长按空格键不松 可以直接转换为抓手工具<br>（8）召唤移动工具<br>V 快捷键<br>（9）移动图层<br>可以按方向键，上下左右微调<br>Shift+上下左右  上下左右移动速度变快<br>（10）召唤选区工具<br>M 快捷键<br>（11）隐藏选区的蚂蚁线<br>Ctrl+H 按一次隐藏，再按一次显示<br>（10）剪切图层的部分内容<br>Ctrl+Shift+J 会将选区内的内容挖走<br>DEL也可以删掉选区内的内容<br>（11）快速画直线<br>B 快捷键切换到画笔工具<br>按住Shift键，绘制的时候是直线<br>（12）快速召唤拾色器<br>画笔状态下，按住Alt键不放，会由画笔切换成拾色器<br>当拾色器移动到想要吸取的颜色上，鼠标左键点击一下，即可将画笔吸取到这个颜色<br>（13）改变画笔大小快捷键<br><img src="/assets/blogImg/ps1.jpg" alt="ps1.jpg"><br>“[“  左中括号，画笔变小<br>“]”  右中括号，画笔变大<br>（14）改变画笔硬度<br><img src="/assets/blogImg/ps3.jpg" alt="ps3.jpg"><br>shift+ “[“  左中括号，硬度变小<br>shift+ “]”  右中括号，硬度变大<br>（15）橡皮擦工具<br>E 快捷键<br>（16） 图章工具<br>太牛了，这个工具实在是太牛了<br>按住Alt键，鼠标光标变成靶心，表示可以寻找仿制源了，<br>寻找到要复制的对象之后，点击一下鼠标左键，光标从靶心状态恢复，就表示已经取样到了。<br>取样后就可以按照画笔用法来涂抹出仿制对象了。</p>
-<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>(1) 图像文件格式<br>PSD 是ps软件的原始保存格式<br>PSB 是新格式<br>JPG 是广泛应用于互联网<br>GIF 动态图</p>
-<p>(2) 像素概念<br><img src="/assets/blogImg/pixel.jpg" alt="pixel.jpg"></p>
-<p>(3) 图层<br>什么是图层？<br>图层简单来说就是图像的层次。</p>
-<p>(4) 是否选择“细微缩放”<br>如果勾选了“细微缩放”，那点击放大镜（缩小镜）时，可以看到流畅的快速放大（或缩小）<br>如果不勾选“细微缩放”，点击放大镜之后，可以按住鼠标画一个矩形框，矩形框里的内容会被局部放大</p>
-<p>(5) 缩放工具<br>缩放工具是为了更好的观察细节，并不会对图像进行改变</p>
-<p>(6) 移动工具<br>移动工具可以多文件间拖拽图层对象<br>比如2个图像A.jpg和B.jpg<br>可以将B.jpg的图层，用移动工具拖拽到A.jpg文件的名字上，待到页面切换到A.jpg,看见鼠标出现加号，就可以将B.jpg中的那个图层拖拽到A.jpg的图像文件上。</p>
-<p>如果A.jpg和B.jpg文档大小相同，想把B.jpg中的某个图层拖拽到A.jpg中，而且位置和B.jpg中一样。<br>那么，要先按住Shift不松，然后一直拖拽B.jpg里的那个图层放到A.jpg,看到鼠标出现加号后再松开Shift，即可。</p>
-<p>移动工具针对当前被选中的图层，可以随意移动位置。</p>
-<p>(7) 显示变换控件<br>勾选显示变换控件，就能对图层对象进行变换<br>比如放大缩小旋转等变换<br><img src="/assets/blogImg/xianshibianhuan.jpg" alt="xianshibianhuan.jpg"></p>
-<p>(8) 选区<br>选区内像素可被编辑，可被移动<br>选区以外不可修改</p>
-<p>(9) 羽化<br>羽化使得选区边缘柔和过渡</p>
-<p>(10) 磁性套索<br>可以自动识别边缘</p>
-<p>(11) 魔棒工具<br>非常适合快速抠图<br>根据颜色，快速制作选区，然后根据需求反选，“添加矢量蒙版”快速抠图</p>
-<p>(12) 快速选择工具<br>非常重要的抠图工具</p>
-<p>(13) 画笔工具<br>点击前景色，选择喜欢的颜色，即可切换画笔的颜色<br><img src="/assets/blogImg/ps2.jpg" alt="ps2.jpg"><br>画笔工具可以载入（素材画笔），自制画笔</p>
-<p>(14) 工具预设<br><img src="/assets/blogImg/ps4.jpg" alt="ps4.jpg"></p>
-<p>(15) 喷枪样式<br><img src="/assets/blogImg/ps5.jpg" alt="ps5.jpg"><br>使用喷枪样式，按住鼠标左键不松，颜色会变多</p>
-<p>(16) 红眼工具<br>眼睛在闪光灯作用下会扩张，而毛细血管会呈现出红色。<br>而红眼工具可以快速的将红眼消掉。<br>使用红眼工具在红眼上框一下就可以了。</p>
-<h2 id="学习视频"><a href="#学习视频" class="headerlink" title="学习视频"></a>学习视频</h2><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV187411Z7bx/?p=11&amp;spm_id_from=pageDriver&amp;vd_source=7dc3f0bd6dd2626fdbf180d0632d1d01">https://www.bilibili.com/video/BV187411Z7bx/?p=11&amp;spm_id_from=pageDriver&amp;vd_source=7dc3f0bd6dd2626fdbf180d0632d1d01</a><br><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV187411Z7bx/?p=16&amp;spm_id_from=333.880.my_history.page.click&amp;vd_source=7dc3f0bd6dd2626fdbf180d0632d1d01">https://www.bilibili.com/video/BV187411Z7bx/?p=16&amp;spm_id_from=333.880.my_history.page.click&amp;vd_source=7dc3f0bd6dd2626fdbf180d0632d1d01</a><br>//自制画笔，工具预设等</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">ps教程</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2023/02/23/ps%E6%95%99%E7%A8%8B/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-构造用于评估边缘检测算法优劣的测试图像" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/02/04/%E6%9E%84%E9%80%A0%E7%94%A8%E4%BA%8E%E8%AF%84%E4%BC%B0%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B%E7%AE%97%E6%B3%95%E4%BC%98%E5%8A%A3%E7%9A%84%E6%B5%8B%E8%AF%95%E5%9B%BE%E5%83%8F/">构造用于评估边缘检测算法优劣的测试图像</a>
-    </h1>
-  
-
-        
-        <a href="/2023/02/04/%E6%9E%84%E9%80%A0%E7%94%A8%E4%BA%8E%E8%AF%84%E4%BC%B0%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B%E7%AE%97%E6%B3%95%E4%BC%98%E5%8A%A3%E7%9A%84%E6%B5%8B%E8%AF%95%E5%9B%BE%E5%83%8F/" class="archive-article-date">
-  	<time datetime="2023-02-04T15:07:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-02-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="构造用于评估边缘检测算法优劣的测试图像"><a href="#构造用于评估边缘检测算法优劣的测试图像" class="headerlink" title="构造用于评估边缘检测算法优劣的测试图像"></a>构造用于评估边缘检测算法优劣的测试图像</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>为了评估各种边缘检测算法的优劣，我们需要制作一些已知边缘的测试图像，这里记录如何制作评估算法优劣的测试图</p>
-<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><p>构造用于评估边缘检测算法优劣的测试图像源码<br><a target="_blank" rel="noopener" href="https://github.com/ThranduilELFKING/study-openCV/tree/main/makeTmpl">https://github.com/ThranduilELFKING/study-openCV/tree/main/makeTmpl</a></p>
-<p>输出效果<br><img src="/assets/blogImg/make_tmpl.jpg" alt="make_tmpl.jpg"><br><img src="/assets/blogImg/make_tmpl2.jpg" alt="make_tmpl2.jpg"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">opencv</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">边缘检测</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2023/02/04/%E6%9E%84%E9%80%A0%E7%94%A8%E4%BA%8E%E8%AF%84%E4%BC%B0%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B%E7%AE%97%E6%B3%95%E4%BC%98%E5%8A%A3%E7%9A%84%E6%B5%8B%E8%AF%95%E5%9B%BE%E5%83%8F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-彩色边缘" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/02/04/%E5%BD%A9%E8%89%B2%E8%BE%B9%E7%BC%98/">彩色边缘</a>
-    </h1>
-  
-
-        
-        <a href="/2023/02/04/%E5%BD%A9%E8%89%B2%E8%BE%B9%E7%BC%98/" class="archive-article-date">
-  	<time datetime="2023-02-04T14:56:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-02-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="彩色边缘"><a href="#彩色边缘" class="headerlink" title="彩色边缘"></a>彩色边缘</h1><h2 id="理论"><a href="#理论" class="headerlink" title="理论"></a>理论</h2><p>目前，我们习惯了由亮度变化产生的边缘，亮度是由灰阶值来表示的。在现实问题中，需要进行边缘检测的场景中，这种边缘占据了大约90%，但不全是。<br>事实上，由于颜色的变化，或色相（Hue)的变化，并不总是能被这些边缘检测器检测出来。<br>如果边缘是对象的边缘，那么单独由颜色标记的边缘应该是能被检测出来，而且由于大部分图像是彩色的，因此在寻找边缘的时候考虑颜色是很重要的。</p>
-<p>彩色边缘的检测有主要有两种方法。<br>方法一：一种方法是将已经讨论的这些边缘检测器应用于每一种颜色通道——红、绿、蓝——然后将这3个结果合并为一个1个结果。<br>方法二：另一种方法涉及了多维梯度，或偏导数。</p>
-<p>方法一很直观，而且很容易实现。<br>常见的边缘检测方法可用于任何灰阶图像，而图像的红、绿和蓝色分量其实也是灰阶图，只要考虑8字节像素即可。</p>
-<h2 id="RGB方案"><a href="#RGB方案" class="headerlink" title="RGB方案"></a>RGB方案</h2><p>对于大部分视觉任务来说，RGB值不如一些其他色彩编码方案的原因在于，RGB值包含明显的强度比例。<br>每一个颜色分量都是那种颜色在整个像素中的强度，而强度则是其他边缘检测器识别的内容。<br>需要有一种更纯净的颜色表示方法，使得能够通过微分算子找到彩色边缘</p>
-<h2 id="新的值T1和T2方案"><a href="#新的值T1和T2方案" class="headerlink" title="新的值T1和T2方案"></a>新的值T1和T2方案</h2><p><img src="/assets/blogImg/color_edge.jpg" alt="color_edge.jpg"></p>
-<h2 id="色相方案"><a href="#色相方案" class="headerlink" title="色相方案"></a>色相方案</h2><p>一种更传统（也更困难）的计算方式是找出色相，即像素中的颜色分量的值。<br>色相是HSV色彩系统中的“H”，可以在很多地方找到对HSV的描述。<br>其基本思想在于：彩色像素由值（value,V,表示强度）、饱和度（saturation,S,表示色彩的量）以及色相（hue,H,表示色彩的性质）进行描述。<br><img src="/assets/blogImg/color_edge2.jpg" alt="color_edge2.jpg"></p>
-<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><p>包含RGB、T1和T2、HSV三种方案的边缘检测算法源码<br><a target="_blank" rel="noopener" href="https://github.com/ThranduilELFKING/study-openCV/tree/main/colorEdge">https://github.com/ThranduilELFKING/study-openCV/tree/main/colorEdge</a></p>
-<p>运行起来，示例图像：<br><img src="/assets/blogImg/colorful.jpg" alt="colorful.jpg"><br>RGB方案检查到的边缘：<br><img src="/assets/blogImg/color_edge3.jpg" alt="color_edge3.jpg"><br>T1和T2方案检查到的边缘：<br><img src="/assets/blogImg/color_edge_t1.jpg" alt="color_edge_t1.jpg"><br><img src="/assets/blogImg/color_edge_t2.jpg" alt="color_edge_t2.jpg"><br>HSV方案检查到的边缘：<br><img src="/assets/blogImg/color_edge_hsv.jpg" alt="color_edge_hsv.jpg"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">opencv</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">边缘检测</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2023/02/04/%E5%BD%A9%E8%89%B2%E8%BE%B9%E7%BC%98/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Shen-Castan边缘检测器ISEF" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/02/04/Shen-Castan%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B%E5%99%A8ISEF/">Shen-Castan边缘检测器ISEF</a>
-    </h1>
-  
-
-        
-        <a href="/2023/02/04/Shen-Castan%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B%E5%99%A8ISEF/" class="archive-article-date">
-  	<time datetime="2023-02-04T14:55:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-02-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Shen-Castan边缘检测器ISEF"><a href="#Shen-Castan边缘检测器ISEF" class="headerlink" title="Shen-Castan边缘检测器ISEF"></a>Shen-Castan边缘检测器ISEF</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>Canny边缘检测器是根据一组特定的标准进行优化定义的。尽管这些标准足够合理，但是没有理由认为这些标准就是唯一的标准。<br>最优的概念是相对的，而且很可能（在某些情况下）存在比Canny边缘检测器更好的边缘检测器。<br>事实上，在对边缘检测的方法进行比较，有时候看上去实际上是对优化的定义进行比较。</p>
-<h2 id="理论"><a href="#理论" class="headerlink" title="理论"></a>理论</h2><p>Shen和Castan在边缘检测器的基本形式上与Canny意见一致：首先利用平滑核（smoothing kernel）进行卷积运算，然后再搜索边缘像素。然而，他们通过分析得到了一个不同的函数进行优化：即提出了最小化（在一个维度上）优化：</p>
-<p><img src="/assets/blogImg/isef.jpg" alt="isef.jpg"><br><img src="/assets/blogImg/isef2.jpg" alt="isef2.jpg"><br><img src="/assets/blogImg/isef3.jpg" alt="isef3.jpg"><br><img src="/assets/blogImg/isef4.jpg" alt="isef4.jpg"></p>
-<h2 id="与canny边缘检测器的比较"><a href="#与canny边缘检测器的比较" class="headerlink" title="与canny边缘检测器的比较"></a>与canny边缘检测器的比较</h2><p>（1）操作区别<br>Canny算法通过高斯函数的导数对图像进行卷积运算，然后执行非极大值抑制和滞后阈值操作。<br>Shen-Castan算法通过无穷对称指数滤波器对图像进行卷积运算，计算BLI，抑制负零交叉，执行自适应梯度阈值操作，最后应用滞后阈值操作。</p>
-<p>（2）用户可定义参数不同<br>这两种算法都提供了用户可定义参数，因此对于使用特定类型图像的调优很有用。<br>参数如下：<br><img src="/assets/blogImg/isef5.jpg" alt="isef5.jpg"></p>
-<p>（3）卷积实现不同<br>由于Canny的实现在执行卷积的时候使用了环绕式的方法（wrap-around），因此在图像边界周围的区域被黑色像素占据，尽管有时候这些黑色像素看上去像噪声。<br>ISEF实现使用了递归滤波器，环绕式的方法更难实现，因此没有实现，而是采用了另一种方式：图像在处理之前被嵌入了一幅更大的图像。因此，当卷积掩模超出了图像边界的时候，这些图像的边缘几乎都为白色。</p>
-<p>（4）噪声的影响<br>ISEF随着噪声的增大看上去似乎具有优势。<br>从整体上来说，相比Canny边缘检测器，ISEF边缘检测器略胜一筹，位居第一，Canny位居第二。Marr-Hildreth位居第三，之后是Kirsch，Sobel，△2和△1。</p>
-<p>值得注意的是，Canny与ISEF算法的比较的结果取决于用户可定义参数中每个参数的选择，选择的参数更好获得的评估结果可能会更好。<br>在一些情况下，Canny边缘检测器会更好，而有的时候ISEF方法会占据优势。<br>对于某个特定的图像来说，最佳的参数组合是未知的，因此最终还要用户自己来选择使用哪一种方法。</p>
-<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><p>Shen-Castan算法源码<br><a target="_blank" rel="noopener" href="https://github.com/ThranduilELFKING/study-openCV/tree/main/isef">https://github.com/ThranduilELFKING/study-openCV/tree/main/isef</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">opencv</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">边缘检测</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2023/02/04/Shen-Castan%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B%E5%99%A8ISEF/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
@@ -1211,6 +1226,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">opencv</a>
               </li>
              
@@ -1219,19 +1242,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
+                <a href="javascript:void(0)" class="js-tag color3">基础技能C++</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
+                <a href="javascript:void(0)" class="js-tag color4">CPU</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">CNC</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">常见报错问题</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">基础技能C++</a>
               </li>
              
               <li class="article-tag-list-item">

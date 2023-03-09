@@ -61,7 +61,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 111
+			总文章数 115
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -181,6 +181,326 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-制作透明图片小工具-OpenCV" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/11/05/%E5%88%B6%E4%BD%9C%E9%80%8F%E6%98%8E%E5%9B%BE%E7%89%87%E5%B0%8F%E5%B7%A5%E5%85%B7-OpenCV/">制作透明图片小工具-OpenCV</a>
+    </h1>
+  
+
+        
+        <a href="/2022/11/05/%E5%88%B6%E4%BD%9C%E9%80%8F%E6%98%8E%E5%9B%BE%E7%89%87%E5%B0%8F%E5%B7%A5%E5%85%B7-OpenCV/" class="archive-article-date">
+  	<time datetime="2022-11-05T04:50:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">个人小工具</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/11/05/%E5%88%B6%E4%BD%9C%E9%80%8F%E6%98%8E%E5%9B%BE%E7%89%87%E5%B0%8F%E5%B7%A5%E5%85%B7-OpenCV/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-npm相关报错调试" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/11/04/npm%E7%9B%B8%E5%85%B3%E6%8A%A5%E9%94%99%E8%B0%83%E8%AF%95/">npm相关报错调试</a>
+    </h1>
+  
+
+        
+        <a href="/2022/11/04/npm%E7%9B%B8%E5%85%B3%E6%8A%A5%E9%94%99%E8%B0%83%E8%AF%95/" class="archive-article-date">
+  	<time datetime="2022-11-04T15:13:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="npm相关报错调试"><a href="#npm相关报错调试" class="headerlink" title="npm相关报错调试"></a>npm相关报错调试</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>执行npm install命令时，卡住不动；然后执行cnpm install命令，发现有报错提示<br>“ RunScriptError: post install error, please remove node_modules before retry!”</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>这里应该是网络不稳定造成的，所以使用如下命令即可</p>
+<p>方案一：使用cnpm安装</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">npm install -g cnpm --registry=https:<span class="comment">//registry.npm.taobao.org</span></span><br><span class="line">此后再用cnpm命令进行安装就可以了</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>方案二：配置代理</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">npm config set registry https:<span class="comment">//registry.npm.taobao.org</span></span><br><span class="line">后续还可以继续使用npm运行，而不必用cnpm</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000019543613">https://segmentfault.com/a/1190000019543613</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常见报错问题</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/11/04/npm%E7%9B%B8%E5%85%B3%E6%8A%A5%E9%94%99%E8%B0%83%E8%AF%95/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-git上传时报错OpenSSL相关errno10054" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/11/03/git%E4%B8%8A%E4%BC%A0%E6%97%B6%E6%8A%A5%E9%94%99OpenSSL%E7%9B%B8%E5%85%B3errno10054/">git上传时报错OpenSSL相关errno10054</a>
+    </h1>
+  
+
+        
+        <a href="/2022/11/03/git%E4%B8%8A%E4%BC%A0%E6%97%B6%E6%8A%A5%E9%94%99OpenSSL%E7%9B%B8%E5%85%B3errno10054/" class="archive-article-date">
+  	<time datetime="2022-11-03T15:43:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="git上传时报错OpenSSL相关errno10054"><a href="#git上传时报错OpenSSL相关errno10054" class="headerlink" title="git上传时报错OpenSSL相关errno10054"></a>git上传时报错OpenSSL相关errno10054</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>hexo博客本地更新后，想要上传到服务器的时候，发现执行hexo d之后，一直报错提示<br>OpenSSL SSL_read: Connection was reset, errno 10054<br>从网上找到了解决方案，记录一下</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>一般来说，国内现在用git上传代码的时候，都需要VPN，否则可能只能下载不能上传（估计被河蟹了）<br>那么开着VPN的情况下，才能上传，可能就会触发这个问题，导致这个问题的有2种可能<br>1.配置不对</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">修改git配置，解除ssl验证,指令如下</span><br><span class="line">git config --global http.sslVerify <span class="string">&quot;false&quot;</span> </span><br><span class="line">此时，再执行git操作即可。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>2.配置已经确认过是对的，那么就很有可能是网络不稳定，连接超时导致的<br>这种情况下，就断开重连VPN，再尝试一下，多尝试几次，当网络情况好的时候，就可以顺利上传了</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_40908748/article/details/122367878">https://blog.csdn.net/weixin_40908748/article/details/122367878</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43945983/article/details/110882074">https://blog.csdn.net/weixin_43945983/article/details/110882074</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常见报错问题</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/11/03/git%E4%B8%8A%E4%BC%A0%E6%97%B6%E6%8A%A5%E9%94%99OpenSSL%E7%9B%B8%E5%85%B3errno10054/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-程序员生产力工具个人使用版" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/11/03/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7%E4%B8%AA%E4%BA%BA%E4%BD%BF%E7%94%A8%E7%89%88/">程序员生产力工具个人使用版</a>
+    </h1>
+  
+
+        
+        <a href="/2022/11/03/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7%E4%B8%AA%E4%BA%BA%E4%BD%BF%E7%94%A8%E7%89%88/" class="archive-article-date">
+  	<time datetime="2022-11-03T15:42:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="程序员生产力工具个人使用版"><a href="#程序员生产力工具个人使用版" class="headerlink" title="程序员生产力工具个人使用版"></a>程序员生产力工具个人使用版</h1><h2 id="截图神器Snipaste"><a href="#截图神器Snipaste" class="headerlink" title="截图神器Snipaste"></a>截图神器Snipaste</h2><p>非常好用的截图神器，直接从官网下载了解压即可使用<br>常用功能<br>1.当Snipaste启动时，按下F1即可对屏幕进行截图<br>可以在截图时用“W、A、S、D”和键盘方向键分别对鼠标和截屏区域进行像素级移动</p>
+<p>2.标注功能也很强大</p>
+<p>3.按下F3可以贴图</p>
+<h2 id="画图-一个被低估的神器"><a href="#画图-一个被低估的神器" class="headerlink" title="画图-一个被低估的神器"></a>画图-一个被低估的神器</h2><p>电脑自带的软件-画图 是一个被低估的神器<br>尤其是在做UI界面相关非常精细的工作的时候，如果需要1px的精度，那么就可以借助画图软件，<br>勾选“标尺”或“网格线”进行图片的放大缩小对比，可以非常好的看出来设计图和实现的图的效果对比<br>做很精细的UI的时候是一个非常好用的工具<br><img src="/assets/blogImg/paint.jpg" alt="paint.jpg"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/11/03/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7%E4%B8%AA%E4%BA%BA%E4%BD%BF%E7%94%A8%E7%89%88/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-windows下查看exe程序依赖的dll库详细信息" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -222,11 +542,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常用命令windows</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常用命令windows</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
         		</li>
       		
 		</ul>
@@ -690,385 +1010,6 @@
 
 
   
-    <article id="post-使用valgrind检查内存泄露" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/03/08/%E4%BD%BF%E7%94%A8valgrind%E6%A3%80%E6%9F%A5%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2/">使用valgrind检查内存泄露</a>
-    </h1>
-  
-
-        
-        <a href="/2021/03/08/%E4%BD%BF%E7%94%A8valgrind%E6%A3%80%E6%9F%A5%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2/" class="archive-article-date">
-  	<time datetime="2021-03-08T00:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="使用valgrind检查内存泄露"><a href="#使用valgrind检查内存泄露" class="headerlink" title="使用valgrind检查内存泄露"></a>使用valgrind检查内存泄露</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在代码开发过程中，内存泄露问题是一个让人排查起来很头疼的问题，这种bug有时候会非常隐蔽，当代码量很大的时候，有时候直接推理排查会花费大量时间精力，还有可能漏掉，此时可以通过一些小工具来排查代码里的内存泄露问题，linux下，可以通过valgrind工具来检查代码里的内存泄露问题</p>
-<h2 id="安装配置valgrind"><a href="#安装配置valgrind" class="headerlink" title="安装配置valgrind"></a>安装配置valgrind</h2><h3 id="1-下载"><a href="#1-下载" class="headerlink" title="1.下载"></a>1.下载</h3><p>官网下载地址： <a target="_blank" rel="noopener" href="https://www.valgrind.org/downloads/current.html">https://www.valgrind.org/downloads/current.html</a></p>
-<h3 id="2-解压安装"><a href="#2-解压安装" class="headerlink" title="2.解压安装"></a>2.解压安装</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//解压</span></span><br><span class="line">tar xvf valgrind-<span class="number">3.17</span><span class="number">.0</span>.tar.bz2 </span><br><span class="line"></span><br><span class="line"><span class="comment">//cd到路径里</span></span><br><span class="line">cd valgrind-<span class="number">3.17</span><span class="number">.0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//指定安装到/usr/local下</span></span><br><span class="line">./configure --prefix=<span class="regexp">/usr/</span>local/valgrind</span><br><span class="line"></span><br><span class="line"><span class="comment">//编译</span></span><br><span class="line">make</span><br><span class="line"></span><br><span class="line"><span class="comment">//安装</span></span><br><span class="line">make install</span><br><span class="line"></span><br><span class="line"><span class="comment">//配置环境变量</span></span><br><span class="line">sudo vim /etc/profile</span><br><span class="line"></span><br><span class="line"><span class="comment">//追加PATH变量，将valgrind的路径写进去，然后退出保存</span></span><br><span class="line"><span class="keyword">export</span> PATH=$PATH:<span class="regexp">/usr/</span>local/valgrind/bin</span><br><span class="line"></span><br><span class="line"><span class="comment">//使环境变量立即生效</span></span><br><span class="line">source /etc/profile</span><br><span class="line"></span><br><span class="line"><span class="comment">//然后就可以检查valgrind命令是否正常可用</span></span><br><span class="line">valgrind --version 查看一下当前安装的版本，以此确认我们的安装过程及环境配置是否正确</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>至此，valgrind的安装及环境配置已完成，操作过程如下图：</p>
-<p><img src="/assets/blogImg/tar_xvf_valgrind.jpg" alt="tar_xvf_valgrind"><br><img src="/assets/blogImg/install_valgrind.jpg" alt="install_valgrind"><br><img src="/assets/blogImg/valgrind_make.jpg" alt="valgrind_make.jpg"><br><img src="/assets/blogImg/valgrind_make_install.jpg" alt="valgrind_make_install.jpg"><br><img src="/assets/blogImg/valgrind_env_1.jpg" alt="valgrind_env_1.jpg"><br><img src="/assets/blogImg/valgrind_env_2.jpg" alt="valgrind_env_2.jpg"><br><img src="/assets/blogImg/valgrind_env_3.jpg" alt="valgrind_env_3.jpg"><br><img src="/assets/blogImg/valgrind_env_4.jpg" alt="valgrind_env_4.jpg"></p>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="1-demo如下"><a href="#1-demo如下" class="headerlink" title="1.demo如下"></a>1.demo如下</h3><p>main.cpp如下</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#include &lt;iostream&gt;</span><br><span class="line"></span><br><span class="line">int <span class="function"><span class="title">main</span>(<span class="params"></span>)</span></span><br><span class="line">&#123;</span><br><span class="line">	int* one = <span class="keyword">new</span> int &#123;<span class="number">1</span>&#125;;  <span class="comment">//申请空间且之后没有被释放，会造成内存泄露</span></span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;one : &quot;</span> &lt;&lt; *one &lt;&lt; std::endl;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>直接编译即可：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g++ main.cpp</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-调试"><a href="#2-调试" class="headerlink" title="2. 调试"></a>2. 调试</h3><p>调试指令如下：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">valgrind --log-file=./valgrind_report.log --leak-check=full --show-leak-kinds=all --show-reachable=no --track-origins=yes ./a.out</span><br></pre></td></tr></table></figure>
-
-<p>–log-file<br>指定报告输出文件<br>–track-origins=yes<br>是否显示未定义的变量，在堆、栈中被定义没有被initialised的变量都被定义成origins。默认是关闭这个option的。<br>–show-leak-kinds=all<br>这里可以支持的选项有[definite|possible]，一般只需要去关注definite（必须关注），possible是可能会存在。<br>–leak-check=full<br>当服务器退出时是否收集输出内存泄漏，选项有[no|summary|full]这个地方我们将其设置成全输出，默认将会使用summary方式。</p>
-<p>之后就可以查看生成的报告valgrind_report.log，分析是否有内存泄露，及问题定位</p>
-<p>本次代码检查如下：<br><img src="/assets/blogImg/valgrind_test.jpg" alt="valgrind_test.jpg"><br><img src="/assets/blogImg/valgrind_report.jpg" alt="valgrind_report.jpg"></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在linux下排查内存泄露问题时，如果项目复杂，代码量大，可以考虑使用valgrind工具来协助排查</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/erlang_hell/article/details/51360149">https://blog.csdn.net/erlang_hell/article/details/51360149</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/03/08/%E4%BD%BF%E7%94%A8valgrind%E6%A3%80%E6%9F%A5%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-static关键字" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/24/static%E5%85%B3%E9%94%AE%E5%AD%97/">static关键字</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/24/static%E5%85%B3%E9%94%AE%E5%AD%97/" class="archive-article-date">
-  	<time datetime="2020-11-24T13:42:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="static关键字"><a href="#static关键字" class="headerlink" title="static关键字"></a>static关键字</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>做一个系统的总结，之前没有做过详细的整理，这里以一个示例代码先放出来，然后结合这个代码进行一些总结和分析。</p>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="http://c.biancheng.net/view/2228.html">http://c.biancheng.net/view/2228.html</a><br><a target="_blank" rel="noopener" href="http://c.biancheng.net/view/2227.html">http://c.biancheng.net/view/2227.html</a></p>
-<h2 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h2><p>统计学生人数和平均分，总分</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;iostream&gt;</span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span></span>&#123;</span><br><span class="line"><span class="attr">public</span>:</span><br><span class="line">    Student(char *name, int age, float score);</span><br><span class="line">    <span class="keyword">void</span> show();</span><br><span class="line">public:  <span class="comment">//声明静态成员函数</span></span><br><span class="line">    <span class="keyword">static</span> int getTotal();</span><br><span class="line">    <span class="keyword">static</span> float getPoints();</span><br><span class="line">private:</span><br><span class="line">    <span class="keyword">static</span> int m_total;  <span class="comment">//总人数</span></span><br><span class="line">    <span class="keyword">static</span> float m_points;  <span class="comment">//总成绩</span></span><br><span class="line">private:</span><br><span class="line">    char *m_name;</span><br><span class="line">    int m_age;</span><br><span class="line">    float m_score;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">int Student::m_total = <span class="number">0</span>;</span><br><span class="line">float Student::m_points = <span class="number">0.0</span>;</span><br><span class="line"></span><br><span class="line">Student::Student(char *name, int age, float score): m_name(name), m_age(age), <span class="function"><span class="title">m_score</span>(<span class="params">score</span>)</span>&#123;</span><br><span class="line">    m_total++;</span><br><span class="line">    m_points += score;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">void</span> Student::<span class="function"><span class="title">show</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    cout&lt;&lt;m_name&lt;&lt;<span class="string">&quot;的年龄是&quot;</span>&lt;&lt;m_age&lt;&lt;<span class="string">&quot;，成绩是&quot;</span>&lt;&lt;m_score&lt;&lt;endl;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//定义静态成员函数</span></span><br><span class="line">int Student::<span class="function"><span class="title">getTotal</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> m_total;</span><br><span class="line">&#125;</span><br><span class="line">float Student::<span class="function"><span class="title">getPoints</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> m_points;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int <span class="function"><span class="title">main</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">//创建匿名对象</span></span><br><span class="line">    (<span class="keyword">new</span> Student(<span class="string">&quot;小明&quot;</span>, <span class="number">15</span>, <span class="number">90.6</span>)) -&gt; show();</span><br><span class="line">    (<span class="keyword">new</span> Student(<span class="string">&quot;李磊&quot;</span>, <span class="number">16</span>, <span class="number">80.5</span>)) -&gt; show();</span><br><span class="line">    (<span class="keyword">new</span> Student(<span class="string">&quot;张华&quot;</span>, <span class="number">16</span>, <span class="number">99.0</span>)) -&gt; show();</span><br><span class="line">    (<span class="keyword">new</span> Student(<span class="string">&quot;王康&quot;</span>, <span class="number">14</span>, <span class="number">60.8</span>)) -&gt; show();</span><br><span class="line"></span><br><span class="line">    int total = Student::getTotal();</span><br><span class="line">    float points = Student::getPoints();</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;当前共有&quot;</span>&lt;&lt;total&lt;&lt;<span class="string">&quot;名学生，总成绩是&quot;</span>&lt;&lt;points&lt;&lt;<span class="string">&quot;，平均分是&quot;</span>&lt;&lt;points/total&lt;&lt;endl;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>运行结果：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">小明的年龄是<span class="number">15</span>，成绩是<span class="number">90.6</span></span><br><span class="line">李磊的年龄是<span class="number">16</span>，成绩是<span class="number">80.5</span></span><br><span class="line">张华的年龄是<span class="number">16</span>，成绩是<span class="number">99</span></span><br><span class="line">王康的年龄是<span class="number">14</span>，成绩是<span class="number">60.8</span></span><br><span class="line">当前共有<span class="number">4</span>名学生，总成绩是<span class="number">330.9</span>，平均分是<span class="number">82.725</span></span><br></pre></td></tr></table></figure>
-
-<p>初步分析：<br>总人数 m_total 和总成绩 m_points 由各个对象累加得到，必须声明为 static 才能共享；<br>getTotal()、getPoints() 分别用来获取总人数和总成绩，为了访问 static 成员变量，我们将这两个函数也声明为 static。getTotal()、getPoints() 当然也可以声明为普通成员函数，但是它们都只对静态成员进行操作，加上 static 语义更加明确。</p>
-<p>静态成员变量、静态成员函数可以通过类来调用（一般都是这样做），也可以通过对象来调用。</p>
-<p>之所以使用匿名对象，是因为每次创建对象后只会使用它的 show() 函数，不再进行其他操作。不过使用匿名对象无法回收内存，会导致内存泄露，在中大型程序中不建议使用。</p>
-<p>以下详细介绍一下静态成员变量和静态成员函数。</p>
-<h2 id="静态成员变量"><a href="#静态成员变量" class="headerlink" title="静态成员变量"></a>静态成员变量</h2><p>1.对象的内存中包含了成员变量，不同的对象占用不同的内存，这使得不同对象的成员变量相互独立，它们的值不受其他对象的影响。例如有两个相同类型的对象 a、b，它们都有一个成员变量 m_name，那么修改 a.m_name 的值不会影响 b.m_name 的值。</p>
-<p>2.可是有时候我们希望在多个对象之间共享数据，对象 a 改变了某份数据后对象 b 可以检测到。共享数据的典型使用场景是计数，如果我们想知道班级中共有多少名学生，就可以设置一份共享的变量，每次创建对象时让该变量加 1。</p>
-<p>在C++中，我们可以使用静态成员变量来实现多个对象共享数据的目标。静态成员变量是一种特殊的成员变量，它被关键字static修饰。</p>
-<p>static 成员变量属于类，不属于某个具体的对象，即使创建多个对象，也只为 m_total 分配一份内存，所有对象使用的都是这份内存中的数据。当某个对象修改了 m_total，也会影响到其他对象。</p>
-<p>3.static 成员变量必须在类声明的外部初始化，具体形式为：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">type <span class="class"><span class="keyword">class</span>::<span class="title">name</span> </span>= value;</span><br><span class="line">type 是变量的类型，<span class="class"><span class="keyword">class</span> 是类名，<span class="title">name</span> 是变量名，<span class="title">value</span> 是初始值。</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">比如，将上面的 <span class="title">m_total</span> 初始化：</span></span><br><span class="line"><span class="class"><span class="title">int</span> <span class="title">Student</span>::<span class="title">m_total</span> </span>= <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
-
-<p>4.静态成员变量在初始化时不能再加 static，但必须要有数据类型。<br>被 private、protected、public 修饰的静态成员变量都可以用这种方式初始化。<br>注意：static 成员变量的内存既不是在声明类时分配，也不是在创建对象时分配，而是在（类外）初始化时分配。反过来说，没有在类外初始化的 static 成员变量不能使用。</p>
-<p>5.static 成员变量既可以通过对象来访问，也可以通过类来访问。<br>代码示例如下：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//通过类类访问 static 成员变量</span></span><br><span class="line"><span class="attr">Student</span>::m_total = <span class="number">10</span>;</span><br><span class="line"><span class="comment">//通过对象来访问 static 成员变量</span></span><br><span class="line">Student stu(<span class="string">&quot;小明&quot;</span>, <span class="number">15</span>, <span class="number">92.</span>5f);</span><br><span class="line">stu.m_total = <span class="number">20</span>;</span><br><span class="line"><span class="comment">//通过对象指针来访问 static 成员变量</span></span><br><span class="line">Student *pstu = <span class="keyword">new</span> Student(<span class="string">&quot;李华&quot;</span>, <span class="number">16</span>, <span class="number">96</span>);</span><br><span class="line">pstu -&gt; m_total = <span class="number">20</span>;</span><br><span class="line"></span><br><span class="line">这三种方式是等效的。</span><br></pre></td></tr></table></figure>
-
-<p>注意：static 成员变量不占用对象的内存，而是在所有对象之外开辟内存，即使不创建对象也可以访问。具体来说，static 成员变量和普通的 static 变量类似，都在内存分区中的全局数据区分配内存</p>
-<p>总结：<br>(1) 一个类中可以有一个或多个静态成员变量，所有的对象都共享这些静态成员变量，都可以引用它。</p>
-<p>(2) static 成员变量和普通 static 变量一样，都在内存分区中的全局数据区分配内存，到程序结束时才释放。这就意味着，static 成员变量不随对象的创建而分配内存，也不随对象的销毁而释放内存。而普通成员变量在对象创建时分配内存，在对象销毁时释放内存。</p>
-<p>(3) 静态成员变量必须初始化，而且只能在类体外进行。<br>初始化时可以赋初值，也可以不赋值。如果不赋值，那么会被默认初始化为 0。全局数据区的变量都有默认的初始值 0，而动态数据区（堆区、栈区）变量的默认值是不确定的，一般认为是垃圾值。</p>
-<p>(4) 静态成员变量既可以通过对象名访问，也可以通过类名访问，但要遵循 private、protected 和 public 关键字的访问权限限制。当通过对象名访问时，对于不同的对象，访问的是同一份内存。</p>
-<h2 id="静态成员函数"><a href="#静态成员函数" class="headerlink" title="静态成员函数"></a>静态成员函数</h2><p>1.在类中，static 除了可以声明静态成员变量，还可以声明静态成员函数。<br>普通成员函数可以访问所有成员（包括成员变量和成员函数），静态成员函数只能访问静态成员。</p>
-<p>2.编译器在编译一个普通成员函数时，会隐式地增加一个形参 this，并把当前对象的地址赋值给 this，所以普通成员函数只能在创建对象后通过对象来调用，因为它需要当前对象的地址。而静态成员函数可以通过类来直接调用，编译器不会为它增加形参 this，它不需要当前对象的地址，所以不管有没有创建对象，都可以调用静态成员函数。</p>
-<p>3.普通成员变量占用对象的内存，静态成员函数没有 this 指针，不知道指向哪个对象，无法访问对象的成员变量，也就是说静态成员函数不能访问普通成员变量，只能访问静态成员变量。</p>
-<p>4.普通成员函数必须通过对象才能调用，而静态成员函数没有 this 指针，无法在函数体内部访问某个对象，所以不能调用普通成员函数，只能调用静态成员函数。</p>
-<p>5.静态成员函数与普通成员函数的根本区别在于：普通成员函数有 this 指针，可以访问类中的任意成员；而静态成员函数没有 this 指针，只能访问静态成员（包括静态成员变量和静态成员函数）。</p>
-<p>6.在C++中，静态成员函数的主要目的是访问静态成员。<br>和静态成员变量类似，静态成员函数在声明时要加 static，在定义时不能加 static。静态成员函数可以通过类来调用（一般都是这样做），也可以通过对象来调用。</p>
-<p>注意：<br>静态成员函数可以访问其他类的各种成员函数（包括静态/非静态的成员变量和成员函数）。只在静态成员函数所在的那个类受到各种限制。在这个函数里，调用其他的类的接口都是不受限制的。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础技能C++</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/24/static%E5%85%B3%E9%94%AE%E5%AD%97/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-static静态元素" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/22/static%E9%9D%99%E6%80%81%E5%85%83%E7%B4%A0/">static静态元素</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/22/static%E9%9D%99%E6%80%81%E5%85%83%E7%B4%A0/" class="archive-article-date">
-  	<time datetime="2020-11-22T12:13:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-22</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="static静态元素"><a href="#static静态元素" class="headerlink" title="static静态元素"></a>static静态元素</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>对static静态元素做一个系统的学习记录</p>
-<h2 id="static基本含义"><a href="#static基本含义" class="headerlink" title="static基本含义"></a>static基本含义</h2><p>在c/c++种，static都有两种基本含义，并且这两种基本含义经常是互相冲突的。<br>（1）在固定的地址上进行存储分配，也就是说对象在一个特殊的静态数据区上创建的，而不是每次函数调用时在堆栈上产生的。这也是静态存储的概念。<br>（2）对一个特定编译单位来说是局部的。因此，static控制名字的可见性，所以这个名字在这个单元或者类之外是不可见的。这也描述了连接的概念，它决定连接器将看到哪些名字。</p>
-<h2 id="函数内部的静态变量"><a href="#函数内部的静态变量" class="headerlink" title="函数内部的静态变量"></a>函数内部的静态变量</h2><p>通常，在函数体内部定义一个局部变量时，编译器在每次函数调用时使堆栈的指针下移一个适当的位置，为这些局部变量分配内容。如果这个变量有一个初始化表达式，那么每当程序运行到此处，初始化就被执行。</p>
-<p>然而，有时想在两次函数调用之间保留一个变量的值，可以通过定义一个全局变量来实现，但这样一来，这个变量就不仅仅只是受到这个函数的控制。</p>
-<p>c/c++中都准许在函数体内部定义一个static对象，这个对象存储在程序的静态数据区内，而不是在堆栈中。这个对象只在函数第一次调用时初始化一次，以后它将在两次函数调用之间保持它的值。</p>
-<p>如果没有为一个内建类型的静态变量提供一个初始值的话，编译器也会确保在程序开始时它被初始化为0（转化为适当的类型）。</p>
-<p>其实对静态对象初始化（与其他对象的初始化一样）可以是任意的常量表达式，常量表达式可以出现常量以及在此之前声明过的变量和函数。</p>
-<p>注意：无论什么时候设计一个包含静态变量的函数时，都应记住多线程问题。</p>
-<h2 id="函数内部的静态对象"><a href="#函数内部的静态对象" class="headerlink" title="函数内部的静态对象"></a>函数内部的静态对象</h2><p>（1）静态对象的构造函数<br>对一般静态变量的规则同样适用于用户自定义的静态对象，而且它同样也必须有初始化操作。但是，零赋值只对内建类型有效，用户自定义类型必须用构造函数来初始化。因此，如果在定义一个静态对象时没有指定构造函数参数，这个类就必须要有默认构造函数。</p>
-<p>示例代码如下：<br><img src="/assets/blogImg/static_demo.jpg" alt="static_demo.jpg"></p>
-<p>运行结果如下：<br><img src="/assets/blogImg/static_demo2.jpg" alt="static_demo2.jpg"></p>
-<p>（2）静态对象的析构函数<br>静态对象的析构函数（包括静态存储的所有对象，不仅仅是上例的局部静态对象）在程序从main()中退出时，或者标准的c库函数exit()被调用时才被调用。</p>
-<p>多数情况下，main()函数的结尾也是调用了exit()来结束程序的。这意味着在析构函数内部使用exit()是非常危险的，因为这样导致了无穷的递归调用。</p>
-<p>同普通对象的销毁一样，静态对象的销毁顺序也是按与初始化相反的顺序进行的。当然只有那些创建了的对象才会被销毁。开发工具会记录对象初始化的顺序和那些已被创建的对象。</p>
-<p>全局对象总是在mian()执行之前被创建，在退出main()时被销毁。</p>
-<p><strong>在C++中，全局静态对象的构造函数是在main()之前调用的，所以现在有了一个在进入main()函数之前执行一段代码的简单的、可移植的方法，并且可以在退出main()之后用析构函数执行代码。在C中，如果想要做到这一点，就显得非常繁琐，我们将不得不熟悉编译器开发商的汇编语言的开始代码。</strong></p>
-<p>如果一个包含局部静态对象的函数从未被调用过，那么这个对象的构造函数也就不会执行，这样也就不会执行析构函数。</p>
-<p>示例代码如下：<br><img src="/assets/blogImg/static_demo3.jpg" alt="static_demo3.jpg"></p>
-<p>运行结果如下：<br><img src="/assets/blogImg/static_demo4.jpg" alt="static_demo4.jpg"></p>
-<h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><p>《Thing in C++》</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础技能C++</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/22/static%E9%9D%99%E6%80%81%E5%85%83%E7%B4%A0/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-查看静态库-动态库-执行程序的编译工具链gcc-g++版本命令" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/15/%E6%9F%A5%E7%9C%8B%E9%9D%99%E6%80%81%E5%BA%93-%E5%8A%A8%E6%80%81%E5%BA%93-%E6%89%A7%E8%A1%8C%E7%A8%8B%E5%BA%8F%E7%9A%84%E7%BC%96%E8%AF%91%E5%B7%A5%E5%85%B7%E9%93%BEgcc-g++%E7%89%88%E6%9C%AC%E5%91%BD%E4%BB%A4/">查看静态库-动态库-执行程序的编译工具链gcc-g++版本命令</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/15/%E6%9F%A5%E7%9C%8B%E9%9D%99%E6%80%81%E5%BA%93-%E5%8A%A8%E6%80%81%E5%BA%93-%E6%89%A7%E8%A1%8C%E7%A8%8B%E5%BA%8F%E7%9A%84%E7%BC%96%E8%AF%91%E5%B7%A5%E5%85%B7%E9%93%BEgcc-g++%E7%89%88%E6%9C%AC%E5%91%BD%E4%BB%A4/" class="archive-article-date">
-  	<time datetime="2020-11-15T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="查看静态库-动态库-执行程序的编译工具链gcc-g-版本命令"><a href="#查看静态库-动态库-执行程序的编译工具链gcc-g-版本命令" class="headerlink" title="查看静态库-动态库-执行程序的编译工具链gcc-g++版本命令"></a>查看静态库-动态库-执行程序的编译工具链gcc-g++版本命令</h1><h2 id="使用指令："><a href="#使用指令：" class="headerlink" title="使用指令："></a>使用指令：</h2><p>objdump -s –section=.comment [库名或执行文件名]</p>
-<p>如下图查看动态库：<br><img src="/assets/blogImg/objdump_ssl.jpg" alt="objdump_ssl"><br>可以看出图里的libssl.so和libcrypto.so是交叉编译工具链编译出来的）</p>
-<p>如下图查看静态库：<br><img src="/assets/blogImg/objdump_zma.jpg" alt="objdump_zma"></p>
-<p>如下图查看执行文件：<br><img src="/assets/blogImg/objdump_demo.jpg" alt="objdump_demo"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">交叉编译</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/15/%E6%9F%A5%E7%9C%8B%E9%9D%99%E6%80%81%E5%BA%93-%E5%8A%A8%E6%80%81%E5%BA%93-%E6%89%A7%E8%A1%8C%E7%A8%8B%E5%BA%8F%E7%9A%84%E7%BC%96%E8%AF%91%E5%B7%A5%E5%85%B7%E9%93%BEgcc-g++%E7%89%88%E6%9C%AC%E5%91%BD%E4%BB%A4/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/5/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/7/">Next &amp;raquo;</a>
@@ -1182,6 +1123,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">opencv</a>
               </li>
              
@@ -1190,19 +1139,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
+                <a href="javascript:void(0)" class="js-tag color3">基础技能C++</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
+                <a href="javascript:void(0)" class="js-tag color4">CPU</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">CNC</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">常见报错问题</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">基础技能C++</a>
               </li>
              
               <li class="article-tag-list-item">
