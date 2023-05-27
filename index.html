@@ -61,7 +61,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 115
+			总文章数 118
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -181,6 +181,256 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-悬挂引用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/05/27/%E6%82%AC%E6%8C%82%E5%BC%95%E7%94%A8/">悬挂引用</a>
+    </h1>
+  
+
+        
+        <a href="/2023/05/27/%E6%82%AC%E6%8C%82%E5%BC%95%E7%94%A8/" class="archive-article-date">
+  	<time datetime="2023-05-27T12:27:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-05-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="悬挂引用"><a href="#悬挂引用" class="headerlink" title="悬挂引用"></a>悬挂引用</h1><h2 id="问题：const-std-string-amp-传入的如果是一个局部变量给一个全局变量会怎么样"><a href="#问题：const-std-string-amp-传入的如果是一个局部变量给一个全局变量会怎么样" class="headerlink" title="问题：const std::string&amp; 传入的如果是一个局部变量给一个全局变量会怎么样"></a>问题：const std::string&amp; 传入的如果是一个局部变量给一个全局变量会怎么样</h2><p>如果将一个局部变量的const std::string &amp;传递给一个全局变量,会发生什么?<br>这属于悬挂引用(dangling reference)的情况。<br>当局部变量离开作用域后,其内存会被释放,而全局变量仍持有这个引用,导致访问无效内存,这是非常危险的。</p>
+<h2 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h2><p>例如:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">cpp</span><br><span class="line"><span class="keyword">void</span> <span class="function"><span class="title">foo</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="attr">std</span>::string str = <span class="string">&quot;hello&quot;</span>;</span><br><span class="line">    <span class="keyword">const</span> std::string &amp;ref = str;</span><br><span class="line">    global_ref = ref;  <span class="comment">// 悬挂引用!</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="attr">std</span>::string global_ref;</span><br><span class="line"></span><br><span class="line">int <span class="function"><span class="title">main</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    foo();</span><br><span class="line">    std::cout &lt;&lt; global_ref;  <span class="comment">// 未定义行为!原内存可能已被其他变量占用</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在foo()函数中,str是一个局部变量,当foo()调用结束后,str所占用的内存会被释放。<br>但是全局变量global_ref却持有str的一个const引用,这会导致global_ref访问的内存不是原来的”hello”字符串,而是其他的无效内存。<br>这属于非常严重的程序缺陷,运行时行为是未定义的,可能产生致命错误。</p>
+<h2 id="正确的做法是不要传递局部变量的引用给全局范围-有几种解决方案"><a href="#正确的做法是不要传递局部变量的引用给全局范围-有几种解决方案" class="headerlink" title="正确的做法是不要传递局部变量的引用给全局范围,有几种解决方案:"></a>正确的做法是不要传递局部变量的引用给全局范围,有几种解决方案:</h2><h3 id="1-不传递引用-传递实值的副本"><a href="#1-不传递引用-传递实值的副本" class="headerlink" title="1.不传递引用,传递实值的副本"></a>1.不传递引用,传递实值的副本</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cpp</span><br><span class="line"><span class="keyword">void</span> <span class="function"><span class="title">foo</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="attr">std</span>::string str = <span class="string">&quot;hello&quot;</span>;</span><br><span class="line">    global_ref = str;  <span class="comment">// 传递实值副本</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-如果必须传递引用-传递堆上创建的字符串对象的引用"><a href="#2-如果必须传递引用-传递堆上创建的字符串对象的引用" class="headerlink" title="2.如果必须传递引用,传递堆上创建的字符串对象的引用"></a>2.如果必须传递引用,传递堆上创建的字符串对象的引用</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cpp </span><br><span class="line"><span class="keyword">void</span> <span class="function"><span class="title">foo</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="attr">std</span>::string *ptr = <span class="keyword">new</span> std::string(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">    global_ref = *ptr;   <span class="comment">// 传递堆对象引用</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-不将引用传递给全局域-只在局部域使用"><a href="#3-不将引用传递给全局域-只在局部域使用" class="headerlink" title="3.不将引用传递给全局域,只在局部域使用"></a>3.不将引用传递给全局域,只在局部域使用</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cpp</span><br><span class="line"><span class="keyword">void</span> <span class="function"><span class="title">foo</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="attr">std</span>::string str = <span class="string">&quot;hello&quot;</span>;</span><br><span class="line">    <span class="keyword">const</span> std::string &amp;ref = str;</span><br><span class="line">    use(ref);        <span class="comment">// 在局部域使用引用 </span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> <span class="function"><span class="title">use</span>(<span class="params"><span class="keyword">const</span> std::string &amp;ref</span>)</span> &#123; ... &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>所以,总结来说,不要将局部变量的引用传递给全局域,这会产生悬挂引用导致未定义行为。<br>如果需要传递引用,只在局部域使用,或者传递堆上对象的引用。传递实值拷贝也是一种简单可靠的选择。<br>这样可以确保程序的正确性,避免产生悬挂引用等危险情况。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础技能C++</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/05/27/%E6%82%AC%E6%8C%82%E5%BC%95%E7%94%A8/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-类成员变量函数指针" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/05/27/%E7%B1%BB%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88/">类成员变量函数指针</a>
+    </h1>
+  
+
+        
+        <a href="/2023/05/27/%E7%B1%BB%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88/" class="archive-article-date">
+  	<time datetime="2023-05-27T12:24:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-05-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="类成员函数指针缓存的map，在类里面调用，c"><a href="#类成员函数指针缓存的map，在类里面调用，c" class="headerlink" title="类成员函数指针缓存的map，在类里面调用，c++"></a>类成员函数指针缓存的map，在类里面调用，c++</h1><h2 id="示例及分析"><a href="#示例及分析" class="headerlink" title="示例及分析"></a>示例及分析</h2><p>代码</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span> </span>&#123;</span><br><span class="line"><span class="attr">public</span>:</span><br><span class="line">    <span class="keyword">void</span> <span class="function"><span class="title">bar</span>(<span class="params"></span>)</span> &#123; ... &#125;</span><br><span class="line">    <span class="keyword">void</span> <span class="function"><span class="title">baz</span>(<span class="params"></span>)</span> &#123; ... &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">int <span class="function"><span class="title">main</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    typedef <span class="keyword">void</span> (Foo::*FooFunc)();  <span class="comment">// 定义成员函数指针类型</span></span><br><span class="line"></span><br><span class="line">    map&lt;string, FooFunc&gt; funcMap;  <span class="comment">// 用map缓存成员函数指针</span></span><br><span class="line">    funcMap[<span class="string">&quot;bar&quot;</span>] = &amp;Foo::bar;   <span class="comment">// 将&quot;bar&quot;映射到Foo::bar函数</span></span><br><span class="line">    funcMap[<span class="string">&quot;baz&quot;</span>] = &amp;Foo::baz;   <span class="comment">// 将&quot;baz&quot;映射到Foo::baz函数</span></span><br><span class="line"></span><br><span class="line">    Foo f;</span><br><span class="line">    (f.*(funcMap[<span class="string">&quot;bar&quot;</span>]))();  <span class="comment">// 通过成员函数指针调用Foo::bar</span></span><br><span class="line">    (f.*(funcMap[<span class="string">&quot;baz&quot;</span>]))();  <span class="comment">// 通过成员函数指针调用Foo::baz</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里我们定义了一个成员函数指针类型FooFunc,它指向Foo类的无参数void成员函数。<br>然后我们创建一个map,键是字符串,值是FooFunc类型的成员函数指针。<br>我们将”bar”映射到Foo::bar函数,将”baz”映射到Foo::baz函数。<br>最后,我们可以通过map查找对应键的值,这个值是一个成员函数指针。<br>使用.*操作符,我们就可以通过该指针调用类的成员函数。<br>所以这个funcMap起到一个”缓存”成员函数指针的作用。<br>通过字符串键,我们可以查找到并调用对应的成员函数。</p>
+<h2 id="实例（简化版）"><a href="#实例（简化版）" class="headerlink" title="实例（简化版）"></a>实例（简化版）</h2><p>AName.h</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AName</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line"><span class="attr">public</span>:</span><br><span class="line">    AName();</span><br><span class="line">    ~AName();</span><br><span class="line">    <span class="keyword">void</span> InitAllFuncMap();</span><br><span class="line">    <span class="keyword">void</span> ExecAllFunc(<span class="keyword">const</span> std::string&amp; , std::string&amp; );</span><br><span class="line"></span><br><span class="line">protected:</span><br><span class="line">    int Func1(<span class="keyword">const</span> std::string&amp; , std::string&amp; );</span><br><span class="line">    int Func2(<span class="keyword">const</span> std::string&amp; , std::string&amp; );</span><br><span class="line">    int Func3(<span class="keyword">const</span> std::string&amp; , std::string&amp; );</span><br><span class="line">    int Func4(<span class="keyword">const</span> std::string&amp; , std::string&amp; );</span><br><span class="line">    int Func5(<span class="keyword">const</span> std::string&amp; , std::string&amp; );</span><br><span class="line">    int Func6(<span class="keyword">const</span> std::string&amp; , std::string&amp; );</span><br><span class="line">    int Func7(<span class="keyword">const</span> std::string&amp; , std::string&amp; );</span><br><span class="line">    int Func8(<span class="keyword">const</span> std::string&amp; , std::string&amp; );</span><br><span class="line">    int Func9(<span class="keyword">const</span> std::string&amp; , std::string&amp; );</span><br><span class="line"></span><br><span class="line">	typedef int (AName::*READKEYFUNCPTR)(<span class="keyword">const</span> std::string &amp;, std::string&amp;);</span><br><span class="line">	std::map&lt;std::string, READKEYFUNCPTR&gt; m_key_func_map_; <span class="comment">// 定义一个字符串到函数指针的映射</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>AName.cpp</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">AName::<span class="function"><span class="title">AName</span>(<span class="params"></span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    InitAllFuncMap();</span><br><span class="line">    <span class="comment">// DoSomething</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="attr">AName</span>::~<span class="function"><span class="title">AName</span>(<span class="params"></span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// DoSomething</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> AName::<span class="function"><span class="title">InitAllFuncMap</span>(<span class="params"></span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    m_key_func_map_.clear();</span><br><span class="line">    m_key_func_map_[<span class="string">&quot;func1&quot;</span>] = &amp;AName::Func1;</span><br><span class="line">    m_key_func_map_[<span class="string">&quot;func2&quot;</span>] = &amp;AName::Func2;</span><br><span class="line">    m_key_func_map_[<span class="string">&quot;func3&quot;</span>] = &amp;AName::Func3;</span><br><span class="line">    m_key_func_map_[<span class="string">&quot;func4&quot;</span>] = &amp;AName::Func4;</span><br><span class="line">    m_key_func_map_[<span class="string">&quot;func5&quot;</span>] = &amp;AName::Func5;</span><br><span class="line">    m_key_func_map_[<span class="string">&quot;func6&quot;</span>] = &amp;AName::Func6;</span><br><span class="line">    m_key_func_map_[<span class="string">&quot;func7&quot;</span>] = &amp;AName::Func7;</span><br><span class="line">    m_key_func_map_[<span class="string">&quot;func8&quot;</span>] = &amp;AName::Func8;</span><br><span class="line">    m_key_func_map_[<span class="string">&quot;func9&quot;</span>] = &amp;AName::Func9;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> <span class="function"><span class="title">ExecAllFunc</span>(<span class="params"><span class="keyword">const</span> std::string&amp; name, std::string&amp; result</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//DoSomething.....</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//遍历map里所有函数指针，并执行每一个函数一次</span></span><br><span class="line">    <span class="attr">std</span>::map&lt;std::string, READKEYFUNCPTR&gt;::iterator it = m_key_func_map_.begin();</span><br><span class="line">	READKEYFUNCPTR func_ptr = NULL;</span><br><span class="line">	<span class="keyword">for</span>(; it != m_key_func_map_.end(); ++it)</span><br><span class="line">	&#123;</span><br><span class="line">		str_name = it-&gt;first;</span><br><span class="line">		func_ptr = it-&gt;second;</span><br><span class="line">		<span class="keyword">if</span>(func_ptr != NULL)</span><br><span class="line">		&#123;</span><br><span class="line">            <span class="comment">// 执行函数一次</span></span><br><span class="line">			int ret  = (<span class="built_in">this</span>-&gt;*func_ptr)(name, result);</span><br><span class="line">            <span class="comment">// DoSomething</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int AName::<span class="function"><span class="title">Func1</span>(<span class="params"><span class="keyword">const</span> std::string&amp; name, std::string&amp; result</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">std</span>::cout &lt;&lt; <span class="string">&quot;[FUNC1]&quot;</span> &lt;&lt; name &lt;&lt; <span class="string">&quot;, &quot;</span> &lt;&lt; result &lt;&lt; std::endl;</span><br><span class="line">    <span class="comment">// DoSomething</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int AName::<span class="function"><span class="title">Func2</span>(<span class="params"><span class="keyword">const</span> std::string&amp; name, std::string&amp; result</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">std</span>::cout &lt;&lt; <span class="string">&quot;[FUNC2]&quot;</span> &lt;&lt; name &lt;&lt; <span class="string">&quot;, &quot;</span> &lt;&lt; result &lt;&lt; std::endl;</span><br><span class="line">    <span class="comment">// DoSomething</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int AName::<span class="function"><span class="title">Func3</span>(<span class="params"><span class="keyword">const</span> std::string&amp; name, std::string&amp; result</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">std</span>::cout &lt;&lt; <span class="string">&quot;[FUNC3]&quot;</span> &lt;&lt; name &lt;&lt; <span class="string">&quot;, &quot;</span> &lt;&lt; result &lt;&lt; std::endl;</span><br><span class="line">    <span class="comment">// DoSomething</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//其余几个函数类似</span></span><br><span class="line">......</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础技能C++</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/05/27/%E7%B1%BB%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-TinyThread" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/03/09/TinyThread/">TinyThread++</a>
+    </h1>
+  
+
+        
+        <a href="/2023/03/09/TinyThread/" class="archive-article-date">
+  	<time datetime="2023-03-09T14:29:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-03-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="TinyThread"><a href="#TinyThread" class="headerlink" title="TinyThread++"></a>TinyThread++</h1><h2 id="TinyThread-是什么？"><a href="#TinyThread-是什么？" class="headerlink" title="TinyThread++是什么？"></a>TinyThread++是什么？</h2><p>TinyThread++ 实现了 C++11 线程管理类的一个相当兼容的子集。<br>TinyThread++ 是 C++ 基本线程类的最小可移植实现。<br>它们非常模仿 C++11 标准的功能和命名，并且应该可以很容易地用相应的 std:: 变体替换。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://tinythreadpp.bitsnbites.eu/doc/">https://tinythreadpp.bitsnbites.eu/doc/</a><br>//官方手册</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CNC</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">多线程</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/03/09/TinyThread/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-RT-Thread学习记录" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -239,6 +489,10 @@
       		 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CNC</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">多线程</a>
         		</li>
       		
 		</ul>
@@ -337,6 +591,10 @@
       		 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CNC</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">多线程</a>
         		</li>
       		
 		</ul>
@@ -820,299 +1078,6 @@
 
 
   
-    <article id="post-一个进程最多可以创建多少个线程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/02/28/%E4%B8%80%E4%B8%AA%E8%BF%9B%E7%A8%8B%E6%9C%80%E5%A4%9A%E5%8F%AF%E4%BB%A5%E5%88%9B%E5%BB%BA%E5%A4%9A%E5%B0%91%E4%B8%AA%E7%BA%BF%E7%A8%8B/">一个进程最多可以创建多少个线程</a>
-    </h1>
-  
-
-        
-        <a href="/2023/02/28/%E4%B8%80%E4%B8%AA%E8%BF%9B%E7%A8%8B%E6%9C%80%E5%A4%9A%E5%8F%AF%E4%BB%A5%E5%88%9B%E5%BB%BA%E5%A4%9A%E5%B0%91%E4%B8%AA%E7%BA%BF%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2023-02-28T12:43:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-02-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="一个进程最多可以创建多少个线程"><a href="#一个进程最多可以创建多少个线程" class="headerlink" title="一个进程最多可以创建多少个线程"></a>一个进程最多可以创建多少个线程</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>本来是在看多线程的问题，忽然看到网上有人在问一个进程最多可以创建多少个线程，出于好奇，点开了一些回答，感觉也是很有意思，这里做个记录。<br>我个人的虚拟机安装的镜像是32位，linux<br>网上找到了网友的服务器配置是64位，linux，单核，2G物理内存</p>
-<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h3 id="虚拟内存"><a href="#虚拟内存" class="headerlink" title="虚拟内存"></a>虚拟内存</h3><p>首先，不同的操作系统和不同位数的操作系统，虚拟内存可能是不一样多。<br>在 Linux 操作系统中，虚拟地址空间的内部又被分为内核空间和用户空间两部分，不同位数的系统，地址 空间的范围也不同。比如最常⻅的 32 位和 64 位系统，如下所示:<br><img src="/assets/blogImg/pthreadnum.jpg" alt="pthreadnum.jpg"></p>
-<p>通过这里可以看出:<br>32 位系统的内核空间占用 1G ，位于最高处，剩下的 3G 是用户空间;<br>64 位系统的内核空间和用户空间都是 128T ，分别占据整个内存空间的最高和最低处，剩下的中间部分是未定义的。</p>
-<h3 id="影响一个进程创建多少个线程的重要因素"><a href="#影响一个进程创建多少个线程的重要因素" class="headerlink" title="影响一个进程创建多少个线程的重要因素"></a>影响一个进程创建多少个线程的重要因素</h3><p>一个进程最多可以创建多少个线程？这个问题跟两个东西有关系：<br>（1）进程的虚拟内存空间上限，因为创建一个线程，操作系统需要为其分配一个栈空间，如果线程数量越多，所需的栈空间就要越大，那么虚拟内存就会占用的越多。<br>（2）系统参数限制，虽然 Linux 并没有内核参数来控制单个进程创建的最大线程个数，但是有系统级别的参数来控制整个系统的最大线程个数。</p>
-<h3 id="如何查看线程的栈空间大小？"><a href="#如何查看线程的栈空间大小？" class="headerlink" title="如何查看线程的栈空间大小？"></a>如何查看线程的栈空间大小？</h3><p>在进程里创建一个线程需要消耗多少虚拟内存大小？<br>我们可以执行 ulimit -a 这条命令，查看进程创建线程时默认分配的栈空间大小，比如下面这个设备默认分配给线程的栈空间大小为 8M。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ulimit -a</span><br></pre></td></tr></table></figure>
-<p><img src="/assets/blogImg/pthreadnum2.jpg" alt="pthreadnum2.jpg"></p>
-<h3 id="影响创建线程上限的三个内核参数"><a href="#影响创建线程上限的三个内核参数" class="headerlink" title="影响创建线程上限的三个内核参数"></a>影响创建线程上限的三个内核参数</h3><p>下面这三个内核参数的大小，都会影响创建线程的上限：<br>/proc/sys/kernel/threads-max，表示系统支持的最大线程数，默认值是 14553；<br>/proc/sys/kernel/pid_max，表示系统全局的 PID 号数值的限制，每一个进程或线程都有 ID，ID 的值超过这个数，进程或线程就会创建失败，默认值是 32768；<br>/proc/sys/vm/max_map_count，表示限制一个进程可以拥有的VMA(虚拟内存区域)的数量，如果它的值很小，也会导致创建线程失败，默认值是 65530。<br><img src="/assets/blogImg/pthreadnum3.jpg" alt="pthreadnum3.jpg"></p>
-<h3 id="查看当前系统的线程总数"><a href="#查看当前系统的线程总数" class="headerlink" title="查看当前系统的线程总数"></a>查看当前系统的线程总数</h3><p>查看当前系统的线程数，可以用top -H命令</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">top -H</span><br></pre></td></tr></table></figure>
-<p><img src="/assets/blogImg/pthreadnum6.jpg" alt="pthreadnum6.jpg"></p>
-<h2 id="在32位linux系统下，一个进程可以创建多少个线程？"><a href="#在32位linux系统下，一个进程可以创建多少个线程？" class="headerlink" title="在32位linux系统下，一个进程可以创建多少个线程？"></a>在32位linux系统下，一个进程可以创建多少个线程？</h2><p>在 32 位 Linux 系统里，一个进程的虚拟空间是 4G，内核分走了1G，留给用户用的只有 3G。<br>那么假设创建一个线程需要占用 10M 虚拟内存，总共有 3G 虚拟内存可以使用。于是我们可以算出，最多可以创建差不多 300 个（3G/10M）左右的线程。</p>
-<p>可以通过代码测试32位的linux系统下，一个进程可以创建多少个线程，如下：<br><img src="/assets/blogImg/pthreadnum4.jpg" alt="pthreadnum4.jpg"><br>测试结果如下：<br><img src="/assets/blogImg/pthreadnum5.jpg" alt="pthreadnum5.jpg"></p>
-<p>如果想要使得进程创建上千个线程，那么可以调整创建线程时分配的栈空间大小，比如调整为512k</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ulimit -s <span class="number">512</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="在64位linux系统下，一个进程可以创建多少个线程？"><a href="#在64位linux系统下，一个进程可以创建多少个线程？" class="headerlink" title="在64位linux系统下，一个进程可以创建多少个线程？"></a>在64位linux系统下，一个进程可以创建多少个线程？</h2><p>64 位系统意味着用户空间的虚拟内存最大值是 128T，这个数值是很大的，如果按创建一个线程需占用 10M 栈空间的情况来算，那么理论上可以创建 128T/10M 个线程，也就是 1000多万个线程。<br>所以按 64 位系统的虚拟内存大小，理论上可以创建无数个线程。<br>事实上，肯定创建不了那么多线程，除了虚拟内存的限制，还有系统的限制。<br>针对这台测试服务器的配置，看下一个进程最多能创建多少个线程呢？<br>在这台服务器跑了前面的程序，其结果如下：<br><img src="/assets/blogImg/pthreadnum7.jpg" alt="pthreadnum7.jpg"><br>创建了 14374 个线程后，就无法在创建了，而且报错是因为资源的限制。<br>前面提到的 threads-max 内核参数，它是限制系统里最大线程数，默认值是 14553。<br>可以运行那个测试线程数的程序后，看下当前系统的线程数是多少，可以通过 top -H 查看。<br><img src="/assets/blogImg/pthreadnum8.jpg" alt="pthreadnum8.jpg"><br>左上角的 Threads 的数量显示是 14553，与 threads-max 内核参数的值相同，所以我们可以认为是因为这个参数导致无法继续创建线程。<br>那么，我们可以把 threads-max 参数设置成 99999:</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo <span class="number">99999</span> &gt; <span class="regexp">/proc/</span>sys/kernel/threads-max</span><br></pre></td></tr></table></figure>
-<p>设置完 threads-max 参数后，我们重新跑测试线程数的程序，运行后结果如下图：<br><img src="/assets/blogImg/pthreadnum9.jpg" alt="pthreadnum9.jpg"><br>可以看到，当进程创建了 32326 个线程后，就无法继续创建里，且报错是无法继续申请内存。</p>
-<p>此时的上限个数很接近 pid_max 内核参数的默认值（32768），那么我们可以尝试将这个参数设置为 99999：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo <span class="number">99999</span> &gt; <span class="regexp">/proc/</span>sys/kernel/pid_max</span><br></pre></td></tr></table></figure>
-<p>设置完 pid_max 参数后，继续跑测试线程数的程序，运行后结果创建线程的个数还是一样卡在了 32768 了。</p>
-<p>明明 pid_max 已经调整大后，为什么线程个数还是上不去呢？<br>后面经过查阅资料发现，max_map_count 这个内核参数也是需要调大的，它的值是会限制创建线程个数的上限。<br>把 max_map_count 内核参数也设置成后 99999：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo <span class="number">99999</span> &gt; <span class="regexp">/proc/</span>sys/vm/max_map_count</span><br></pre></td></tr></table></figure>
-<p>继续跑测试线程数的程序，结果如下图：<br><img src="/assets/blogImg/pthreadnum10.jpg" alt="pthreadnum10.jpg"><br>当创建差不多 5 万个线程后，服务器就卡住不动了，CPU 都已经被占满了，毕竟这个是单核 CPU，所以现在是 CPU 的瓶颈了。<br>接下来，我们换个思路测试下，把创建线程时分配的栈空间调大，比如调大为 100M，在大就会创建线程失败。<br>ulimit -s 1024000<br>设置完后，跑测试线程的程序，其结果如下：<br><img src="/assets/blogImg/pthreadnum11.jpg" alt="pthreadnum11.jpg"></p>
-<p>总共创建了 26390 个线程，然后就无法继续创建了，而且该进程的虚拟内存空间已经高达 25T，要知道这台服务器的物理内存才 2G。<br>为什么物理内存只有 2G，进程的虚拟内存却可以使用 25T 呢？<br>因为虚拟内存并不是全部都映射到物理内存的，程序是有局部性的特性，也就是某一个时间只会执行部分代码，所以只需要映射这部分程序就好。<br>可以从上面那个 top 的截图看到，虽然进程虚拟空间很大，但是物理内存（RES）只有使用了 400M+。</p>
-<h2 id="简单总结"><a href="#简单总结" class="headerlink" title="简单总结"></a>简单总结</h2><p>（1）32 位系统，用户态的虚拟空间只有 3G，如果创建线程时分配的栈空间是 10M，那么一个进程最多只能创建 300 个左右的线程。<br>（2）64 位系统，用户态的虚拟空间大到有 128T，理论上不会受虚拟内存大小的限制，而会受系统的参数或性能限制。</p>
-<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><p><a target="_blank" rel="noopener" href="https://github.com/ThranduilELFKING/toolsUse/blob/main/getMaxPthread/main.cpp">https://github.com/ThranduilELFKING/toolsUse/blob/main/getMaxPthread/main.cpp</a><br>//可以在自己的机器上，运行这段代码，来看看当前设备一个进程最多可以创建多少个线程</p>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/387673151">https://zhuanlan.zhihu.com/p/387673151</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">基础技能</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2023/02/28/%E4%B8%80%E4%B8%AA%E8%BF%9B%E7%A8%8B%E6%9C%80%E5%A4%9A%E5%8F%AF%E4%BB%A5%E5%88%9B%E5%BB%BA%E5%A4%9A%E5%B0%91%E4%B8%AA%E7%BA%BF%E7%A8%8B/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-工具资源收藏" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/02/27/%E5%B7%A5%E5%85%B7%E8%B5%84%E6%BA%90%E6%94%B6%E8%97%8F/">工具资源收藏</a>
-    </h1>
-  
-
-        
-        <a href="/2023/02/27/%E5%B7%A5%E5%85%B7%E8%B5%84%E6%BA%90%E6%94%B6%E8%97%8F/" class="archive-article-date">
-  	<time datetime="2023-02-27T13:06:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-02-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="工具资源收藏"><a href="#工具资源收藏" class="headerlink" title="工具资源收藏"></a>工具资源收藏</h1><h2 id="matlab资源"><a href="#matlab资源" class="headerlink" title="matlab资源"></a>matlab资源</h2><p><a target="_blank" rel="noopener" href="https://pan.isharepc.com/221578.html">https://pan.isharepc.com/221578.html</a><br>//下载及安装全过程指南，实测ok<br>//验证数学算法等，还是非常好用的</p>
-<h2 id="draw-io绘制UML"><a href="#draw-io绘制UML" class="headerlink" title="draw.io绘制UML"></a>draw.io绘制UML</h2><p><a target="_blank" rel="noopener" href="https://www.draw.io/">https://www.draw.io/</a><br>//可以在线绘制</p>
-<h2 id="强大的在线学习网站"><a href="#强大的在线学习网站" class="headerlink" title="强大的在线学习网站"></a>强大的在线学习网站</h2><p><a target="_blank" rel="noopener" href="https://www.xuexi.cn/xxqg.html?id=0420ddf502ed4ec290f0b25f85b9ab72#fv0gxRElva">https://www.xuexi.cn/xxqg.html?id=0420ddf502ed4ec290f0b25f85b9ab72#fv0gxRElva</a><br>//学习强国，值得拥有</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2023/02/27/%E5%B7%A5%E5%85%B7%E8%B5%84%E6%BA%90%E6%94%B6%E8%97%8F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-UML图总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/02/27/UML%E5%9B%BE%E6%80%BB%E7%BB%93/">UML图总结一</a>
-    </h1>
-  
-
-        
-        <a href="/2023/02/27/UML%E5%9B%BE%E6%80%BB%E7%BB%93/" class="archive-article-date">
-  	<time datetime="2023-02-27T12:46:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-02-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="UML建模"><a href="#UML建模" class="headerlink" title="UML建模"></a>UML建模</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>对UML建模有一个系统的学习记录。</p>
-<h2 id="UML概念"><a href="#UML概念" class="headerlink" title="UML概念"></a>UML概念</h2><p>UML通过图形化的表示机制从多个侧面对系统的分析和设计模型进行刻画。</p>
-<p>为什么要用UML图？<br>通过使用UML使得在软件开发之前， 对整个软件设计有更好的可读性，可理解性，从而降低开发风险。同时，也能方便各个开发人员之间的交流。<br>UML提供了极富表达能力的建模语言，可以让软件开发过程中的不同人员分别得到自己感兴趣的信息。<br>Page-Jones 在《Fundamental Object-Oriented Design in UML》 一书中总结了UML的主要目的，如下：</p>
-<ol>
-<li>   为用户提供现成的、有表现力的可视化建模语言，以便他们开发和交换有意义的模型。</li>
-<li>   为核心概念提供可扩展性 (Extensibility) 和特殊化 (Specialization) 机制。</li>
-<li>   独立于特定的编程语言和开发过程。</li>
-<li>   为了解建模语言提供一个正式的基础。</li>
-<li>   鼓励面向对象工具市场的发展。</li>
-<li>   支持更高层次的开发概念，如协作，框架，模式和组件。</li>
-<li>   整合最佳的工作方法 (Best Practices)。</li>
-</ol>
-<h2 id="UML图分类"><a href="#UML图分类" class="headerlink" title="UML图分类"></a>UML图分类</h2><p>共定义了10种视图，并将其分为如下4类。<br><img src="/assets/blogImg/uml.jpg" alt="uml.jpg"></p>
-<h2 id="用例图"><a href="#用例图" class="headerlink" title="用例图"></a>用例图</h2><h3 id="概念及重要性"><a href="#概念及重要性" class="headerlink" title="概念及重要性"></a>概念及重要性</h3><p>用例是代表系统中各相关人员之间就系统的行为所达成的默契。<br>软件的开发过程可以分为需求分析、设计、实现等阶段。<br>在需求分析阶段，用例是分析人员与客户沟通的工具和项目规模估算的依据；<br>在设计阶段，用例是系统功能设计的主要输入；<br>在实现阶段，用例是检测类行为正确性的文档。<br>因此，面向对象的软件开发过程是用例驱动的。</p>
-<p>用例分析可以支持领域建模，以确保定义正确的需求，是保证OO软件开发成功的基础。<br>但要在具体的项目中灵活使用用例来捕获用户的需求并不是一件容易的事情，往往需要用户的经验、沟通能力、丰富的领域知识等。</p>
-<p>本质上，用例分析是一种功能分解（functional decomposition）的技术，并未使用到面向对象思想。但用例是UML的重要部分，确定一个系统的用例才是开发OO系统的第一步，用例分析这步做得好，接着的交互图分析、类图分析等才有可能做得好，整个系统的开发才能顺利进行。</p>
-<h3 id="用例图示例"><a href="#用例图示例" class="headerlink" title="用例图示例"></a>用例图示例</h3><p><img src="/assets/blogImg/uml2.jpg" alt="uml2.jpg"><br>如上所示的UML用例图反映了顾客（角色，英语：actor）在餐馆（系统，英语：system）中的交互</p>
-<p>（1）参与者<br>角色（actor)是指系统以外的、需要使用系统或与系统交互的东西，包括人、设备、外部系统等。<br>参与者其实是一个版型化的类，其版型是:</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;&lt;Actor&gt;&gt;</span><br></pre></td></tr></table></figure>
-<p><img src="/assets/blogImg/uml3.jpg" alt="uml3.jpg"></p>
-<p>（2）用例间的关系<br>用例与参与者有关联(association)关系<br>用例之间也存在着：泛化（generalization）关系、包含（include）关系、扩展（extend）关系等</p>
-<p>包含关系描述的是一个用例需要某种功能，而该功能被另外一个用例定义，那么在用例的执行过程中，就可以调用已经定义好的用例。<br>也可以说，其中一个用例的行为包含了另一个用例的行为。包含关系是依赖关系的版型，即包含关系是比较特殊的依赖关系。<br>版型符号：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;&lt;include&gt;&gt;</span><br></pre></td></tr></table></figure>
-<p><img src="/assets/blogImg/uml4.jpg" alt="uml4.jpg"></p>
-<p>用一个用例（可选）扩展另一个用例（基本例）的功能，将一些常规的动作放在一个基本用例中，将可选的或只在特定条件下才执行的动作放在它的扩展用例中。<br>基本用例必须声明若干“扩展点”，而扩展用例只能在这些扩展点上增加新的行为和含义。扩展用例有更多的规则限制。<br>版型符号：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;&lt;extend&gt;&gt;</span><br></pre></td></tr></table></figure>
-<p><img src="/assets/blogImg/uml5.jpg" alt="uml5.jpg"></p>
-<p>（3）用例的描述<br>用例的描述是用例的核心部分，用例采用自然语言描述参与者与系统进行交互时双方的行为。<br><img src="/assets/blogImg/uml6.jpg" alt="uml6.jpg"></p>
-<p>（4）系统边界system scope<br>系统边界system scope：确定系统的范围，边界是一个方框，用例在边界内，参与者在边界外；</p>
-<h2 id="关联关键词"><a href="#关联关键词" class="headerlink" title="关联关键词"></a>关联关键词</h2><p>UML  (Unified Model Language) 统一建模语言<br>OMG  (Object Management Group)<br>RTF  (Revision Task Forces) 修订任务组<br>XMI  (XML metadata Interchange)<br>DTD  (Document Type Definition)<br>IDL  (Interface Definition Language)<br>Object-Oriented  面向对象<br>Use Case  用例<br>domain modeling 领域建模<br>right requirement 正确的需求<br>extension use case 扩展用例</p>
-<h2 id="对UML的评价与展望"><a href="#对UML的评价与展望" class="headerlink" title="对UML的评价与展望"></a>对UML的评价与展望</h2><p>（1） UML已经取得重要成功，它已经成为软件工业中占支配地位的建模语言。并在许多领域的软件开发中得到应用。<br>（2） UML还存在着许多的问题，自它产生之日起就从未离开过匹配：用户和教授抱怨它内容庞大；学者认为它缺少一个精炼的核心和定义良好的外围，有些语义带着二义性；建模实践者认为它缺少支持自己领域建模要求的机制；工具开发商则因为规范本身的不确定性而产生理解上的偏差，它们对UML的自行诠释可能会误导用户。<br>（3） UML的关键问题是过于庞大和复杂，以及在语言体系结构、语义等方面存在理论缺陷。产生这些问题的一个重要原因是，在形成规范的过程中不得不照顾多种方法流派的观点和多家公司的利益。</p>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_35423190/article/details/125069834">https://blog.csdn.net/qq_35423190/article/details/125069834</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2023/02/27/UML%E5%9B%BE%E6%80%BB%E7%BB%93/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
@@ -1226,19 +1191,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">opencv</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">边缘检测</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1254,7 +1215,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">常见报错问题</a>
+                <a href="javascript:void(0)" class="js-tag color4">多线程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1262,7 +1227,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">hexo博客搭建</a>
+                <a href="javascript:void(0)" class="js-tag color2">常见报错问题</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1275,6 +1240,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">交叉编译</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">hexo博客搭建</a>
               </li>
              
               <li class="article-tag-list-item">

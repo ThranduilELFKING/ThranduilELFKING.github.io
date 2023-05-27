@@ -61,7 +61,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 115
+			总文章数 118
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -180,6 +180,277 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-字符及文件操作函数一" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/07/%E5%AD%97%E7%AC%A6%E5%8F%8A%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%E5%87%BD%E6%95%B0%E4%B8%80/">字符及文件操作函数一</a>
+    </h1>
+  
+
+        
+        <a href="/2017/03/07/%E5%AD%97%E7%AC%A6%E5%8F%8A%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%E5%87%BD%E6%95%B0%E4%B8%80/" class="archive-article-date">
+  	<time datetime="2017-03-07T13:59:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="字符及文件操作函数一"><a href="#字符及文件操作函数一" class="headerlink" title="字符及文件操作函数一"></a>字符及文件操作函数一</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>对文件操作，做一个整体的记录整合</p>
+<h2 id="EOF标识"><a href="#EOF标识" class="headerlink" title="EOF标识"></a>EOF标识</h2><p>EOF（-1）<br>end of file 文件结束标志<br>键盘上用 ctrl + z 实现<br>EOF是一个计算机术语，为End Of File的缩写，在操作系统中表示资料源无更多的资料可读取。资料源通常称为档案或串流。通常在文本的最后存在此字符表示资料结束。<br>这个定义的意思是，文档的结尾都有一个隐藏字符”EOF”，当程序读取它的时候，就会知道文件已经到达结尾。通常使用while循环加EOF判断作为读取结束的标志。<br>EOF 的值通常为 -1，但它依系统有所不同。</p>
+<h2 id="getchar函数"><a href="#getchar函数" class="headerlink" title="getchar函数"></a>getchar函数</h2><h3 id="函数头文件及原型"><a href="#函数头文件及原型" class="headerlink" title="函数头文件及原型"></a>函数头文件及原型</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#include  &lt;stdio.h&gt;</span><br><span class="line">int getchar(<span class="keyword">void</span>);</span><br></pre></td></tr></table></figure>
+<p>函数说明：<br>字符输入函数，没有参数，从输入缓冲区里面读取一个字符<br>一次只能读取一个字符<br>该函数以无符号 char 强制转换为 int 的形式返回读取的字符，如果到达文件末尾或发生读取错误，则返回 EOF（-1）</p>
+<h3 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h3><p><img src="/assets/blogImg/file1.jpg" alt="file1.jpg"><br>编译后执行<br><img src="/assets/blogImg/file2.jpg" alt="file2.jpg"></p>
+<h3 id="原理分析"><a href="#原理分析" class="headerlink" title="原理分析"></a>原理分析</h3><p>程序的运行过程是这样的，getchar 有一个 int 型的返回值。<br>当程序调用 getchar 时，程序就等着用户按键。用户输入的字符被存放在键盘缓冲区中，直到用户按回车为止（回车字符 \n 也放在缓冲区中），当用户键入回车之后，getchar() 函数才开始从输入缓冲区中每次读取一个字符，getchar 函数的返回值是用户输入的字符的 ASCII 码，若遇到文件结尾 (End-Of-File) 则返回 -1 (EOF)，并将用户输入的字符回显到屏幕，如果用户在按回车之前输入了不止一个字符，其他字符会保留在键盘缓存区中，等待后续 getchar 调用读取。也就是说，后续的 getchar 调用不会等待用户按键，而直接读取缓冲区中的字符，直到缓冲区中的字符读完后，才等待用户按键。程序中 while 循环工作时，每一次循环 getchar() 就会从输入缓冲区读取一个字符，然后 printf 输出，直到遇到了文件结束标志 EOF，循环判断条件为假，循环才结束.</p>
+<h3 id="为啥用缓冲区呢？"><a href="#为啥用缓冲区呢？" class="headerlink" title="为啥用缓冲区呢？"></a>为啥用缓冲区呢？</h3><p>因为计算机CPU的处理速度是很快的，我们用键盘输入速度比不上CPU的处理速度，CPU就得等键盘输入完，很浪费资源，所以，当键盘输入完了，让CPU一次性处理，可以大大提高效率。</p>
+<h3 id="getchar与scanf函数的区别"><a href="#getchar与scanf函数的区别" class="headerlink" title="getchar与scanf函数的区别"></a>getchar与scanf函数的区别</h3><p>对于 scanf 函数，’\n’ 会触发 scanf 读取输入缓冲区的内容，当遇到 字符’\n’ 或空格 ‘ ‘ 会停止读取，而 getchar 会直接读取 ‘\n’ 和空格</p>
+<h2 id="feof函数"><a href="#feof函数" class="headerlink" title="feof函数"></a>feof函数</h2><h3 id="函数头文件及原型-1"><a href="#函数头文件及原型-1" class="headerlink" title="函数头文件及原型"></a>函数头文件及原型</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#include  &lt;stdio.h&gt;</span><br><span class="line">int feof( FILE *stream );</span><br></pre></td></tr></table></figure>
+<p>函数说明：<br>eof()是检测流上的文件结束符的函数，如果文件结束，则返回非0值，否则返回0<br>一般在文件操作，中经常使用feof()判断文件是否结束。</p>
+<h3 id="示例代码："><a href="#示例代码：" class="headerlink" title="示例代码："></a>示例代码：</h3><p><img src="/assets/blogImg/file3.jpg" alt="file3.jpg"></p>
+<h3 id="原理分析-1"><a href="#原理分析-1" class="headerlink" title="原理分析"></a>原理分析</h3><p>feof()函数，并不是通过读取到文件的EOF来评判，这个文件是否为空。<br>对feof()来说,它的工作原理是，站在光标所在位置，向后看看还有没有字符。如果有，返回0；如果没有，返回非0。它并不会读取相关信息，只是查看光标后是否还有内容。<br>对于文件来说，无论是空文件，还是存有信息的文件，当文件被打开，光标处于默认的开头时，光标后都有信息，这时候调用feof()来查看光标后是否还有内容，就没意义。<br>所以我们需要先使用getc(),从文件中读取一个字符，让光标向后移动一个字符。这时空文件的光标就已经移动到EOF的后面，这时使用feof()就会返回1了。这才是feof()的正确用法。<br>但是要注意，一定要将光标回到文件的开头，因为之前判断文件是否为空时，将光标向前移动了一位，必须要将光标恢复到开头，这样才能保证文件的正常读取。</p>
+<h2 id="ferror函数"><a href="#ferror函数" class="headerlink" title="ferror函数"></a>ferror函数</h2><h3 id="函数头文件及原型-2"><a href="#函数头文件及原型-2" class="headerlink" title="函数头文件及原型"></a>函数头文件及原型</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#include  &lt;stdio.h&gt;</span><br><span class="line">int ferror( FILE *stream );</span><br></pre></td></tr></table></figure>
+<p>函数说明:<br>检测流上的错误，若检测到给定流上的错误，返回非0；无错误，返回0。</p>
+<h2 id="isalpha函数"><a href="#isalpha函数" class="headerlink" title="isalpha函数"></a>isalpha函数</h2><h3 id="函数头文件及原型-3"><a href="#函数头文件及原型-3" class="headerlink" title="函数头文件及原型"></a>函数头文件及原型</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#include  &lt;ctype.h&gt;</span><br><span class="line">int isalpha(int c);</span><br></pre></td></tr></table></figure>
+<p>函数说明:<br>用来检测一个字符是否是字母，包括大写字母和小写字母。<br>参数 c 表示要检测字符或者 ASCII 码。<br>返回值：返回非 0（真）表示 c 是字母，返回 0（假）表示 c 不是字母。</p>
+<h2 id="isdigit函数"><a href="#isdigit函数" class="headerlink" title="isdigit函数"></a>isdigit函数</h2><h3 id="函数头文件及原型-4"><a href="#函数头文件及原型-4" class="headerlink" title="函数头文件及原型"></a>函数头文件及原型</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#include  &lt;ctype.h&gt;</span><br><span class="line">int isdigit(int c);</span><br></pre></td></tr></table></figure>
+<p>函数说明:<br>参数 c 表示要检测的字符或者 ASCII 码。<br>返回值：返回值为非 0（真）表示 c 是数字，返回值为 0（假）表示 c 不是数字。</p>
+<h2 id="touppper函数"><a href="#touppper函数" class="headerlink" title="touppper函数"></a>touppper函数</h2><h3 id="函数头文件及原型-5"><a href="#函数头文件及原型-5" class="headerlink" title="函数头文件及原型"></a>函数头文件及原型</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#include  &lt;ctype.h&gt;</span><br><span class="line">int touppper(int c);</span><br></pre></td></tr></table></figure>
+<p>函数说明:<br>把小写字母转换为大写字母，不是小写字母的不变<br>参数： int ch  待转换的字符<br>返回值：  返回转换后的字符</p>
+<h2 id="seekp函数"><a href="#seekp函数" class="headerlink" title="seekp函数"></a>seekp函数</h2><p>文件流对象有两个成员函数，分别是 seekp 和 seekg。它们可以用于将读写位置移动到文件中的任何字节。<br>seekp 函数用于已经打开要进行输出的文件。<br>可以理解为seekp 可用于将信息 put（放入）到文件中。</p>
+<p>以下是 seekp 的用法示例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file.seekp(20L, <span class="attr">ios</span>::beg);</span><br></pre></td></tr></table></figure>
+<p>第一个实参是一个 long 类型的整数，表示文件中的偏移量。这就是想要移动到的字节数。在该示例中，使用的是 20L（请记住，L 字符可以强制编译器将该数字视为一个 long 类型的整数）。该语句可以将文件的写入位置移动到编号为 20 的字节（所有编号从 0 开始，因此编号为 20 的字节实际上是第 21 个字节）。<br>第二个实参称为模式标志，它指定从哪里计算偏移量。标志 ios::beg 表示偏移量是从文件开头算起的。也可以修改该参数，从文件末尾或文件中的当前位置计算偏移量。表 1 列出了所有 3 种随机访问模式的标志。<br><img src="/assets/blogImg/file4.jpg" alt="file4.jpg"><br>表 2 显示了 seekp 和 seekg 使用不同模式标志的示例。<br><img src="/assets/blogImg/file5.jpg" alt="file5.jpg"></p>
+<h2 id="seekg函数"><a href="#seekg函数" class="headerlink" title="seekg函数"></a>seekg函数</h2><p>seekg 函数则用于已经打开要进行输入的文件。<br>seekg 则可用于从文件中 get（获取）信息。</p>
+<h2 id="ifstream之eof函数"><a href="#ifstream之eof函数" class="headerlink" title="ifstream之eof函数"></a>ifstream之eof函数</h2><p>推荐写法<br><img src="/assets/blogImg/file6.jpg" alt="file6.jpg"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_48025315/article/details/119381482">https://blog.csdn.net/weixin_48025315/article/details/119381482</a><br><a target="_blank" rel="noopener" href="https://en.cppreference.com/w/c/io/getchar">https://en.cppreference.com/w/c/io/getchar</a><br><a target="_blank" rel="noopener" href="https://en.cppreference.com/w/c/io/feof">https://en.cppreference.com/w/c/io/feof</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/konghouy/article/details/80530937">https://blog.csdn.net/konghouy/article/details/80530937</a><br><a target="_blank" rel="noopener" href="https://en.cppreference.com/w/c/io/ferror">https://en.cppreference.com/w/c/io/ferror</a><br><a target="_blank" rel="noopener" href="http://c.biancheng.net/view/1541.html">http://c.biancheng.net/view/1541.html</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/Nine_CC/article/details/107166518">https://blog.csdn.net/Nine_CC/article/details/107166518</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/rebel_321/article/details/4927464">https://blog.csdn.net/rebel_321/article/details/4927464</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础技能C++</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/03/07/%E5%AD%97%E7%AC%A6%E5%8F%8A%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%E5%87%BD%E6%95%B0%E4%B8%80/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-getopt函数" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/07/getopt%E5%87%BD%E6%95%B0/">getopt函数</a>
+    </h1>
+  
+
+        
+        <a href="/2017/03/07/getopt%E5%87%BD%E6%95%B0/" class="archive-article-date">
+  	<time datetime="2017-03-07T13:43:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="getopt函数"><a href="#getopt函数" class="headerlink" title="getopt函数"></a>getopt函数</h1><h2 id="函数介绍"><a href="#函数介绍" class="headerlink" title="函数介绍"></a>函数介绍</h2><p>需要引入unistd.h头文件</p>
+<p>函数原型</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int getopt(int argc,char * <span class="keyword">const</span> argv[ ],<span class="keyword">const</span> char * optstring);</span><br></pre></td></tr></table></figure>
+<p>第三个参数是选项字符串<br>返回值为int类型，我们都知道char类型是可以转换成int类型的，每个字符都有他所对应的整型值，其实这个返回值返回的就是一个选项字符。</p>
+<p>还需要知道4个相关概念<br>extern char* optarg;<br>extern int optind;<br>extern int opterr;<br>extern int optopt;<br>分析如下：<br>optarg是用来保存选项的参数的；<br>optind记录下一个检索位置；<br>opterr表示是否将错误信息输出到stderr，为0时表示不输出；<br>optopt表示不在选项字符串optstring中的选项</p>
+<p>选项是什么？<br>比如指令gcc helloworld.c -o helloworld.out;<br>这条指令中的-o就是命令行的选项，而后面的helloworld.out就是-o选项所携带的参数。当然有些选项是不用带参数的，而这样不带参数的选项可以写在一起。</p>
+<p>选项字符串是什么？<br>比如”a:b:cd::e”，这就是一个选项字符串。<br>对应到命令行就是-a ,-b ,-c ,-d, -e 。<br>冒号又是什么呢？<br>冒号表示参数。<br>不带冒号就表示这个选项后面的参数是可选的。（带了，也不认携带的参数，不管选项和参数之间是否有空格）<br>一个冒号就表示这个选项后面必须带有参数（没有带参数会报错哦），但是这个参数可以和选项连在一起写，也可以用空格隔开，比如-a123 和-a   123（中间有空格） 都表示123是-a的参数；<br>两个冒号的就表示这个选项的参数是可选的，即可以有参数，也可以没有参数，但要注意有参数时，参数与选项之间不能有空格（有空格会不识别携带的参数），这和一个冒号时是有区别的。</p>
+<h2 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h2><p><img src="/assets/blogImg/getopt1.jpg" alt="getopt1.jpg"></p>
+<p>运行后，看看效果<br>-a的三种情况<br><img src="/assets/blogImg/getopt2.jpg" alt="getopt2.jpg"><br><img src="/assets/blogImg/getopt3.jpg" alt="getopt3.jpg"><br><img src="/assets/blogImg/getopt4.jpg" alt="getopt4.jpg"><br>可以看出，不带冒号的话，就不要考虑带参数了。</p>
+<p>-b选项<br><img src="/assets/blogImg/getopt5.jpg" alt="getopt5.jpg"><br><img src="/assets/blogImg/getopt6.jpg" alt="getopt6.jpg"><br><img src="/assets/blogImg/getopt7.jpg" alt="getopt7.jpg"><br>可以看出，带一个冒号的话，必须要带参数，参数可以与选项之间有空格，也可以没空格。</p>
+<p>-e选项<br><img src="/assets/blogImg/getopt8.jpg" alt="getopt8.jpg"><br><img src="/assets/blogImg/getopt9.jpg" alt="getopt9.jpg"><br><img src="/assets/blogImg/getopt10.jpg" alt="getopt10.jpg"></p>
+<p>可以看出，带两个冒号的话，可以带参数也可以不带参数，但是如果要带参数，参数和选项之间就必须要写在一起（中间不能有空格）。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingergege/p/5914218.html">https://www.cnblogs.com/qingergege/p/5914218.html</a></p>
+<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><p><a target="_blank" rel="noopener" href="https://github.com/ThranduilELFKING/toolsUse/blob/main/getOpt/getOpt.cpp">https://github.com/ThranduilELFKING/toolsUse/blob/main/getOpt/getOpt.cpp</a><br>//简单的用法示例</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础技能C++</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/03/07/getopt%E5%87%BD%E6%95%B0/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-星座学研究一" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/02/%E6%98%9F%E5%BA%A7%E5%AD%A6%E7%A0%94%E7%A9%B6%E4%B8%80/">星座学研究一</a>
+    </h1>
+  
+
+        
+        <a href="/2017/03/02/%E6%98%9F%E5%BA%A7%E5%AD%A6%E7%A0%94%E7%A9%B6%E4%B8%80/" class="archive-article-date">
+  	<time datetime="2017-03-02T13:36:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="星座学研究一"><a href="#星座学研究一" class="headerlink" title="星座学研究一"></a>星座学研究一</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>感觉蛮有趣的，研究一下星座</p>
+<h2 id="自然元素四分法"><a href="#自然元素四分法" class="headerlink" title="自然元素四分法"></a>自然元素四分法</h2><h3 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h3><p><img src="/assets/blogImg/xzfl1.jpg" alt="xzfl1.jpg"></p>
+<h3 id="土、风、水、火四象王者"><a href="#土、风、水、火四象王者" class="headerlink" title="土、风、水、火四象王者"></a>土、风、水、火四象王者</h3><p>土象星座-王者：摩羯座<br>风象星座-王者：双子座<br>火象星座-王者：狮子座<br>水象星座-王者：天蝎座</p>
+<h2 id="十二星座四天王"><a href="#十二星座四天王" class="headerlink" title="十二星座四天王"></a>十二星座四天王</h2><p>孩子王-白羊座（赢在冲劲儿）<br>天王—狮子座（赢在气度）<br>地王—天蝎座（赢在智慧）<br>王中王-摩羯座（赢在耐力和韧劲儿）</p>
+<h2 id="摩羯座"><a href="#摩羯座" class="headerlink" title="摩羯座"></a>摩羯座</h2><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://www.stockq.org/life/horoscope/aries/">https://www.stockq.org/life/horoscope/aries/</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">星座学</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/03/02/%E6%98%9F%E5%BA%A7%E5%AD%A6%E7%A0%94%E7%A9%B6%E4%B8%80/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-常见数学函数与运算符" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -757,19 +1028,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">opencv</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">边缘检测</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -785,7 +1052,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">常见报错问题</a>
+                <a href="javascript:void(0)" class="js-tag color4">多线程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -793,7 +1064,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">hexo博客搭建</a>
+                <a href="javascript:void(0)" class="js-tag color2">常见报错问题</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -806,6 +1077,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">交叉编译</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">hexo博客搭建</a>
               </li>
              
               <li class="article-tag-list-item">

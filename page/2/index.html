@@ -61,7 +61,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 115
+			总文章数 118
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -181,6 +181,299 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-一个进程最多可以创建多少个线程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/02/28/%E4%B8%80%E4%B8%AA%E8%BF%9B%E7%A8%8B%E6%9C%80%E5%A4%9A%E5%8F%AF%E4%BB%A5%E5%88%9B%E5%BB%BA%E5%A4%9A%E5%B0%91%E4%B8%AA%E7%BA%BF%E7%A8%8B/">一个进程最多可以创建多少个线程</a>
+    </h1>
+  
+
+        
+        <a href="/2023/02/28/%E4%B8%80%E4%B8%AA%E8%BF%9B%E7%A8%8B%E6%9C%80%E5%A4%9A%E5%8F%AF%E4%BB%A5%E5%88%9B%E5%BB%BA%E5%A4%9A%E5%B0%91%E4%B8%AA%E7%BA%BF%E7%A8%8B/" class="archive-article-date">
+  	<time datetime="2023-02-28T12:43:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-02-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="一个进程最多可以创建多少个线程"><a href="#一个进程最多可以创建多少个线程" class="headerlink" title="一个进程最多可以创建多少个线程"></a>一个进程最多可以创建多少个线程</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>本来是在看多线程的问题，忽然看到网上有人在问一个进程最多可以创建多少个线程，出于好奇，点开了一些回答，感觉也是很有意思，这里做个记录。<br>我个人的虚拟机安装的镜像是32位，linux<br>网上找到了网友的服务器配置是64位，linux，单核，2G物理内存</p>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h3 id="虚拟内存"><a href="#虚拟内存" class="headerlink" title="虚拟内存"></a>虚拟内存</h3><p>首先，不同的操作系统和不同位数的操作系统，虚拟内存可能是不一样多。<br>在 Linux 操作系统中，虚拟地址空间的内部又被分为内核空间和用户空间两部分，不同位数的系统，地址 空间的范围也不同。比如最常⻅的 32 位和 64 位系统，如下所示:<br><img src="/assets/blogImg/pthreadnum.jpg" alt="pthreadnum.jpg"></p>
+<p>通过这里可以看出:<br>32 位系统的内核空间占用 1G ，位于最高处，剩下的 3G 是用户空间;<br>64 位系统的内核空间和用户空间都是 128T ，分别占据整个内存空间的最高和最低处，剩下的中间部分是未定义的。</p>
+<h3 id="影响一个进程创建多少个线程的重要因素"><a href="#影响一个进程创建多少个线程的重要因素" class="headerlink" title="影响一个进程创建多少个线程的重要因素"></a>影响一个进程创建多少个线程的重要因素</h3><p>一个进程最多可以创建多少个线程？这个问题跟两个东西有关系：<br>（1）进程的虚拟内存空间上限，因为创建一个线程，操作系统需要为其分配一个栈空间，如果线程数量越多，所需的栈空间就要越大，那么虚拟内存就会占用的越多。<br>（2）系统参数限制，虽然 Linux 并没有内核参数来控制单个进程创建的最大线程个数，但是有系统级别的参数来控制整个系统的最大线程个数。</p>
+<h3 id="如何查看线程的栈空间大小？"><a href="#如何查看线程的栈空间大小？" class="headerlink" title="如何查看线程的栈空间大小？"></a>如何查看线程的栈空间大小？</h3><p>在进程里创建一个线程需要消耗多少虚拟内存大小？<br>我们可以执行 ulimit -a 这条命令，查看进程创建线程时默认分配的栈空间大小，比如下面这个设备默认分配给线程的栈空间大小为 8M。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ulimit -a</span><br></pre></td></tr></table></figure>
+<p><img src="/assets/blogImg/pthreadnum2.jpg" alt="pthreadnum2.jpg"></p>
+<h3 id="影响创建线程上限的三个内核参数"><a href="#影响创建线程上限的三个内核参数" class="headerlink" title="影响创建线程上限的三个内核参数"></a>影响创建线程上限的三个内核参数</h3><p>下面这三个内核参数的大小，都会影响创建线程的上限：<br>/proc/sys/kernel/threads-max，表示系统支持的最大线程数，默认值是 14553；<br>/proc/sys/kernel/pid_max，表示系统全局的 PID 号数值的限制，每一个进程或线程都有 ID，ID 的值超过这个数，进程或线程就会创建失败，默认值是 32768；<br>/proc/sys/vm/max_map_count，表示限制一个进程可以拥有的VMA(虚拟内存区域)的数量，如果它的值很小，也会导致创建线程失败，默认值是 65530。<br><img src="/assets/blogImg/pthreadnum3.jpg" alt="pthreadnum3.jpg"></p>
+<h3 id="查看当前系统的线程总数"><a href="#查看当前系统的线程总数" class="headerlink" title="查看当前系统的线程总数"></a>查看当前系统的线程总数</h3><p>查看当前系统的线程数，可以用top -H命令</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">top -H</span><br></pre></td></tr></table></figure>
+<p><img src="/assets/blogImg/pthreadnum6.jpg" alt="pthreadnum6.jpg"></p>
+<h2 id="在32位linux系统下，一个进程可以创建多少个线程？"><a href="#在32位linux系统下，一个进程可以创建多少个线程？" class="headerlink" title="在32位linux系统下，一个进程可以创建多少个线程？"></a>在32位linux系统下，一个进程可以创建多少个线程？</h2><p>在 32 位 Linux 系统里，一个进程的虚拟空间是 4G，内核分走了1G，留给用户用的只有 3G。<br>那么假设创建一个线程需要占用 10M 虚拟内存，总共有 3G 虚拟内存可以使用。于是我们可以算出，最多可以创建差不多 300 个（3G/10M）左右的线程。</p>
+<p>可以通过代码测试32位的linux系统下，一个进程可以创建多少个线程，如下：<br><img src="/assets/blogImg/pthreadnum4.jpg" alt="pthreadnum4.jpg"><br>测试结果如下：<br><img src="/assets/blogImg/pthreadnum5.jpg" alt="pthreadnum5.jpg"></p>
+<p>如果想要使得进程创建上千个线程，那么可以调整创建线程时分配的栈空间大小，比如调整为512k</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ulimit -s <span class="number">512</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="在64位linux系统下，一个进程可以创建多少个线程？"><a href="#在64位linux系统下，一个进程可以创建多少个线程？" class="headerlink" title="在64位linux系统下，一个进程可以创建多少个线程？"></a>在64位linux系统下，一个进程可以创建多少个线程？</h2><p>64 位系统意味着用户空间的虚拟内存最大值是 128T，这个数值是很大的，如果按创建一个线程需占用 10M 栈空间的情况来算，那么理论上可以创建 128T/10M 个线程，也就是 1000多万个线程。<br>所以按 64 位系统的虚拟内存大小，理论上可以创建无数个线程。<br>事实上，肯定创建不了那么多线程，除了虚拟内存的限制，还有系统的限制。<br>针对这台测试服务器的配置，看下一个进程最多能创建多少个线程呢？<br>在这台服务器跑了前面的程序，其结果如下：<br><img src="/assets/blogImg/pthreadnum7.jpg" alt="pthreadnum7.jpg"><br>创建了 14374 个线程后，就无法在创建了，而且报错是因为资源的限制。<br>前面提到的 threads-max 内核参数，它是限制系统里最大线程数，默认值是 14553。<br>可以运行那个测试线程数的程序后，看下当前系统的线程数是多少，可以通过 top -H 查看。<br><img src="/assets/blogImg/pthreadnum8.jpg" alt="pthreadnum8.jpg"><br>左上角的 Threads 的数量显示是 14553，与 threads-max 内核参数的值相同，所以我们可以认为是因为这个参数导致无法继续创建线程。<br>那么，我们可以把 threads-max 参数设置成 99999:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo <span class="number">99999</span> &gt; <span class="regexp">/proc/</span>sys/kernel/threads-max</span><br></pre></td></tr></table></figure>
+<p>设置完 threads-max 参数后，我们重新跑测试线程数的程序，运行后结果如下图：<br><img src="/assets/blogImg/pthreadnum9.jpg" alt="pthreadnum9.jpg"><br>可以看到，当进程创建了 32326 个线程后，就无法继续创建里，且报错是无法继续申请内存。</p>
+<p>此时的上限个数很接近 pid_max 内核参数的默认值（32768），那么我们可以尝试将这个参数设置为 99999：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo <span class="number">99999</span> &gt; <span class="regexp">/proc/</span>sys/kernel/pid_max</span><br></pre></td></tr></table></figure>
+<p>设置完 pid_max 参数后，继续跑测试线程数的程序，运行后结果创建线程的个数还是一样卡在了 32768 了。</p>
+<p>明明 pid_max 已经调整大后，为什么线程个数还是上不去呢？<br>后面经过查阅资料发现，max_map_count 这个内核参数也是需要调大的，它的值是会限制创建线程个数的上限。<br>把 max_map_count 内核参数也设置成后 99999：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo <span class="number">99999</span> &gt; <span class="regexp">/proc/</span>sys/vm/max_map_count</span><br></pre></td></tr></table></figure>
+<p>继续跑测试线程数的程序，结果如下图：<br><img src="/assets/blogImg/pthreadnum10.jpg" alt="pthreadnum10.jpg"><br>当创建差不多 5 万个线程后，服务器就卡住不动了，CPU 都已经被占满了，毕竟这个是单核 CPU，所以现在是 CPU 的瓶颈了。<br>接下来，我们换个思路测试下，把创建线程时分配的栈空间调大，比如调大为 100M，在大就会创建线程失败。<br>ulimit -s 1024000<br>设置完后，跑测试线程的程序，其结果如下：<br><img src="/assets/blogImg/pthreadnum11.jpg" alt="pthreadnum11.jpg"></p>
+<p>总共创建了 26390 个线程，然后就无法继续创建了，而且该进程的虚拟内存空间已经高达 25T，要知道这台服务器的物理内存才 2G。<br>为什么物理内存只有 2G，进程的虚拟内存却可以使用 25T 呢？<br>因为虚拟内存并不是全部都映射到物理内存的，程序是有局部性的特性，也就是某一个时间只会执行部分代码，所以只需要映射这部分程序就好。<br>可以从上面那个 top 的截图看到，虽然进程虚拟空间很大，但是物理内存（RES）只有使用了 400M+。</p>
+<h2 id="简单总结"><a href="#简单总结" class="headerlink" title="简单总结"></a>简单总结</h2><p>（1）32 位系统，用户态的虚拟空间只有 3G，如果创建线程时分配的栈空间是 10M，那么一个进程最多只能创建 300 个左右的线程。<br>（2）64 位系统，用户态的虚拟空间大到有 128T，理论上不会受虚拟内存大小的限制，而会受系统的参数或性能限制。</p>
+<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><p><a target="_blank" rel="noopener" href="https://github.com/ThranduilELFKING/toolsUse/blob/main/getMaxPthread/main.cpp">https://github.com/ThranduilELFKING/toolsUse/blob/main/getMaxPthread/main.cpp</a><br>//可以在自己的机器上，运行这段代码，来看看当前设备一个进程最多可以创建多少个线程</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/387673151">https://zhuanlan.zhihu.com/p/387673151</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">基础技能</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/02/28/%E4%B8%80%E4%B8%AA%E8%BF%9B%E7%A8%8B%E6%9C%80%E5%A4%9A%E5%8F%AF%E4%BB%A5%E5%88%9B%E5%BB%BA%E5%A4%9A%E5%B0%91%E4%B8%AA%E7%BA%BF%E7%A8%8B/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-工具资源收藏" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/02/27/%E5%B7%A5%E5%85%B7%E8%B5%84%E6%BA%90%E6%94%B6%E8%97%8F/">工具资源收藏</a>
+    </h1>
+  
+
+        
+        <a href="/2023/02/27/%E5%B7%A5%E5%85%B7%E8%B5%84%E6%BA%90%E6%94%B6%E8%97%8F/" class="archive-article-date">
+  	<time datetime="2023-02-27T13:06:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-02-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="工具资源收藏"><a href="#工具资源收藏" class="headerlink" title="工具资源收藏"></a>工具资源收藏</h1><h2 id="matlab资源"><a href="#matlab资源" class="headerlink" title="matlab资源"></a>matlab资源</h2><p><a target="_blank" rel="noopener" href="https://pan.isharepc.com/221578.html">https://pan.isharepc.com/221578.html</a><br>//下载及安装全过程指南，实测ok<br>//验证数学算法等，还是非常好用的</p>
+<h2 id="draw-io绘制UML"><a href="#draw-io绘制UML" class="headerlink" title="draw.io绘制UML"></a>draw.io绘制UML</h2><p><a target="_blank" rel="noopener" href="https://www.draw.io/">https://www.draw.io/</a><br>//可以在线绘制</p>
+<h2 id="强大的在线学习网站"><a href="#强大的在线学习网站" class="headerlink" title="强大的在线学习网站"></a>强大的在线学习网站</h2><p><a target="_blank" rel="noopener" href="https://www.xuexi.cn/xxqg.html?id=0420ddf502ed4ec290f0b25f85b9ab72#fv0gxRElva">https://www.xuexi.cn/xxqg.html?id=0420ddf502ed4ec290f0b25f85b9ab72#fv0gxRElva</a><br>//学习强国，值得拥有</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/02/27/%E5%B7%A5%E5%85%B7%E8%B5%84%E6%BA%90%E6%94%B6%E8%97%8F/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-UML图总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/02/27/UML%E5%9B%BE%E6%80%BB%E7%BB%93/">UML图总结一</a>
+    </h1>
+  
+
+        
+        <a href="/2023/02/27/UML%E5%9B%BE%E6%80%BB%E7%BB%93/" class="archive-article-date">
+  	<time datetime="2023-02-27T12:46:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-02-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="UML建模"><a href="#UML建模" class="headerlink" title="UML建模"></a>UML建模</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>对UML建模有一个系统的学习记录。</p>
+<h2 id="UML概念"><a href="#UML概念" class="headerlink" title="UML概念"></a>UML概念</h2><p>UML通过图形化的表示机制从多个侧面对系统的分析和设计模型进行刻画。</p>
+<p>为什么要用UML图？<br>通过使用UML使得在软件开发之前， 对整个软件设计有更好的可读性，可理解性，从而降低开发风险。同时，也能方便各个开发人员之间的交流。<br>UML提供了极富表达能力的建模语言，可以让软件开发过程中的不同人员分别得到自己感兴趣的信息。<br>Page-Jones 在《Fundamental Object-Oriented Design in UML》 一书中总结了UML的主要目的，如下：</p>
+<ol>
+<li>   为用户提供现成的、有表现力的可视化建模语言，以便他们开发和交换有意义的模型。</li>
+<li>   为核心概念提供可扩展性 (Extensibility) 和特殊化 (Specialization) 机制。</li>
+<li>   独立于特定的编程语言和开发过程。</li>
+<li>   为了解建模语言提供一个正式的基础。</li>
+<li>   鼓励面向对象工具市场的发展。</li>
+<li>   支持更高层次的开发概念，如协作，框架，模式和组件。</li>
+<li>   整合最佳的工作方法 (Best Practices)。</li>
+</ol>
+<h2 id="UML图分类"><a href="#UML图分类" class="headerlink" title="UML图分类"></a>UML图分类</h2><p>共定义了10种视图，并将其分为如下4类。<br><img src="/assets/blogImg/uml.jpg" alt="uml.jpg"></p>
+<h2 id="用例图"><a href="#用例图" class="headerlink" title="用例图"></a>用例图</h2><h3 id="概念及重要性"><a href="#概念及重要性" class="headerlink" title="概念及重要性"></a>概念及重要性</h3><p>用例是代表系统中各相关人员之间就系统的行为所达成的默契。<br>软件的开发过程可以分为需求分析、设计、实现等阶段。<br>在需求分析阶段，用例是分析人员与客户沟通的工具和项目规模估算的依据；<br>在设计阶段，用例是系统功能设计的主要输入；<br>在实现阶段，用例是检测类行为正确性的文档。<br>因此，面向对象的软件开发过程是用例驱动的。</p>
+<p>用例分析可以支持领域建模，以确保定义正确的需求，是保证OO软件开发成功的基础。<br>但要在具体的项目中灵活使用用例来捕获用户的需求并不是一件容易的事情，往往需要用户的经验、沟通能力、丰富的领域知识等。</p>
+<p>本质上，用例分析是一种功能分解（functional decomposition）的技术，并未使用到面向对象思想。但用例是UML的重要部分，确定一个系统的用例才是开发OO系统的第一步，用例分析这步做得好，接着的交互图分析、类图分析等才有可能做得好，整个系统的开发才能顺利进行。</p>
+<h3 id="用例图示例"><a href="#用例图示例" class="headerlink" title="用例图示例"></a>用例图示例</h3><p><img src="/assets/blogImg/uml2.jpg" alt="uml2.jpg"><br>如上所示的UML用例图反映了顾客（角色，英语：actor）在餐馆（系统，英语：system）中的交互</p>
+<p>（1）参与者<br>角色（actor)是指系统以外的、需要使用系统或与系统交互的东西，包括人、设备、外部系统等。<br>参与者其实是一个版型化的类，其版型是:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;&lt;Actor&gt;&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="/assets/blogImg/uml3.jpg" alt="uml3.jpg"></p>
+<p>（2）用例间的关系<br>用例与参与者有关联(association)关系<br>用例之间也存在着：泛化（generalization）关系、包含（include）关系、扩展（extend）关系等</p>
+<p>包含关系描述的是一个用例需要某种功能，而该功能被另外一个用例定义，那么在用例的执行过程中，就可以调用已经定义好的用例。<br>也可以说，其中一个用例的行为包含了另一个用例的行为。包含关系是依赖关系的版型，即包含关系是比较特殊的依赖关系。<br>版型符号：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;&lt;include&gt;&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="/assets/blogImg/uml4.jpg" alt="uml4.jpg"></p>
+<p>用一个用例（可选）扩展另一个用例（基本例）的功能，将一些常规的动作放在一个基本用例中，将可选的或只在特定条件下才执行的动作放在它的扩展用例中。<br>基本用例必须声明若干“扩展点”，而扩展用例只能在这些扩展点上增加新的行为和含义。扩展用例有更多的规则限制。<br>版型符号：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;&lt;extend&gt;&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="/assets/blogImg/uml5.jpg" alt="uml5.jpg"></p>
+<p>（3）用例的描述<br>用例的描述是用例的核心部分，用例采用自然语言描述参与者与系统进行交互时双方的行为。<br><img src="/assets/blogImg/uml6.jpg" alt="uml6.jpg"></p>
+<p>（4）系统边界system scope<br>系统边界system scope：确定系统的范围，边界是一个方框，用例在边界内，参与者在边界外；</p>
+<h2 id="关联关键词"><a href="#关联关键词" class="headerlink" title="关联关键词"></a>关联关键词</h2><p>UML  (Unified Model Language) 统一建模语言<br>OMG  (Object Management Group)<br>RTF  (Revision Task Forces) 修订任务组<br>XMI  (XML metadata Interchange)<br>DTD  (Document Type Definition)<br>IDL  (Interface Definition Language)<br>Object-Oriented  面向对象<br>Use Case  用例<br>domain modeling 领域建模<br>right requirement 正确的需求<br>extension use case 扩展用例</p>
+<h2 id="对UML的评价与展望"><a href="#对UML的评价与展望" class="headerlink" title="对UML的评价与展望"></a>对UML的评价与展望</h2><p>（1） UML已经取得重要成功，它已经成为软件工业中占支配地位的建模语言。并在许多领域的软件开发中得到应用。<br>（2） UML还存在着许多的问题，自它产生之日起就从未离开过匹配：用户和教授抱怨它内容庞大；学者认为它缺少一个精炼的核心和定义良好的外围，有些语义带着二义性；建模实践者认为它缺少支持自己领域建模要求的机制；工具开发商则因为规范本身的不确定性而产生理解上的偏差，它们对UML的自行诠释可能会误导用户。<br>（3） UML的关键问题是过于庞大和复杂，以及在语言体系结构、语义等方面存在理论缺陷。产生这些问题的一个重要原因是，在形成规范的过程中不得不照顾多种方法流派的观点和多家公司的利益。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_35423190/article/details/125069834">https://blog.csdn.net/qq_35423190/article/details/125069834</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/02/27/UML%E5%9B%BE%E6%80%BB%E7%BB%93/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-ps教程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -202,7 +495,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h1 id="ps教程"><a href="#ps教程" class="headerlink" title="ps教程"></a>ps教程</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>系统的学习一下</p>
-<h2 id="ps快捷键"><a href="#ps快捷键" class="headerlink" title="ps快捷键"></a>ps快捷键</h2><p>（1）放大和缩放画面<br>Alt+鼠标滚轮<br>Alt+触摸板上下滑动<br>双击抓手工具，也可以快速实现适应屏幕大小<br>双击缩放工具，快速显示图像实际像素大小<br>Ctrl+”加号” 放大快捷键<br>Ctrl+”减号” 缩小快捷键<br>点击“窗口”菜单，选择导航器，也可以快速缩放图像<br><img src="/assets/blogImg/daohangqi.jpg" alt="daohangqi.jpg"><br>（2）新建空白项目<br>Ctrl+N<br>（3）修改图像大小<br>Ctrl+Alt+I<br>（4）打开文档<br>Ctrl+O<br>（5）存储文档<br>Ctrl+S<br>另存为<br>Ctrl+Shift+S<br>（6）关闭文档<br>Ctrl+W<br>（7）打开首选项<br>Ctrl+K<br>这里可以修改历史记录、暂存盘等<br>（8）打开快捷键菜单<br>Ctrl+Shif+Alt+K<br>（9）新建图层<br>Ctrl+Shift+N<br>（10）移动图层的顺序<br>Ctrl+[ 选中的图层向下移动<br>Ctrl+] 选择的图层向上移动<br>（5）拷贝图层<br>鼠标选中某个图层，按住Alt键不松，一直拖拽到想要的位置，看到鼠标变成双箭头，然后松开后就会发现已经复制了目标图层；<br>Ctrl+J也可以复制选中的图层<br>Alt+拖拽感兴趣的图层对象，也可以复制图层<br>（6）删除图层<br>鼠标选中某个图层，按Delete键即可<br>（7）召唤抓手工具<br>长按空格键不松 可以直接转换为抓手工具<br>（8）召唤移动工具<br>V 快捷键<br>（9）移动图层<br>可以按方向键，上下左右微调<br>Shift+上下左右  上下左右移动速度变快<br>（10）召唤选区工具<br>M 快捷键<br>（11）隐藏选区的蚂蚁线<br>Ctrl+H 按一次隐藏，再按一次显示<br>（10）剪切图层的部分内容<br>Ctrl+Shift+J 会将选区内的内容挖走<br>DEL也可以删掉选区内的内容<br>（11）快速画直线<br>B 快捷键切换到画笔工具<br>按住Shift键，绘制的时候是直线<br>（12）快速召唤拾色器<br>画笔状态下，按住Alt键不放，会由画笔切换成拾色器<br>当拾色器移动到想要吸取的颜色上，鼠标左键点击一下，即可将画笔吸取到这个颜色<br>（13）改变画笔大小快捷键<br><img src="/assets/blogImg/ps1.jpg" alt="ps1.jpg"><br>“[“  左中括号，画笔变小<br>“]”  右中括号，画笔变大<br>（14）改变画笔硬度<br><img src="/assets/blogImg/ps3.jpg" alt="ps3.jpg"><br>shift+ “[“  左中括号，硬度变小<br>shift+ “]”  右中括号，硬度变大<br>（15）橡皮擦工具<br>E 快捷键<br>（16） 图章工具<br>太牛了，这个工具实在是太牛了<br>按住Alt键，鼠标光标变成靶心，表示可以寻找仿制源了，<br>寻找到要复制的对象之后，点击一下鼠标左键，光标从靶心状态恢复，就表示已经取样到了。<br>取样后就可以按照画笔用法来涂抹出仿制对象了。</p>
+<h2 id="ps快捷键"><a href="#ps快捷键" class="headerlink" title="ps快捷键"></a>ps快捷键</h2><p>（1）放大和缩放画面<br>Alt+鼠标滚轮<br>Alt+触摸板上下滑动<br>双击抓手工具，也可以快速实现适应屏幕大小<br>双击缩放工具，快速显示图像实际像素大小<br>Ctrl+”加号” 放大快捷键<br>Ctrl+”减号” 缩小快捷键<br>点击“窗口”菜单，选择导航器，也可以快速缩放图像<br><img src="/assets/blogImg/daohangqi.jpg" alt="daohangqi.jpg"><br>（2）新建空白项目<br>Ctrl+N<br>（3）修改图像大小<br>Ctrl+Alt+I<br>（4）打开文档<br>Ctrl+O<br>（5）存储文档<br>Ctrl+S<br>另存为<br>Ctrl+Shift+S<br>（6）关闭文档<br>Ctrl+W<br>（7）打开首选项<br>Ctrl+K<br>这里可以修改历史记录、暂存盘等<br>（8）打开快捷键菜单<br>Ctrl+Shif+Alt+K<br>（9）新建图层<br>Ctrl+Shift+N<br>（10）移动图层的顺序<br>Ctrl+[ 选中的图层向下移动<br>Ctrl+] 选择的图层向上移动<br>（5）拷贝图层<br>鼠标选中某个图层，按住Alt键不松，一直拖拽到想要的位置，看到鼠标变成双箭头，然后松开后就会发现已经复制了目标图层；<br>Ctrl+J也可以复制选中的图层<br>Alt+拖拽感兴趣的图层对象，也可以复制图层<br>（6）删除图层<br>鼠标选中某个图层，按Delete键即可<br>（7）召唤抓手工具<br>长按空格键不松 可以直接转换为抓手工具<br>（8）召唤移动工具<br>V 快捷键<br>（9）移动图层<br>可以按方向键，上下左右微调<br>Shift+上下左右  上下左右移动速度变快<br>（10）召唤选区工具<br>M 快捷键<br>（11）隐藏选区的蚂蚁线<br>Ctrl+H 按一次隐藏，再按一次显示<br>（10）剪切图层的部分内容<br>Ctrl+Shift+J 会将选区内的内容挖走<br>DEL也可以删掉选区内的内容<br>（11）快速画直线<br>B 快捷键切换到画笔工具<br>按住Shift键，绘制的时候是直线<br>（12）快速召唤拾色器<br>画笔状态下，按住Alt键不放，会由画笔切换成拾色器<br>当拾色器移动到想要吸取的颜色上，鼠标左键点击一下，即可将画笔吸取到这个颜色<br>（13）改变画笔大小快捷键<br><img src="/assets/blogImg/ps1.jpg" alt="ps1.jpg"><br>“[“  左中括号，画笔变小<br>“]”  右中括号，画笔变大<br>（14）改变画笔硬度<br><img src="/assets/blogImg/ps3.jpg" alt="ps3.jpg"><br>shift+ “[“  左中括号，硬度变小<br>shift+ “]”  右中括号，硬度变大<br>（15）橡皮擦工具<br>E 快捷键<br>（16） 图章工具<br>太牛了，这个工具实在是太牛了<br>按住Alt键，鼠标光标变成靶心，表示可以寻找仿制源了，<br>寻找到要复制的对象之后，点击一下鼠标左键，光标从靶心状态恢复，就表示已经取样到了。<br>取样后就可以按照画笔用法来涂抹出仿制对象了。<br>(17) 填充命令<br>Shift+F5<br>如果有选区的话，还可以配合“内容识别”功能，智能填充</p>
 <h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>(1) 图像文件格式<br>PSD 是ps软件的原始保存格式<br>PSB 是新格式<br>JPG 是广泛应用于互联网<br>GIF 动态图</p>
 <p>(2) 像素概念<br><img src="/assets/blogImg/pixel.jpg" alt="pixel.jpg"></p>
 <p>(3) 图层<br>什么是图层？<br>图层简单来说就是图像的层次。</p>
@@ -212,7 +505,7 @@
 <p>如果A.jpg和B.jpg文档大小相同，想把B.jpg中的某个图层拖拽到A.jpg中，而且位置和B.jpg中一样。<br>那么，要先按住Shift不松，然后一直拖拽B.jpg里的那个图层放到A.jpg,看到鼠标出现加号后再松开Shift，即可。</p>
 <p>移动工具针对当前被选中的图层，可以随意移动位置。</p>
 <p>(7) 显示变换控件<br>勾选显示变换控件，就能对图层对象进行变换<br>比如放大缩小旋转等变换<br><img src="/assets/blogImg/xianshibianhuan.jpg" alt="xianshibianhuan.jpg"></p>
-<p>(8) 选区<br>选区内像素可被编辑，可被移动<br>选区以外不可修改</p>
+<p>(8) 选区<br>选区内像素可被编辑，可被移动<br>选区以外不可修改<br>按住Ctrl键，点击图层缩略图，可以载入图层上的选区</p>
 <p>(9) 羽化<br>羽化使得选区边缘柔和过渡</p>
 <p>(10) 磁性套索<br>可以自动识别边缘</p>
 <p>(11) 魔棒工具<br>非常适合快速抠图<br>根据颜色，快速制作选区，然后根据需求反选，“添加矢量蒙版”快速抠图</p>
@@ -221,6 +514,32 @@
 <p>(14) 工具预设<br><img src="/assets/blogImg/ps4.jpg" alt="ps4.jpg"></p>
 <p>(15) 喷枪样式<br><img src="/assets/blogImg/ps5.jpg" alt="ps5.jpg"><br>使用喷枪样式，按住鼠标左键不松，颜色会变多</p>
 <p>(16) 红眼工具<br>眼睛在闪光灯作用下会扩张，而毛细血管会呈现出红色。<br>而红眼工具可以快速的将红眼消掉。<br>使用红眼工具在红眼上框一下就可以了。</p>
+<p>（17）渐变工具<br>渐变工具，一般是通过点线拖拽使用。</p>
+<p>（18）自由变换<br>Ctrl+T<br>会在选中的图层，出现一个自由变换的框，这个框是这个图层的内容的最大外接矩形。<br>Ctrl+Shift+T<br>会再次应用变换，应用上次的变换效果<br>Ctrl+Shift+Alt+T<br>会再次应用变换，而且复制图层，效果如下<br><img src="/assets/blogImg/ps7.jpg" alt="ps7.jpg"></p>
+<p>变动参考点<br>按住Alt不松，鼠标会变成带移动符号的，此时鼠标点击一个地方，那个地方就会变成新的参考点。<br>如下图所示，这里的显示的x,y坐标值，其实就是参考点的像素坐标。<br><img src="/assets/blogImg/ps6.jpg" alt="ps6.jpg"></p>
+<p>按住Shift键，是相对参考点的变换。<br>按住Shift+Alt键，可以组合变换，镜像翻转等效果都可以实现。<br>Ctrl+Z 撤销各种操作。 </p>
+<p>（19）像素图像（位图）的缩放<br>放大图像<br>增加的像素，是通过插值计算获取的。<br>缩小图像<br>会删减像素信息。</p>
+<p>（20）颜色通道<br>RGB模式的图像，有三个通道<br>其他模式下，有不同的通道数。<br>更改模式设置的操作如下：<br><img src="/assets/blogImg/ps8.jpg" alt="ps8.jpg"></p>
+<p>Alpha通道<br>透明度<br>记录不同区域的透明度信息的特殊图层<br>黑色：不包含像素信息，代表着透明，黑色0；<br>白色：表示100%的像素覆盖，代表着此处是不透明的，白色255；<br>灰阶：像素值1-254，代表着半透明（最重要）；</p>
+<p>（21）蒙版<br>图层蒙版编辑状态下，对于的就是一个临时的Alpha通道</p>
+<p>如何进入蒙版的编辑状态？<br>选中蒙版，点击一下，就激活了。<br><img src="/assets/blogImg/ps9.jpg" alt="ps9.jpg"></p>
+<p>快速蒙版就是一个临时的Alpha通道</p>
+<p>（22）图层链接<br>按住Ctrl键，选中多个图层的缩略图，然后点击图层面板下的链接按钮，就可以将多个图层链接起来。<br>图层链接可以多图层统一移动变换。<br>图层链接，只是链接的移动和变换，其他在各个图层上的绘制操作等等，都是互不干扰互不影响的。<br><img src="/assets/blogImg/ps10.jpg" alt="ps10.jpg"></p>
+<p>（23）图层编组<br>创建图层编组方法一：<br>按住Shift键，选中几个图层，然后点击创建新组按钮，就可以将图层编组，并且那几个被选中的图层都会被创建到那个分组里。<br><img src="/assets/blogImg/ps11.jpg" alt="ps11.jpg"></p>
+<p>创建图层编组方法二：<br>按住Alt键，然后点击创建新组按钮<br><img src="/assets/blogImg/ps12.jpg" alt="ps12.jpg"></p>
+<p>方法三：<br>快捷键：Ctrl+G</p>
+<p>可以修改编组的提示颜色<br>选择组前面的眼睛按钮，然后右击鼠标，即可弹出颜色选择菜单<br>如下所示<br><img src="/assets/blogImg/ps15.jpg" alt="ps15.jpg"></p>
+<p>取消编组：<br>选择组，然后点击鼠标右击，选择取消编组即可<br>（快捷键Ctrl+Shift+G，但是和搜狗输入法快捷键会有冲突）</p>
+<p>图层编组可以整合管理，并具有多种统一属性。<br>图层整合属性参考图<br><img src="/assets/blogImg/ps16.jpg" alt="ps16.jpg"></p>
+<p>图层合并命令：<br>选中要合并的图层，然后输入Ctrl+E，即可将几个图层合并</p>
+<p>保留旧图层，并与其他图层合并：<br>Ctrl+Alt+E</p>
+<p>合并所有可见图层：<br>Ctrl+Shift+E</p>
+<p>盖印图层：<br>Ctrl+Shift+Alt+E<br>所有可见图层拼合效果的新图层</p>
+<p>随着智能对象的出现，盖印功能其实越来越濒临淘汰。</p>
+<p>（24）图层复合面板<br>图层复合：保存当前图层的位置，可见性，样式信息。<br>相当于当时展示效果的一个快照。</p>
+<p>（25）剪贴蒙版<br>上方图层进入下方图层形状。<br>下方的图层是蒙版图层；上方的图层是使用蒙版的图层；</p>
+<p>方案一：<br>选中上方的图层，然后按住Ctrl+Alt+G<br>就可以实现剪贴蒙版。<br>操作及效果如下<br><img src="/assets/blogImg/ps17.jpg" alt="ps17.jpg"><br><img src="/assets/blogImg/ps18.jpg" alt="ps18.jpg"></p>
+<p>方案二：<br>在已经有剪贴蒙版的情况下，<br>按住Alt键，右键鼠标拖拽想要新进入蒙版的图层，到鼠标出现一个小矩形框，<br>然后再左键点击鼠标，那么就可以快速将新图层拖入下方的图层蒙版里。</p>
 <h2 id="学习视频"><a href="#学习视频" class="headerlink" title="学习视频"></a>学习视频</h2><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV187411Z7bx/?p=11&amp;spm_id_from=pageDriver&amp;vd_source=7dc3f0bd6dd2626fdbf180d0632d1d01">https://www.bilibili.com/video/BV187411Z7bx/?p=11&amp;spm_id_from=pageDriver&amp;vd_source=7dc3f0bd6dd2626fdbf180d0632d1d01</a><br><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV187411Z7bx/?p=16&amp;spm_id_from=333.880.my_history.page.click&amp;vd_source=7dc3f0bd6dd2626fdbf180d0632d1d01">https://www.bilibili.com/video/BV187411Z7bx/?p=16&amp;spm_id_from=333.880.my_history.page.click&amp;vd_source=7dc3f0bd6dd2626fdbf180d0632d1d01</a><br>//自制画笔，工具预设等</p>
 
       
@@ -793,292 +1112,6 @@
 
 
   
-    <article id="post-边缘检测算法分析" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/01/27/%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90/">边缘检测算法分析</a>
-    </h1>
-  
-
-        
-        <a href="/2023/01/27/%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90/" class="archive-article-date">
-  	<time datetime="2023-01-27T14:22:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-01-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="边缘检测算法分析"><a href="#边缘检测算法分析" class="headerlink" title="边缘检测算法分析"></a>边缘检测算法分析</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>边缘检测是图像分析中使用到的最常见的操作之一，边缘增强（edge enhancement）和边缘检测（edge detection）相关的算法可能是最多的。<br>这里对边缘检测算法做个大致的分析。</p>
-<h2 id="边缘检测基本概念"><a href="#边缘检测基本概念" class="headerlink" title="边缘检测基本概念"></a>边缘检测基本概念</h2><h3 id="1-目的"><a href="#1-目的" class="headerlink" title="1.目的"></a>1.目的</h3><p>从广义上来说，其原因在于边缘形成了一个对象的轮廓。对象是图像分析和视觉系统中重要的处理主体。边缘是对象和背景之间的边界，还能表示重叠对象之间的边界。<br>这意味着，如果图像中的边缘可以准确地被识别出来，那么所有的对象都可以被定位，而且对象的基本属性（例如面积、周长和形状）都可以被测量出来。<br>由于计算机视觉要涉及图像中对象的识别和分类，因此边缘检测成了一个基本工具。</p>
-<p>注意，无法判断图像中哪一部分为背景、哪一部分为对象，只能识别出各个区域之间的边界。</p>
-<p>边缘检测被称作图像分割（segmentation）的过程的一部分——图像分割的目的是识别出图像中的区域（region）</p>
-<h3 id="2-边缘检测与边缘增强"><a href="#2-边缘检测与边缘增强" class="headerlink" title="2.边缘检测与边缘增强"></a>2.边缘检测与边缘增强</h3><p>从技术上说，边缘检测是定位边缘像素的过程，而边缘增强是增加边缘与背景之间的对比度以便能够更清楚的看清边缘的过程。<br>在实践中，这两种术语经常互换使用，因为大部分边缘检测程序也会把边缘像素的值设置为特定的灰阶或颜色，使得边缘更容易被识别。</p>
-<h3 id="3-边缘跟踪"><a href="#3-边缘跟踪" class="headerlink" title="3.边缘跟踪"></a>3.边缘跟踪</h3><p>边缘跟踪（edge tracing）是沿着边缘进行跟踪的过程，这个过程通常会把边缘像素采集到一个列表中。这个过程以一个一致的方向进行，既可以顺时针，也可以逆时针绕着对象旋转。<br>链码算法（Chain coding）是边缘跟踪算法的一个特例。这种算法得到的结果是对象的一个非光栅表示，可以用于计算形状测量，或者对对象进行识别或分类。</p>
-<h3 id="4-经典的边缘检测算法"><a href="#4-经典的边缘检测算法" class="headerlink" title="4.经典的边缘检测算法"></a>4.经典的边缘检测算法</h3><p>经典的两种边缘检测算法是：Canny边缘检测器和Shen-Castan边缘检测器（也称作ISEF边缘检测器）。<br>这两种检测器都有坚实的理论基础，而且都声称具有一定程度的最优性；也就是说，这两种检测器都在特定的场景下可以达到最好效果。<br>具体这两种检测算法，可以看后续blog</p>
-<h2 id="传统的方法与理论"><a href="#传统的方法与理论" class="headerlink" title="传统的方法与理论"></a>传统的方法与理论</h2><h3 id="1-理论"><a href="#1-理论" class="headerlink" title="1.理论"></a>1.理论</h3><p>大部分好的算法都会事先声明清楚能够解决的问题，并且的都会对解决问题的方法以及方法能够正确工作的条件进行有说服力的的分析。<br>在这个框架基础下，要定义一个的边缘检测算法意味着首先要定义什么是边缘，然后利用这个定义提出边缘增强和边缘识别应该采用的方法。</p>
-<h3 id="2-理想阶梯型边缘"><a href="#2-理想阶梯型边缘" class="headerlink" title="2.理想阶梯型边缘"></a>2.理想阶梯型边缘</h3><p>边缘可能有多种定义，每一种定义都适用于某些特定的场合。</p>
-<p>理想阶梯型边缘（ideal step edge）是一种最常用也最有一般性的定义。如下图所示：<br><img src="/assets/blogImg/edge.jpg" alt="edge.jpg"><br>这里看出，边缘只不过是在某个位置发生的灰阶变化。<br>灰阶变化越大，边缘的检测也就越容易（不过在理想的情况下，任何灰阶变化都可以很容易地看出来）。</p>
-<h3 id="3-边缘检测的难点"><a href="#3-边缘检测的难点" class="headerlink" title="3.边缘检测的难点"></a>3.边缘检测的难点</h3><p>边缘检测的难点主要有两个：<br>（1）第一个难点来自于数码化。<br>图像的采样不可能使得整个边缘刚好落在像素边界上。事实上，灰阶的变化可能遍及多个像素(如图2-3的（b）~（d）所示)。<br>可以认为边缘的实际位置在连接低灰阶与高灰阶的斜坡（ramp）中央。这个斜坡只是数学意义上的斜坡，因为在图像数码化（采样）之后，这个斜坡实际上呈现的是阶梯锯齿状。<br>（2）第二个难点来自于无处不在的噪声问题。<br>由于受到很多因素的影响，例如光强度、相机和镜头的类型、移动、温度、大气效应、粉尘和其他因素，因此在场景中表示同样灰阶的像素很可能在图像中不是同样的灰阶。噪声是一种随机效应，因此只能通过统计的方式特征化。<br>噪声对图像造成的结果是使得有些像素的灰阶值产生随机的变化，因此理想边缘中的平滑线条和斜坡在真实的图像中是不可能遇到的。</p>
-<h3 id="4-边缘的模型"><a href="#4-边缘的模型" class="headerlink" title="4.边缘的模型"></a>4.边缘的模型</h3><p>在没有噪声的情况下，任何明显的灰阶变化都可以表示边缘。<br>在图像中几乎不可能真正遇到阶梯型边缘，因为：<br>（1）对象很少有如此清晰的轮廓；<br>（2）场景的采样永远都不会让边缘正好位于像素的边缘上；<br>（3）存在噪声</p>
-<p>斜坡是一个模型，它表示为了产生台阶，边缘本应该是什么样子，因此这是一个理想化的情况，而实际上遇到的是数据插值的结果。<br>尽管理想的阶梯边缘和斜坡边缘模型在过去通常用来设计新的边缘检测器，但是这种模型是一种简化的模型。</p>
-<h3 id="5-噪声"><a href="#5-噪声" class="headerlink" title="5.噪声"></a>5.噪声</h3><p>任何图像获取的过程都可能会产生某种类型的噪声，因此忽略噪声是没有意义的。没有噪声的理想情况在实践中永远也不会发生。<br>由于噪声的随机本质，因此无法准确的对其进行预测，而且无法在一个有噪声的图像中准确测量噪声，因为无法区分噪声对灰阶的影响以及像素数据对灰阶的影响。<br>然而，有时候可以通过噪声对图像造成的效果来对噪声进行特征化。<br>噪声的特征通常可以用带有特定平均值（mean）和标准偏差（standard deviation）的概率分布来表示。</p>
-<p>在图像分析中，特别关注的是以下两种类型的噪声：<br>（1）信号无关的噪声（signal-independent noise）<br>（2）信号相关的噪声（signal-dependent noise）</p>
-<h4 id="（1）信号无关的噪声"><a href="#（1）信号无关的噪声" class="headerlink" title="（1）信号无关的噪声"></a>（1）信号无关的噪声</h4><p>信号无关的噪声是一组随机的灰阶值，在统计意义上和图像数据无关，这些数据加入图像的像素中产生了带噪声的图像。<br>当一幅图像通过电信号的方式从一处传输到另一处的时候会产生这种噪声。<br>令A为完美图像，N为传输过程中产生的噪声，那么最终得到的图像B为： B = A + N<br>A和N互相没有关系。噪声图像N可能没有任何统计属性，但是通常假设N符合正态分布（高斯分布），其中平均值为0，标准偏差为某个测量到的值或者预先假设的值。</p>
-<p><img src="/assets/blogImg/edge1.jpg" alt="edge1.jpg"><br><img src="/assets/blogImg/edge2.jpg" alt="edge2.jpg"></p>
-<h4 id="（2）信号相关的噪声"><a href="#（2）信号相关的噪声" class="headerlink" title="（2）信号相关的噪声"></a>（2）信号相关的噪声</h4><p>在这种情况下，图像中每一点的噪声值的大小为这一点灰阶值的函数。<br>一些照片中的颗粒就是这种噪声的例子，而这种噪声通常都比较难以处理。不过幸运的是，这种情况不是太重要，如果照片采样合适的话，这种情况也是可以处理的。</p>
-<p>很难在各种不同的随机情形中都找到边缘，但是一个好的边缘检测器在这种情况下也应该能够判断边缘的位置。</p>
-<p>边缘是由灰阶（或色彩）等高线定义的。穿过等高线的时候，灰阶值会迅速变化；沿着等高线走，灰阶值的变化会更加轻柔，有可能是随机变化。因此可以得出结论：边缘具有一个可测量的方向。</p>
-<h2 id="定位边缘"><a href="#定位边缘" class="headerlink" title="定位边缘"></a>定位边缘</h2><p>边缘像素和噪声像素都具有的特点是，相比周围像素有明显的灰阶变化。<br>而边缘像素互相连接，构成了等高线，因此可以通过这一个特性将边缘像素和噪声像素区分开来。</p>
-<p>3种常见的算子可以用于定位边缘。<br>（1）导数算子<br>这种算子被设计为标识发生巨大强度变化的地方。<br>（2）类似于模板匹配的方案<br>其中边缘由一个很小的图像进行建模，这个图像表现出了完美边缘的抽象属性。<br>（3）使用边缘的数学模型<br>其中最好的也使用了噪声模型，并且努力吧噪声因素考虑进去。<br>这一种类型的算子，是我们主要需要关注的。</p>
-<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><p>给图片添加噪声的算法代码：<br><a target="_blank" rel="noopener" href="https://github.com/ThranduilELFKING/study-openCV/tree/main/makenoise">https://github.com/ThranduilELFKING/study-openCV/tree/main/makenoise</a></p>
-<p>估计噪声的算法代码：<br><a target="_blank" rel="noopener" href="https://github.com/ThranduilELFKING/study-openCV/tree/main/measurenoise">https://github.com/ThranduilELFKING/study-openCV/tree/main/measurenoise</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">opencv</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">边缘检测</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2023/01/27/%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-图像处理与计算机视觉算法及应用学习记录" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/01/26/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E4%B8%8E%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E7%AE%97%E6%B3%95%E5%8F%8A%E5%BA%94%E7%94%A8%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">图像处理与计算机视觉算法及应用学习记录</a>
-    </h1>
-  
-
-        
-        <a href="/2023/01/26/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E4%B8%8E%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E7%AE%97%E6%B3%95%E5%8F%8A%E5%BA%94%E7%94%A8%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" class="archive-article-date">
-  	<time datetime="2023-01-26T13:45:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-01-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="图像处理与计算机视觉算法及应用学习记录"><a href="#图像处理与计算机视觉算法及应用学习记录" class="headerlink" title="图像处理与计算机视觉算法及应用学习记录"></a>图像处理与计算机视觉算法及应用学习记录</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>初步浏览下，对一些对我有启发思想进行记录。</p>
-<h2 id="启发性预言"><a href="#启发性预言" class="headerlink" title="启发性预言"></a>启发性预言</h2><p>鉴于这本书大约是2011年出版，可以感觉到作者基于当时的发展情况，做出一些猜测，到今天基本被证实是真正发生的事情，还是蛮有意思的。</p>
-<h3 id="1-基于内容的搜索"><a href="#1-基于内容的搜索" class="headerlink" title="1.基于内容的搜索"></a>1.基于内容的搜索</h3><p>基于内容的搜索指的是通过图像中的信息获取其他图像。就好像是说“找出另一张与这张图片类似的图片”。<br>基于内容的搜索会成为未来20年的重要技术。<br>这项技术可以有效地使用现代大容量的磁盘驱动器；而且随着低成本高分辨率数码相机的普及，可以预见人们越来越需要在大量大图像（海量像素数）中搜索图像。</p>
-<h2 id="视觉系统实践"><a href="#视觉系统实践" class="headerlink" title="视觉系统实践"></a>视觉系统实践</h2><h3 id="1-基础知识"><a href="#1-基础知识" class="headerlink" title="1.基础知识"></a>1.基础知识</h3><p>（1）图像由像素组成，在一副典型图像中，约有400~600万个像素，每一个像素表示图像中那一个点的颜色。<br>（2）有一些图像格式的原点在左上角（事实上大部分都是），还有一些图像格式的原点在左下角（只有Microsoft是这样的）。<br>（3）当图像数据结构是openCV里的IplImage数据结构时，有些有用的字段包括：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">origin   ---   获取坐标系统的原点。这是一个整数，<span class="number">0</span>表示左上角，<span class="number">1</span>表示左下角。</span><br><span class="line">roi      ---   指向定义了正在处理的图像中兴趣区（region <span class="keyword">of</span> interest）的结构体的指针。 </span><br></pre></td></tr></table></figure>
-<p>（4）当读取彩色RGB图像时，用openCV里的IplImage数据结构载入图像，这种表达形式中的每一个像素都表达为3个字节：一个表示红色，一个表示绿色，一个表示蓝色。<br>字节顺序为b、g、r，从图像的第一行开始，按列步进，然后再显示下一行。如下所示：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">              第一列                  第二列              第三列                ……</span><br><span class="line">第一行  b(<span class="number">0</span>,<span class="number">0</span>) g(<span class="number">0</span>,<span class="number">0</span>) r(<span class="number">0</span>,<span class="number">0</span>)   b(<span class="number">0</span>,<span class="number">1</span>) g(<span class="number">0</span>,<span class="number">1</span>) r(<span class="number">0</span>,<span class="number">1</span>)  b(<span class="number">0</span>,<span class="number">2</span>) g(<span class="number">0</span>,<span class="number">2</span>) r(<span class="number">0</span>,<span class="number">2</span>)</span><br><span class="line">第二行  b(<span class="number">1</span>,<span class="number">0</span>) g(<span class="number">1</span>,<span class="number">0</span>) r(<span class="number">1</span>,<span class="number">0</span>)   b(<span class="number">1</span>,<span class="number">1</span>) g(<span class="number">1</span>,<span class="number">1</span>) r(<span class="number">1</span>,<span class="number">1</span>)  b(<span class="number">1</span>,<span class="number">2</span>) g(<span class="number">1</span>,<span class="number">2</span>) r(<span class="number">1</span>,<span class="number">2</span>)</span><br><span class="line">……</span><br></pre></td></tr></table></figure>
-<p>这意味着第一行中像素的RGB值表示为那一行所有像素的反序（b，g，r），然后继续表示下一行，从列0开始，以此类推，直到最后一行。<br>（5）如果图像是彩色的，如果才能转换为灰阶呢？<br>这里的一个方案是：<br>一个彩色图像可以转换为3个单色图像（一个红色图像、一个绿色图像、一个蓝色图像），将3通道彩色图像转换为灰阶图像，使用的方法是计算RGB值的平均值</p>
-<h3 id="2-图像显示"><a href="#2-图像显示" class="headerlink" title="2.图像显示"></a>2.图像显示</h3><p>openCV的用户界面函数封装在名为highgui的库中，基本概念如下：<br>通过cvNamedWindow函数创建一个窗口，这个函数给窗口指定了一个名称。所有的窗口都是通过窗口名称而不是指针访问的。<br>在创建窗口时，可以指定autosize属性，也可以不指定。接下来，可以用cvShowImage函数在已有窗口中显示图像。<br>对于指定了autosize属性的窗口，窗口可以更改大小以适应图像大小，否则图像会被缩放以适应窗口大小。</p>
-<p>不论何时，调用cvShowImage，通过参数传入的图像都显示在指定窗口中。通过这种方式，可以显示一个图像连续处理的过程，因而可以创建并显示简单的动画。<br>窗口创建之后，可以通过cvMoveWindow(name,x,y)移动窗口。也可以像其他窗口一样通过鼠标移动。</p>
-<h3 id="3-图像捕捉"><a href="#3-图像捕捉" class="headerlink" title="3.图像捕捉"></a>3.图像捕捉</h3><p>在一个视觉系统中，其他类型的数据和设备可能是非常有价值的图像源，其中最重要的就是网络摄像头了。这类设备通常都是数码相机，几乎都由USB供电，图像大小为640x480或更高。它们能够以视频的速率获得彩色图像，使得这一类摄像头特别适合用于某些类型的视觉应用程序：监视器、机器人、游戏、生物统计以及其他一些很容易使用到计算机而又不必使用非常高质量的图像的场合。</p>
-<p>结合openCV<br>（1）如果网络摄像头正确地安装了，那么openCV就能检测到它，捕捉函数就应该能够从中获得图像。<br>（2）openCV使用模式为：<br>首先声明并初始化一个摄像头，然后使用系统创建的句柄。假设这一步成功了，那么就能够通过这个句柄获得图像了。</p>
-<p>示例demo，比如测试笔记本的摄像头是否好用，可以用下面这个示例：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;iostream&gt;</span><br><span class="line">#include &lt;opencv2/core/core.hpp&gt;</span><br><span class="line">#include &lt;opencv2/opencv.hpp&gt;</span><br><span class="line">#include &lt;opencv2/imgproc/types_c.h&gt;</span><br><span class="line">using namespace cv;</span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">int <span class="function"><span class="title">main</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="comment">//VideoCapture参数为0，表示打开笔记本内置摄像头；</span></span><br><span class="line">    <span class="comment">//VideoCapture参数是视频文件路径，则表示打开指定视频文件；</span></span><br><span class="line">    VideoCapture capture(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//没有打开摄像头的话，就返回</span></span><br><span class="line">    <span class="keyword">if</span> (!capture.isOpened()) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Mat img1;</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        Mat frame;</span><br><span class="line">        capture &gt;&gt; frame;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//进行滤波</span></span><br><span class="line">        blur(frame, frame, Size(<span class="number">3</span>, <span class="number">3</span>));</span><br><span class="line">        <span class="comment">//可以实现图像反转，（可以控制图像成y轴反转，x轴反转，x,y都反转的效果）</span></span><br><span class="line">        <span class="comment">//如果不进行反转的话，可以看到展示的内容与实际的内容是成左右相反的</span></span><br><span class="line">        flip(frame, frame, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">        imshow(<span class="string">&quot;视频&quot;</span>, frame);</span><br><span class="line">        <span class="comment">//延迟30毫秒</span></span><br><span class="line">        waitKey(<span class="number">30</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//按esc键退出</span></span><br><span class="line">        <span class="keyword">if</span> (cv::waitKey(<span class="number">50</span>) == <span class="number">27</span>) &#123;</span><br><span class="line">            <span class="comment">//保存当前屏幕上的图像到本地</span></span><br><span class="line">            <span class="comment">//SaveImage(&quot;Image.png&quot;, frame, 0);</span></span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//释放所有分配的资源，避免后续出现问题</span></span><br><span class="line">    capture.release();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">opencv</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2023/01/26/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E4%B8%8E%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E7%AE%97%E6%B3%95%E5%8F%8A%E5%BA%94%E7%94%A8%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-模板匹配" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2023/01/12/%E6%A8%A1%E6%9D%BF%E5%8C%B9%E9%85%8D/">模板匹配</a>
-    </h1>
-  
-
-        
-        <a href="/2023/01/12/%E6%A8%A1%E6%9D%BF%E5%8C%B9%E9%85%8D/" class="archive-article-date">
-  	<time datetime="2023-01-12T12:39:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-01-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="模板匹配"><a href="#模板匹配" class="headerlink" title="模板匹配"></a>模板匹配</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>模板匹配其实就是在一张大图片里找到指定的目标的方法。这里对单匹配、多匹配做一个学习记录。主要依赖的是openCV提供的算法库。</p>
-<h2 id="模板匹配-1"><a href="#模板匹配-1" class="headerlink" title="模板匹配"></a>模板匹配</h2><p>模板匹配是用来在一幅大图里搜寻模板图像位置的方法。<br><img src="/assets/blogImg/match_templ.jpg" alt="match_templ.jpg"></p>
-<p>模板匹配也是应用卷积来实现的：假设原图大小为W x H,模板图大小为w x h,那么生成图大小是(W - w + 1) x (H - h + 1),生成图中的每个像素值表示原图与模板的匹配程度。</p>
-<h2 id="opencv提供的函数"><a href="#opencv提供的函数" class="headerlink" title="opencv提供的函数"></a>opencv提供的函数</h2><h3 id="模板匹配函数原型"><a href="#模板匹配函数原型" class="headerlink" title="模板匹配函数原型"></a>模板匹配函数原型</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> cv::matchTemplate(cv::InputArray image, <span class="attr">cv</span>::InputArray templ, <span class="attr">cv</span>::OutputArray result, int method)</span><br></pre></td></tr></table></figure>
-<p>注意：<br>（1）如果模板图templ大小比image大，那么可能会导致crash<br>（2）method有6种方法，<br><img src="/assets/blogImg/match_templ2.jpg" alt="match_templ2.jpg"></p>
-<h3 id="寻找位置函数原型"><a href="#寻找位置函数原型" class="headerlink" title="寻找位置函数原型"></a>寻找位置函数原型</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> cv::minMaxLoc(cv::InputArray src, double *minVal, double *maxVal = (double *)<span class="number">0</span>, <span class="attr">cv</span>::Point *minLoc = (cv::Point *)<span class="number">0</span>, <span class="attr">cv</span>::Point *maxLoc = (cv::Point *)<span class="number">0</span>, <span class="attr">cv</span>::InputArray mask = noArray())</span><br></pre></td></tr></table></figure>
-<p>功能：从一个矩阵中找出全局的最大值和最小值。找出最大和最小元素的值和他们的位置。极值是遍历整个矩阵找到，或者当掩码不是一个空矩阵时，是通过遍历指定矩阵区域找到。<br>注意：<br>（1）函数不适用于多通道矩阵，如果需要遍历所有的通道来找到最大和最小值，首先使用函数Mat::reshape转换为单通道矩阵。或者你可以使用函数extractImageCOI，mixChannels, or split 来提取特定通道。<br>（2）具体的参数解释：<br><img src="/assets/blogImg/match_templ3.jpg" alt="match_templ3.jpg"></p>
-<p>一个简单的模板匹配的demo如下：<br><img src="/assets/blogImg/match_templ4.jpg" alt="match_templ4.jpg"></p>
-<h2 id="单对象模板匹配（单模板）"><a href="#单对象模板匹配（单模板）" class="headerlink" title="单对象模板匹配（单模板）"></a>单对象模板匹配（单模板）</h2><p>单对象模板匹配的原理也很简单，就是不断的在原图中移动模板图像去比较。</p>
-<h2 id="多对象模板匹配（单模板）"><a href="#多对象模板匹配（单模板）" class="headerlink" title="多对象模板匹配（单模板）"></a>多对象模板匹配（单模板）</h2><h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>单个匹配是找最大匹配的点，所以只能匹配一次。<br>对于多对象匹配，我们需要设定一个匹配阈值来匹配多次。</p>
-<p>假设正在搜索一个多次出现的对象，cv.minMaxLoc()不会给出所有的位置。在这种情况下，我们将使用阈值化。</p>
-<h3 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">#include <span class="string">&quot;opencv2/core.hpp&quot;</span></span><br><span class="line">#include <span class="string">&quot;opencv2/calib3d.hpp&quot;</span></span><br><span class="line">#include <span class="string">&quot;opencv2/highgui.hpp&quot;</span></span><br><span class="line">#include <span class="string">&quot;opencv2/imgproc.hpp&quot;</span></span><br><span class="line">#include <span class="string">&quot;opencv2/features2d.hpp&quot;</span></span><br><span class="line">#include <span class="string">&quot;opencv2/features2d/features2d.hpp&quot;</span></span><br><span class="line"></span><br><span class="line">#include &lt;iostream&gt;</span><br><span class="line"></span><br><span class="line">int <span class="function"><span class="title">main</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">	<span class="attr">cv</span>::Mat src = cv::imread(<span class="string">&quot;E:\\opencv-image\\src_cir6.png&quot;</span>, <span class="attr">cv</span>::IMREAD_GRAYSCALE);</span><br><span class="line">	cv::Mat templ = cv::imread(<span class="string">&quot;E:\\opencv-image\\templ.png&quot;</span>, <span class="attr">cv</span>::IMREAD_GRAYSCALE);</span><br><span class="line"></span><br><span class="line">	cv::Mat image_matched;</span><br><span class="line">	<span class="comment">//模板匹配</span></span><br><span class="line">	cv::matchTemplate(src, templ, image_matched, <span class="attr">cv</span>::TM_CCOEFF_NORMED);</span><br><span class="line">	cv::normalize(image_matched, image_matched, <span class="number">0</span>, <span class="number">1</span>, <span class="attr">cv</span>::NORM_MINMAX);</span><br><span class="line"></span><br><span class="line">	double minVal, maxVal;</span><br><span class="line">	maxVal = <span class="number">0</span>;</span><br><span class="line">	cv::Point minLoc, maxLoc;</span><br><span class="line">	<span class="comment">//寻找最佳匹配位置</span></span><br><span class="line">	cv::minMaxLoc(image_matched, &amp;minVal, &amp;maxVal, &amp;minLoc, &amp;maxLoc);</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;cv::minMaxLoc : \n&quot;</span>;</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;minVal: &quot;</span> &lt;&lt; minVal &lt;&lt; <span class="string">&quot;, maxVal : &quot;</span> &lt;&lt; maxVal &lt;&lt; std::endl;</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;minLoc : ( &quot;</span> &lt;&lt; minLoc.x &lt;&lt; <span class="string">&quot;, &quot;</span> &lt;&lt; minLoc.y &lt;&lt; <span class="string">&quot; ) \n&quot;</span>;</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;maxLoc : ( &quot;</span> &lt;&lt; maxLoc.x &lt;&lt; <span class="string">&quot;, &quot;</span> &lt;&lt; maxLoc.y &lt;&lt; <span class="string">&quot; ) \n&quot;</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//多目标匹配</span></span><br><span class="line">	double quality = <span class="number">0.88</span>;  <span class="comment">//匹配质量（0~1），越接近1，匹配程度越高</span></span><br><span class="line">	<span class="keyword">if</span> (quality &lt;= <span class="number">0.0</span>)quality = <span class="number">0.0</span>;</span><br><span class="line">	<span class="keyword">if</span> (quality &gt;= <span class="number">1.0</span>)quality = <span class="number">1.0</span>;</span><br><span class="line">	double thresh = maxVal * quality;<span class="comment">//像素阈值</span></span><br><span class="line">	<span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; image_matched.rows; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span> (int j = <span class="number">0</span>; j &lt; image_matched.cols; j++)</span><br><span class="line">		&#123;</span><br><span class="line">			double val = image_matched.at&lt;float&gt;(i, j);<span class="comment">//灰度值</span></span><br><span class="line"></span><br><span class="line">			<span class="comment">//3*3邻域非极大值抑制</span></span><br><span class="line">			<span class="keyword">if</span> (val &gt; thresh)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="comment">//当前像素的灰度值大于阈值且该像素是其3*3邻域最大值时，判定其为目标</span></span><br><span class="line">				<span class="keyword">if</span> (image_matched.at&lt;float&gt;(i - <span class="number">1</span>, j - <span class="number">1</span>) &lt; val &amp;&amp;</span><br><span class="line">					image_matched.at&lt;float&gt;(i - <span class="number">1</span>, j) &lt; val &amp;&amp;</span><br><span class="line">					image_matched.at&lt;float&gt;(i - <span class="number">1</span>, j + <span class="number">1</span>) &lt; val &amp;&amp;</span><br><span class="line">					image_matched.at&lt;float&gt;(i, j - <span class="number">1</span>) &lt; val &amp;&amp;</span><br><span class="line">					image_matched.at&lt;float&gt;(i, j + <span class="number">1</span>) &lt; val &amp;&amp;</span><br><span class="line">					image_matched.at&lt;float&gt;(i + <span class="number">1</span>, j - <span class="number">1</span>) &lt; val &amp;&amp;</span><br><span class="line">					image_matched.at&lt;float&gt;(i + <span class="number">1</span>, j) &lt; val &amp;&amp;</span><br><span class="line">					image_matched.at&lt;float&gt;(i + <span class="number">1</span>, j + <span class="number">1</span>) &lt; val)</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="comment">//结果绘制</span></span><br><span class="line">					<span class="attr">cv</span>::rectangle(src, <span class="attr">cv</span>::Rect(j, i, templ.cols, templ.rows), <span class="attr">cv</span>::Scalar(<span class="number">0</span>, <span class="number">255</span>, <span class="number">0</span>), <span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">					char text[<span class="number">10</span>];</span><br><span class="line">					float score = image_matched.at&lt;float&gt;(i, j);</span><br><span class="line">					sprintf_s(text, <span class="string">&quot;%.2f&quot;</span>, score);</span><br><span class="line">					putText(src, text, <span class="attr">cv</span>::Point(j, i), <span class="attr">cv</span>::FONT_HERSHEY_SIMPLEX, <span class="number">0.8</span>, <span class="attr">cv</span>::Scalar(<span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>), <span class="number">2</span>);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="attr">cv</span>::imshow(<span class="string">&quot;image_matched&quot;</span>, src);</span><br><span class="line"></span><br><span class="line">	cv::waitKey(<span class="number">300000</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>模板图templ.png如下所示：<br><img src="/assets/blogImg/match_templ5.jpg" alt="match_templ5.jpg"></p>
-<p>源图像（待匹配图）src_cir6.png如下图所示：<br><img src="/assets/blogImg/match_templ6.jpg" alt="match_templ6.jpg"></p>
-<p>匹配结果图image_matched如下图所示：<br><img src="/assets/blogImg/match_templ7.jpg" alt="match_templ7.jpg"></p>
-<p>可以看到，源图像中6个圆模板都被识别了出来。而且模板图中空白的地方可以重叠。</p>
-<h2 id="模板匹配的method六种方法详情（了解一下）"><a href="#模板匹配的method六种方法详情（了解一下）" class="headerlink" title="模板匹配的method六种方法详情（了解一下）"></a>模板匹配的method六种方法详情（了解一下）</h2><p>主要是了解一下就好<br><img src="/assets/blogImg/match_templ8.jpg" alt="match_templ8.jpg"><br><img src="/assets/blogImg/match_templ9.jpg" alt="match_templ9.jpg"></p>
-<h2 id="模板匹配的局限性"><a href="#模板匹配的局限性" class="headerlink" title="模板匹配的局限性"></a>模板匹配的局限性</h2><p>在应用模板匹配法进行图像匹配时，应注意以下几点：<br>（1）归一化互相关注进行匹配，模板应在（M-P+1）×（N-Q+1）个参考位置上进行相关计算，计算量非常大，必要时可以采用序贯相似检验算法、幅度排序相关算法、FFT相关算法、分层搜索序贯判决等方法对其进行改进，以提高运算速度。<br>（2）模板匹配具有自身的局限性，主要表现在它只能进行平行移动，若原图像中的匹配目标发生旋转或大小变化，该算法无效。<br>（3）若原图像中要匹配的目标只有部分可见，该算法也无法完成匹配。</p>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/ybqjymy/p/15338560.html">https://www.cnblogs.com/ybqjymy/p/15338560.html</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/Zero___Chen/article/details/125119050">https://blog.csdn.net/Zero___Chen/article/details/125119050</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">opencv</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2023/01/12/%E6%A8%A1%E6%9D%BF%E5%8C%B9%E9%85%8D/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/3/">Next &amp;raquo;</a>
@@ -1192,19 +1225,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">opencv</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">边缘检测</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">生产力工具</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1220,7 +1249,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">常见报错问题</a>
+                <a href="javascript:void(0)" class="js-tag color4">多线程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1228,7 +1261,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">hexo博客搭建</a>
+                <a href="javascript:void(0)" class="js-tag color2">常见报错问题</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1241,6 +1274,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">交叉编译</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">hexo博客搭建</a>
               </li>
              
               <li class="article-tag-list-item">
