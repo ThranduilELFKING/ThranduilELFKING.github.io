@@ -61,7 +61,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 118
+			总文章数 127
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -181,6 +181,799 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-大端小端系统" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/10/29/%E5%A4%A7%E7%AB%AF%E5%B0%8F%E7%AB%AF%E7%B3%BB%E7%BB%9F/">大端小端系统</a>
+    </h1>
+  
+
+        
+        <a href="/2020/10/29/%E5%A4%A7%E7%AB%AF%E5%B0%8F%E7%AB%AF%E7%B3%BB%E7%BB%9F/" class="archive-article-date">
+  	<time datetime="2020-10-29T14:21:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="大端小端系统"><a href="#大端小端系统" class="headerlink" title="大端小端系统"></a>大端小端系统</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>大端小端系统，也就是Big-Endian和Little-Endian系统。属于一个基础概念，这里补充记录一下。</p>
+<h2 id="理论"><a href="#理论" class="headerlink" title="理论"></a>理论</h2><p>整数在内存的一系列连续字节中存储为二进制值，通常存储为2、4、8或16字节。字节采用什么顺序是非常重要的。</p>
+<p>以下以十进制整数262657存储为4字节二进制值为例。<br>选择这个值是因为它的二进制值每个字节的位模式都很容易与其他字节的内容区分开。<br>如下所示：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">十进制数 <span class="number">262657</span></span><br><span class="line">二进制值如下：</span><br><span class="line"><span class="number">00000000</span> <span class="number">00000100</span> <span class="number">00000010</span> <span class="number">00000001</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Little-Endian"><a href="#Little-Endian" class="headerlink" title="Little-Endian"></a>Little-Endian</h2><p>对于使用Intel处理器的PC，十进制数262657就存储为如下形式。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">字节地址： <span class="number">00</span>          <span class="number">01</span>          <span class="number">02</span>          <span class="number">03</span></span><br><span class="line">数据位：   <span class="number">00000001</span>    <span class="number">00000010</span>    <span class="number">00000100</span>    <span class="number">00000000</span></span><br></pre></td></tr></table></figure>
+<p>可以看出，值中最高位的8位是都为0的那些位，它们都存储在地址最高的字节中，换言之，就是最右边的字节。最低位的8位存储在地址最低的字节中，即最左边的字节。这种安排形式就是Little-Endian。</p>
+<p>那么为什么计算机会颠倒这些字节的顺序？<br>这么设计的动机在于实现更高效的计算和更简单的硬件。具体细节不重要，重要的是应该知道，如今的大部分现代计算机都使用这种与直觉相反的编码方法。</p>
+<h2 id="Big-Endian"><a href="#Big-Endian" class="headerlink" title="Big-Endian"></a>Big-Endian</h2><p>虽然大部分计算机都采用小端编码方法，也有一部分例外情况。<br>对于使用Motorola处理器的机器，十进制数262657就存储为如下形式。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">字节地址： <span class="number">00</span>          <span class="number">01</span>          <span class="number">02</span>          <span class="number">03</span></span><br><span class="line">数据位：   <span class="number">00000000</span>    <span class="number">00000100</span>    <span class="number">00000010</span>    <span class="number">00000001</span></span><br></pre></td></tr></table></figure>
+<p>可以看出，这种在内存中的存储更加符合逻辑。<br>字节现在的顺序是反的，最重要的8位存储在最左边的字节中，即地址最低的字节。这种安排形式就是Big-Endian。</p>
+<p>一些处理器，例如Power-PC处理器以及所有近来生产的ARM处理器，采用的都是Big-Endian系统。</p>
+<h2 id="为什么需要关注大端小端系统？"><a href="#为什么需要关注大端小端系统？" class="headerlink" title="为什么需要关注大端小端系统？"></a>为什么需要关注大端小端系统？</h2><p>数据的字节顺序是可以在Big-Endian和Little-Endian之间切换的。</p>
+<p>注意：<br><strong>无论字节顺序是Big-Endian还是Little-Endian，在每个字节中，最高位都放在左边，最低位都放在右边。</strong></p>
+<p>那么为什么需要关注大端小端编码呢？<br>实际上，在大多情况下，即使不知道执行代码的计算机是采用Big-Endian还是Little-Endian系统，都可以编写出有效的C++程序。但是，在处理来自另一台机器的二进制数据时，这就很重要了。二进制数据会写入文件或通过网络传送为一系列字节，此时必须解释它们。如果数据源所在的机器使用的字节顺序与运行代码的机器不同，就必须反转每个二进制数据的字节顺序，否则就会出错。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">基础技能</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/10/29/%E5%A4%A7%E7%AB%AF%E5%B0%8F%E7%AB%AF%E7%B3%BB%E7%BB%9F/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-关于命名规则、编译和链接的一些细节" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/10/29/%E5%85%B3%E4%BA%8E%E5%91%BD%E5%90%8D%E8%A7%84%E5%88%99%E3%80%81%E7%BC%96%E8%AF%91%E5%92%8C%E9%93%BE%E6%8E%A5%E7%9A%84%E4%B8%80%E4%BA%9B%E7%BB%86%E8%8A%82/">关于命名规则、编译和链接的一些细节</a>
+    </h1>
+  
+
+        
+        <a href="/2020/10/29/%E5%85%B3%E4%BA%8E%E5%91%BD%E5%90%8D%E8%A7%84%E5%88%99%E3%80%81%E7%BC%96%E8%AF%91%E5%92%8C%E9%93%BE%E6%8E%A5%E7%9A%84%E4%B8%80%E4%BA%9B%E7%BB%86%E8%8A%82/" class="archive-article-date">
+  	<time datetime="2020-10-29T13:21:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="关于命名规则、编译和链接的一些细节"><a href="#关于命名规则、编译和链接的一些细节" class="headerlink" title="关于命名规则、编译和链接的一些细节"></a>关于命名规则、编译和链接的一些细节</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在学习过程中，对具体的命名规则有一些深入的了解。<br>关于编译和链接，看到了一个很好的解释，这里做个记录。</p>
+<h2 id="命名规则"><a href="#命名规则" class="headerlink" title="命名规则"></a>命名规则</h2><p>我们都知道，名称的规则，这里记录的是，不能命名的规则，以及为什么。<br>关键字是C++中有特殊含义的保留字，不能把它们用于其他目的。这个大家也都知道，其他不应该使用的名称包括：<br>（1）以连续两个下划线开头的名称<br>（2）以一个下划线后跟一个大写字母开头的名称<br>（3）在全局名称空间内所有以下划线开头的名称<br>虽然使用了这些名称，编译器通常不会报错，但问题是，这些名称可能与编译器生成的名称冲突，或者与标准库实现在内部使用的名称冲突。<br>注意，这些名称都具备一个特征：以下划线开头。</p>
+<p>因此，我们最好：不要使用以下划线开头的名称。</p>
+<h2 id="编译和链接"><a href="#编译和链接" class="headerlink" title="编译和链接"></a>编译和链接</h2><p>将源代码转换为可执行文件所需要执行的具体步骤，在各个编译器中是不同的。<br>但主要过程如下：<br><img src="/assets/blogImg/bianyi.jpg" alt="bianyi.jpg"><br>如图所示，3个源文件经过编译后，生成3个对应的对象文件。用于标识对象文件的文件扩展名在不同的机器环境中是不同的，这里没有显示。组成程序的源文件可以在不同的编译器运行期间单独编译，但大多数编译器都允许在一次运行期间编译它们。无论采用哪种方式，编译器都把每个源文件看作一个独立的实体，为每个.cpp文件生成一个对象文件。然后在链接步骤中，把程序的对象文件和必要的库函数组合到一个可执行文件中。</p>
+<h2 id="关于返回值"><a href="#关于返回值" class="headerlink" title="关于返回值"></a>关于返回值</h2><p>对于返回值，有一点需要注意的：<br><em><strong>只有在main()函数中，忽略return才相当于返回0。对于其他任何返回值类型为int的函数，最好以一个显式的return语句结束，否则编译器不知道任意函数在默认情况下应该返回哪个值。</strong></em></p>
+<h2 id="关于八进制数"><a href="#关于八进制数" class="headerlink" title="关于八进制数"></a>关于八进制数</h2><p>对于八进制数，一定要注意：<br>（黄金规则）<br><em><strong>不要在十进制整数的前面加上前导0，否则会得到另一个值。</strong></em></p>
+<p>比如</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">76</span>  是十进制</span><br><span class="line"><span class="number">076</span> 是八进制，它对应十进制的<span class="number">62</span></span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础技能C++</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/10/29/%E5%85%B3%E4%BA%8E%E5%91%BD%E5%90%8D%E8%A7%84%E5%88%99%E3%80%81%E7%BC%96%E8%AF%91%E5%92%8C%E9%93%BE%E6%8E%A5%E7%9A%84%E4%B8%80%E4%BA%9B%E7%BB%86%E8%8A%82/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-mac下配置rar与unrar命令" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/06/29/mac%E4%B8%8B%E9%85%8D%E7%BD%AErar%E4%B8%8Eunrar%E5%91%BD%E4%BB%A4/">mac下配置rar与unrar命令</a>
+    </h1>
+  
+
+        
+        <a href="/2020/06/29/mac%E4%B8%8B%E9%85%8D%E7%BD%AErar%E4%B8%8Eunrar%E5%91%BD%E4%BB%A4/" class="archive-article-date">
+  	<time datetime="2020-06-29T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="mac下配置rar与unrar命令"><a href="#mac下配置rar与unrar命令" class="headerlink" title="mac下配置rar与unrar命令"></a>mac下配置rar与unrar命令</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>因为在mac下下载了rar文件，需要解压，然而mac上默认没有rar解压环境，于是配置了一下命令行rar/unrar环境</p>
+<h2 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h2><h3 id="1-下载RAR包"><a href="#1-下载RAR包" class="headerlink" title="1.下载RAR包"></a>1.下载RAR包</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//下载地址如下</span></span><br><span class="line"><span class="attr">https</span>:<span class="comment">//www.rarlab.com/download.htm</span></span><br><span class="line"><span class="comment">//然后选择for macOS的更新包，比如</span></span><br><span class="line">RAR <span class="number">5.91</span> beta <span class="number">1</span> <span class="keyword">for</span> macOS(<span class="number">64</span> bit)</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-解压下载后的更新包"><a href="#2-解压下载后的更新包" class="headerlink" title="2.解压下载后的更新包"></a>2.解压下载后的更新包</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//找到刚刚的更新包路径，然后cd到这个路径下，在命令行输入</span></span><br><span class="line">tar -zxvf rarosx-<span class="number">5.9</span>.1b1.tar</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-安装rar和unrar"><a href="#3-安装rar和unrar" class="headerlink" title="3.安装rar和unrar"></a>3.安装rar和unrar</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo install -c -o $USER rar /usr/local/bin</span><br><span class="line">sudo install -c -o $USER unrar /usr/local/bin</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-然后需要在安全与隐私里准许这个rar软件包"><a href="#4-然后需要在安全与隐私里准许这个rar软件包" class="headerlink" title="4.然后需要在安全与隐私里准许这个rar软件包"></a>4.然后需要在安全与隐私里准许这个rar软件包</h3><p>如下图所示，先点击解锁，然后输入密码，然后准许rar软件包<br>（因为我这边已经准许过了，所以这里现在是空，差不多就是这个位置）<br><img src="/assets/blogImg/rar_ok.jpg" alt="点击解锁，然后准许rar软件包"></p>
+<h3 id="5-然后就可以解压自己的rar文件了"><a href="#5-然后就可以解压自己的rar文件了" class="headerlink" title="5.然后就可以解压自己的rar文件了"></a>5.然后就可以解压自己的rar文件了</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//解压</span></span><br><span class="line">unrar x test.rar</span><br><span class="line"><span class="comment">//压缩</span></span><br><span class="line">rar a test.rar test/</span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>不得不说，mac下的安全管理还是严格的</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常用基础配置</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/06/29/mac%E4%B8%8B%E9%85%8D%E7%BD%AErar%E4%B8%8Eunrar%E5%91%BD%E4%BB%A4/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-简单工厂模式学习笔记" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/23/%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">简单工厂模式学习笔记</a>
+    </h1>
+  
+
+        
+        <a href="/2020/05/23/%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="archive-article-date">
+  	<time datetime="2020-05-23T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-23</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="简单工厂模式学习笔记"><a href="#简单工厂模式学习笔记" class="headerlink" title="简单工厂模式学习笔记"></a>简单工厂模式学习笔记</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>本次案例demo来自《大话设计模式》一书，是C++版本的实现</p>
+<h2 id="案例说明"><a href="#案例说明" class="headerlink" title="案例说明"></a>案例说明</h2><p>设计一个简单的计算器，可以进行加减乘除功能</p>
+<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><p>完整源码已同步到github上<br>地址：<a target="_blank" rel="noopener" href="https://github.com/TreeAndFlower/sampleFactory.git">https://github.com/TreeAndFlower/sampleFactory.git</a></p>
+<h2 id="部分代码示例如下："><a href="#部分代码示例如下：" class="headerlink" title="部分代码示例如下："></a>部分代码示例如下：</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">baseCalculate</span></span>&#123;</span><br><span class="line"><span class="attr">public</span>:</span><br><span class="line">    baseCalculate();</span><br><span class="line">    ~baseCalculate();</span><br><span class="line"></span><br><span class="line">    virtual double getResult(double numA, double numB)=<span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Add</span>:<span class="title">public</span> <span class="title">baseCalculate</span></span>&#123;</span><br><span class="line"><span class="attr">public</span>:</span><br><span class="line">    Add();</span><br><span class="line">    ~Add();</span><br><span class="line">    </span><br><span class="line">    double getResult(double numA, double numB);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Sub</span>:<span class="title">public</span> <span class="title">baseCalculate</span></span>&#123;</span><br><span class="line"><span class="attr">public</span>:</span><br><span class="line">    Sub();</span><br><span class="line">    ~Sub();</span><br><span class="line">    </span><br><span class="line">    double getResult(double numA, double numB);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Multi</span>:<span class="title">public</span> <span class="title">baseCalculate</span></span>&#123;</span><br><span class="line"><span class="attr">public</span>:</span><br><span class="line">    Multi();</span><br><span class="line">    ~Multi();</span><br><span class="line">    </span><br><span class="line">    double getResult(double numA, double numB);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Div</span>:<span class="title">public</span> <span class="title">baseCalculate</span></span>&#123;</span><br><span class="line"><span class="attr">public</span>:</span><br><span class="line">    Div();</span><br><span class="line">    ~Div();</span><br><span class="line">    </span><br><span class="line">    double getResult(double numA, double numB);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ExecuteCalculate</span></span>&#123;</span><br><span class="line"><span class="attr">public</span>:</span><br><span class="line">    ExecuteCalculate();</span><br><span class="line">    ~ExecuteCalculate();</span><br><span class="line">    </span><br><span class="line">    bool calculateData(double numA, double numB, string strSign, double&amp; theValue);</span><br><span class="line">    </span><br><span class="line">private:</span><br><span class="line">    baseCalculate* the_base_cal;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="编译方式"><a href="#编译方式" class="headerlink" title="编译方式"></a>编译方式</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd build</span><br><span class="line">cmake ..</span><br><span class="line">make</span><br></pre></td></tr></table></figure>
+<p>即可生成可执行文件sampleFactory，执行后即可看到如下效果：<br><img src="/assets/blogImg/factory_complie.jpg" alt="编译并执行sampleFactory"></p>
+<h2 id="特别说明"><a href="#特别说明" class="headerlink" title="特别说明"></a>特别说明</h2><p>在学习《大话设计模式》中，为了加深学习效果，因此用C++实现一遍文中的java案例，仅是学习笔记</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">设计模式</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/05/23/%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-linux下安装tcpdump并用其抓包" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/16/linux%E4%B8%8B%E5%AE%89%E8%A3%85tcpdump%E5%B9%B6%E7%94%A8%E5%85%B6%E6%8A%93%E5%8C%85/">linux下安装tcpdump并用其抓包</a>
+    </h1>
+  
+
+        
+        <a href="/2020/05/16/linux%E4%B8%8B%E5%AE%89%E8%A3%85tcpdump%E5%B9%B6%E7%94%A8%E5%85%B6%E6%8A%93%E5%8C%85/" class="archive-article-date">
+  	<time datetime="2020-05-16T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="linux下安装tcpdump并用其抓包"><a href="#linux下安装tcpdump并用其抓包" class="headerlink" title="linux下安装tcpdump并用其抓包"></a>linux下安装tcpdump并用其抓包</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>有时候需要分析网络协议，这时候抓包看看直接的数据，能够有助于对协议有一个直观的感受，在windows下，可以直接安装Wireshark就能轻松抓包分析了，但是在linux下，没有Wireshark，所以可以安装tcpdump，用tcpdump抓包分析</p>
+<h2 id="安装tcpdump"><a href="#安装tcpdump" class="headerlink" title="安装tcpdump"></a>安装tcpdump</h2><p>安装tcpdump有两种方式，一种是下载tcpdump源码，然后编译安装；另一种是直接用系统安装命令</p>
+<h3 id="1-下载源码安装tcpdump"><a href="#1-下载源码安装tcpdump" class="headerlink" title="1.下载源码安装tcpdump"></a>1.下载源码安装tcpdump</h3><p>这个可以参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/tic_yx/article/details/17012317">https://blog.csdn.net/tic_yx/article/details/17012317</a><br>这篇文章里记录的很详细<br>文章内容截图如下：<br><img src="/assets/blogImg/complie_tcpdump.jpg" alt="源码编译tcpdump"></p>
+<h3 id="2-直接用系统安装命令"><a href="#2-直接用系统安装命令" class="headerlink" title="2.直接用系统安装命令"></a>2.直接用系统安装命令</h3><p>在ubuntu下，可以直接使用sudo apt-get install tcpdump<br>如果这一步安装的时候有报错，可以更新一下下载源，国内清华的下载源还是很好用的</p>
+<h2 id="用tcpdump抓包"><a href="#用tcpdump抓包" class="headerlink" title="用tcpdump抓包"></a>用tcpdump抓包</h2><p>用tcpdump抓包的常用几个指令如下</p>
+<h3 id="1-在终端查看抓包信息"><a href="#1-在终端查看抓包信息" class="headerlink" title="1.在终端查看抓包信息"></a>1.在终端查看抓包信息</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo tcpdump -i 网卡 -entXX</span><br></pre></td></tr></table></figure>
+<p><img src="/assets/blogImg/use_tcpdump.jpg" alt="使用tcpdump抓包"></p>
+<h3 id="2-也可以把tcpdump抓到的数据保存到文件里"><a href="#2-也可以把tcpdump抓到的数据保存到文件里" class="headerlink" title="2.也可以把tcpdump抓到的数据保存到文件里"></a>2.也可以把tcpdump抓到的数据保存到文件里</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo tcpdump -i 网卡 -entXX -w 文件名.pcap</span><br></pre></td></tr></table></figure>
+<p><img src="/assets/blogImg/tcpdump_save_file.jpg" alt="tcpdump抓包后保存到文件里"><br>然后将pcap文件从linux里拷贝到windows下，用Wireshark分析数据</p>
+<h3 id="3-也可以增加过滤指定端口号信息，并将抓包数据保存到文件"><a href="#3-也可以增加过滤指定端口号信息，并将抓包数据保存到文件" class="headerlink" title="3.也可以增加过滤指定端口号信息，并将抓包数据保存到文件"></a>3.也可以增加过滤指定端口号信息，并将抓包数据保存到文件</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo tcpdump -i 网卡名 -entXX port 端口号 -w 文件名.pcap</span><br></pre></td></tr></table></figure>
+<p><img src="/assets/blogImg/tcpdump_2.jpg" alt="tcpdump_2"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/05/16/linux%E4%B8%8B%E5%AE%89%E8%A3%85tcpdump%E5%B9%B6%E7%94%A8%E5%85%B6%E6%8A%93%E5%8C%85/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-libcurl交叉编译" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/04/25/libcurl%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91/">libcurl交叉编译</a>
+    </h1>
+  
+
+        
+        <a href="/2020/04/25/libcurl%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91/" class="archive-article-date">
+  	<time datetime="2020-04-25T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-25</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="libcurl交叉编译"><a href="#libcurl交叉编译" class="headerlink" title="libcurl交叉编译"></a>libcurl交叉编译</h1><h1 id="需要源码交叉编译libcurl操作步骤"><a href="#需要源码交叉编译libcurl操作步骤" class="headerlink" title="需要源码交叉编译libcurl操作步骤"></a>需要源码交叉编译libcurl操作步骤</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>有时候需要交叉编译libcurl，比如目标机器是32位系统的，但是本地机器是64位系统的，而且由于某些原因，我们无法在32位系统上直接编译，所以需要用到交叉编译</p>
+<h2 id="编译openssl"><a href="#编译openssl" class="headerlink" title="编译openssl"></a>编译openssl</h2><p>libcurl是依赖openssl的，所以先编译openssl的32位库</p>
+<p>完整编译选项配置如下：<br>setarch i386 ./config -m32 –prefix=/home/muhan/openssl/ –openssldir=/home/muhan/openssl/ -Wl,-rpath,/usr/local/openssl/lib shared<br>详细选项含义如下：<br>预先已经export CC的版本<br>配置-m32 指定编译32位的库<br>配置–prefix 指定openssl的安装目录<br>配置–openssldir 指定openssl的头文件目录<br>配置shared关键字 指定编译时生成动态库（libssl.so/libcrypto.so及其相关软连接）</p>
+<p>然后再make &amp;&amp; make install 即可</p>
+<h2 id="编译安装zlib"><a href="#编译安装zlib" class="headerlink" title="编译安装zlib"></a>编译安装zlib</h2><p>有时候有的系统是默认安装了32位zlib库的，那么就可以跳过这一步，但是有的系统需要自己下载编译zlib-32位库</p>
+<p>完整编译选项配置如下：<br>直接修改CMakeLists.txt文件，增加以下两行<br>set(CMAKE_C_FLAGS “-m32”)<br>set(CMAKE_CXX_FLAGS “-m32”)<br>详细选项含义如下：<br>配置CMAKE_C_FLAGS 指定编译32位库环境<br>配置CMAKE_CXX_FLAGS 指定编译32位库环境</p>
+<p>然后再mkdir build &amp;&amp; cd build &amp;&amp; cmake .. &amp;&amp; make &amp;&amp; make install 即可</p>
+<h2 id="编译安装libcurl"><a href="#编译安装libcurl" class="headerlink" title="编译安装libcurl"></a>编译安装libcurl</h2><p>最后就是编译libcurl</p>
+<p>完整编译选项配置如下：<br>./configure PKG_CONFIG_PATH=/home/muhan/openssl CFLAGS=”-m32” CPPFLAGS=”-I/home/muhan/openssl/include” LDFLAGS=”-L/home/muhan/openssl/lib”<br>详细选项含义如下：<br>配置PKG_CONFIG_PATH 指定启动openssl选项(启动这个选项，就会默认链接lssl，lcrypto，lz三个库）<br>配置CFLAGS 指定编译32位库环境<br>配置CPPFLAGS 指定链接的库的头文件<br>配置LDFLAGS 指定链接的库的路径</p>
+<p>然后再make &amp;&amp; make install 即可</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>当编译第三方库的时候，如果有CMakeLists.txt，直接用CMakeLists.txt编译就很方便；<br>如果只有configure，那么需要先了解编译选项</p>
+<p>执行./configure –help 来查看当前支持的编译选项<br>然后根据提示配置一下我们需要指定的选项，比如自己指定的openssl的版本的库和头文件路径名，比如CC的版本，比如安装路径等等<br>(当然，如果不需要额外配置这些东西的话，直接走默认配置的话，那么直接执行./config 或者 ./configure 就行)</p>
+<p>然后在生成Makefile之后，再make &amp;&amp; make install 即可</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">第三方库</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">交叉编译</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/04/25/libcurl%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-debian10系统原本为64位系统下如何配置32位编译and运行环境" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/04/25/debian10%E7%B3%BB%E7%BB%9F%E5%8E%9F%E6%9C%AC%E4%B8%BA64%E4%BD%8D%E7%B3%BB%E7%BB%9F%E4%B8%8B%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE32%E4%BD%8D%E7%BC%96%E8%AF%91and%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83/">debian10系统原本为64位系统，如何配置32位编译and运行环境</a>
+    </h1>
+  
+
+        
+        <a href="/2020/04/25/debian10%E7%B3%BB%E7%BB%9F%E5%8E%9F%E6%9C%AC%E4%B8%BA64%E4%BD%8D%E7%B3%BB%E7%BB%9F%E4%B8%8B%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE32%E4%BD%8D%E7%BC%96%E8%AF%91and%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83/" class="archive-article-date">
+  	<time datetime="2020-04-25T02:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-25</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="debian10系统原本为64位系统，如何配置32位编译and运行环境"><a href="#debian10系统原本为64位系统，如何配置32位编译and运行环境" class="headerlink" title="debian10系统原本为64位系统，如何配置32位编译and运行环境"></a>debian10系统原本为64位系统，如何配置32位编译and运行环境</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>原本安装的是debian10的64位系统，但是因为有些第三方程序是32位的，需要在这个系统上编译运行，那么需要配置一下必要的环境</p>
+<h2 id="当32位程序放在debian64位系统里无法编译or运行时，如何判断是因为没有配置32位编译or运行环境"><a href="#当32位程序放在debian64位系统里无法编译or运行时，如何判断是因为没有配置32位编译or运行环境" class="headerlink" title="当32位程序放在debian64位系统里无法编译or运行时，如何判断是因为没有配置32位编译or运行环境"></a>当32位程序放在debian64位系统里无法编译or运行时，如何判断是因为没有配置32位编译or运行环境</h2><p>一般来说，编译32位程序时，如果出现以下报错,可以认为没有配置32位编译or运行环境</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fatal error: bits/libc-header-start.h: No such file or directory</span><br></pre></td></tr></table></figure>
+
+<p>运行32位程序时，如果出现以下报错，也可以认为没有配置32位编译or运行环境</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//明明有执行程序test（32位的），但是执行./test的时候却报错</span></span><br><span class="line">test： </span><br><span class="line">     no such file or directory</span><br></pre></td></tr></table></figure>
+
+<p>出现以上两种情况的任何一个时，一般可以判断时由于64位debian系统下，没有配置32位程序的编译or运行环境，需要执行以下两个步骤</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><h3 id="一、执行sudo-apt-get-install-gcc-multilib"><a href="#一、执行sudo-apt-get-install-gcc-multilib" class="headerlink" title="一、执行sudo apt-get install gcc-multilib"></a>一、执行sudo apt-get install gcc-multilib</h3><p>安装gcc-multilib</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//安装gcc-multilib</span></span><br><span class="line">sudo apt-get install gcc-multilib</span><br></pre></td></tr></table></figure>
+
+<h3 id="二、执行sudo-apt-get-install-g-multilib"><a href="#二、执行sudo-apt-get-install-g-multilib" class="headerlink" title="二、执行sudo apt-get install g++-multilib"></a>二、执行sudo apt-get install g++-multilib</h3><p>安装g++-multilib</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//安装g++-multilib</span></span><br><span class="line">sudo apt-get install g++-multilib</span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>因为从官网直接下载下来的debian10的64位安装镜像在安装完成后，原始的debian系统是不支持32位程序运行的，所以需要对环境进行配置，所以做个记录，免得下次忘记了</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常用基础配置</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/04/25/debian10%E7%B3%BB%E7%BB%9F%E5%8E%9F%E6%9C%AC%E4%B8%BA64%E4%BD%8D%E7%B3%BB%E7%BB%9F%E4%B8%8B%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE32%E4%BD%8D%E7%BC%96%E8%AF%91and%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-openvpn源码交叉编译" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/04/11/openvpn%E6%BA%90%E7%A0%81%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91/">openvpn交叉编译</a>
+    </h1>
+  
+
+        
+        <a href="/2020/04/11/openvpn%E6%BA%90%E7%A0%81%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91/" class="archive-article-date">
+  	<time datetime="2020-04-11T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="openvpn交叉编译"><a href="#openvpn交叉编译" class="headerlink" title="openvpn交叉编译"></a>openvpn交叉编译</h1><h1 id="需要源码交叉编译openvpn的操作步骤"><a href="#需要源码交叉编译openvpn的操作步骤" class="headerlink" title="需要源码交叉编译openvpn的操作步骤"></a>需要源码交叉编译openvpn的操作步骤</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>因为某些原因，只能选择交叉编译，当前平台是64位的，但是目标平台是32位的，目标平台又禁止了apt-get等相关操作，所以必须要源码交叉编译openvpn及其相关依赖库。因为之前交叉编译的时候，大多第三方库都是有现成的CMaKeLists.txt或者是Makefile，所以编译起来倒是也方便，但是，openvpn它只有configure文件，它是需要执行./configure成功设置好各种环境变量配置以后，才能生成Makefile的。于是，一开始踩了很多坑，在此做一个记录……</p>
+<h2 id="一、预先配置的环境变量"><a href="#一、预先配置的环境变量" class="headerlink" title="一、预先配置的环境变量"></a>一、预先配置的环境变量</h2><p>export CC=指定交叉编译时gcc编译版本<br>export CXX=指定交叉编译时g++编译版本</p>
+<h2 id="二、编译openssl"><a href="#二、编译openssl" class="headerlink" title="二、编译openssl"></a>二、编译openssl</h2><p>完整编译选项配置如下：<br>setarch i386 ./config -m32 –prefix=/home/muhan/openssl/ –openssldir=/home/muhan/openssl/ -Wl,-rpath,/usr/local/openssl/lib shared<br>详细选项含义如下：<br>配置-m32 指定编译32位的库<br>配置–prefix 指定openssl的安装目录<br>配置–openssldir 指定openssl的目录<br>配置shared关键字 指定编译时生成动态库（libssl.so/libcrypto.so及其相关软连接）</p>
+<p>然后再make &amp;&amp; make install 即可</p>
+<h2 id="三、编译安装lzo"><a href="#三、编译安装lzo" class="headerlink" title="三、编译安装lzo"></a>三、编译安装lzo</h2><p>完整编译选项配置如下：<br>./configure –enable-shared –prefix=/home/muhan/lzo/usr –with-sysroot=指定交叉编译时的sysroot的路径名<br>详细选项含义如下：<br>配置–enable-shared 指定编译时生成动态库（liblzo2.so及其相关软连接）<br>配置–prefix 指定lzo安装路径<br>配置–with-sysroot 指定交叉编译时的sysroot</p>
+<p>然后再make &amp;&amp; make install 即可</p>
+<h2 id="四、编译安装openvpn"><a href="#四、编译安装openvpn" class="headerlink" title="四、编译安装openvpn"></a>四、编译安装openvpn</h2><p>完整编译选项配置如下：<br>./configure CC=指定交叉编译时gcc的那个版本 –prefix=/home/muhan/openvpn/ LZO_CFLAGS=”-I/home/muhan/lzo/usr/include” LZO_LIBS=”-L/home/muhan/lzo/usr/lib -llzo2” OPENSSL_CFLAGS=”-I/home/muhan/openssl/include” OPENSSL_LIBS=”-L/home/muhan/openssl/lib -lssl -lcrypto” –disable-plugin-auth-pam<br>详细选项含义如下：<br>配置CC的版本<br>配置–prefix 指定openvpn安装目录<br>配置LZO_CFLAGS 指定lzo的头文件路径<br>配置LZO_LIBS 指定lzo的库文件路径及所链接的库<br>配置OPENSSL_CFLAGS 指定openssl的头文件路径<br>配置OPENSSL_LIBS 指定openssl的库文件路径及所链接的库<br>配置–disable-plugin-auth-pam 禁掉pam模块</p>
+<p>然后再make &amp;&amp; make install 即可</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>当编译第三方库的时候，如果没有CMakeLists.txt，也没有Makefile，只有config或者configure，那么需要先了解编译选项</p>
+<p>执行./config –help 或者 ./configure –help 来查看当前支持的编译选项<br>然后根据提示配置一下我们需要指定的选项，比如自己指定的openssl的版本的库和头文件路径名，比如CC的版本，比如安装路径等等<br>(当然，如果不需要额外配置这些东西的话，直接走默认配置的话，那么直接执行./config 或者 ./configure 就行)</p>
+<p>然后在生成Makefile之后，再make &amp;&amp; make install 即可</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">第三方库</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">交叉编译</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/04/11/openvpn%E6%BA%90%E7%A0%81%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-ifconfig指令配置网卡信息" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/03/29/ifconfig%E6%8C%87%E4%BB%A4%E9%85%8D%E7%BD%AE%E7%BD%91%E5%8D%A1%E4%BF%A1%E6%81%AF/">ifconfig指令配置网卡信息</a>
+    </h1>
+  
+
+        
+        <a href="/2020/03/29/ifconfig%E6%8C%87%E4%BB%A4%E9%85%8D%E7%BD%AE%E7%BD%91%E5%8D%A1%E4%BF%A1%E6%81%AF/" class="archive-article-date">
+  	<time datetime="2020-03-29T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="ifconfig指令配置网卡信息"><a href="#ifconfig指令配置网卡信息" class="headerlink" title="ifconfig指令配置网卡信息"></a>ifconfig指令配置网卡信息</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>linux/unix系统下，输入ifconfig指令，发现只有lo本地回环，没有网卡信息，为了能够正常上网，需要配置一下网卡信息</p>
+<p>当输入指令</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ifconfig eth0 <span class="number">192.168</span><span class="number">.1</span><span class="number">.100</span></span><br><span class="line">(可以自行设置ip地址）</span><br></pre></td></tr></table></figure>
+
+<p>会提示报错信息</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SIOCSIFADDR: No such device</span><br><span class="line"><span class="attr">eth0</span>: ERROR <span class="keyword">while</span> getting interface flags: No such device</span><br></pre></td></tr></table></figure>
+
+<p>此时，我们会发现设置网卡eth0失败了，提示我们没有这个网卡。那么，很有可能，我们的网卡不叫“eth0”这个名字，而不是我们真的没有网卡。</p>
+<h2 id="ifconfig-a"><a href="#ifconfig-a" class="headerlink" title="ifconfig -a"></a>ifconfig -a</h2><p>输入指令</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig -a</span><br></pre></td></tr></table></figure>
+
+<p>此时，我们可以看到系统列出来我们所有的网卡名，如下图：</p>
+<p><img src="/assets/blogImg/ifconfig-a.jpg" alt="ifconfig-a指令显示所有网卡"></p>
+<h2 id="配置网卡的ip"><a href="#配置网卡的ip" class="headerlink" title="配置网卡的ip"></a>配置网卡的ip</h2><p>接下来，我们发现自己系统的网卡果然没有eth0这个网卡名，但是有en0，所以，接下来我们设置来配置这个网卡的ip</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ifconfig en0 <span class="number">192.168</span><span class="number">.1</span><span class="number">.100</span></span><br><span class="line">(可以自行设置ip地址）</span><br></pre></td></tr></table></figure>
+<p>然后回车后，就发现设置ip成功啦～</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>一般情况下，因为我们常见的linux下的网卡名字都是eth0，所以习惯性的就直接配置eth0的ip，但是有的系统并不是用eth0当网卡名，所以还是要先输入ifconfig -a指令，来查看一下我们当前的系统下，网卡的名字都是什么，然后再去配置ip</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常用基础配置</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/03/29/ifconfig%E6%8C%87%E4%BB%A4%E9%85%8D%E7%BD%AE%E7%BD%91%E5%8D%A1%E4%BF%A1%E6%81%AF/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-关于交叉编译01" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -282,799 +1075,9 @@
 
 
   
-    <article id="post-CMakeLists-txt学习记录三" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/03/01/CMakeLists-txt%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95%E4%B8%89/">CMakeLists.txt学习记录三</a>
-    </h1>
-  
-
-        
-        <a href="/2020/03/01/CMakeLists-txt%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95%E4%B8%89/" class="archive-article-date">
-  	<time datetime="2020-03-01T11:44:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="CMakeLists-txt学习记录三"><a href="#CMakeLists-txt学习记录三" class="headerlink" title="CMakeLists.txt学习记录三"></a>CMakeLists.txt学习记录三</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>以一个实例，来整体使用一下之前学习的技巧</p>
-<h2 id="以做过的一个项目为例"><a href="#以做过的一个项目为例" class="headerlink" title="以做过的一个项目为例"></a>以做过的一个项目为例</h2><p>编写magazine/test/CMakeLists.txt<br>test目录下，是对代码增加的单元测试模块<br>目的：magazine/test/CMakeLists.txt将所有的测试代码整合编译，生成一个执行文件。（现在是每个test下的子目录各自生成一个可执行文件）<br><img src="/assets/blogImg/cmake2_1.jpg" alt="cmake2_1.jpg"><br><img src="/assets/blogImg/cmake2_2.jpg" alt="cmake2_2.jpg"><br><img src="/assets/blogImg/cmake2_3.jpg" alt="cmake2_3.jpg"></p>
-<p>因此，magazine/test/CMakeLists.txt内容如下：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line"># 旧的写法</span><br><span class="line"># 各个子目录下，各自编译生成测试执行文件</span><br><span class="line">#add_subdirectory(test_readwrite)</span><br><span class="line">#add_subdirectory(utility)</span><br><span class="line">#add_subdirectory(check_neighbor)</span><br><span class="line">#add_subdirectory(test_searchloc)</span><br><span class="line">#add_subdirectory(test_searchtool)</span><br><span class="line">#add_subdirectory(test_load_unload)</span><br><span class="line">#add_subdirectory(search_empty_location)</span><br><span class="line"></span><br><span class="line">cmake_minimum_required (VERSION <span class="number">2.6</span>)</span><br><span class="line"></span><br><span class="line">set(projName <span class="string">&quot;all_test&quot;</span>)</span><br><span class="line">set(LIB_USE usint finch  finchstr nutaccess  torino gmock  gmock_main  gtest  gtest_main )</span><br><span class="line"></span><br><span class="line">project ($&#123;projName&#125;)</span><br><span class="line">set(PREFIX <span class="string">&quot;$ENV&#123;NUTHOME&#125;&quot;</span>)</span><br><span class="line">set(CMAKE_INSTALL_PREFIX <span class="string">&quot;$&#123;PREFIX&#125;&quot;</span> CACHE PATH <span class="string">&quot;install dir&quot;</span> FORCE)</span><br><span class="line">set(CMAKE_BUILD_TYPE Debug)</span><br><span class="line">set(CMAKE_CXX_FLAGS_DEBUG <span class="string">&quot;$ENV&#123;CXXFLAGS&#125; -O0 -Wall -g -ggdb -fprofile-arcs -ftest-coverage&quot;</span>)</span><br><span class="line">set(CMAKE_CXX_FLAGS_RELEASE <span class="string">&quot;$ENV&#123;CXXFLAGS&#125; -O3 -Wall&quot;</span>)</span><br><span class="line"># 使用gtest需要C++<span class="number">11</span>编译选项</span><br><span class="line">set(CMAKE_CXX_FLAGS <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -std=c++0x&quot;</span>)</span><br><span class="line">add_definitions(-DULAPI)</span><br><span class="line"># 自定义的宏GT_TEST</span><br><span class="line"># 部分测试代码，只在定义了GT_TEST时才会编译，因此这里添加宏GT_TEST</span><br><span class="line">add_definitions(-DGT_TEST)</span><br><span class="line"></span><br><span class="line"># 引入头文件</span><br><span class="line">INCLUDE_DIRECTORIES(</span><br><span class="line">    ../include/</span><br><span class="line">    <span class="regexp">/usr/</span>local/include/</span><br><span class="line">    $&#123;PREFIX&#125;/include</span><br><span class="line">    $&#123;PREFIX&#125;/include/finch-inc</span><br><span class="line">    $&#123;PREFIX&#125;/include/usint</span><br><span class="line">    $&#123;PREFIX&#125;/include/hal</span><br><span class="line">    $&#123;PREFIX&#125;/include/ollie</span><br><span class="line">    $&#123;PREFIX&#125;/include/torino</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"># 引入源文件</span><br><span class="line">set(srcdirs</span><br><span class="line">  ../src/</span><br><span class="line">)</span><br><span class="line">foreach(srctmp $&#123;srcdirs&#125;)</span><br><span class="line">  aux_source_directory($&#123;srctmp&#125; source_files)</span><br><span class="line">endforeach()</span><br><span class="line"></span><br><span class="line"># 引入所有的测试代码源文件</span><br><span class="line">set(srctestdirs</span><br><span class="line">  $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/</span><br><span class="line">  $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/check_neighbor</span><br><span class="line">  $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/search_empty_location</span><br><span class="line">  $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/test_load_unload</span><br><span class="line">  $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/test_plugins</span><br><span class="line">  $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/test_readwrite</span><br><span class="line">  $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/test_searchloc</span><br><span class="line">  $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/test_searchtool</span><br><span class="line">  $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/test_test</span><br><span class="line">  $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/utility</span><br><span class="line">)</span><br><span class="line">foreach(srcdir $&#123;srctestdirs&#125;)</span><br><span class="line">  include_directories($&#123;include_directories&#125;)</span><br><span class="line">  aux_source_directory($&#123;srcdir&#125; source_test_files)</span><br><span class="line">endforeach()</span><br><span class="line"># 每个测试代码子目录，都有一个main.cpp，方便在各自的子目录下生成单元测试的可执行文件</span><br><span class="line"># 这里需要从source_test_files文件列表中，剔除各个子单元测试目录下的main.cpp，</span><br><span class="line"># 只保留最外面生成整体单元测试的那个$&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/main.cpp</span><br><span class="line">list(REMOVE_ITEM source_test_files $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/check_neighbor/main.cpp)</span><br><span class="line">list(REMOVE_ITEM source_test_files $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/search_empty_location/main.cpp)</span><br><span class="line">list(REMOVE_ITEM source_test_files $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/test_load_unload/main.cpp)</span><br><span class="line">list(REMOVE_ITEM source_test_files $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/test_plugins/main.cpp)</span><br><span class="line">list(REMOVE_ITEM source_test_files $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/test_readwrite/main.cpp)</span><br><span class="line">list(REMOVE_ITEM source_test_files $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/test_searchloc/main.cpp)</span><br><span class="line">list(REMOVE_ITEM source_test_files $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/test_searchtool/main.cpp)</span><br><span class="line">list(REMOVE_ITEM source_test_files $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/test_test/main.cpp)</span><br><span class="line">list(REMOVE_ITEM source_test_files $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/utility/main.cpp)</span><br><span class="line"></span><br><span class="line"># 指定链接库路径</span><br><span class="line">LINK_DIRECTORIES(</span><br><span class="line">    $&#123;PREFIX&#125;/lib</span><br><span class="line">)</span><br><span class="line">#FIND_PACKAGE(wxWidgets REQUIRED core base adv)</span><br><span class="line">#INCLUDE($&#123;wxWidgets_USE_FILE&#125;)</span><br><span class="line"></span><br><span class="line"># 生成单元测试执行程序</span><br><span class="line"># 为了看覆盖率，除了将测试代码$&#123;source_test_files&#125;编进来，还必须要将源代码$&#123;source_files&#125;都编译进来</span><br><span class="line">add_executable($&#123;projName&#125; $&#123;source_test_files&#125; $&#123;source_files&#125;)</span><br><span class="line">target_link_libraries($&#123;projName&#125; $&#123;LIB_USE&#125;  pthread )</span><br><span class="line"># 安装</span><br><span class="line">INSTALL(TARGETS $&#123;projName&#125; DESTINATION bin/test/)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">基础技能</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/03/01/CMakeLists-txt%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95%E4%B8%89/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-单实例设计模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/01/12/%E5%8D%95%E5%AE%9E%E4%BE%8B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">单实例设计模式</a>
-    </h1>
-  
-
-        
-        <a href="/2020/01/12/%E5%8D%95%E5%AE%9E%E4%BE%8B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2020-01-12T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="单实例设计模式"><a href="#单实例设计模式" class="headerlink" title="单实例设计模式"></a>单实例设计模式</h1><h1 id="单实例设计模式-1"><a href="#单实例设计模式-1" class="headerlink" title="单实例设计模式"></a>单实例设计模式</h1><h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><p>单实例设计模式，是指让一个类只创建一个对象，为了保证这一点，将不会对外暴露new出来的接口对象，只提供一个实例供外部访问。</p>
-<h2 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SignalModel</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line"><span class="attr">public</span>:</span><br><span class="line">	<span class="keyword">static</span> SignalModel* GetInstance();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">void</span> DeleteInstance();</span><br><span class="line"></span><br><span class="line">	bool SayHello();</span><br><span class="line"></span><br><span class="line">	bool SayWorld();</span><br><span class="line"></span><br><span class="line">	bool AddNums(int a, int b);</span><br><span class="line"></span><br><span class="line">	bool SubNums(int sum , int a);</span><br><span class="line"></span><br><span class="line">private:</span><br><span class="line">	SignalModel();</span><br><span class="line"></span><br><span class="line">private:</span><br><span class="line">	<span class="keyword">static</span> SignalModel* sig;</span><br><span class="line">	<span class="keyword">static</span> pthread_mutex_t mutex;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>将SignalModel（）构造函数设为私有，可以阻止外部new出来实例；<br>为了让外部可以访问类的public接口，所以类暴露出来一个访问自身的接口GetInstance（），并将其声明为静态成员函数；</p>
-<h2 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h2><p>完整代码已放在github上，地址：<a target="_blank" rel="noopener" href="https://github.com/TreeAndFlower/singleModel.git">https://github.com/TreeAndFlower/singleModel.git</a></p>
-<h2 id="关于内存释放"><a href="#关于内存释放" class="headerlink" title="关于内存释放"></a>关于内存释放</h2><p>单实例模式声明了一个静态成员变量，那么，什么时候需要释放这个变量申请的空间呢？经过我自己目前经历的项目分析来看，是不需要释放，因为是静态对象，随着进程开始的时候被定义，然后当进程结束后，会自动释放空间；<br>理论上，项目被设计为单例模式的时候，在进程没有结束以前，是不会希望释放这个实例空间的，所以不用特意纠结在哪里释放实例指针；</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>打算将自己学习到的设计模式一个个做个系统的总结，也算是自己的学习总结，这将会是一个系列，也是对我的知识体系的一个梳理过程，如有描述不当之处，还请大家指正。<br>安利《大话设计模式》，讲解的非常有趣而且易懂</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">设计模式</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/01/12/%E5%8D%95%E5%AE%9E%E4%BE%8B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-CMakeLists-txt学习笔记二" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/12/26/CMakeLists-txt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/">CMakeLists.txt学习笔记二</a>
-    </h1>
-  
-
-        
-        <a href="/2019/12/26/CMakeLists-txt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/" class="archive-article-date">
-  	<time datetime="2019-12-26T12:22:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="CMakeLists-txt学习笔记二"><a href="#CMakeLists-txt学习笔记二" class="headerlink" title="CMakeLists.txt学习笔记二"></a>CMakeLists.txt学习笔记二</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>对CMake常用命令的一个系统性的学习和记录。</p>
-<h2 id="指定cmake的最小版本"><a href="#指定cmake的最小版本" class="headerlink" title="指定cmake的最小版本"></a>指定cmake的最小版本</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cmake_minimum_required(VERSION <span class="number">2.8</span>)</span><br></pre></td></tr></table></figure>
-<p>这行命令是可选的，我们可以不写这句话，但在有些情况下，如果 CMakeLists.txt 文件中使用了一些高版本 cmake 特有的一些命令的时候，就需要加上这样一行，提醒用户升级到该版本之后再执行cmake。</p>
-<h2 id="设置项目名称"><a href="#设置项目名称" class="headerlink" title="设置项目名称"></a>设置项目名称</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">project(exampleProject)</span><br></pre></td></tr></table></figure>
-<p>这个命令不是强制性的，但最好都加上。它会引入两个变量 exampleProject_BINARY_DIR 和 exampleProject_SOURCE_DIR，同时，cmake 自动定义了两个等价的变量 PROJECT_BINARY_DIR 和 PROJECT_SOURCE_DIR。还会创建PROJECT_NAME<br>${PROJECT_SOURCE_DIR}：本CMakeLists.txt所在的文件夹路径<br>${PROJECT_NAME}：本CMakeLists.txt的project名称</p>
-<h2 id="如果代码需要支持C-11，就直接加上这句"><a href="#如果代码需要支持C-11，就直接加上这句" class="headerlink" title="如果代码需要支持C++11，就直接加上这句"></a>如果代码需要支持C++11，就直接加上这句</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET(CMAKE_CXX_FLAGS <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -std=c++0x&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<h2 id="添加编译选项"><a href="#添加编译选项" class="headerlink" title="添加编译选项"></a>添加编译选项</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">add_definitions(编译选项)</span><br></pre></td></tr></table></figure>
-<p>比如，如果想要生成的可执行文件拥有符号表，可以gdb调试，就直接加上这句</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">add_definitions(<span class="string">&quot;-Wall -g&quot;</span>)</span><br></pre></td></tr></table></figure>
-<p>如果需要fpermissive选项</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ADD_DEFINITIONS(<span class="string">&quot;-fpermissive&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<h2 id="设置变量，下面的代码都可以用到"><a href="#设置变量，下面的代码都可以用到" class="headerlink" title="设置变量，下面的代码都可以用到"></a>设置变量，下面的代码都可以用到</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">给文件名/路径名或其他字符串起别名，用$&#123;变量&#125;获取变量内容</span><br><span class="line">set(变量 文件名/或者路径名/或者其他字符串别名...)</span><br><span class="line"></span><br><span class="line">如下：</span><br><span class="line">set(GOOGLE_PROTOBUF_DIR $&#123;PROJECT_SOURCE_DIR&#125;/protobuf)</span><br><span class="line">set(PROTO_PB_DIR $&#123;PROJECT_SOURCE_DIR&#125;/proto_pb2)</span><br><span class="line">set(PROTO_BUF_DIR $&#123;PROJECT_SOURCE_DIR&#125;/proto_buf)</span><br><span class="line"></span><br><span class="line">set还可以追加变量的值</span><br><span class="line">set(SRC_LIST main.cpp)</span><br><span class="line">set(SRC_LIST $&#123;SRC_LIST&#125; test.cpp)</span><br><span class="line">add_executable(demo $&#123;SRC_LIST&#125;)</span><br></pre></td></tr></table></figure>
-
-<h2 id="list追加或删除变量的值"><a href="#list追加或删除变量的值" class="headerlink" title="list追加或删除变量的值"></a>list追加或删除变量的值</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">set(SRC_LIST main.cpp)</span><br><span class="line">list(APPEND SRC_LIST test.cpp)</span><br><span class="line">list(REMOVE_ITEM SRC_LIST main.cpp)</span><br><span class="line">add_executable(demo $&#123;SRC_LIST&#125;)</span><br></pre></td></tr></table></figure>
-<h2 id="打印消息"><a href="#打印消息" class="headerlink" title="打印消息"></a>打印消息</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">message(消息)</span><br><span class="line"></span><br><span class="line">如下：</span><br><span class="line">message($&#123;PROJECT_SOURCE_DIR&#125;)</span><br><span class="line">message(<span class="string">&quot;build with debug mode&quot;</span>)</span><br><span class="line">message(WARNING <span class="string">&quot;this is warnning message&quot;</span>)</span><br><span class="line">message(FATAL_ERROR <span class="string">&quot;this build has many error&quot;</span>) </span><br><span class="line">注意：FATAL_ERROR 会导致编译失败</span><br></pre></td></tr></table></figure>
-<h2 id="编译子文件夹的CMakeLists-txt"><a href="#编译子文件夹的CMakeLists-txt" class="headerlink" title="编译子文件夹的CMakeLists.txt"></a>编译子文件夹的CMakeLists.txt</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">add_subdirectory(子文件夹名称)</span><br><span class="line"></span><br><span class="line">如下：</span><br><span class="line">add_subdirectory(proto_pb2)</span><br></pre></td></tr></table></figure>
-
-<h2 id="获取路径下所有的-cpp-c-cc文件，并赋值给变量中"><a href="#获取路径下所有的-cpp-c-cc文件，并赋值给变量中" class="headerlink" title="获取路径下所有的.cpp/.c/.cc文件，并赋值给变量中"></a>获取路径下所有的.cpp/.c/.cc文件，并赋值给变量中</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aux_source_directory(路径 变量)</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="设置-h头文件的路径"><a href="#设置-h头文件的路径" class="headerlink" title="设置.h头文件的路径"></a>设置.h头文件的路径</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">include_directories(路径)</span><br><span class="line"></span><br><span class="line">Linux 下还可以通过如下方式设置包含的目录</span><br><span class="line">set(CMAKE_CXX_FLAGS <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -I$&#123;CMAKE_CURRENT_SOURCE_DIR&#125;&quot;</span>)</span><br><span class="line"></span><br><span class="line">如下：</span><br><span class="line">include_directories(</span><br><span class="line">    $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;</span><br><span class="line">    $&#123;CMAKE_CURRENT_BINARY_DIR&#125;</span><br><span class="line">    $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/include</span><br><span class="line">)</span><br><span class="line">include_directories(</span><br><span class="line">    $&#123;PROJECT_SOURCE_DIR&#125;</span><br><span class="line">    $&#123;PROTO_PB_DIR&#125; </span><br><span class="line">    $&#123;PROTO_BUF_DIR&#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-
-<h2 id="指定库文件路径"><a href="#指定库文件路径" class="headerlink" title="指定库文件路径"></a>指定库文件路径</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">link_directories(路径)</span><br><span class="line"></span><br><span class="line">Linux 下还可以通过如下方式设置包含的目录</span><br><span class="line">set(CMAKE_CXX_FLAGS <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -L$&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/libs&quot;</span>)</span><br><span class="line"></span><br><span class="line">如下：</span><br><span class="line">link_directories(</span><br><span class="line">    $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/libs</span><br><span class="line">)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="设置编译最终结果类型"><a href="#设置编译最终结果类型" class="headerlink" title="设置编译最终结果类型"></a>设置编译最终结果类型</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">生成可执行文件</span><br><span class="line">add_executable(可执行文件名称 文件)</span><br><span class="line"></span><br><span class="line">生成静态库</span><br><span class="line">add_library(库文件名称 STATIC 文件)</span><br><span class="line"></span><br><span class="line">生成动态库或共享库</span><br><span class="line">add_library(库文件名称 SHARED 文件)</span><br><span class="line"></span><br><span class="line">注意，库文件名称通常为libxxx.so/libxxx.a，在这里只要写xxx即可（不必写完整名字）</span><br><span class="line"></span><br><span class="line">如下：</span><br><span class="line">add_executable(demo demo.cpp) </span><br><span class="line">add_executable($&#123;PROJECT_NAME&#125; example_person.cpp )</span><br><span class="line">add_library(common STATIC util.cpp) </span><br><span class="line">add_library(common SHARED util.cpp) </span><br><span class="line">ADD_LIBRARY(fcmagazine SHARED $&#123;source_files&#125; )</span><br></pre></td></tr></table></figure>
-
-<h2 id="对add-library或add-executable生成的文件进行链接操作"><a href="#对add-library或add-executable生成的文件进行链接操作" class="headerlink" title="对add_library或add_executable生成的文件进行链接操作"></a>对add_library或add_executable生成的文件进行链接操作</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">target_link_libraries(库文件名称/可执行文件名称 链接的库文件名称)</span><br><span class="line"></span><br><span class="line">注意，库文件名称通常为libxxx.so/libxxx.a，在这里只要写xxx即可（也可以写完整路径名）</span><br><span class="line">在Windows下，系统会根据链接库目录，搜索xxx.lib 文件，Linux下会搜索 libxxx.so 或者 libxxx.a 文件，如果都存在会优先链接动态库（so 后缀）。</span><br><span class="line"></span><br><span class="line">如下：</span><br><span class="line">target_link_libraries($&#123;PROJECT_NAME&#125;</span><br><span class="line">    general_pb2)</span><br></pre></td></tr></table></figure>
-
-<h2 id="安装操作"><a href="#安装操作" class="headerlink" title="安装操作"></a>安装操作</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">将生成的执行程序/库文件/头文件等，安装到指定路径下</span><br><span class="line">INSTALL(TARGETS fcmagazine DESTINATION lib/fc_plugin)</span><br><span class="line">install(FILES ../include/magazine.h DESTINATION include/magazine)</span><br><span class="line">install(FILES ../include/magazine_utility.h DESTINATION include/magazine)</span><br></pre></td></tr></table></figure>
-
-<h2 id="搜索所有的cpp文件"><a href="#搜索所有的cpp文件" class="headerlink" title="搜索所有的cpp文件"></a>搜索所有的cpp文件</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">aux_source_directory(dir VAR) </span><br><span class="line">发现dir目录下所有的源代码文件并将列表存储在变量VAR中。</span><br><span class="line"></span><br><span class="line">如下：</span><br><span class="line">搜索当前目录下的所有.cpp文件，然后编译生成库</span><br><span class="line">aux_source_directory(. SRC_LIST) </span><br><span class="line">add_library(demo $&#123;SRC_LIST&#125;)</span><br></pre></td></tr></table></figure>
-
-<h2 id="自定义搜索规则"><a href="#自定义搜索规则" class="headerlink" title="自定义搜索规则"></a>自定义搜索规则</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">file(GLOB SRC_LIST <span class="string">&quot;*.cpp&quot;</span> <span class="string">&quot;protocol/*.cpp&quot;</span>)</span><br><span class="line">add_library(demo $&#123;SRC_LIST&#125;)</span><br><span class="line"></span><br><span class="line">file(GLOB SRC_LIST <span class="string">&quot;*.cpp&quot;</span>)</span><br><span class="line">file(GLOB SRC_PROTOCOL_LIST <span class="string">&quot;protocol/*.cpp&quot;</span>)</span><br><span class="line">add_library(demo $&#123;SRC_LIST&#125; $&#123;SRC_PROTOCOL_LIST&#125;)</span><br><span class="line"></span><br><span class="line">递归搜索</span><br><span class="line">file(GLOB_RECURSE SRC_LIST <span class="string">&quot;*.cpp&quot;</span>)</span><br><span class="line">相对protocol目录下搜索</span><br><span class="line">FILE(GLOB SRC_PROTOCOL RELATIVE <span class="string">&quot;protocol&quot;</span> <span class="string">&quot;*.cpp&quot;</span>) </span><br><span class="line">add_library(demo $&#123;SRC_LIST&#125; $&#123;SRC_PROTOCOL_LIST&#125;)</span><br><span class="line"></span><br><span class="line">aux_source_directory(. SRC_LIST)</span><br><span class="line">aux_source_directory(protocol SRC_PROTOCOL_LIST)</span><br><span class="line">add_library(demo $&#123;SRC_LIST&#125; $&#123;SRC_PROTOCOL_LIST&#125;)</span><br></pre></td></tr></table></figure>
-
-<h2 id="查找指定的库文件"><a href="#查找指定的库文件" class="headerlink" title="查找指定的库文件"></a>查找指定的库文件</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">find_library(VAR name path)查找到指定的预编译库，并将它的路径存储在变量中。</span><br><span class="line"></span><br><span class="line">默认的搜索路径为 cmake 包含的系统库，因此如果是 NDK 的公共库只需要指定库的 name 即可。</span><br><span class="line">find_library( # Sets the name <span class="keyword">of</span> the path variable.</span><br><span class="line">              log-lib</span><br><span class="line">              # Specifies the name <span class="keyword">of</span> the NDK library that</span><br><span class="line">              # you want CMake to locate.</span><br><span class="line">              log )</span><br><span class="line"></span><br><span class="line">类似的命令还有 find_file()、find_path()、find_program()、find_package()。</span><br><span class="line"></span><br><span class="line">比如</span><br><span class="line">FIND_PACKAGE(wxWidgets REQUIRED core base adv)</span><br><span class="line">INCLUDE($&#123;wxWidgets_USE_FILE&#125;)</span><br></pre></td></tr></table></figure>
-
-<h2 id="if…elseif…else…endif"><a href="#if…elseif…else…endif" class="headerlink" title="if…elseif…else…endif"></a>if…elseif…else…endif</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">逻辑判断和比较：</span><br><span class="line"><span class="keyword">if</span> (expression)：expression 不为空（<span class="number">0</span>,N,NO,OFF,FALSE,NOTFOUND）时为真</span><br><span class="line"><span class="keyword">if</span> (not exp)：与上面相反</span><br><span class="line"><span class="keyword">if</span> (var1 AND var2)</span><br><span class="line"><span class="keyword">if</span> (var1 OR var2)</span><br><span class="line"><span class="keyword">if</span> (COMMAND cmd)：如果 cmd 确实是命令并可调用为真</span><br><span class="line"><span class="keyword">if</span> (EXISTS dir) <span class="keyword">if</span> (EXISTS file)：如果目录或文件存在为真</span><br><span class="line"><span class="keyword">if</span> (file1 IS_NEWER_THAN file2)：当 file1 比 file2 新，或 file1/file2 中有一个不存在时为真，文件名需使用全路径</span><br><span class="line"><span class="keyword">if</span> (IS_DIRECTORY dir)：当 dir 是目录时为真</span><br><span class="line"><span class="keyword">if</span> (DEFINED <span class="keyword">var</span>)：如果变量被定义为真</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">var</span> MATCHES regex)：给定的变量或者字符串能够匹配正则表达式 regex 时为真，此处 <span class="keyword">var</span> 可以用 <span class="keyword">var</span> 名，也可以用 $&#123;<span class="keyword">var</span>&#125;</span><br><span class="line"><span class="keyword">if</span> (string MATCHES regex)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">数字比较：</span><br><span class="line"><span class="keyword">if</span> (variable LESS number)：LESS 小于</span><br><span class="line"><span class="keyword">if</span> (string LESS number)</span><br><span class="line"><span class="keyword">if</span> (variable GREATER number)：GREATER 大于</span><br><span class="line"><span class="keyword">if</span> (string GREATER number)</span><br><span class="line"><span class="keyword">if</span> (variable EQUAL number)：EQUAL 等于</span><br><span class="line"><span class="keyword">if</span> (string EQUAL number)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">字母表顺序比较：</span><br><span class="line"><span class="keyword">if</span> (variable STRLESS string)</span><br><span class="line"><span class="keyword">if</span> (string STRLESS string)</span><br><span class="line"><span class="keyword">if</span> (variable STRGREATER string)</span><br><span class="line"><span class="keyword">if</span> (string STRGREATER string)</span><br><span class="line"><span class="keyword">if</span> (variable STREQUAL string)</span><br><span class="line"><span class="keyword">if</span> (string STREQUAL string)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如下：</span><br><span class="line"><span class="keyword">if</span>(MSVC)</span><br><span class="line">    set(LINK_LIBS common)</span><br><span class="line"><span class="keyword">else</span>()</span><br><span class="line">    set(boost_thread boost_log.a boost_system.a)</span><br><span class="line">endif()</span><br><span class="line">target_link_libraries(demo $&#123;LINK_LIBS&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(UNIX)</span><br><span class="line">    set(CMAKE_CXX_FLAGS <span class="string">&quot;$&#123;CMAKE_CXX_FLAGS&#125; -std=c++11 -fpermissive -g&quot;</span>)</span><br><span class="line"><span class="keyword">else</span>()</span><br><span class="line">    add_definitions(-D_SCL_SECURE_NO_WARNINGS</span><br><span class="line">    D_CRT_SECURE_NO_WARNINGS</span><br><span class="line">    -D_WIN32_WINNT=<span class="number">0x601</span></span><br><span class="line">    -D_WINSOCK_DEPRECATED_NO_WARNINGS)</span><br><span class="line">endif()</span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span>($&#123;CMAKE_BUILD_TYPE&#125; MATCHES <span class="string">&quot;debug&quot;</span>)</span><br><span class="line">    ...</span><br><span class="line"><span class="keyword">else</span>()</span><br><span class="line">    ...</span><br><span class="line">endif()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="while…endwhile循环"><a href="#while…endwhile循环" class="headerlink" title="while…endwhile循环"></a>while…endwhile循环</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(condition)</span><br><span class="line">...</span><br><span class="line">endwhile()</span><br></pre></td></tr></table></figure>
-
-<h2 id="foreach…endforeach循环"><a href="#foreach…endforeach循环" class="headerlink" title="foreach…endforeach循环"></a>foreach…endforeach循环</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">foreach(loop_var RANGE start stop [step])</span><br><span class="line">    ...</span><br><span class="line">endforeach(loop_var)</span><br><span class="line">start 表示起始数，stop 表示终止数，step 表示步长，示例：</span><br><span class="line"></span><br><span class="line">如下</span><br><span class="line">foreach(i RANGE <span class="number">1</span> <span class="number">9</span> <span class="number">2</span>)</span><br><span class="line">    message($&#123;i&#125;)</span><br><span class="line">endforeach(i)</span><br><span class="line">输出：<span class="number">13579</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="预定义变量"><a href="#预定义变量" class="headerlink" title="预定义变量"></a>预定义变量</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">PROJECT_SOURCE_DIR：工程的根目录</span><br><span class="line">PROJECT_BINARY_DIR：运行cmake命令的目录，通常是 $&#123;PROJECT_SOURCE_DIR&#125;/build</span><br><span class="line">PROJECT_NAME：返回通过 project 命令定义的项目名称</span><br><span class="line">CMAKE_CURRENT_SOURCE_DIR：当前处理的 CMakeLists.txt 所在的路径</span><br><span class="line">CMAKE_CURRENT_BINARY_DIR：target 编译目录</span><br><span class="line">CMAKE_CURRENT_LIST_DIR：CMakeLists.txt 的完整路径</span><br><span class="line">CMAKE_CURRENT_LIST_LINE：当前所在的行</span><br><span class="line">CMAKE_MODULE_PATH：定义自己的 cmake 模块所在的路径，SET(CMAKE_MODULE_PATH $&#123;PROJECT_SOURCE_DIR&#125;/cmake)，然后可以用INCLUDE命令来调用自己的模块</span><br><span class="line">EXECUTABLE_OUTPUT_PATH：重新定义目标二进制可执行文件的存放位置</span><br><span class="line">LIBRARY_OUTPUT_PATH：重新定义目标链接库文件的存放位置</span><br></pre></td></tr></table></figure>
-
-<h2 id="读写环境变量"><a href="#读写环境变量" class="headerlink" title="读写环境变量"></a>读写环境变量</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">使用环境变量</span><br><span class="line">$ENV&#123;Name&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">写入环境变量</span><br><span class="line">set(ENV&#123;Name&#125; value) </span><br><span class="line">注意：这里没有“$”符号</span><br></pre></td></tr></table></figure>
-
-<h2 id="系统信息"><a href="#系统信息" class="headerlink" title="系统信息"></a>系统信息</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">CMAKE_MAJOR_VERSION：cmake 主版本号，比如 <span class="number">3.4</span><span class="number">.1</span> 中的 <span class="number">3</span></span><br><span class="line">­CMAKE_MINOR_VERSION：cmake 次版本号，比如 <span class="number">3.4</span><span class="number">.1</span> 中的 <span class="number">4</span></span><br><span class="line">­CMAKE_PATCH_VERSION：cmake 补丁等级，比如 <span class="number">3.4</span><span class="number">.1</span> 中的 <span class="number">1</span></span><br><span class="line">­CMAKE_SYSTEM：系统名称，比如 Linux-­<span class="number">2.6</span><span class="number">.22</span></span><br><span class="line">­CMAKE_SYSTEM_NAME：不包含版本的系统名，比如 Linux</span><br><span class="line">­CMAKE_SYSTEM_VERSION：系统版本，比如 <span class="number">2.6</span><span class="number">.22</span></span><br><span class="line">­CMAKE_SYSTEM_PROCESSOR：处理器名称，比如 i686</span><br><span class="line">­UNIX：在所有的类 UNIX 平台下该值为 TRUE，包括 OS X 和 cygwin</span><br><span class="line">­WIN32：在所有的 win32 平台下该值为 TRUE，包括 cygwin</span><br></pre></td></tr></table></figure>
-
-<h2 id="主要开关选项"><a href="#主要开关选项" class="headerlink" title="主要开关选项"></a>主要开关选项</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">BUILD_SHARED_LIBS：这个开关用来控制默认的库编译方式，如果不进行设置，使用 add_library 又没有指定库类型的情况下，默认编译生成的库都是静态库。如果 set(BUILD_SHARED_LIBS ON) 后，默认生成的为动态库</span><br><span class="line"></span><br><span class="line">CMAKE_C_FLAGS：设置 C 编译选项，也可以通过指令 add_definitions() 添加</span><br><span class="line"></span><br><span class="line">CMAKE_CXX_FLAGS：设置 C++ 编译选项，也可以通过指令 add_definitions() 添加</span><br><span class="line"></span><br><span class="line">add_definitions(-DENABLE_DEBUG -DABC) ：添加编译选项，参数之间用空格分隔</span><br></pre></td></tr></table></figure>
-
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/AgingMoon/article/details/123307248">https://blog.csdn.net/AgingMoon/article/details/123307248</a><br>//几乎全部摘抄自此链接</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">基础技能</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/12/26/CMakeLists-txt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-linux下查看编译的静态库和动态库是32位还是64位" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/12/15/linux%E4%B8%8B%E6%9F%A5%E7%9C%8B%E7%BC%96%E8%AF%91%E7%9A%84%E9%9D%99%E6%80%81%E5%BA%93%E5%92%8C%E5%8A%A8%E6%80%81%E5%BA%93%E6%98%AF32%E4%BD%8D%E8%BF%98%E6%98%AF64%E4%BD%8D/">linux下查看编译的静态库和动态库是32位还是64位</a>
-    </h1>
-  
-
-        
-        <a href="/2019/12/15/linux%E4%B8%8B%E6%9F%A5%E7%9C%8B%E7%BC%96%E8%AF%91%E7%9A%84%E9%9D%99%E6%80%81%E5%BA%93%E5%92%8C%E5%8A%A8%E6%80%81%E5%BA%93%E6%98%AF32%E4%BD%8D%E8%BF%98%E6%98%AF64%E4%BD%8D/" class="archive-article-date">
-  	<time datetime="2019-12-15T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="linux下查看编译的静态库和动态库是32位还是64位"><a href="#linux下查看编译的静态库和动态库是32位还是64位" class="headerlink" title="linux下查看编译的静态库和动态库是32位还是64位"></a>linux下查看编译的静态库和动态库是32位还是64位</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>有时候可能会需要交叉编译，所以需要知道平台上编译出来的版本到底是64位还是32位</p>
-<h2 id="file指令查看动态库是32位还是64位"><a href="#file指令查看动态库是32位还是64位" class="headerlink" title="file指令查看动态库是32位还是64位"></a>file指令查看动态库是32位还是64位</h2><p>如图：file libcurl.so 查看当前编译的libcurl.so是32位还是64位的<br><img src="/assets/blogImg/file_so.jpg" alt="file_so.jpg"></p>
-<h2 id="objdump-a指令查看静态库是32位还是64位的"><a href="#objdump-a指令查看静态库是32位还是64位的" class="headerlink" title="objdump -a指令查看静态库是32位还是64位的"></a>objdump -a指令查看静态库是32位还是64位的</h2><p>如图：objdump -a libtest.a 查看当前编译的静态库libtest.a是32位还是64位的<br><img src="/assets/blogImg/objdump_a.jpg" alt="objdupm_a.jpg"></p>
-<h2 id="readelf-h指令查看静态库or动态库是32位or64位，及编译平台运行平台等信息"><a href="#readelf-h指令查看静态库or动态库是32位or64位，及编译平台运行平台等信息" class="headerlink" title="readelf -h指令查看静态库or动态库是32位or64位，及编译平台运行平台等信息"></a>readelf -h指令查看静态库or动态库是32位or64位，及编译平台运行平台等信息</h2><p>如图：readelf -h libssl.so 查看编译的动态库lib<br>Class字段显示当前库是32位or64位<br>Machine字段显示当前库运行的目标机器系统</p>
-<p><img src="/assets/blogImg/readelf_h.jpg" alt="readelf_h.jpg"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">常用命令linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/12/15/linux%E4%B8%8B%E6%9F%A5%E7%9C%8B%E7%BC%96%E8%AF%91%E7%9A%84%E9%9D%99%E6%80%81%E5%BA%93%E5%92%8C%E5%8A%A8%E6%80%81%E5%BA%93%E6%98%AF32%E4%BD%8D%E8%BF%98%E6%98%AF64%E4%BD%8D/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-cjson库版本不一致，导致解析失败" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/12/15/cjson%E5%BA%93%E7%89%88%E6%9C%AC%E4%B8%8D%E4%B8%80%E8%87%B4%EF%BC%8C%E5%AF%BC%E8%87%B4%E8%A7%A3%E6%9E%90%E5%A4%B1%E8%B4%A5/">cjson库版本不一致，导致解析失败</a>
-    </h1>
-  
-
-        
-        <a href="/2019/12/15/cjson%E5%BA%93%E7%89%88%E6%9C%AC%E4%B8%8D%E4%B8%80%E8%87%B4%EF%BC%8C%E5%AF%BC%E8%87%B4%E8%A7%A3%E6%9E%90%E5%A4%B1%E8%B4%A5/" class="archive-article-date">
-  	<time datetime="2019-12-15T03:00:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="cjson库版本不一致，导致解析失败"><a href="#cjson库版本不一致，导致解析失败" class="headerlink" title="cjson库版本不一致，导致解析失败"></a>cjson库版本不一致，导致解析失败</h1><h1 id="cjson库版本不一致，导致解析失败-1"><a href="#cjson库版本不一致，导致解析失败-1" class="headerlink" title="cjson库版本不一致，导致解析失败"></a>cjson库版本不一致，导致解析失败</h1><h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><p>在编译一个程序demo的时候，需要继承一个第三方库libexample.so，第三方库用到了cjson，本身这个程序也用到了cjson，由于两者用的cjson的版本不一致，导致json解析失败……</p>
-<h2 id="旧版本cjson"><a href="#旧版本cjson" class="headerlink" title="旧版本cjson"></a>旧版本cjson</h2><p>第三方库libexample.so使用的旧版本的cjson，cjson-types截图如下：<br><img src="cjson_old_version.jpg" alt="cjson_old_version.jpg"></p>
-<h2 id="新版本cjson"><a href="#新版本cjson" class="headerlink" title="新版本cjson"></a>新版本cjson</h2><p>程序demo使用的是新版本的cjson，cjson-types截图如下：<br><img src="cjson_new_version.jpg" alt="cjson_new_version.jpg"></p>
-<h2 id="具体现象"><a href="#具体现象" class="headerlink" title="具体现象"></a>具体现象</h2><p>用旧版本的cJSON源码编译到自己的代码里，编译出libexample.so库；<br>程序demo已经使用过新版本的cJSON源码，但是又连接了上面编译出来的libexample.so的库，再次进行json解析，会发现libexample.so里面解析cJSON_Number类型的节点的值会失败；<br>然后重新用新版本的cJSON源码编译出libexample.so库，再集成到上面的demo里面，即可解析成功。</p>
-<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>可以从上面两个不同版本的cjson源码截图的cjosn-types看出来：<br>这两个版本的cJSON Types的值不一样，比如cJSON_Number类型节点的值，旧版本的值是3， 新版本的值是8，<br>所以用旧版本编译的libexample.so库，集成到demo里的时候，解析到cJSON_Number节点的时候，错误的使用值8而不是3，所以导致解析失败</p>
-<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>代码里一定要保持一个版本的cjson；<br>版本混乱很容易造成奇怪的问题，而且这种问题往往还不容易排查！</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常见报错问题</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/12/15/cjson%E5%BA%93%E7%89%88%E6%9C%AC%E4%B8%8D%E4%B8%80%E8%87%B4%EF%BC%8C%E5%AF%BC%E8%87%B4%E8%A7%A3%E6%9E%90%E5%A4%B1%E8%B4%A5/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-VisualStudio2015常用调试方法总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/11/07/VisualStudio2015%E5%B8%B8%E7%94%A8%E8%B0%83%E8%AF%95%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/">VisualStudio2015常用调试方法总结</a>
-    </h1>
-  
-
-        
-        <a href="/2019/11/07/VisualStudio2015%E5%B8%B8%E7%94%A8%E8%B0%83%E8%AF%95%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/" class="archive-article-date">
-  	<time datetime="2019-11-07T10:43:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="VisualStudio2015常用调试方法总结"><a href="#VisualStudio2015常用调试方法总结" class="headerlink" title="VisualStudio2015常用调试方法总结"></a>VisualStudio2015常用调试方法总结</h1><h2 id="断点调试"><a href="#断点调试" class="headerlink" title="断点调试"></a>断点调试</h2><p>1.设置最简单的断点<br>当程序运行时，被命中的话即可进行调试<br>F10 是一行一行往下走<br>F11 是跟进到语句里具体的执行函数里去<br>F5 是跳过此次命中，继续执行<br>鼠标放在关心的变量上，即可查看变量的详细信息<br><img src="/assets/blogImg/vs_break.jpg" alt="vs_break.jpg"></p>
-<p>调试时还会关心一些堆栈信息都可以看到<br><img src="/assets/blogImg/vs_stack.jpg" alt="vs_stack.jpg"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/11/07/VisualStudio2015%E5%B8%B8%E7%94%A8%E8%B0%83%E8%AF%95%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-VisualStudioCode常用插件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/11/07/VisualStudioCode%E5%B8%B8%E7%94%A8%E6%8F%92%E4%BB%B6/">VisualStudioCode常用插件</a>
-    </h1>
-  
-
-        
-        <a href="/2019/11/07/VisualStudioCode%E5%B8%B8%E7%94%A8%E6%8F%92%E4%BB%B6/" class="archive-article-date">
-  	<time datetime="2019-11-07T10:43:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="VisualStudioCode常用插件"><a href="#VisualStudioCode常用插件" class="headerlink" title="VisualStudioCode常用插件"></a>VisualStudioCode常用插件</h1><h2 id="配置C-git-中文相关插件"><a href="#配置C-git-中文相关插件" class="headerlink" title="配置C++,git,中文相关插件"></a>配置C++,git,中文相关插件</h2><p>配置完以下git插件之后，可以看的谁提交了代码，改了什么，在大型项目里很方便<br>中文和c++的插件更不必提，都是方便使用的</p>
-<p><img src="/assets/blogImg/vs_git.jpg" alt="vs_git.jpg"></p>
-<h2 id="配置展示多行标签页"><a href="#配置展示多行标签页" class="headerlink" title="配置展示多行标签页"></a>配置展示多行标签页</h2><p>如果打开的标签页太多了，默认都是排一行，新的展示旧的被挤到后面去看不见了，这时选择多行展示标签页，会很方便</p>
-<p>1.按住CTRL+SHIFT+P弹出搜索框，选中“首选项：打开工作区设置”</p>
-<p><img src="/assets/blogImg/vs_set.jpg" alt="vs_set.jpg"></p>
-<p>2.打开设置页面后，搜索“wrap”，选中“Wrap Tabs”就可以展示多行标签了</p>
-<p><img src="/assets/blogImg/vs_wrap.jpg" alt="vs_wrap.jpg"></p>
-<p>3.最后效果如下，框选出来的都是打开的标签页，可以展示多行了：</p>
-<p><img src="/assets/blogImg/vs_show.jpg" alt="vs_show.jpg"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/11/07/VisualStudioCode%E5%B8%B8%E7%94%A8%E6%8F%92%E4%BB%B6/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-map存放函数指针" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/09/22/map%E5%AD%98%E6%94%BE%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88/">map存放函数指针</a>
-    </h1>
-  
-
-        
-        <a href="/2019/09/22/map%E5%AD%98%E6%94%BE%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88/" class="archive-article-date">
-  	<time datetime="2019-09-22T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-22</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="map存放函数指针"><a href="#map存放函数指针" class="headerlink" title="map存放函数指针"></a>map存放函数指针</h1><h1 id="map里存放函数指针"><a href="#map里存放函数指针" class="headerlink" title="map里存放函数指针"></a>map里存放函数指针</h1><p>由于有时候，想把某一类功能的函数，存在一个map里，所以写了一个demo</p>
-<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>源码如下（已本地运行通过）：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  main.cpp</span></span><br><span class="line"><span class="comment">//  mapfunc</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  Created by 慕寒 on 2019/9/22.</span></span><br><span class="line"><span class="comment">//  Copyright © 2019 慕寒. All rights reserved.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 将函数指针缓存在map里</span></span><br><span class="line"></span><br><span class="line">#include &lt;iostream&gt;</span><br><span class="line">#include &lt;map&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span>* <span class="function"><span class="title">helloFuncOne</span>(<span class="params"></span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;Hello, World!\n&quot;</span>;</span><br><span class="line">    <span class="keyword">return</span> NULL;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">long <span class="function"><span class="title">helloFuncTwo</span>(<span class="params">long x, long y</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    long ret = <span class="number">0</span>;</span><br><span class="line">    ret = x + y;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;x + y = &quot;</span>&lt;&lt; ret &lt;&lt;endl;</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int <span class="function"><span class="title">main</span>(<span class="params">int argc, <span class="keyword">const</span> char * argv[]</span>)</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 缓存函数名，函数指针在map里</span></span><br><span class="line">    map&lt;string, long&gt; func_name_ptr;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//将函数指针缓存到map里</span></span><br><span class="line">    func_name_ptr[<span class="string">&quot;func1&quot;</span>] = (long)&amp;helloFuncOne;</span><br><span class="line">    func_name_ptr[<span class="string">&quot;func2&quot;</span>] = (long)&amp;helloFuncTwo;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//调用函数指针func1</span></span><br><span class="line">    typedef <span class="keyword">void</span>* (*FUNC)();</span><br><span class="line">    long fptr_one = func_name_ptr[<span class="string">&quot;func1&quot;</span>];</span><br><span class="line">    <span class="keyword">if</span>(fptr_one != <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;fptr_one \n&quot;</span>;</span><br><span class="line">        <span class="comment">//调用函数func1</span></span><br><span class="line">        ((FUNC)fptr_one)();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//调用函数指针func2</span></span><br><span class="line">    typedef long (*FUNCTWO)(long, long);</span><br><span class="line">    long fptr_two = func_name_ptr[<span class="string">&quot;func2&quot;</span>];</span><br><span class="line">    <span class="keyword">if</span>(fptr_two != <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;fptr_two \n&quot;</span>;</span><br><span class="line">        <span class="comment">//调用函数func2</span></span><br><span class="line">        long two_ret = ((FUNCTWO)fptr_two)(<span class="number">3</span>, <span class="number">7</span>);</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;two_ret = &quot;</span>&lt;&lt;two_ret &lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>//PS: map的第二个参数为什么用了long型，而不是int型<br>//由于在XCode编译报错 Cast from pointer to smaller type ‘int’ loses information<br>//报错原因是：由于使用了强转将void<em>转为int，而在XCode上使用的为x64的编译，X64下的void</em>地址为8字节，而int为4字节，强转时会导致越界，故出现此错误。<br>源码运行后到结果如下：</p>
-<p><img src="/assets/blogImg/map_func.jpg" alt="map_func_exec"></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>注意类型强制转换到时候，可能会有越界报错</p>
-<p>源码已同步到github上：<a target="_blank" rel="noopener" href="https://github.com/TreeAndFlower/map_func_ptr">https://github.com/TreeAndFlower/map_func_ptr</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础技能C++</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/09/22/map%E5%AD%98%E6%94%BE%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-windows下使用Kernel32.lib库,统一API" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/09/09/windows%E4%B8%8B%E4%BD%BF%E7%94%A8Kernel32.lib%E5%BA%93,%E7%BB%9F%E4%B8%80API/">windows下使用Kernel32.lib库,统一API</a>
-    </h1>
-  
-
-        
-        <a href="/2019/09/09/windows%E4%B8%8B%E4%BD%BF%E7%94%A8Kernel32.lib%E5%BA%93,%E7%BB%9F%E4%B8%80API/" class="archive-article-date">
-  	<time datetime="2019-09-09T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="windows下使用Kernel32-lib库-统一API"><a href="#windows下使用Kernel32-lib库-统一API" class="headerlink" title="windows下使用Kernel32.lib库,统一API"></a>windows下使用Kernel32.lib库,统一API</h1><h1 id="windows下使用Kernel32-lib库-统一API-1"><a href="#windows下使用Kernel32-lib库-统一API-1" class="headerlink" title="windows下使用Kernel32.lib库,统一API"></a>windows下使用Kernel32.lib库,统一API</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>由于是统一API的前提下，做成了不同实现了这些API功能的动态链接库，然后根据需要，动态的做出选择去加载这些动态库，并且是在windows下，所以最终用Kernel32.lib库</p>
-<h2 id="要注意接口导出"><a href="#要注意接口导出" class="headerlink" title="要注意接口导出"></a>要注意接口导出</h2><p>头文件如下：（要注意将接口导出）</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;string&gt;</span><br><span class="line">#include &lt;iostream&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line"><span class="comment">//导出接口</span></span><br><span class="line">#ifdef DLLLIB </span><br><span class="line">#define DLLLIB _declspec(dllexport)</span><br><span class="line">#<span class="keyword">else</span></span><br><span class="line">#define DLLLIB _declspec(dllimport)</span><br><span class="line">#endif</span><br><span class="line"></span><br><span class="line">extern <span class="string">&quot;C&quot;</span>&#123;</span><br><span class="line">	DLLLIB short one_fun_api(<span class="keyword">const</span> string&amp;);</span><br><span class="line"></span><br><span class="line">	DLLLIB short two_fun_api(<span class="keyword">const</span> int&amp;);</span><br><span class="line"></span><br><span class="line">	DLLLIB short three_fun_api(<span class="keyword">const</span> string&amp;);</span><br><span class="line"></span><br><span class="line">	DLLLIB short four_fun_api(<span class="keyword">const</span> string&amp;);</span><br><span class="line"></span><br><span class="line">	DLLLIB bool  five_fun_api();</span><br><span class="line"></span><br><span class="line">	DLLLIB bool  six_fun_api();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>主要代码如下</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">short loadLibDemo::<span class="function"><span class="title">realLoadLib</span>(<span class="params"><span class="keyword">const</span> string&amp; libPath</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span>(libPath.length() &lt;= <span class="number">0</span>)</span><br><span class="line">		<span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">	libHandle = LoadLibrary(libPath.c_str());</span><br><span class="line">	<span class="keyword">if</span>(NULL==libHandle)</span><br><span class="line">	&#123;</span><br><span class="line">		printf(<span class="string">&quot;dlopen fail %s\n&quot;</span>, GetLastError());</span><br><span class="line">		<span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	pOne = (PFUN_APIOne)GetProcAddress(libHandle, <span class="string">&quot;one_fun_api&quot;</span>);</span><br><span class="line">	<span class="keyword">if</span>(NULL == pOne)</span><br><span class="line">	&#123;</span><br><span class="line">		printf(<span class="string">&quot;[PFUN_APIOne] dlsym fail %s\n&quot;</span>, GetLastError());</span><br><span class="line">		<span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	pTwo = (PFUN_APITwo)GetProcAddress(libHandle, <span class="string">&quot;two_fun_api&quot;</span>);</span><br><span class="line">	<span class="keyword">if</span>(NULL == pTwo)</span><br><span class="line">	&#123;</span><br><span class="line">		printf(<span class="string">&quot;[PFUN_APITwo] dlsym fail %s\n&quot;</span>, GetLastError());</span><br><span class="line">		<span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	pThree = (PFUN_APIThree)GetProcAddress(libHandle, <span class="string">&quot;three_fun_api&quot;</span>);</span><br><span class="line">	<span class="keyword">if</span>(NULL == pThree)</span><br><span class="line">	&#123;</span><br><span class="line">		printf(<span class="string">&quot;[PFUN_APIThree] dlsym fail %s\n&quot;</span>, GetLastError());</span><br><span class="line">		<span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	pFour = (PFUN_APIFour)GetProcAddress(libHandle, <span class="string">&quot;four_fun_api&quot;</span>);</span><br><span class="line">	<span class="keyword">if</span>(NULL == pFour)</span><br><span class="line">	&#123;</span><br><span class="line">		printf(<span class="string">&quot;[PFUN_APIFour] dlsym fail %s\n&quot;</span>, GetLastError());</span><br><span class="line">		<span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	pFive = (PFUN_APIFive)GetProcAddress(libHandle, <span class="string">&quot;five_fun_api&quot;</span>);</span><br><span class="line">	<span class="keyword">if</span>(NULL == pFive)</span><br><span class="line">	&#123;</span><br><span class="line">		printf(<span class="string">&quot;[PFUN_APIFive] dlsym fail %s\n&quot;</span>, GetLastError());</span><br><span class="line">		<span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	pSix = (PFUN_APISix)GetProcAddress(libHandle, <span class="string">&quot;six_fun_api&quot;</span>);</span><br><span class="line">	<span class="keyword">if</span>(NULL == pSix)</span><br><span class="line">	&#123;</span><br><span class="line">		printf(<span class="string">&quot;[PFUN_APISix] dlsym fail %s\n&quot;</span>, GetLastError());</span><br><span class="line">		<span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>完整代码已经放在了<a target="_blank" rel="noopener" href="https://github.com/TreeAndFlower/loadlibdemo-windows">https://github.com/TreeAndFlower/loadlibdemo-windows</a></p>
-<h2 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h2><p>要记得导出API接口！</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">如果没有导出接口，可能会报错，报错信息如下：</span><br><span class="line"></span><br><span class="line">GetProcAddress 出错，返回NULL(<span class="number">127</span>)</span><br><span class="line"></span><br><span class="line">这个错误原因，就是由于忘记了没有导出dll库的对外接口函数，</span><br><span class="line">是忘记了用 extern <span class="string">&quot;C&quot;</span> __declspec(dllexport) ，需要将接口导出，GetProcAddress才可以使用这些接口函数</span><br></pre></td></tr></table></figure>
-
-<p>windows下用Kernel32.lib库，头文件是Windows.h；</p>
-<p>PS：</p>
-<p>另外，linux版本的blog在这里：<a target="_blank" rel="noopener" href="https://treeandflower.github.io/2019/09/01/linux%E4%B8%8B%E4%BD%BF%E7%94%A8dl%E5%BA%93%EF%BC%8C%E7%BB%9F%E4%B8%80API/">https://treeandflower.github.io/2019/09/01/linux下使用dl库，统一API/</a></p>
-<p>如有描述不对之处，欢迎大家指正</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础技能C++</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">第三方库</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/09/09/windows%E4%B8%8B%E4%BD%BF%E7%94%A8Kernel32.lib%E5%BA%93,%E7%BB%9F%E4%B8%80API/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/8/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/10/">Next &amp;raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/8/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/10/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -1181,6 +1184,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">基础技能C++</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">基础技能</a>
               </li>
              
@@ -1197,7 +1204,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">基础技能C++</a>
+                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1213,7 +1220,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
+                <a href="javascript:void(0)" class="js-tag color2">常见报错问题</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1221,7 +1228,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">常见报错问题</a>
+                <a href="javascript:void(0)" class="js-tag color4">hexo博客搭建</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1234,10 +1241,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">交叉编译</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">hexo博客搭建</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1273,7 +1276,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">拾光</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">阅读</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">经典案例分析</a>
               </li>
             
             <div class="clearfix"></div>

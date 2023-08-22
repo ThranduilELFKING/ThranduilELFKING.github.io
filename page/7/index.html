@@ -61,7 +61,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 118
+			总文章数 127
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -181,6 +181,763 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-libcryptopp源码编译" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/11/06/libcryptopp%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/">libcryptopp源码编译</a>
+    </h1>
+  
+
+        
+        <a href="/2022/11/06/libcryptopp%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/" class="archive-article-date">
+  	<time datetime="2022-11-06T08:00:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="libcryptopp源码编译"><a href="#libcryptopp源码编译" class="headerlink" title="libcryptopp源码编译"></a>libcryptopp源码编译</h1><h2 id="详细步骤"><a href="#详细步骤" class="headerlink" title="详细步骤"></a>详细步骤</h2><p>1.下载源码，解压<br>2.修改GNUmakefile<br>因为是64位编译32位的库，还增加了-m32选项</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">CXXFLAGS += -pipe -fPIC</span><br><span class="line">CXXFLAGS += -m32</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如下图：<br><img src="/assets/blogImg/cryptopp_complie.jpg" alt="cryptopp_complie"></p>
+<p>3.然后make</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">make libcryptopp.a libcryptopp.so cryptest</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="/assets/blogImg/cryptopp_complie_2.jpg" alt="cryptopp_complie_2"></p>
+<p>4.然后安装make install</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">可以指定安装路径，如不想安装到默认路径</span><br><span class="line">make install PREFIX=<span class="regexp">/usr/</span>local/selfpath</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="/assets/blogImg/cryptopp_complie_3.jpg" alt="cryptopp_complie_3"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://www.lwlwq.com/post-cryptopp.html">https://www.lwlwq.com/post-cryptopp.html</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">第三方库</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">交叉编译</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/11/06/libcryptopp%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-mosquitto源码编译" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/11/06/mosquitto%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/">mosquitto源码编译</a>
+    </h1>
+  
+
+        
+        <a href="/2022/11/06/mosquitto%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/" class="archive-article-date">
+  	<time datetime="2022-11-06T07:52:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="mosquitto源码编译"><a href="#mosquitto源码编译" class="headerlink" title="mosquitto源码编译"></a>mosquitto源码编译</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>linux下，有时候需要源码编译mosquitto，一般来说编译报错是和openssl相关，需要知名openssl的<br>头文件路径和库路径</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p><img src="/assets/blogImg/mosquitto_complie.jpg" alt="mosquitto_complie.jpg"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">第三方库</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/11/06/mosquitto%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-制作透明图片小工具-OpenCV" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/11/05/%E5%88%B6%E4%BD%9C%E9%80%8F%E6%98%8E%E5%9B%BE%E7%89%87%E5%B0%8F%E5%B7%A5%E5%85%B7-OpenCV/">制作透明图片小工具-OpenCV</a>
+    </h1>
+  
+
+        
+        <a href="/2022/11/05/%E5%88%B6%E4%BD%9C%E9%80%8F%E6%98%8E%E5%9B%BE%E7%89%87%E5%B0%8F%E5%B7%A5%E5%85%B7-OpenCV/" class="archive-article-date">
+  	<time datetime="2022-11-05T04:50:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">个人小工具</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/11/05/%E5%88%B6%E4%BD%9C%E9%80%8F%E6%98%8E%E5%9B%BE%E7%89%87%E5%B0%8F%E5%B7%A5%E5%85%B7-OpenCV/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-npm相关报错调试" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/11/04/npm%E7%9B%B8%E5%85%B3%E6%8A%A5%E9%94%99%E8%B0%83%E8%AF%95/">npm相关报错调试</a>
+    </h1>
+  
+
+        
+        <a href="/2022/11/04/npm%E7%9B%B8%E5%85%B3%E6%8A%A5%E9%94%99%E8%B0%83%E8%AF%95/" class="archive-article-date">
+  	<time datetime="2022-11-04T15:13:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="npm相关报错调试"><a href="#npm相关报错调试" class="headerlink" title="npm相关报错调试"></a>npm相关报错调试</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>执行npm install命令时，卡住不动；然后执行cnpm install命令，发现有报错提示<br>“ RunScriptError: post install error, please remove node_modules before retry!”</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>这里应该是网络不稳定造成的，所以使用如下命令即可</p>
+<p>方案一：使用cnpm安装</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">npm install -g cnpm --registry=https:<span class="comment">//registry.npm.taobao.org</span></span><br><span class="line">此后再用cnpm命令进行安装就可以了</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>方案二：配置代理</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">npm config set registry https:<span class="comment">//registry.npm.taobao.org</span></span><br><span class="line">后续还可以继续使用npm运行，而不必用cnpm</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000019543613">https://segmentfault.com/a/1190000019543613</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常见报错问题</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/11/04/npm%E7%9B%B8%E5%85%B3%E6%8A%A5%E9%94%99%E8%B0%83%E8%AF%95/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-git上传时报错OpenSSL相关errno10054" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/11/03/git%E4%B8%8A%E4%BC%A0%E6%97%B6%E6%8A%A5%E9%94%99OpenSSL%E7%9B%B8%E5%85%B3errno10054/">git上传时报错OpenSSL相关errno10054</a>
+    </h1>
+  
+
+        
+        <a href="/2022/11/03/git%E4%B8%8A%E4%BC%A0%E6%97%B6%E6%8A%A5%E9%94%99OpenSSL%E7%9B%B8%E5%85%B3errno10054/" class="archive-article-date">
+  	<time datetime="2022-11-03T15:43:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="git上传时报错OpenSSL相关errno10054"><a href="#git上传时报错OpenSSL相关errno10054" class="headerlink" title="git上传时报错OpenSSL相关errno10054"></a>git上传时报错OpenSSL相关errno10054</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>hexo博客本地更新后，想要上传到服务器的时候，发现执行hexo d之后，一直报错提示<br>OpenSSL SSL_read: Connection was reset, errno 10054<br>从网上找到了解决方案，记录一下</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>一般来说，国内现在用git上传代码的时候，都需要VPN，否则可能只能下载不能上传（估计被河蟹了）<br>那么开着VPN的情况下，才能上传，可能就会触发这个问题，导致这个问题的有2种可能<br>1.配置不对</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">修改git配置，解除ssl验证,指令如下</span><br><span class="line">git config --global http.sslVerify <span class="string">&quot;false&quot;</span> </span><br><span class="line">此时，再执行git操作即可。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>2.配置已经确认过是对的，那么就很有可能是网络不稳定，连接超时导致的<br>这种情况下，就断开重连VPN，再尝试一下，多尝试几次，当网络情况好的时候，就可以顺利上传了</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_40908748/article/details/122367878">https://blog.csdn.net/weixin_40908748/article/details/122367878</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43945983/article/details/110882074">https://blog.csdn.net/weixin_43945983/article/details/110882074</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常见报错问题</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/11/03/git%E4%B8%8A%E4%BC%A0%E6%97%B6%E6%8A%A5%E9%94%99OpenSSL%E7%9B%B8%E5%85%B3errno10054/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-程序员生产力工具个人使用版" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/11/03/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7%E4%B8%AA%E4%BA%BA%E4%BD%BF%E7%94%A8%E7%89%88/">程序员生产力工具个人使用版</a>
+    </h1>
+  
+
+        
+        <a href="/2022/11/03/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7%E4%B8%AA%E4%BA%BA%E4%BD%BF%E7%94%A8%E7%89%88/" class="archive-article-date">
+  	<time datetime="2022-11-03T15:42:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="程序员生产力工具个人使用版"><a href="#程序员生产力工具个人使用版" class="headerlink" title="程序员生产力工具个人使用版"></a>程序员生产力工具个人使用版</h1><h2 id="截图神器Snipaste"><a href="#截图神器Snipaste" class="headerlink" title="截图神器Snipaste"></a>截图神器Snipaste</h2><p>非常好用的截图神器，直接从官网下载了解压即可使用<br>常用功能<br>1.当Snipaste启动时，按下F1即可对屏幕进行截图<br>可以在截图时用“W、A、S、D”和键盘方向键分别对鼠标和截屏区域进行像素级移动</p>
+<p>2.标注功能也很强大</p>
+<p>3.按下F3可以贴图</p>
+<h2 id="画图-一个被低估的神器"><a href="#画图-一个被低估的神器" class="headerlink" title="画图-一个被低估的神器"></a>画图-一个被低估的神器</h2><p>电脑自带的软件-画图 是一个被低估的神器<br>尤其是在做UI界面相关非常精细的工作的时候，如果需要1px的精度，那么就可以借助画图软件，<br>勾选“标尺”或“网格线”进行图片的放大缩小对比，可以非常好的看出来设计图和实现的图的效果对比<br>做很精细的UI的时候是一个非常好用的工具<br><img src="/assets/blogImg/paint.jpg" alt="paint.jpg"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/11/03/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7%E4%B8%AA%E4%BA%BA%E4%BD%BF%E7%94%A8%E7%89%88/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-windows下查看exe程序依赖的dll库详细信息" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/11/03/windows%E4%B8%8B%E6%9F%A5%E7%9C%8Bexe%E7%A8%8B%E5%BA%8F%E4%BE%9D%E8%B5%96%E7%9A%84dll%E5%BA%93%E8%AF%A6%E7%BB%86%E4%BF%A1%E6%81%AF/">windows下查看exe程序依赖的dll库详细信息</a>
+    </h1>
+  
+
+        
+        <a href="/2022/11/03/windows%E4%B8%8B%E6%9F%A5%E7%9C%8Bexe%E7%A8%8B%E5%BA%8F%E4%BE%9D%E8%B5%96%E7%9A%84dll%E5%BA%93%E8%AF%A6%E7%BB%86%E4%BF%A1%E6%81%AF/" class="archive-article-date">
+  	<time datetime="2022-11-03T13:51:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="windows下查看exe程序依赖的dll库详细信息"><a href="#windows下查看exe程序依赖的dll库详细信息" class="headerlink" title="windows下查看exe程序依赖的dll库详细信息"></a>windows下查看exe程序依赖的dll库详细信息</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>有时候需要查看windows下开发的某个程序，运行时依赖哪些dll库，及这些dll库所在的位置版本等详细信息，可以使用这个方法来查看<br>这里以查看notepad++.exe程序为例</p>
+<h2 id="第一步、打开任务管理器"><a href="#第一步、打开任务管理器" class="headerlink" title="第一步、打开任务管理器"></a>第一步、打开任务管理器</h2><p><img src="/assets/blogImg/open_work.jpg" alt="open_work.jpg"></p>
+<h2 id="第二步、打开资源监视器"><a href="#第二步、打开资源监视器" class="headerlink" title="第二步、打开资源监视器"></a>第二步、打开资源监视器</h2><p><img src="/assets/blogImg/open_res.jpg" alt="open_res.jpg"></p>
+<h2 id="第三步、打开“CPU”标签，选中需要查看的exe程序，并查看“关联的模块”即可看到详细的dll信息"><a href="#第三步、打开“CPU”标签，选中需要查看的exe程序，并查看“关联的模块”即可看到详细的dll信息" class="headerlink" title="第三步、打开“CPU”标签，选中需要查看的exe程序，并查看“关联的模块”即可看到详细的dll信息"></a>第三步、打开“CPU”标签，选中需要查看的exe程序，并查看“关联的模块”即可看到详细的dll信息</h2><p><img src="/assets/blogImg/check_exe_dll.jpg" alt="check_exe_dll.jpg"></p>
+<p>如果想要将依赖的所有dll信息都拷贝出来仔细看，可以用以下方法</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">1.在“关联的模块”中，选中任一一条dll库</span><br><span class="line">2.CTRL+A全选</span><br><span class="line">3.CTRL+C复制</span><br><span class="line">4.找个空白的txt直接CTRL+V粘贴上去，即可看到详细完整的依赖信息</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="/assets/blogImg/choose_dll.jpg" alt="choose_dll.jpg"></p>
+<p><img src="/assets/blogImg/read_dll.jpg" alt="read_dll.jpg"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常用命令windows</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/11/03/windows%E4%B8%8B%E6%9F%A5%E7%9C%8Bexe%E7%A8%8B%E5%BA%8F%E4%BE%9D%E8%B5%96%E7%9A%84dll%E5%BA%93%E8%AF%A6%E7%BB%86%E4%BF%A1%E6%81%AF/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-redis交叉编译arm版本" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/11/02/redis%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91arm%E7%89%88%E6%9C%AC/">redis交叉编译arm版本</a>
+    </h1>
+  
+
+        
+        <a href="/2022/11/02/redis%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91arm%E7%89%88%E6%9C%AC/" class="archive-article-date">
+  	<time datetime="2022-11-02T15:32:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="redis交叉编译arm版本"><a href="#redis交叉编译arm版本" class="headerlink" title="redis交叉编译arm版本"></a>redis交叉编译arm版本</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>遇到以下报错时，记得更新redis版本，用最新的redis代码编译<br><img src="/assets/blogImg/redis_error.jpg" alt="redis_error"></p>
+<h2 id="编译环境"><a href="#编译环境" class="headerlink" title="编译环境"></a>编译环境</h2><p>在预先已经配置好交叉编译环境的虚拟机里，编译arm版本的redis</p>
+<h2 id="编译步骤"><a href="#编译步骤" class="headerlink" title="编译步骤"></a>编译步骤</h2><p>1.修改redis/deps的Makefile，在jemalloc编译的时候，在./configure增加 –host=arm-linux选项</p>
+<p><img src="/assets/blogImg/redis_makefile.jpg" alt="redis_makefile"></p>
+<p><img src="/assets/blogImg/redis_configure.jpg" alt="redis_configure"></p>
+<p>2.在redis下直接执行makefile，如果之前编译过，先执行make distclean在彻底清除之前编译的残留，出现以下内容，就是编译完成了</p>
+<p><img src="/assets/blogImg/redis_make.jpg" alt="redis_make"></p>
+<p>3.查看编译出来的执行文件，比如redis-cli ，可以发现编译出来的redis-cli目标机器是arm的，交叉编译结束</p>
+<p><img src="/assets/blogImg/redis_check.jpg" alt="redis_check"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">第三方库</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">交叉编译</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/11/02/redis%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91arm%E7%89%88%E6%9C%AC/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-opencv249源码编译记录-md" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/11/02/opencv249%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91%E8%AE%B0%E5%BD%95-md/">opencv249源码编译记录.md</a>
+    </h1>
+  
+
+        
+        <a href="/2022/11/02/opencv249%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91%E8%AE%B0%E5%BD%95-md/" class="archive-article-date">
+  	<time datetime="2022-11-02T13:54:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="opencv源码编译动态库and静态库"><a href="#opencv源码编译动态库and静态库" class="headerlink" title="opencv源码编译动态库and静态库"></a>opencv源码编译动态库and静态库</h1><h1 id="opencv源码编译动态库and静态库详细步骤记录"><a href="#opencv源码编译动态库and静态库详细步骤记录" class="headerlink" title="opencv源码编译动态库and静态库详细步骤记录"></a>opencv源码编译动态库and静态库详细步骤记录</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>release版本<br>debug版本<br>基于2.4.9版本编译<br>其他opencv版本也适用这个编译方式</p>
+<h2 id="一、直接下载2-4-9更新包（包里都有源码）"><a href="#一、直接下载2-4-9更新包（包里都有源码）" class="headerlink" title="一、直接下载2.4.9更新包（包里都有源码）"></a>一、直接下载2.4.9更新包（包里都有源码）</h2><p>下载地址<br><a target="_blank" rel="noopener" href="https://sourceforge.net/projects/opencvlibrary/files/opencv-win/2.4.9/">https://sourceforge.net/projects/opencvlibrary/files/opencv-win/2.4.9/</a><br>下载完后，安装即可</p>
+<h2 id="二、安装2-4-9"><a href="#二、安装2-4-9" class="headerlink" title="二、安装2.4.9"></a>二、安装2.4.9</h2><p>双击安装，自己指定安装目录，方便演示，我直接安装到了C:\Users\muhan\Downloads\opencv</p>
+<p>进入opencv文件夹<br>新建一个new_build文件夹，之后会将编译生成的sln文件，库文件等都生成到这个子文件夹对应的路径下</p>
+<h2 id="三、通过cmake配置编译环境"><a href="#三、通过cmake配置编译环境" class="headerlink" title="三、通过cmake配置编译环境"></a>三、通过cmake配置编译环境</h2><p>选择源码所在的路径（就是解压安装opencv文件夹下的sources子文件夹）<br>C:\Users\muhan\Downloads\opencv\sources</p>
+<p>选择编译生成的文件存放的路径（就是上一步new_build所在的路径）<br>C:/Users/muhan/Downloads/opencv/new_build</p>
+<p>点击Configure生成对应的配置<br>我这边用的是vs2022，一般用默认的配置就ok了<br>第一次configure之后，页面有很多红色选中，再点击一次Configure按键，然后就会自动下载一些所需的依赖，之后就可以了</p>
+<p>点击Generate，等出现“Generate Done”表示生成完成</p>
+<h2 id="四、编译动态库"><a href="#四、编译动态库" class="headerlink" title="四、编译动态库"></a>四、编译动态库</h2><h3 id="4-1-debug版本编译（动态库）"><a href="#4-1-debug版本编译（动态库）" class="headerlink" title="4.1 debug版本编译（动态库）"></a>4.1 debug版本编译（动态库）</h3><p>然后打开C:\Users\muhan\Downloads\opencv\new_build文件夹（new_build子文件夹）<br>打开OpenCV.sln工程<br>选中  解决方案”OpenCV“  右键，选择 “生成解决方案”<br>等出现“生成成功”之后，选中 CMakeTargets ,选中INSTALL，右键，选择 “仅用于此项目”，选择“仅生成INSTALL”<br>,当出现生成成功时，表示库和头文件已经生成成功，并安装到指定的路径下（new_build\install下)<br>C:\Users\muhan\Downloads\opencv\new_build\install<br>于是可以在new_build文件下，看到include头文件目录，和lib库文件夹，bin下的动态库文件夹</p>
+<h3 id="4-2-release版本编译（动态库）"><a href="#4-2-release版本编译（动态库）" class="headerlink" title="4.2 release版本编译（动态库）"></a>4.2 release版本编译（动态库）</h3><p>此时，只需要将debug版本编译时的选项“Debug”改成“Release”即可，其他步骤同上3.1一致</p>
+<p>此时，在bin目录下，产生类似opencv_calib3d249.dll（release版本的动态库）和opencv_calib3d249d.dll(debug版本的动态库）<br>到此，动态库版本已经编译完成</p>
+<h2 id="五、编译静态库"><a href="#五、编译静态库" class="headerlink" title="五、编译静态库"></a>五、编译静态库</h2><p>再次打开cmake，刚刚配置的那个页面<br>如果要编译静态库，那么取消勾选 “BUILD_SHARED_LIBS”<br>然后再次Configure，出现“Configuring done”之后，再次Generate，等再次出现“Generate done”之后，再次打开sln文件<br>重载sln文件</p>
+<h3 id="5-1-release版本编译（静态库）"><a href="#5-1-release版本编译（静态库）" class="headerlink" title="5.1 release版本编译（静态库）"></a>5.1 release版本编译（静态库）</h3><p>在“Release”选项下，其他步骤同上3.1一致<br>当编译生成成功后，会在new_build\install子文件,有一个新的文件夹 staticlib，这个子文件夹下都是静态库<br>C:\Users\muhan\Downloads\opencv\new_build\install\staticlib<br>此时都是release版本</p>
+<h3 id="5-2-debug版本编译（静态库）"><a href="#5-2-debug版本编译（静态库）" class="headerlink" title="5.2 debug版本编译（静态库）"></a>5.2 debug版本编译（静态库）</h3><p>只要把编译选项改成“Debug”,其他同上3.1一致<br>（如果有闪屏，那是因为我的猫踩上来蹦迪了。。。）<br>然后再去C:\Users\muhan\Downloads\opencv\new_build\install\staticlib下，会有debug版本的静态库</p>
+<p>至此，opencv在windows下的debug、release版本的动态库，静态库编译完成</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">opencv</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">第三方库</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/11/02/opencv249%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91%E8%AE%B0%E5%BD%95-md/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-迁移一个账号" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -257,789 +1014,9 @@
 
 
   
-    <article id="post-开发clickMouse鼠标点击小工具删除邮箱里的2w多垃圾邮件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/15/%E5%BC%80%E5%8F%91clickMouse%E9%BC%A0%E6%A0%87%E7%82%B9%E5%87%BB%E5%B0%8F%E5%B7%A5%E5%85%B7%E5%88%A0%E9%99%A4%E9%82%AE%E7%AE%B1%E9%87%8C%E7%9A%842w%E5%A4%9A%E5%9E%83%E5%9C%BE%E9%82%AE%E4%BB%B6/">开发clickMouse鼠标点击小工具删除邮箱里的2w多垃圾邮件</a>
-    </h1>
-  
-
-        
-        <a href="/2021/05/15/%E5%BC%80%E5%8F%91clickMouse%E9%BC%A0%E6%A0%87%E7%82%B9%E5%87%BB%E5%B0%8F%E5%B7%A5%E5%85%B7%E5%88%A0%E9%99%A4%E9%82%AE%E7%AE%B1%E9%87%8C%E7%9A%842w%E5%A4%9A%E5%9E%83%E5%9C%BE%E9%82%AE%E4%BB%B6/" class="archive-article-date">
-  	<time datetime="2021-05-15T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="hello-world"><a href="#hello-world" class="headerlink" title="hello-world"></a>hello-world</h1>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">个人小工具</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/05/15/%E5%BC%80%E5%8F%91clickMouse%E9%BC%A0%E6%A0%87%E7%82%B9%E5%87%BB%E5%B0%8F%E5%B7%A5%E5%85%B7%E5%88%A0%E9%99%A4%E9%82%AE%E7%AE%B1%E9%87%8C%E7%9A%842w%E5%A4%9A%E5%9E%83%E5%9C%BE%E9%82%AE%E4%BB%B6/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-windows会话id" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/03/18/windows%E4%BC%9A%E8%AF%9Did/">windows会话id--穿透session隔离</a>
-    </h1>
-  
-
-        
-        <a href="/2021/03/18/windows%E4%BC%9A%E8%AF%9Did/" class="archive-article-date">
-  	<time datetime="2021-03-18T00:11:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="windows会话id–穿透session隔离"><a href="#windows会话id–穿透session隔离" class="headerlink" title="windows会话id–穿透session隔离"></a>windows会话id–穿透session隔离</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在做项目的过程中，遇上的问题，记录一下。有一个程序getCode.exe需要开机自启动，这个程序是有一些用户交互的。</p>
-<p>一开始的时候，我这边直接使用nssm创建服务，开机自启动这个服务，拉起来getCode.exe，但是发现，getCode.exe开机自启动之后，居然对用户的输入毫无反应；但是如果是电脑开机之后，手动启动getCode.exe程序，就可以正常接收用户输入并作出后续操作。<br>于是开始从网上找各种信息排查，发现网友提到了会话ID，于是打开任务管理器去确认，发现如果是通过nssm直接创建服务拉起来的getCode.exe进程的会话ID是0，但是如果在开机后手动启动getCode.exe的会话ID是1，而开机后的当前用户的会话ID就是1，经过确认，就是会话ID导致的问题。</p>
-<p>于是我们需要再写一个程序setExeSID.exe，这个setExeSID.exe主要负责的就是以指定的会话ID来启动getCode.exe程序，然后将setExeSID.exe通过nssm创建服务开机自启动，当服务开机自启后，拉起来setExeSID.exe，此时setExeSID.exe进程的SID为0，然后setExeSID.exe这个进程再指定以SID为1启动getCode.exe，这样的话，getCode.exe既实现了开机自启动，又实现了开机启动后SID是1（和当前登录的用户的SID）保持一致，可以和用户有输入输出的交互。</p>
-<h2 id="会话id"><a href="#会话id" class="headerlink" title="会话id"></a>会话id</h2><p>简单的说，用户登陆到windows系统之后，不管该用户是本地登陆的，还是远程登陆，系统都会为这个用户分配一个新的会话ID(SID)。也就是说会话与用户的登录是相关连的，没有用户登录就不存在会话。因此，会话的含义是指用户登录之后的一种运行的环境。</p>
-<h3 id="1-查看会话id"><a href="#1-查看会话id" class="headerlink" title="1.查看会话id"></a>1.查看会话id</h3><p>打开“任务管理器”–》“查看”–》“选择列”–》“会话ID”前的方框打钩，即可在任务管理器查看到每个进程的会话ID</p>
-<p><img src="/assets/blogImg/look_sid.jpg" alt="look_sid.jpg"></p>
-<h3 id="2-通过代码指定SID"><a href="#2-通过代码指定SID" class="headerlink" title="2.通过代码指定SID"></a>2.通过代码指定SID</h3><p>主要使用到的函数如下：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">GetCurrentProcess函数返回当前进程的伪句柄。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">OpenProcessToken功能打开与进程关联的访问令牌。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在使用某些Windows API的时候需要提升进程的默认权限，在这种情况下，我们需要使用到一组Windows API提升进程权限。需要的函数有：</span><br><span class="line"><span class="number">1.</span>OpenProcessToken</span><br><span class="line"><span class="number">2.</span>LookupPrivilegeValue</span><br><span class="line"><span class="number">3.</span>AdjustTokenPrivileges</span><br><span class="line">使用这组函数提升权限的前提是进程具备该权限，只是访问令牌中没有启用该权限。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">WTSEnumerateSessions 枚举会话ID</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">CreateEnvironmentBlock函数，检索指定用户的环境变量</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">CreateProcessAsUser函数创建一个新进程及其主线程。然后，新进程执行指定的可执行文件。CreateProcessAsUser功能类似于CreateProcess功能，但新进程在由【hToken】参数表示的用户的安全上下文中运行。默认情况下，新进程是非交互式的，即它运行在不可见的桌面上，无法接收用户输入。此外，默认情况下，新进程继承调用进程的环境，而不是与指定用户关联的环境。</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>session 0会话隔离的问题，在这个项目之前，虽然有一点耳闻，但是在一开始排查这个问题的时候，确实没有往这个方向上想，后来也是查了很多资料之后，才把问题的方向转向这个思路。经过这次，可以说，当windows上开发应用程序时，如果需要这个应用程序开机自启动，而且这个程序又在启动后需要有用户交互，那么就需要考虑会话隔离的问题。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>关于突破SESSION 0隔离创建进程<br><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1424933">https://cloud.tencent.com/developer/article/1424933</a></p>
-<p>这个链接下总结了用户权限设置和进程权限提升，讲的很细致，提权demo也可参考<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/yockie/article/details/17029293">https://blog.csdn.net/yockie/article/details/17029293</a></p>
-<p>这个链接下，总结了window API<br><a target="_blank" rel="noopener" href="http://yfvb.com/help/win32sdk/index.htm?page=html/_qx5ll.htm">http://yfvb.com/help/win32sdk/index.htm?page=html/_qx5ll.htm</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础技能C++</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/03/18/windows%E4%BC%9A%E8%AF%9Did/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-使用valgrind检查内存泄露" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/03/08/%E4%BD%BF%E7%94%A8valgrind%E6%A3%80%E6%9F%A5%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2/">使用valgrind检查内存泄露</a>
-    </h1>
-  
-
-        
-        <a href="/2021/03/08/%E4%BD%BF%E7%94%A8valgrind%E6%A3%80%E6%9F%A5%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2/" class="archive-article-date">
-  	<time datetime="2021-03-08T00:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="使用valgrind检查内存泄露"><a href="#使用valgrind检查内存泄露" class="headerlink" title="使用valgrind检查内存泄露"></a>使用valgrind检查内存泄露</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在代码开发过程中，内存泄露问题是一个让人排查起来很头疼的问题，这种bug有时候会非常隐蔽，当代码量很大的时候，有时候直接推理排查会花费大量时间精力，还有可能漏掉，此时可以通过一些小工具来排查代码里的内存泄露问题，linux下，可以通过valgrind工具来检查代码里的内存泄露问题</p>
-<h2 id="安装配置valgrind"><a href="#安装配置valgrind" class="headerlink" title="安装配置valgrind"></a>安装配置valgrind</h2><h3 id="1-下载"><a href="#1-下载" class="headerlink" title="1.下载"></a>1.下载</h3><p>官网下载地址： <a target="_blank" rel="noopener" href="https://www.valgrind.org/downloads/current.html">https://www.valgrind.org/downloads/current.html</a></p>
-<h3 id="2-解压安装"><a href="#2-解压安装" class="headerlink" title="2.解压安装"></a>2.解压安装</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//解压</span></span><br><span class="line">tar xvf valgrind-<span class="number">3.17</span><span class="number">.0</span>.tar.bz2 </span><br><span class="line"></span><br><span class="line"><span class="comment">//cd到路径里</span></span><br><span class="line">cd valgrind-<span class="number">3.17</span><span class="number">.0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//指定安装到/usr/local下</span></span><br><span class="line">./configure --prefix=<span class="regexp">/usr/</span>local/valgrind</span><br><span class="line"></span><br><span class="line"><span class="comment">//编译</span></span><br><span class="line">make</span><br><span class="line"></span><br><span class="line"><span class="comment">//安装</span></span><br><span class="line">make install</span><br><span class="line"></span><br><span class="line"><span class="comment">//配置环境变量</span></span><br><span class="line">sudo vim /etc/profile</span><br><span class="line"></span><br><span class="line"><span class="comment">//追加PATH变量，将valgrind的路径写进去，然后退出保存</span></span><br><span class="line"><span class="keyword">export</span> PATH=$PATH:<span class="regexp">/usr/</span>local/valgrind/bin</span><br><span class="line"></span><br><span class="line"><span class="comment">//使环境变量立即生效</span></span><br><span class="line">source /etc/profile</span><br><span class="line"></span><br><span class="line"><span class="comment">//然后就可以检查valgrind命令是否正常可用</span></span><br><span class="line">valgrind --version 查看一下当前安装的版本，以此确认我们的安装过程及环境配置是否正确</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>至此，valgrind的安装及环境配置已完成，操作过程如下图：</p>
-<p><img src="/assets/blogImg/tar_xvf_valgrind.jpg" alt="tar_xvf_valgrind"><br><img src="/assets/blogImg/install_valgrind.jpg" alt="install_valgrind"><br><img src="/assets/blogImg/valgrind_make.jpg" alt="valgrind_make.jpg"><br><img src="/assets/blogImg/valgrind_make_install.jpg" alt="valgrind_make_install.jpg"><br><img src="/assets/blogImg/valgrind_env_1.jpg" alt="valgrind_env_1.jpg"><br><img src="/assets/blogImg/valgrind_env_2.jpg" alt="valgrind_env_2.jpg"><br><img src="/assets/blogImg/valgrind_env_3.jpg" alt="valgrind_env_3.jpg"><br><img src="/assets/blogImg/valgrind_env_4.jpg" alt="valgrind_env_4.jpg"></p>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="1-demo如下"><a href="#1-demo如下" class="headerlink" title="1.demo如下"></a>1.demo如下</h3><p>main.cpp如下</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#include &lt;iostream&gt;</span><br><span class="line"></span><br><span class="line">int <span class="function"><span class="title">main</span>(<span class="params"></span>)</span></span><br><span class="line">&#123;</span><br><span class="line">	int* one = <span class="keyword">new</span> int &#123;<span class="number">1</span>&#125;;  <span class="comment">//申请空间且之后没有被释放，会造成内存泄露</span></span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;one : &quot;</span> &lt;&lt; *one &lt;&lt; std::endl;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>直接编译即可：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g++ main.cpp</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-调试"><a href="#2-调试" class="headerlink" title="2. 调试"></a>2. 调试</h3><p>调试指令如下：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">valgrind --log-file=./valgrind_report.log --leak-check=full --show-leak-kinds=all --show-reachable=no --track-origins=yes ./a.out</span><br></pre></td></tr></table></figure>
-
-<p>–log-file<br>指定报告输出文件<br>–track-origins=yes<br>是否显示未定义的变量，在堆、栈中被定义没有被initialised的变量都被定义成origins。默认是关闭这个option的。<br>–show-leak-kinds=all<br>这里可以支持的选项有[definite|possible]，一般只需要去关注definite（必须关注），possible是可能会存在。<br>–leak-check=full<br>当服务器退出时是否收集输出内存泄漏，选项有[no|summary|full]这个地方我们将其设置成全输出，默认将会使用summary方式。</p>
-<p>之后就可以查看生成的报告valgrind_report.log，分析是否有内存泄露，及问题定位</p>
-<p>本次代码检查如下：<br><img src="/assets/blogImg/valgrind_test.jpg" alt="valgrind_test.jpg"><br><img src="/assets/blogImg/valgrind_report.jpg" alt="valgrind_report.jpg"></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在linux下排查内存泄露问题时，如果项目复杂，代码量大，可以考虑使用valgrind工具来协助排查</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/erlang_hell/article/details/51360149">https://blog.csdn.net/erlang_hell/article/details/51360149</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/03/08/%E4%BD%BF%E7%94%A8valgrind%E6%A3%80%E6%9F%A5%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-static关键字" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/24/static%E5%85%B3%E9%94%AE%E5%AD%97/">static关键字</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/24/static%E5%85%B3%E9%94%AE%E5%AD%97/" class="archive-article-date">
-  	<time datetime="2020-11-24T13:42:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="static关键字"><a href="#static关键字" class="headerlink" title="static关键字"></a>static关键字</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>做一个系统的总结，之前没有做过详细的整理，这里以一个示例代码先放出来，然后结合这个代码进行一些总结和分析。</p>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="http://c.biancheng.net/view/2228.html">http://c.biancheng.net/view/2228.html</a><br><a target="_blank" rel="noopener" href="http://c.biancheng.net/view/2227.html">http://c.biancheng.net/view/2227.html</a></p>
-<h2 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h2><p>统计学生人数和平均分，总分</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;iostream&gt;</span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span></span>&#123;</span><br><span class="line"><span class="attr">public</span>:</span><br><span class="line">    Student(char *name, int age, float score);</span><br><span class="line">    <span class="keyword">void</span> show();</span><br><span class="line">public:  <span class="comment">//声明静态成员函数</span></span><br><span class="line">    <span class="keyword">static</span> int getTotal();</span><br><span class="line">    <span class="keyword">static</span> float getPoints();</span><br><span class="line">private:</span><br><span class="line">    <span class="keyword">static</span> int m_total;  <span class="comment">//总人数</span></span><br><span class="line">    <span class="keyword">static</span> float m_points;  <span class="comment">//总成绩</span></span><br><span class="line">private:</span><br><span class="line">    char *m_name;</span><br><span class="line">    int m_age;</span><br><span class="line">    float m_score;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">int Student::m_total = <span class="number">0</span>;</span><br><span class="line">float Student::m_points = <span class="number">0.0</span>;</span><br><span class="line"></span><br><span class="line">Student::Student(char *name, int age, float score): m_name(name), m_age(age), <span class="function"><span class="title">m_score</span>(<span class="params">score</span>)</span>&#123;</span><br><span class="line">    m_total++;</span><br><span class="line">    m_points += score;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">void</span> Student::<span class="function"><span class="title">show</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    cout&lt;&lt;m_name&lt;&lt;<span class="string">&quot;的年龄是&quot;</span>&lt;&lt;m_age&lt;&lt;<span class="string">&quot;，成绩是&quot;</span>&lt;&lt;m_score&lt;&lt;endl;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//定义静态成员函数</span></span><br><span class="line">int Student::<span class="function"><span class="title">getTotal</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> m_total;</span><br><span class="line">&#125;</span><br><span class="line">float Student::<span class="function"><span class="title">getPoints</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> m_points;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int <span class="function"><span class="title">main</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">//创建匿名对象</span></span><br><span class="line">    (<span class="keyword">new</span> Student(<span class="string">&quot;小明&quot;</span>, <span class="number">15</span>, <span class="number">90.6</span>)) -&gt; show();</span><br><span class="line">    (<span class="keyword">new</span> Student(<span class="string">&quot;李磊&quot;</span>, <span class="number">16</span>, <span class="number">80.5</span>)) -&gt; show();</span><br><span class="line">    (<span class="keyword">new</span> Student(<span class="string">&quot;张华&quot;</span>, <span class="number">16</span>, <span class="number">99.0</span>)) -&gt; show();</span><br><span class="line">    (<span class="keyword">new</span> Student(<span class="string">&quot;王康&quot;</span>, <span class="number">14</span>, <span class="number">60.8</span>)) -&gt; show();</span><br><span class="line"></span><br><span class="line">    int total = Student::getTotal();</span><br><span class="line">    float points = Student::getPoints();</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;当前共有&quot;</span>&lt;&lt;total&lt;&lt;<span class="string">&quot;名学生，总成绩是&quot;</span>&lt;&lt;points&lt;&lt;<span class="string">&quot;，平均分是&quot;</span>&lt;&lt;points/total&lt;&lt;endl;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>运行结果：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">小明的年龄是<span class="number">15</span>，成绩是<span class="number">90.6</span></span><br><span class="line">李磊的年龄是<span class="number">16</span>，成绩是<span class="number">80.5</span></span><br><span class="line">张华的年龄是<span class="number">16</span>，成绩是<span class="number">99</span></span><br><span class="line">王康的年龄是<span class="number">14</span>，成绩是<span class="number">60.8</span></span><br><span class="line">当前共有<span class="number">4</span>名学生，总成绩是<span class="number">330.9</span>，平均分是<span class="number">82.725</span></span><br></pre></td></tr></table></figure>
-
-<p>初步分析：<br>总人数 m_total 和总成绩 m_points 由各个对象累加得到，必须声明为 static 才能共享；<br>getTotal()、getPoints() 分别用来获取总人数和总成绩，为了访问 static 成员变量，我们将这两个函数也声明为 static。getTotal()、getPoints() 当然也可以声明为普通成员函数，但是它们都只对静态成员进行操作，加上 static 语义更加明确。</p>
-<p>静态成员变量、静态成员函数可以通过类来调用（一般都是这样做），也可以通过对象来调用。</p>
-<p>之所以使用匿名对象，是因为每次创建对象后只会使用它的 show() 函数，不再进行其他操作。不过使用匿名对象无法回收内存，会导致内存泄露，在中大型程序中不建议使用。</p>
-<p>以下详细介绍一下静态成员变量和静态成员函数。</p>
-<h2 id="静态成员变量"><a href="#静态成员变量" class="headerlink" title="静态成员变量"></a>静态成员变量</h2><p>1.对象的内存中包含了成员变量，不同的对象占用不同的内存，这使得不同对象的成员变量相互独立，它们的值不受其他对象的影响。例如有两个相同类型的对象 a、b，它们都有一个成员变量 m_name，那么修改 a.m_name 的值不会影响 b.m_name 的值。</p>
-<p>2.可是有时候我们希望在多个对象之间共享数据，对象 a 改变了某份数据后对象 b 可以检测到。共享数据的典型使用场景是计数，如果我们想知道班级中共有多少名学生，就可以设置一份共享的变量，每次创建对象时让该变量加 1。</p>
-<p>在C++中，我们可以使用静态成员变量来实现多个对象共享数据的目标。静态成员变量是一种特殊的成员变量，它被关键字static修饰。</p>
-<p>static 成员变量属于类，不属于某个具体的对象，即使创建多个对象，也只为 m_total 分配一份内存，所有对象使用的都是这份内存中的数据。当某个对象修改了 m_total，也会影响到其他对象。</p>
-<p>3.static 成员变量必须在类声明的外部初始化，具体形式为：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">type <span class="class"><span class="keyword">class</span>::<span class="title">name</span> </span>= value;</span><br><span class="line">type 是变量的类型，<span class="class"><span class="keyword">class</span> 是类名，<span class="title">name</span> 是变量名，<span class="title">value</span> 是初始值。</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">比如，将上面的 <span class="title">m_total</span> 初始化：</span></span><br><span class="line"><span class="class"><span class="title">int</span> <span class="title">Student</span>::<span class="title">m_total</span> </span>= <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
-
-<p>4.静态成员变量在初始化时不能再加 static，但必须要有数据类型。<br>被 private、protected、public 修饰的静态成员变量都可以用这种方式初始化。<br>注意：static 成员变量的内存既不是在声明类时分配，也不是在创建对象时分配，而是在（类外）初始化时分配。反过来说，没有在类外初始化的 static 成员变量不能使用。</p>
-<p>5.static 成员变量既可以通过对象来访问，也可以通过类来访问。<br>代码示例如下：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//通过类类访问 static 成员变量</span></span><br><span class="line"><span class="attr">Student</span>::m_total = <span class="number">10</span>;</span><br><span class="line"><span class="comment">//通过对象来访问 static 成员变量</span></span><br><span class="line">Student stu(<span class="string">&quot;小明&quot;</span>, <span class="number">15</span>, <span class="number">92.</span>5f);</span><br><span class="line">stu.m_total = <span class="number">20</span>;</span><br><span class="line"><span class="comment">//通过对象指针来访问 static 成员变量</span></span><br><span class="line">Student *pstu = <span class="keyword">new</span> Student(<span class="string">&quot;李华&quot;</span>, <span class="number">16</span>, <span class="number">96</span>);</span><br><span class="line">pstu -&gt; m_total = <span class="number">20</span>;</span><br><span class="line"></span><br><span class="line">这三种方式是等效的。</span><br></pre></td></tr></table></figure>
-
-<p>注意：static 成员变量不占用对象的内存，而是在所有对象之外开辟内存，即使不创建对象也可以访问。具体来说，static 成员变量和普通的 static 变量类似，都在内存分区中的全局数据区分配内存</p>
-<p>总结：<br>(1) 一个类中可以有一个或多个静态成员变量，所有的对象都共享这些静态成员变量，都可以引用它。</p>
-<p>(2) static 成员变量和普通 static 变量一样，都在内存分区中的全局数据区分配内存，到程序结束时才释放。这就意味着，static 成员变量不随对象的创建而分配内存，也不随对象的销毁而释放内存。而普通成员变量在对象创建时分配内存，在对象销毁时释放内存。</p>
-<p>(3) 静态成员变量必须初始化，而且只能在类体外进行。<br>初始化时可以赋初值，也可以不赋值。如果不赋值，那么会被默认初始化为 0。全局数据区的变量都有默认的初始值 0，而动态数据区（堆区、栈区）变量的默认值是不确定的，一般认为是垃圾值。</p>
-<p>(4) 静态成员变量既可以通过对象名访问，也可以通过类名访问，但要遵循 private、protected 和 public 关键字的访问权限限制。当通过对象名访问时，对于不同的对象，访问的是同一份内存。</p>
-<h2 id="静态成员函数"><a href="#静态成员函数" class="headerlink" title="静态成员函数"></a>静态成员函数</h2><p>1.在类中，static 除了可以声明静态成员变量，还可以声明静态成员函数。<br>普通成员函数可以访问所有成员（包括成员变量和成员函数），静态成员函数只能访问静态成员。</p>
-<p>2.编译器在编译一个普通成员函数时，会隐式地增加一个形参 this，并把当前对象的地址赋值给 this，所以普通成员函数只能在创建对象后通过对象来调用，因为它需要当前对象的地址。而静态成员函数可以通过类来直接调用，编译器不会为它增加形参 this，它不需要当前对象的地址，所以不管有没有创建对象，都可以调用静态成员函数。</p>
-<p>3.普通成员变量占用对象的内存，静态成员函数没有 this 指针，不知道指向哪个对象，无法访问对象的成员变量，也就是说静态成员函数不能访问普通成员变量，只能访问静态成员变量。</p>
-<p>4.普通成员函数必须通过对象才能调用，而静态成员函数没有 this 指针，无法在函数体内部访问某个对象，所以不能调用普通成员函数，只能调用静态成员函数。</p>
-<p>5.静态成员函数与普通成员函数的根本区别在于：普通成员函数有 this 指针，可以访问类中的任意成员；而静态成员函数没有 this 指针，只能访问静态成员（包括静态成员变量和静态成员函数）。</p>
-<p>6.在C++中，静态成员函数的主要目的是访问静态成员。<br>和静态成员变量类似，静态成员函数在声明时要加 static，在定义时不能加 static。静态成员函数可以通过类来调用（一般都是这样做），也可以通过对象来调用。</p>
-<p>注意：<br>静态成员函数可以访问其他类的各种成员函数（包括静态/非静态的成员变量和成员函数）。只在静态成员函数所在的那个类受到各种限制。在这个函数里，调用其他的类的接口都是不受限制的。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础技能C++</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/24/static%E5%85%B3%E9%94%AE%E5%AD%97/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-static静态元素" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/22/static%E9%9D%99%E6%80%81%E5%85%83%E7%B4%A0/">static静态元素</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/22/static%E9%9D%99%E6%80%81%E5%85%83%E7%B4%A0/" class="archive-article-date">
-  	<time datetime="2020-11-22T12:13:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-22</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="static静态元素"><a href="#static静态元素" class="headerlink" title="static静态元素"></a>static静态元素</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>对static静态元素做一个系统的学习记录</p>
-<h2 id="static基本含义"><a href="#static基本含义" class="headerlink" title="static基本含义"></a>static基本含义</h2><p>在c/c++种，static都有两种基本含义，并且这两种基本含义经常是互相冲突的。<br>（1）在固定的地址上进行存储分配，也就是说对象在一个特殊的静态数据区上创建的，而不是每次函数调用时在堆栈上产生的。这也是静态存储的概念。<br>（2）对一个特定编译单位来说是局部的。因此，static控制名字的可见性，所以这个名字在这个单元或者类之外是不可见的。这也描述了连接的概念，它决定连接器将看到哪些名字。</p>
-<h2 id="函数内部的静态变量"><a href="#函数内部的静态变量" class="headerlink" title="函数内部的静态变量"></a>函数内部的静态变量</h2><p>通常，在函数体内部定义一个局部变量时，编译器在每次函数调用时使堆栈的指针下移一个适当的位置，为这些局部变量分配内容。如果这个变量有一个初始化表达式，那么每当程序运行到此处，初始化就被执行。</p>
-<p>然而，有时想在两次函数调用之间保留一个变量的值，可以通过定义一个全局变量来实现，但这样一来，这个变量就不仅仅只是受到这个函数的控制。</p>
-<p>c/c++中都准许在函数体内部定义一个static对象，这个对象存储在程序的静态数据区内，而不是在堆栈中。这个对象只在函数第一次调用时初始化一次，以后它将在两次函数调用之间保持它的值。</p>
-<p>如果没有为一个内建类型的静态变量提供一个初始值的话，编译器也会确保在程序开始时它被初始化为0（转化为适当的类型）。</p>
-<p>其实对静态对象初始化（与其他对象的初始化一样）可以是任意的常量表达式，常量表达式可以出现常量以及在此之前声明过的变量和函数。</p>
-<p>注意：无论什么时候设计一个包含静态变量的函数时，都应记住多线程问题。</p>
-<h2 id="函数内部的静态对象"><a href="#函数内部的静态对象" class="headerlink" title="函数内部的静态对象"></a>函数内部的静态对象</h2><p>（1）静态对象的构造函数<br>对一般静态变量的规则同样适用于用户自定义的静态对象，而且它同样也必须有初始化操作。但是，零赋值只对内建类型有效，用户自定义类型必须用构造函数来初始化。因此，如果在定义一个静态对象时没有指定构造函数参数，这个类就必须要有默认构造函数。</p>
-<p>示例代码如下：<br><img src="/assets/blogImg/static_demo.jpg" alt="static_demo.jpg"></p>
-<p>运行结果如下：<br><img src="/assets/blogImg/static_demo2.jpg" alt="static_demo2.jpg"></p>
-<p>（2）静态对象的析构函数<br>静态对象的析构函数（包括静态存储的所有对象，不仅仅是上例的局部静态对象）在程序从main()中退出时，或者标准的c库函数exit()被调用时才被调用。</p>
-<p>多数情况下，main()函数的结尾也是调用了exit()来结束程序的。这意味着在析构函数内部使用exit()是非常危险的，因为这样导致了无穷的递归调用。</p>
-<p>同普通对象的销毁一样，静态对象的销毁顺序也是按与初始化相反的顺序进行的。当然只有那些创建了的对象才会被销毁。开发工具会记录对象初始化的顺序和那些已被创建的对象。</p>
-<p>全局对象总是在mian()执行之前被创建，在退出main()时被销毁。</p>
-<p><strong>在C++中，全局静态对象的构造函数是在main()之前调用的，所以现在有了一个在进入main()函数之前执行一段代码的简单的、可移植的方法，并且可以在退出main()之后用析构函数执行代码。在C中，如果想要做到这一点，就显得非常繁琐，我们将不得不熟悉编译器开发商的汇编语言的开始代码。</strong></p>
-<p>如果一个包含局部静态对象的函数从未被调用过，那么这个对象的构造函数也就不会执行，这样也就不会执行析构函数。</p>
-<p>示例代码如下：<br><img src="/assets/blogImg/static_demo3.jpg" alt="static_demo3.jpg"></p>
-<p>运行结果如下：<br><img src="/assets/blogImg/static_demo4.jpg" alt="static_demo4.jpg"></p>
-<h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><p>《Thing in C++》</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础技能C++</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/22/static%E9%9D%99%E6%80%81%E5%85%83%E7%B4%A0/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-查看静态库-动态库-执行程序的编译工具链gcc-g++版本命令" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/15/%E6%9F%A5%E7%9C%8B%E9%9D%99%E6%80%81%E5%BA%93-%E5%8A%A8%E6%80%81%E5%BA%93-%E6%89%A7%E8%A1%8C%E7%A8%8B%E5%BA%8F%E7%9A%84%E7%BC%96%E8%AF%91%E5%B7%A5%E5%85%B7%E9%93%BEgcc-g++%E7%89%88%E6%9C%AC%E5%91%BD%E4%BB%A4/">查看静态库-动态库-执行程序的编译工具链gcc-g++版本命令</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/15/%E6%9F%A5%E7%9C%8B%E9%9D%99%E6%80%81%E5%BA%93-%E5%8A%A8%E6%80%81%E5%BA%93-%E6%89%A7%E8%A1%8C%E7%A8%8B%E5%BA%8F%E7%9A%84%E7%BC%96%E8%AF%91%E5%B7%A5%E5%85%B7%E9%93%BEgcc-g++%E7%89%88%E6%9C%AC%E5%91%BD%E4%BB%A4/" class="archive-article-date">
-  	<time datetime="2020-11-15T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="查看静态库-动态库-执行程序的编译工具链gcc-g-版本命令"><a href="#查看静态库-动态库-执行程序的编译工具链gcc-g-版本命令" class="headerlink" title="查看静态库-动态库-执行程序的编译工具链gcc-g++版本命令"></a>查看静态库-动态库-执行程序的编译工具链gcc-g++版本命令</h1><h2 id="使用指令："><a href="#使用指令：" class="headerlink" title="使用指令："></a>使用指令：</h2><p>objdump -s –section=.comment [库名或执行文件名]</p>
-<p>如下图查看动态库：<br><img src="/assets/blogImg/objdump_ssl.jpg" alt="objdump_ssl"><br>可以看出图里的libssl.so和libcrypto.so是交叉编译工具链编译出来的）</p>
-<p>如下图查看静态库：<br><img src="/assets/blogImg/objdump_zma.jpg" alt="objdump_zma"></p>
-<p>如下图查看执行文件：<br><img src="/assets/blogImg/objdump_demo.jpg" alt="objdump_demo"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">交叉编译</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/15/%E6%9F%A5%E7%9C%8B%E9%9D%99%E6%80%81%E5%BA%93-%E5%8A%A8%E6%80%81%E5%BA%93-%E6%89%A7%E8%A1%8C%E7%A8%8B%E5%BA%8F%E7%9A%84%E7%BC%96%E8%AF%91%E5%B7%A5%E5%85%B7%E9%93%BEgcc-g++%E7%89%88%E6%9C%AC%E5%91%BD%E4%BB%A4/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-树莓派64位系统配置32位运行环境" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/15/%E6%A0%91%E8%8E%93%E6%B4%BE64%E4%BD%8D%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE32%E4%BD%8D%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83/">树莓派64位系统配置32位运行环境</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/15/%E6%A0%91%E8%8E%93%E6%B4%BE64%E4%BD%8D%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE32%E4%BD%8D%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83/" class="archive-article-date">
-  	<time datetime="2020-11-15T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="树莓派64位系统配置32位运行环境"><a href="#树莓派64位系统配置32位运行环境" class="headerlink" title="树莓派64位系统配置32位运行环境"></a>树莓派64位系统配置32位运行环境</h1><h2 id="配置libc6-armhf"><a href="#配置libc6-armhf" class="headerlink" title="配置libc6:armhf"></a>配置libc6:armhf</h2><p>树莓派本身安装了64位系统的情况下，需要配置32位程序的运行环境，首先安装依赖库，操作步骤如下，以下操作都要在root用户下进行<br><img src="/assets/blogImg/4b_armhf.jpg" alt="4b_armhf"></p>
-<h2 id="配置32位程序的依赖库环境"><a href="#配置32位程序的依赖库环境" class="headerlink" title="配置32位程序的依赖库环境"></a>配置32位程序的依赖库环境</h2><p>git clone git://github.com/raspberrypi/tools.git<br>将arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64/路径下的lib库都拷贝到/usr/local/lib32路径下，这个路径可以自己创建，自定义路径名，专门用来存放底层32位依赖库（如libstdc++.so.6)</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>其实最重要的，就是从官方提供的交叉编译工具链，把32位库给获取到，然后放到树莓派的自定义路径下，之后自己编译的32位执行程序/库，都要指定链接这个路径的基础库，否则会报错（找不到依赖库）</p>
-<p>本身64位的树莓派系统是不带32位基础库的，所以必须从官方的交叉编译工具链里获取（目前，无法通过apt-get直接获取到所有的32位依赖库）</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a target="_blank" rel="noopener" href="https://raspberrypi.club/148.html">https://raspberrypi.club/148.html</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">交叉编译</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/15/%E6%A0%91%E8%8E%93%E6%B4%BE64%E4%BD%8D%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE32%E4%BD%8D%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-树莓派交叉编译的三种常见方式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/15/%E6%A0%91%E8%8E%93%E6%B4%BE%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91%E7%9A%84%E4%B8%89%E7%A7%8D%E5%B8%B8%E8%A7%81%E6%96%B9%E5%BC%8F/">树莓派交叉编译的三种常见方式</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/15/%E6%A0%91%E8%8E%93%E6%B4%BE%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91%E7%9A%84%E4%B8%89%E7%A7%8D%E5%B8%B8%E8%A7%81%E6%96%B9%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2020-11-15T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="树莓派交叉编译的三种常见方式"><a href="#树莓派交叉编译的三种常见方式" class="headerlink" title="树莓派交叉编译的三种常见方式"></a>树莓派交叉编译的三种常见方式</h1><p><img src="/assets/blogImg/4b_complie_1.jpg" alt="4b_complie_1.jpg"><br><img src="/assets/blogImg/4b_complie_2.jpg" alt="4b_complie_2.jpg"><br><img src="/assets/blogImg/4b_complie_3.jpg" alt="4b_complie_3.jpg"><br><img src="/assets/blogImg/4b_complie_5.jpg" alt="4b_complie_5.jpg"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">交叉编译</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/15/%E6%A0%91%E8%8E%93%E6%B4%BE%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91%E7%9A%84%E4%B8%89%E7%A7%8D%E5%B8%B8%E8%A7%81%E6%96%B9%E5%BC%8F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-树莓派配置基础环境-ssh-root-静态ip" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/15/%E6%A0%91%E8%8E%93%E6%B4%BE%E9%85%8D%E7%BD%AE%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83-ssh-root-%E9%9D%99%E6%80%81ip/">树莓派配置基础环境-ssh-root-静态ip</a>
-    </h1>
-  
-
-        
-        <a href="/2020/11/15/%E6%A0%91%E8%8E%93%E6%B4%BE%E9%85%8D%E7%BD%AE%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83-ssh-root-%E9%9D%99%E6%80%81ip/" class="archive-article-date">
-  	<time datetime="2020-11-15T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-11-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="树莓派配置基础环境-ssh-root-静态ip"><a href="#树莓派配置基础环境-ssh-root-静态ip" class="headerlink" title="树莓派配置基础环境-ssh-root-静态ip"></a>树莓派配置基础环境-ssh-root-静态ip</h1><h2 id="配置root用户"><a href="#配置root用户" class="headerlink" title="配置root用户"></a>配置root用户</h2><p>在终端进行如下操作即可：<br>sudo passwd root<br>然后根据提示输入root用户的密码<br>再重复输入一次刚刚设置的密码</p>
-<p>切换root用户操作如下即可：<br>su -<br>输入设置的root用户的密码</p>
-<h2 id="配置开启ssh"><a href="#配置开启ssh" class="headerlink" title="配置开启ssh"></a>配置开启ssh</h2><p>操作如下即可：<br>sudo vim /etc/ssh/sshd-config<br>修改 PermitRootLogin yes<br>然后保存修改<br>然后执行sudo systemctl restart ssh<br>再通过ss -tnl查看是否开启成功即可</p>
-<h2 id="配置静态ip如下"><a href="#配置静态ip如下" class="headerlink" title="配置静态ip如下"></a>配置静态ip如下</h2><p>在需要无线网络连接的情况下，配置eth0的静态ip如下：<br>sudo vim /etc/network/interfaces<br>然后再文件里增加以下内容<br>auto lo<br>iface lo inet loopback<br>auto eth0<br>iface eth0 inet static<br>address 192.168.0.1 //IP地址<br>netmask 255.255.255.0 //掩码<br>然后保存<br>但是此时，如果不设置一下wlan0，那么会发现虽然静态ip设置成功了，但是树莓派却无法联网了<br>所以还要在interfaces文件里追加以下内容<br>auto wlan0<br>iface wlan0 inet dhcp<br>wpa_conf /etc/wpa_supplicant/wpa_supplicant.conf<br>然后保存<br>退出文件<br>重启树莓派即可</p>
-<h2 id="如图，配置动态IP"><a href="#如图，配置动态IP" class="headerlink" title="如图，配置动态IP"></a>如图，配置动态IP</h2><p><img src="/assets/blogImg/shu_ip_dhcp.jpg" alt="shu_ip_dhpc"></p>
-<h2 id="如图，配置静态IP"><a href="#如图，配置静态IP" class="headerlink" title="如图，配置静态IP"></a>如图，配置静态IP</h2><p><img src="/assets/blogImg/shu_ip_static.jpg" alt="shu_ip_static"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常用基础配置</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/11/15/%E6%A0%91%E8%8E%93%E6%B4%BE%E9%85%8D%E7%BD%AE%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83-ssh-root-%E9%9D%99%E6%80%81ip/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/6/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/8/">Next &amp;raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/6/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/8/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -1146,6 +1123,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">基础技能C++</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">基础技能</a>
               </li>
              
@@ -1162,7 +1143,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">基础技能C++</a>
+                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1178,7 +1159,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
+                <a href="javascript:void(0)" class="js-tag color2">常见报错问题</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1186,7 +1167,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">常见报错问题</a>
+                <a href="javascript:void(0)" class="js-tag color4">hexo博客搭建</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1199,10 +1180,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">交叉编译</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">hexo博客搭建</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1238,7 +1215,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">拾光</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">阅读</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">经典案例分析</a>
               </li>
             
             <div class="clearfix"></div>

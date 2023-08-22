@@ -61,7 +61,7 @@
 	        
 				<li><a href="/archives/index.html">归档</a></li>
 	        
-			总文章数 118
+			总文章数 127
 			</ul>
 		</nav>
 		<nav class="header-smart-menu">
@@ -181,6 +181,785 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-centos或mac下使用locate指令时报错" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/10/centos%E6%88%96mac%E4%B8%8B%E4%BD%BF%E7%94%A8locate%E6%8C%87%E4%BB%A4%E6%97%B6%E6%8A%A5%E9%94%99/">centos或mac下使用locate指令时，报错</a>
+    </h1>
+  
+
+        
+        <a href="/2019/08/10/centos%E6%88%96mac%E4%B8%8B%E4%BD%BF%E7%94%A8locate%E6%8C%87%E4%BB%A4%E6%97%B6%E6%8A%A5%E9%94%99/" class="archive-article-date">
+  	<time datetime="2019-08-10T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="centos或mac下使用locate指令时，报错-var-db-locate-database"><a href="#centos或mac下使用locate指令时，报错-var-db-locate-database" class="headerlink" title="centos或mac下使用locate指令时，报错(/var/db/locate.database)"></a>centos或mac下使用locate指令时，报错(/var/db/locate.database)</h1><p>centos或mac下使用locate指令时，出现报错信息The locate database (/var/db/locate.database)</p>
+<h2 id="在centos系统下，使用locate指令报错"><a href="#在centos系统下，使用locate指令报错" class="headerlink" title="在centos系统下，使用locate指令报错"></a>在centos系统下，使用locate指令报错</h2><p>使用locate指令时，出现报错信息’var/lib/mlocate/mlocate.db’:No such file or directory时，处理方案如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//输入以下指令即可</span></span><br><span class="line">updatedb</span><br><span class="line"><span class="comment">//需要等待一段时间，因为生成数据库需要一段时间</span></span><br></pre></td></tr></table></figure>
+
+<p>稍等一段时间之后，再输入locate指令，即可发现可以使用了</p>
+<h2 id="在mac系统下，使用locate指令报错"><a href="#在mac系统下，使用locate指令报错" class="headerlink" title="在mac系统下，使用locate指令报错"></a>在mac系统下，使用locate指令报错</h2><p>当在mac上使用locate指令时，报错如下：<br><img src="/assets/blogImg/locate_01.jpg" alt="使用locate指令时报错"></p>
+<p>解决方案如下：</p>
+<ol>
+<li>先根据刚才的提醒，输入sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist<br><img src="/assets/blogImg/locate_02.jpg" alt="根据提示，输入launchtcl指令"></li>
+</ol>
+<ol start="2">
+<li>然后，输入指令sudo /usr/libexec/locate.updatedb<br><img src="/assets/blogImg/locate_03.jpg" alt="生成数据库"></li>
+</ol>
+<p>输入上面这个指令后，会等待好久一段时间，要稍微等待一会儿</p>
+<ol start="3">
+<li>最后再次输入locate指令，发现locate指令已经生效啦<br><img src="/assets/blogImg/locate_04.jpg" alt="locate指令已经生效啦"></li>
+</ol>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>因为我之前经常在ubuntu下，都没有碰到过locate指令不好用的情况，最近需要在centos和mac下操作，忽然发现居然loacte指令使用失效，于是上网查找了解决办法，经过尝试了一些方案后，终于在centos和mac下可以使用locate指令了，因此做出了以上的总结～</p>
+<p>感谢网友们无私分享的解决方案～<br>参考的网友方案：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/d8f4f9e4b58c">https://www.jianshu.com/p/d8f4f9e4b58c</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">常见报错问题</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/08/10/centos%E6%88%96mac%E4%B8%8B%E4%BD%BF%E7%94%A8locate%E6%8C%87%E4%BB%A4%E6%97%B6%E6%8A%A5%E9%94%99/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-hello-world" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/08/hello-world/">Hello World</a>
+    </h1>
+  
+
+        
+        <a href="/2019/08/08/hello-world/" class="archive-article-date">
+  	<time datetime="2019-08-08T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-08</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Clean"><a href="#Clean" class="headerlink" title="Clean"></a>Clean</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo clean</span><br></pre></td></tr></table></figure>
+
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br><span class="line"></span><br><span class="line">可以简写为 hexo g</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br><span class="line"></span><br><span class="line">可以简写为 hexo d</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<h3 id="example"><a href="#example" class="headerlink" title="example"></a>example</h3><p>生成一个新文件hello.md并上传步骤如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hexo new <span class="string">&quot;hello&quot;</span></span><br><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+
+<h3 id="装饰blog参考链接"><a href="#装饰blog参考链接" class="headerlink" title="装饰blog参考链接"></a>装饰blog参考链接</h3><p><a target="_blank" rel="noopener" href="https://www.gaotianyang.top/archives/20200717e10c0cde/">https://www.gaotianyang.top/archives/20200717e10c0cde/</a></p>
+<h3 id="本地查看当前blog的状态"><a href="#本地查看当前blog的状态" class="headerlink" title="本地查看当前blog的状态"></a>本地查看当前blog的状态</h3><p>1.启动本地的server服务</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br><span class="line"></span><br><span class="line">可以简写为 hexo s</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
+<p><img src="/assets/blogImg/hexo_s.jpg" alt="hexo_s.jpg"></p>
+<p>2.然后就可以启动localhost:4000查看本地的博客</p>
+<p><img src="/assets/blogImg/read_local_blog.jpg" alt="read_local_blog.jpg"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">hexo博客搭建</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/08/08/hello-world/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-阅读paho.mqtt.c源码学习记录01" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/15/%E9%98%85%E8%AF%BBpaho.mqtt.c%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%9501/">阅读paho.mqtt.c源码学习记录01</a>
+    </h1>
+  
+
+        
+        <a href="/2019/05/15/%E9%98%85%E8%AF%BBpaho.mqtt.c%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%9501/" class="archive-article-date">
+  	<time datetime="2019-05-15T03:21:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="阅读paho-mqtt-c源码学习记录01"><a href="#阅读paho-mqtt-c源码学习记录01" class="headerlink" title="阅读paho.mqtt.c源码学习记录01"></a>阅读paho.mqtt.c源码学习记录01</h1><h1 id="阅读paho-mqtt-c源码学习记录01-1"><a href="#阅读paho-mqtt-c源码学习记录01-1" class="headerlink" title="阅读paho.mqtt.c源码学习记录01"></a>阅读paho.mqtt.c源码学习记录01</h1><p>MQTT协议是当前非常流行的一个工业物联网协议，它具有很多优势，比如：轻量，且对流量占有小的优势；基于订阅/发布模式；有心跳/遗言机智；通过qos控制消息接收质量等。</p>
+<p>目前，基于MQTT协议封装的c的库，如下：<br><a target="_blank" rel="noopener" href="https://github.com/eclipse/paho.mqtt.c">https://github.com/eclipse/paho.mqtt.c</a></p>
+<p>通过源码阅读，进行学习</p>
+<h2 id="1-版本管理"><a href="#1-版本管理" class="headerlink" title="1.版本管理"></a>1.版本管理</h2><p>在阅读MQTT源码库的时候，个人觉得，非常值得我自己写库的时候学习的经验，最简单的一点就是版本管理。</p>
+<p>头文件里定义当前库的版本号；<br>提供接口获取当前链接的库的版本号；<br>通过版本比较，以此判断客户端程序使用库的时候，没有混淆不同的版本。</p>
+<p>PS：<br>这个设计真的很好，毕竟库的版本一直在迭代更新，如果没有一个版本管理，当编译时遇上了多个版本的同一个库，程序一旦链接了错误的版本，可能编译时可以成功编译，但是在运行时会出现各种奇奇怪怪得报错，而这种报错，往往非常难以排查。</p>
+<h2 id="2-注释合理"><a href="#2-注释合理" class="headerlink" title="2.注释合理"></a>2.注释合理</h2><p>MQTT源码库里的注释很详细，但是又不是那种对每一个函数、每一个参数、每一个返回值都进行长篇大论的累赘解释。MQTT源码库里的注释说明，其实是对重要接口的使用情景，注意事项（尤其是关于内存释放的提醒），以及接口设计的说明。</p>
+<p>感觉这种注释风格，非常值得学习。<br>毕竟很多注意事项，只有写代码的时候记得，等过上几个月再看，基本都忘的差不多了……对于后续维护来说，风格良好的注释真的重要。</p>
+<h2 id="3-接口的更新迭代都兼容了旧版本"><a href="#3-接口的更新迭代都兼容了旧版本" class="headerlink" title="3.接口的更新迭代都兼容了旧版本"></a>3.接口的更新迭代都兼容了旧版本</h2><p>MQTT源码库也更新了这么久了，必然有接口的变更，新的接口取代旧的接口，不过从这份源码来看，对于新旧版本的兼容，处理的很值得学习。客户端程序几乎不用改动，就可以从使用旧的库，替换成新的库。这种设计对于库的使用者来说，是非常友好的。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>以上是对于源码阅读最粗略的学习，更加具体的学习记录，将会在后续继续更新记录。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">通信协议</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/15/%E9%98%85%E8%AF%BBpaho.mqtt.c%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%9501/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-在线课程学习记录" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/02/27/%E5%9C%A8%E7%BA%BF%E8%AF%BE%E7%A8%8B%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">在线课程学习记录</a>
+    </h1>
+  
+
+        
+        <a href="/2019/02/27/%E5%9C%A8%E7%BA%BF%E8%AF%BE%E7%A8%8B%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" class="archive-article-date">
+  	<time datetime="2019-02-27T14:50:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="在线课程学习记录"><a href="#在线课程学习记录" class="headerlink" title="在线课程学习记录"></a>在线课程学习记录</h1><h2 id="matlab学习课程"><a href="#matlab学习课程" class="headerlink" title="matlab学习课程"></a>matlab学习课程</h2><p><a target="_blank" rel="noopener" href="https://www.xuexi.cn/lgpage/detail/index.html?id=7601754816855875029">https://www.xuexi.cn/lgpage/detail/index.html?id=7601754816855875029</a><br>//现代科学–MATLAB语言与应用<br>//东北大学</p>
+<h2 id="经济学思维方式"><a href="#经济学思维方式" class="headerlink" title="经济学思维方式"></a>经济学思维方式</h2><p><a target="_blank" rel="noopener" href="https://www.xuexi.cn/lgpage/detail/index.html?id=9033784240088711496">https://www.xuexi.cn/lgpage/detail/index.html?id=9033784240088711496</a><br>//西安交通大学<br>//很有意思</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">生产力工具</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/02/27/%E5%9C%A8%E7%BA%BF%E8%AF%BE%E7%A8%8B%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-逗号运算符" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/06/%E9%80%97%E5%8F%B7%E8%BF%90%E7%AE%97%E7%AC%A6/">逗号运算符</a>
+    </h1>
+  
+
+        
+        <a href="/2018/03/06/%E9%80%97%E5%8F%B7%E8%BF%90%E7%AE%97%E7%AC%A6/" class="archive-article-date">
+  	<time datetime="2018-03-06T13:49:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="逗号运算符"><a href="#逗号运算符" class="headerlink" title="逗号运算符"></a>逗号运算符</h1><h2 id="逗号运算符-1"><a href="#逗号运算符-1" class="headerlink" title="逗号运算符"></a>逗号运算符</h2><p>尽管逗号看起来像是一个分隔符，但实际上它是一个二元运算符。<br>可以把两个表达式组合到一个表达式中，组合后的表达式的结果就是其右操作数的结果。<br>也就是说，只要能编写表达式，就可以编写用逗号隔开的的一组表达式。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">int i &#123;<span class="number">1</span>&#125;;</span><br><span class="line">int value1 &#123;<span class="number">1</span>&#125;;</span><br><span class="line">int value2 &#123;<span class="number">1</span>&#125;;</span><br><span class="line">int value3 &#123;<span class="number">1</span>&#125;;</span><br><span class="line">std::cout &lt;&lt; (value1 += ++i, value2 += ++i, values3 += ++i) &lt;&lt; std::endl;</span><br><span class="line"></span><br><span class="line">分析：</span><br><span class="line">结果是，value1递增<span class="number">2</span>， 等于<span class="number">3</span>；</span><br><span class="line">value2递增<span class="number">3</span>，等于<span class="number">4</span>；</span><br><span class="line">value3递增<span class="number">4</span>，等于<span class="number">5</span>。</span><br><span class="line">复合表达式的值是该系列中最右边表达式的值，所以输出值应是<span class="number">5</span>。</span><br></pre></td></tr></table></figure>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础技能C++</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/03/06/%E9%80%97%E5%8F%B7%E8%BF%90%E7%AE%97%E7%AC%A6/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-初始化语句c-17" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/05/%E5%88%9D%E5%A7%8B%E5%8C%96%E8%AF%AD%E5%8F%A5c-17/">初始化语句c++17</a>
+    </h1>
+  
+
+        
+        <a href="/2018/03/05/%E5%88%9D%E5%A7%8B%E5%8C%96%E8%AF%AD%E5%8F%A5c-17/" class="archive-article-date">
+  	<time datetime="2018-03-05T11:49:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="初始化语句"><a href="#初始化语句" class="headerlink" title="初始化语句"></a>初始化语句</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>c++17在初始化语句这块，有一些调整，还是蛮有意思的。</p>
+<h2 id="示例一（旧语法）"><a href="#示例一（旧语法）" class="headerlink" title="示例一（旧语法）"></a>示例一（旧语法）</h2><p>我们将input字符转换为小写字符lower，然后使用转换结果检查输入是否为一个字符，如果是，就生成一些输出。<br>（这里是为了举例，所以不考虑本应该使用可移植的std::isalpha()函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">auto lower &#123;static_cast&lt;char&gt;(std::tolower(input))&#125;;</span><br><span class="line"><span class="keyword">if</span>(lower &gt;= <span class="string">&#x27;a&#x27;</span> &amp;&amp; lower &lt;= <span class="string">&#x27;z&#x27;</span>) &#123;</span><br><span class="line">    <span class="attr">std</span>::cout &lt;&lt; <span class="string">&quot;You&#x27;ve entered the letter &#x27;&quot;</span> &lt;&lt; lower &lt;&lt; <span class="string">&#x27;\&#x27;&#x27;</span> &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//...more code that does not use lower</span></span><br></pre></td></tr></table></figure>
+<p>可以看到，lower变量只在if语句中使用，之后的任何代码都不再使用该变量。</p>
+<h2 id="示例二（旧语法）"><a href="#示例二（旧语法）" class="headerlink" title="示例二（旧语法）"></a>示例二（旧语法）</h2><p>一般来说，将变量的作用域限制到使用它们的区域，被认为是一种良好的编程风格，即使这意味着要像下面这样添加额外的作用域：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    auto lower &#123;static_cast&lt;char&gt;(std::tolower(input))&#125;;</span><br><span class="line">    <span class="keyword">if</span>(lower &gt;= <span class="string">&#x27;a&#x27;</span> &amp;&amp; lower &lt;= <span class="string">&#x27;z&#x27;</span>) &#123;</span><br><span class="line">        <span class="attr">std</span>::cout &lt;&lt; <span class="string">&quot;You&#x27;ve entered the letter &#x27;&quot;</span> &lt;&lt; lower &lt;&lt; <span class="string">&#x27;\&#x27;&#x27;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// ...more code (lower does not exist here)</span></span><br></pre></td></tr></table></figure>
+<p>这么做的结果是，对于剩余的代码来说，是lower变量从未存在过。<br>引入一个额外的作用域（和缩进）来将局部变量绑定到if语句，这种模式相当常见。</p>
+<h2 id="示例三（c-17新语法）"><a href="#示例三（c-17新语法）" class="headerlink" title="示例三（c++17新语法）"></a>示例三（c++17新语法）</h2><p>c++17引入了一种新语法。这种语法的一般形式如下所示：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(initialization; condition) ...</span><br><span class="line"></span><br><span class="line">在计算condition表达式（即<span class="keyword">if</span>语句的布尔表达式）之前，会先执行initialization（初始化语句）。</span><br><span class="line">这种初始化语句主要用于声明<span class="keyword">if</span>语句的局部变量。</span><br><span class="line"></span><br><span class="line">在初始化语句中声明的变量可用在<span class="keyword">if</span>语句的条件表达式中，以及<span class="keyword">if</span>语句或语句块中。</span><br><span class="line">对于<span class="keyword">if</span>-<span class="keyword">else</span>语句，还可以用在<span class="keyword">else</span>的语句或语句块中。</span><br><span class="line">但是对于<span class="keyword">if</span>或<span class="keyword">if</span>-<span class="keyword">else</span>语句之后的代码来说，这些变量好像从来没有存在过。</span><br></pre></td></tr></table></figure>
+
+<p>为了完整起见，c++17还为switch语句添加了一种类似的语法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">switch</span>(initialization; condition) ...</span><br></pre></td></tr></table></figure>
+
+<p>此时，重写前面的示例为如下语句：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(auto lower&#123;static_cast&lt;char&gt;(std::tolower(input))&#125;; lower &gt;= <span class="string">&#x27;a&#x27;</span> &amp;&amp; lower &lt;= <span class="string">&#x27;z&#x27;</span>) &#123;</span><br><span class="line">    <span class="attr">std</span>::cout &lt;&lt; <span class="string">&quot;You&#x27;ve entered the letter &#x27;&quot;</span> &lt;&lt; lower &lt;&lt; <span class="string">&#x27;\&#x27;&#x27;</span> &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// ...more code(lower does not exist here)</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>这些扩展的if和switch语句仍然是新鲜出炉的，还没有被C++开发人员所熟知，而使用陌生的语法可能会影响代码的可读性。<br>因此，如果在一支团队里工作，则应该先与同事进行确认，然后再决定是否想要在代码中使用这种语法。<br>另一方法，如果没有引领趋势的人使用新的语法，新的语法又怎么能够被人接受？</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础技能C++</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/03/05/%E5%88%9D%E5%A7%8B%E5%8C%96%E8%AF%AD%E5%8F%A5c-17/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-数据类型的别名" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/05/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%88%AB%E5%90%8D/">数据类型的别名using与typedef</a>
+    </h1>
+  
+
+        
+        <a href="/2018/03/05/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%88%AB%E5%90%8D/" class="archive-article-date">
+  	<time datetime="2018-03-05T09:03:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="数据类型的别名"><a href="#数据类型的别名" class="headerlink" title="数据类型的别名"></a>数据类型的别名</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>旧语法里，用typedef进行类型别名的定义；c++17新语法中会用using关键字来定义别名。这里进行一个对比记录。</p>
+<h2 id="using关键字（新语法）"><a href="#using关键字（新语法）" class="headerlink" title="using关键字（新语法）"></a>using关键字（新语法）</h2><p>using关键字允许把自己的数据类型名称指定为另一个类型的替代名称。<br>如下，</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//把类型名称BigOnes声明为标准类型unsigned long long的等价名称</span></span><br><span class="line">using BigOnes = unsigned long long;</span><br><span class="line"></span><br><span class="line">unsigned long long num &#123;&#125;;</span><br><span class="line">等价于</span><br><span class="line">BigOnes num &#123;&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="typedef关键字（旧语法）"><a href="#typedef关键字（旧语法）" class="headerlink" title="typedef关键字（旧语法）"></a>typedef关键字（旧语法）</h2><p>给类型定义别名的一种旧式语法，使用typedef关键字。<br>如下，</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//可以如下定义类型别名BigOnes</span></span><br><span class="line">typedef unsigned long long BigOnes;</span><br></pre></td></tr></table></figure>
+
+<h2 id="新旧语法对比"><a href="#新旧语法对比" class="headerlink" title="新旧语法对比"></a>新旧语法对比</h2><p>新语法有很多优点<br>（1）使用using新语法更直观，看起来就像是普通的赋值语句的。<br>使用原本的typedef语法时，总要颠倒现有类型与新名称的顺序。<br>（2）只有当为更高级的类型指定别名时，使用using语法相比使用typedef语法的其他优势才会展现出来。<br>例如，使用using时，更容易为函数类型指定别名。<br>另外，using关键字允许指定所谓的类型别名模板或参数化类型别名，这是使用原来的typedef语法所不能实现的。</p>
+<h2 id="遵循原则"><a href="#遵循原则" class="headerlink" title="遵循原则"></a>遵循原则</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">总是使用using关键字来定义类型别名。</span><br><span class="line">事实上，如果不是存在遗留代码，我们会建议大家完全忘记typedef关键字的存在。</span><br></pre></td></tr></table></figure>
+
+<h2 id="类型别名的用途"><a href="#类型别名的用途" class="headerlink" title="类型别名的用途"></a>类型别名的用途</h2><p>（1）别名的一个重要用途是简化涉及复杂类型名的代码。<br>（2）类型别名的另一个用途是为可能需要在多台计算机上运行的程序所使用的数据类型提供灵活性。<br>在代码中定义并使用类型别名时，只要修改类型别名的定义，就可以改变实际的类型。</p>
+<p>注意：<br>应该有节制的使用类型别名。<br>类型别名确实可以使代码更加简洁，但是简洁的代码并不是编程的目标。<br>很多时候，拼写出具体的类型能够让代码更加容易理解。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础技能C++</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/03/05/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%88%AB%E5%90%8D/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-explict关键字" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/25/explict%E5%85%B3%E9%94%AE%E5%AD%97/">explict关键字</a>
+    </h1>
+  
+
+        
+        <a href="/2018/02/25/explict%E5%85%B3%E9%94%AE%E5%AD%97/" class="archive-article-date">
+  	<time datetime="2018-02-25T13:40:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-25</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="explict关键字"><a href="#explict关键字" class="headerlink" title="explict关键字"></a>explict关键字</h1><h2 id="explicit关键字"><a href="#explicit关键字" class="headerlink" title="explicit关键字"></a>explicit关键字</h2><p>explicit关键字只能用于修饰只有一个参数的类构造函数, 它的作用是表明该构造函数是显式的, 而非隐式的<br>它相对应的另一个关键字是implicit, 意思是隐式的,类构造函数默认情况下即声明为implicit(隐式)<br>在C++中, 如果的构造函数只有一个参数时, 那么在编译的时候就会有一个缺省的转换操作:将该构造函数对应数据类型的数据转换为该类对象. </p>
+<h2 id="示例一"><a href="#示例一" class="headerlink" title="示例一"></a>示例一</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Class VisString&#123;</span><br><span class="line"><span class="attr">public</span>:</span><br><span class="line">	VisString(int size);</span><br><span class="line">	VisString(<span class="keyword">const</span> char* p);</span><br><span class="line">	~VisString();</span><br><span class="line">&#125;;</span><br><span class="line">以下这些写法都是ok的（从编译通过的角度来说）</span><br><span class="line">VisString string1(<span class="number">24</span>)；</span><br><span class="line">VisString string2 = <span class="number">10</span>；</span><br><span class="line">VisString string4(<span class="string">&quot;aaaa&quot;</span>); </span><br><span class="line">VisString string5 = <span class="string">&quot;bbb&quot;</span>；</span><br><span class="line">VisString string6 = <span class="string">&#x27;c&#x27;</span>;   <span class="comment">// 这样也是OK的, 其实调用的是VisString (int size), 且size等于&#x27;c&#x27;的ascii码  </span></span><br><span class="line">string1 = <span class="number">2</span>；</span><br><span class="line">string2 = <span class="number">3</span>；</span><br><span class="line">VisString  string3 = string1;        <span class="comment">// 这样也是OK的, 至少编译是没问题的, 但是如果析构函数里用free释放类里的内存指针时可能会报错，必须重载运算符=，并在其中处理内存释放才可以正确处理</span></span><br></pre></td></tr></table></figure>
+<p>也就是说 “VisString string2 = 10;” 这段代码, 编译器自动将整型转换为VisString 类对象, 实际上等同于下面的操作:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">VisString string2(<span class="number">10</span>);  </span><br></pre></td></tr></table></figure>
+
+<h2 id="示例二"><a href="#示例二" class="headerlink" title="示例二"></a>示例二</h2><p>当加入一个explict关键字，再来看</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Class VisString&#123;</span><br><span class="line"><span class="attr">public</span>:</span><br><span class="line">	explict VisString(int size);</span><br><span class="line">	VisString(<span class="keyword">const</span> char* p);</span><br><span class="line">	~VisString();</span><br><span class="line">&#125;;</span><br><span class="line">对照示例一来看，那些原本ok的操作，有一部分是不可行的了</span><br><span class="line">VisString string1(<span class="number">24</span>);     <span class="comment">// 这样是OK的  </span></span><br><span class="line">VisString string2 = <span class="number">10</span>;   <span class="comment">// 这样是不行的, 因为explicit关键字取消了隐式转换 </span></span><br><span class="line">VisString string4(<span class="string">&quot;aaaa&quot;</span>); <span class="comment">// 这样是OK的  </span></span><br><span class="line">VisString string5 = <span class="string">&quot;bbb&quot;</span>； <span class="comment">// 这样是OK的  </span></span><br><span class="line">VisString  string6 = <span class="string">&#x27;c&#x27;</span>;   <span class="comment">// 这样是不行的, 其实调用的是VisString (int size), 且size等于&#x27;c&#x27;的ascii码, 但explicit关键字取消了隐式转换  </span></span><br><span class="line">VisString  string3 = string1;        <span class="comment">// 这样也是不行的, 因为取消了隐式转换, 除非类实现操作符&quot;=&quot;的重载 </span></span><br></pre></td></tr></table></figure>
+
+<p>从以上两个示例看到，explicit关键字的作用就是防止类构造函数的隐式自动转换。<br>explicit关键字只对有一个参数的类构造函数有效, 如果类构造函数参数大于或等于两个时, 是不会产生隐式转换的, 所以explicit关键字也就无效了.<br>但是, 也有一个例外, 就是当除了第一个参数以外的其他参数都有默认值的时候, explicit关键字依然有效, 此时, 当调用构造函数时只传入一个参数, 等效于只有一个参数的类构造函数,</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>explicit关键字只需用于类内的单参数构造函数前面。由于无参数的构造函数和多参数的构造函数总是显式调用，这种情况在构造函数前加explicit无意义。<br>google的c++规范中提到explicit的优点是可以避免不合时宜的类型变换，缺点无。所以google约定所有单参数的构造函数都必须是显式的，只有极少数情况下拷贝构造函数可以不声明称explicit。例如作为其他类的透明包装器的类。<br>effective c++中说：被声明为explicit的构造函数通常比其non-explicit兄弟更受欢迎。因为它们禁止编译器执行非预期（往往也不被期望）的类型转换。除非我有一个好理由允许构造函数被用于隐式类型转换，否则我会把它声明为explicit。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/k6604125/article/details/126524992">https://blog.csdn.net/k6604125/article/details/126524992</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础技能C++</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/02/25/explict%E5%85%B3%E9%94%AE%E5%AD%97/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-枚举类型enum" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/22/%E6%9E%9A%E4%B8%BE%E7%B1%BB%E5%9E%8Benum/">枚举类型enum</a>
+    </h1>
+  
+
+        
+        <a href="/2018/02/22/%E6%9E%9A%E4%B8%BE%E7%B1%BB%E5%9E%8Benum/" class="archive-article-date">
+  	<time datetime="2018-02-22T14:15:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-22</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="枚举数据类型"><a href="#枚举数据类型" class="headerlink" title="枚举数据类型"></a>枚举数据类型</h1><h2 id="枚举数据类型enum-class（c-17新语法）"><a href="#枚举数据类型enum-class（c-17新语法）" class="headerlink" title="枚举数据类型enum class（c++17新语法）"></a>枚举数据类型enum class（c++17新语法）</h2><p>这里使用的c++17之后的新语法。<br>类型安全的枚举非常适合于表示固定的值集，尤其是有名称的值集，例如一星期的天数或扑克牌的花色。</p>
+<p>定义语句如下示例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">enum <span class="class"><span class="keyword">class</span> <span class="title">Day</span> </span>&#123;Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday&#125;;</span><br><span class="line"></span><br><span class="line">enum <span class="class"><span class="keyword">class</span> <span class="title">Punctuation</span> : <span class="title">char</span> </span>&#123; Comma = <span class="string">&#x27;,&#x27;</span>, Exclamation = <span class="string">&#x27;!&#x27;</span>, Question = <span class="string">&#x27;?&#x27;</span> &#125;;</span><br><span class="line"></span><br><span class="line">如果把Day类型的变量值设置为不在花括号中的值，代码就不编译。</span><br><span class="line">类型Day的用法和任何基本类型相似。</span><br><span class="line">引用枚举时，必须用类型名限定它。</span><br><span class="line">枚举成员的类型规范放在枚举类型名的后面，用冒号隔开。</span><br><span class="line">可以给枚举类型指定任何整数类型。</span><br><span class="line"></span><br><span class="line">Day today &#123;<span class="attr">Day</span>::Wednesday&#125;;</span><br><span class="line">Punctuation ch&#123; <span class="attr">Punctuation</span>::Comma &#125;;</span><br><span class="line"></span><br><span class="line">如果输出today的值，就必须要把它转换为数值类型，因为标准输出流不能识别Day类型：</span><br><span class="line"><span class="attr">std</span>::cout &lt;&lt; <span class="string">&quot;Today is &quot;</span> &lt;&lt; static_cast&lt;int&gt;(today) &lt;&lt; std::endl;</span><br><span class="line">std::cout &lt;&lt; <span class="string">&quot;Question is &quot;</span> &lt;&lt; static_cast&lt;char&gt;(ch) &lt;&lt; std::endl;</span><br></pre></td></tr></table></figure>
+
+<h2 id="旧枚举语法enum（旧语法）"><a href="#旧枚举语法enum（旧语法）" class="headerlink" title="旧枚举语法enum（旧语法）"></a>旧枚举语法enum（旧语法）</h2><p>旧语法在定义时没有使用class关键字。<br>例如，Day枚举可以定义为：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">enum Day &#123;Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>枚举成员的值必须是编译器的常量，即编译器可以计算出来的常量表达式。<br>这种表达式只包括字面量、以前定义的枚举成员和声明为const的变量。<br>不能使用非const变量，即便已使用字面量初始化，也不行。</p>
+<p>如果给枚举类型使用enum class，代码就不容易出错。<br>例如，旧式枚举成员在转换为整型甚至浮点类型时，不进行强制转换，这很容易导致出错。<br>强类型的enum class是比旧式的enum类型更安全更好的选择。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础技能C++</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      <!--显示阅读次数-->
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/02/22/%E6%9E%9A%E4%B8%BE%E7%B1%BB%E5%9E%8Benum/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-字符及文件操作函数一" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -283,641 +1062,9 @@
 
 
   
-    <article id="post-getopt函数" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/07/getopt%E5%87%BD%E6%95%B0/">getopt函数</a>
-    </h1>
-  
-
-        
-        <a href="/2017/03/07/getopt%E5%87%BD%E6%95%B0/" class="archive-article-date">
-  	<time datetime="2017-03-07T13:43:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="getopt函数"><a href="#getopt函数" class="headerlink" title="getopt函数"></a>getopt函数</h1><h2 id="函数介绍"><a href="#函数介绍" class="headerlink" title="函数介绍"></a>函数介绍</h2><p>需要引入unistd.h头文件</p>
-<p>函数原型</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int getopt(int argc,char * <span class="keyword">const</span> argv[ ],<span class="keyword">const</span> char * optstring);</span><br></pre></td></tr></table></figure>
-<p>第三个参数是选项字符串<br>返回值为int类型，我们都知道char类型是可以转换成int类型的，每个字符都有他所对应的整型值，其实这个返回值返回的就是一个选项字符。</p>
-<p>还需要知道4个相关概念<br>extern char* optarg;<br>extern int optind;<br>extern int opterr;<br>extern int optopt;<br>分析如下：<br>optarg是用来保存选项的参数的；<br>optind记录下一个检索位置；<br>opterr表示是否将错误信息输出到stderr，为0时表示不输出；<br>optopt表示不在选项字符串optstring中的选项</p>
-<p>选项是什么？<br>比如指令gcc helloworld.c -o helloworld.out;<br>这条指令中的-o就是命令行的选项，而后面的helloworld.out就是-o选项所携带的参数。当然有些选项是不用带参数的，而这样不带参数的选项可以写在一起。</p>
-<p>选项字符串是什么？<br>比如”a:b:cd::e”，这就是一个选项字符串。<br>对应到命令行就是-a ,-b ,-c ,-d, -e 。<br>冒号又是什么呢？<br>冒号表示参数。<br>不带冒号就表示这个选项后面的参数是可选的。（带了，也不认携带的参数，不管选项和参数之间是否有空格）<br>一个冒号就表示这个选项后面必须带有参数（没有带参数会报错哦），但是这个参数可以和选项连在一起写，也可以用空格隔开，比如-a123 和-a   123（中间有空格） 都表示123是-a的参数；<br>两个冒号的就表示这个选项的参数是可选的，即可以有参数，也可以没有参数，但要注意有参数时，参数与选项之间不能有空格（有空格会不识别携带的参数），这和一个冒号时是有区别的。</p>
-<h2 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h2><p><img src="/assets/blogImg/getopt1.jpg" alt="getopt1.jpg"></p>
-<p>运行后，看看效果<br>-a的三种情况<br><img src="/assets/blogImg/getopt2.jpg" alt="getopt2.jpg"><br><img src="/assets/blogImg/getopt3.jpg" alt="getopt3.jpg"><br><img src="/assets/blogImg/getopt4.jpg" alt="getopt4.jpg"><br>可以看出，不带冒号的话，就不要考虑带参数了。</p>
-<p>-b选项<br><img src="/assets/blogImg/getopt5.jpg" alt="getopt5.jpg"><br><img src="/assets/blogImg/getopt6.jpg" alt="getopt6.jpg"><br><img src="/assets/blogImg/getopt7.jpg" alt="getopt7.jpg"><br>可以看出，带一个冒号的话，必须要带参数，参数可以与选项之间有空格，也可以没空格。</p>
-<p>-e选项<br><img src="/assets/blogImg/getopt8.jpg" alt="getopt8.jpg"><br><img src="/assets/blogImg/getopt9.jpg" alt="getopt9.jpg"><br><img src="/assets/blogImg/getopt10.jpg" alt="getopt10.jpg"></p>
-<p>可以看出，带两个冒号的话，可以带参数也可以不带参数，但是如果要带参数，参数和选项之间就必须要写在一起（中间不能有空格）。</p>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingergege/p/5914218.html">https://www.cnblogs.com/qingergege/p/5914218.html</a></p>
-<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><p><a target="_blank" rel="noopener" href="https://github.com/ThranduilELFKING/toolsUse/blob/main/getOpt/getOpt.cpp">https://github.com/ThranduilELFKING/toolsUse/blob/main/getOpt/getOpt.cpp</a><br>//简单的用法示例</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础技能C++</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/03/07/getopt%E5%87%BD%E6%95%B0/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-星座学研究一" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/02/%E6%98%9F%E5%BA%A7%E5%AD%A6%E7%A0%94%E7%A9%B6%E4%B8%80/">星座学研究一</a>
-    </h1>
-  
-
-        
-        <a href="/2017/03/02/%E6%98%9F%E5%BA%A7%E5%AD%A6%E7%A0%94%E7%A9%B6%E4%B8%80/" class="archive-article-date">
-  	<time datetime="2017-03-02T13:36:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="星座学研究一"><a href="#星座学研究一" class="headerlink" title="星座学研究一"></a>星座学研究一</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>感觉蛮有趣的，研究一下星座</p>
-<h2 id="自然元素四分法"><a href="#自然元素四分法" class="headerlink" title="自然元素四分法"></a>自然元素四分法</h2><h3 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h3><p><img src="/assets/blogImg/xzfl1.jpg" alt="xzfl1.jpg"></p>
-<h3 id="土、风、水、火四象王者"><a href="#土、风、水、火四象王者" class="headerlink" title="土、风、水、火四象王者"></a>土、风、水、火四象王者</h3><p>土象星座-王者：摩羯座<br>风象星座-王者：双子座<br>火象星座-王者：狮子座<br>水象星座-王者：天蝎座</p>
-<h2 id="十二星座四天王"><a href="#十二星座四天王" class="headerlink" title="十二星座四天王"></a>十二星座四天王</h2><p>孩子王-白羊座（赢在冲劲儿）<br>天王—狮子座（赢在气度）<br>地王—天蝎座（赢在智慧）<br>王中王-摩羯座（赢在耐力和韧劲儿）</p>
-<h2 id="摩羯座"><a href="#摩羯座" class="headerlink" title="摩羯座"></a>摩羯座</h2><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://www.stockq.org/life/horoscope/aries/">https://www.stockq.org/life/horoscope/aries/</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">星座学</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/03/02/%E6%98%9F%E5%BA%A7%E5%AD%A6%E7%A0%94%E7%A9%B6%E4%B8%80/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-常见数学函数与运算符" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/02/12/%E5%B8%B8%E8%A7%81%E6%95%B0%E5%AD%A6%E5%87%BD%E6%95%B0%E4%B8%8E%E8%BF%90%E7%AE%97%E7%AC%A6/">常见数学函数与运算符</a>
-    </h1>
-  
-
-        
-        <a href="/2017/02/12/%E5%B8%B8%E8%A7%81%E6%95%B0%E5%AD%A6%E5%87%BD%E6%95%B0%E4%B8%8E%E8%BF%90%E7%AE%97%E7%AC%A6/" class="archive-article-date">
-  	<time datetime="2017-02-12T08:25:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="常见数学函数与运算符"><a href="#常见数学函数与运算符" class="headerlink" title="常见数学函数与运算符"></a>常见数学函数与运算符</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>借用我们老师之前一直说的话，“你读书时应该去了解但是没有了解清楚的那些知识，终究还是要还（补）回去的。”</p>
-<h2 id="op-赋值运算符"><a href="#op-赋值运算符" class="headerlink" title="op=赋值运算符"></a>op=赋值运算符</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">int x = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">如果对x递增，可以像下面这么写</span><br><span class="line">x = x + <span class="number">3</span>;</span><br><span class="line"></span><br><span class="line">也有更简略的编写方式(用op=赋值运算符来编写)</span><br><span class="line">x += <span class="number">3</span>;</span><br></pre></td></tr></table></figure>
-
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础技能C++</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/02/12/%E5%B8%B8%E8%A7%81%E6%95%B0%E5%AD%A6%E5%87%BD%E6%95%B0%E4%B8%8E%E8%BF%90%E7%AE%97%E7%AC%A6/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-规范使用习惯" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/06/%E8%A7%84%E8%8C%83%E4%BD%BF%E7%94%A8%E4%B9%A0%E6%83%AF/">规范使用习惯</a>
-    </h1>
-  
-
-        
-        <a href="/2013/03/06/%E8%A7%84%E8%8C%83%E4%BD%BF%E7%94%A8%E4%B9%A0%E6%83%AF/" class="archive-article-date">
-  	<time datetime="2013-03-06T12:48:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-03-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="规范使用习惯"><a href="#规范使用习惯" class="headerlink" title="规范使用习惯"></a>规范使用习惯</h1><h2 id="避免幻数"><a href="#避免幻数" class="headerlink" title="避免幻数"></a>避免幻数</h2><p>幻数，也就是所谓的magic number<br>如果同一个常量值分散在代码的不同地方，很容易忘记在某些地方进行更新，从而导致出错。<br>因此，只应该定义幻数或任何常数一次。如果之后需要修改变量，只需要在一个地方进行修改。</p>
-<h2 id="聪明的代码-VS-容易理解的代码"><a href="#聪明的代码-VS-容易理解的代码" class="headerlink" title="聪明的代码 VS 容易理解的代码"></a>聪明的代码 VS 容易理解的代码</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">容易理解的代码：</span><br><span class="line">unsigned int height[<span class="number">6</span>] &#123;<span class="number">22</span>, <span class="number">33</span>, <span class="number">55</span>&#125;;</span><br><span class="line">unsigned count&#123;&#125;;</span><br><span class="line"><span class="keyword">const</span> unsigned randnum&#123;<span class="number">33</span>&#125;;</span><br><span class="line"><span class="keyword">if</span>(height[i] &lt; randnum) &#123;</span><br><span class="line">    ++count;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">“聪明”的代码：</span><br><span class="line">可以用下面的语句替换循环中的<span class="keyword">if</span>语句:</span><br><span class="line">count += height[i] &lt; average;</span><br><span class="line">这是有效的，因为比较操作返回的布尔值会被隐式转换为整数。</span><br></pre></td></tr></table></figure>
-<p>从上面的例子中可以看出，虽然新代码很巧妙，但是需要做解释才能明白其用途，仅这一项就决定了应该使用原始的if语句。<br>首选的总是那些更容易理解的代码，而不是“聪明”的代码。</p>
-<p>还是上面的这个例子，有些人可能会选择这样“聪明”的写法。原因是，他们认为这样的语句要比原来的条件语句运行的更快，因为原来的语句包含所谓的分支语句。事实上，任何好的编译器都会以类似的方式重写代码。<br>因此，建议是，将“聪明”的工作交给编译器来做，程序员首先应该编写正确的、清晰可读的代码，而不是简洁而聪明的代码。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础技能C++</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2013/03/06/%E8%A7%84%E8%8C%83%E4%BD%BF%E7%94%A8%E4%B9%A0%E6%83%AF/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-for循环" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/06/for%E5%BE%AA%E7%8E%AF/">for循环</a>
-    </h1>
-  
-
-        
-        <a href="/2013/03/06/for%E5%BE%AA%E7%8E%AF/" class="archive-article-date">
-  	<time datetime="2013-03-06T12:25:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-03-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="for循环"><a href="#for循环" class="headerlink" title="for循环"></a>for循环</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>对for循环的系统的整理</p>
-<h2 id="for循环-1"><a href="#for循环-1" class="headerlink" title="for循环"></a>for循环</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(初始化; 条件; 迭代)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//循环语句</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//下一条语句</span></span><br><span class="line"></span><br><span class="line">初始化表达式只在循环的开始处计算一次。</span><br><span class="line">接着检查循环条件，如果它是<span class="literal">true</span>，就执行循环语句（或语句块）。</span><br><span class="line">如果循环条件是<span class="literal">false</span>，就跳过循环语句，执行循环后面的下一条语句。</span><br><span class="line">每次执行了循环语句（或语句块）后，就计算迭代表达式，之后再检查循环条件，看看是否继续循环。</span><br></pre></td></tr></table></figure>
-
-<p>注意：<br>（1）控制for循环的任一表达式或所有表达式都可以省略，但分号必须有。<br>（2）编译器会忽略for语句中的所有空白。<br>（3）c++17为if和switch语句的初始化语句引入了一种新的语法。这些初始化语句参考了for循环的初始化语句，所以二者非常类似。<br>唯一的区别在于，在for循环中省去初始化语句时，不能省去第一个分号。</p>
-<h2 id="用浮点数控制for循环"><a href="#用浮点数控制for循环" class="headerlink" title="用浮点数控制for循环"></a>用浮点数控制for循环</h2><p>for循环的例子一般是用整型变量来控制循环，但通常还可以使用任意变量来控制循环。</p>
-<p>在使用浮点变量来控制for循环时应小心。<br>小数部分的值可能不能用二进制浮点数准确的表示，这会导致一些意想不到的负面效应。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Floating-point control in a for loop</span></span><br><span class="line">#include &lt;iostream&gt;</span><br><span class="line">#include &lt;iomanip&gt;</span><br><span class="line"></span><br><span class="line">int <span class="function"><span class="title">main</span>(<span class="params"></span>)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">const</span> double pi&#123; <span class="number">3.14159265</span> &#125;;       <span class="comment">// The famous pi</span></span><br><span class="line">  <span class="keyword">const</span> size_t perline&#123; <span class="number">3</span> &#125;;           <span class="comment">// Outputs per line</span></span><br><span class="line">  size_t linecount&#123;&#125;;                  <span class="comment">// Count of output lines</span></span><br><span class="line">  <span class="keyword">for</span> (double radius&#123; <span class="number">0.2</span> &#125;; radius &lt;= <span class="number">3.0</span>; radius += <span class="number">0.2</span>)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">std</span>::cout &lt;&lt; std::fixed &lt;&lt; std::setprecision(<span class="number">2</span>) &lt;&lt; <span class="string">&quot;  radius =&quot;</span> &lt;&lt; std::setw(<span class="number">5</span>)</span><br><span class="line">              &lt;&lt; radius &lt;&lt; <span class="string">&quot;  area =&quot;</span> &lt;&lt; std::setw(<span class="number">6</span>) &lt;&lt; pi * radius * radius;</span><br><span class="line">    <span class="keyword">if</span> (perline == ++linecount)        <span class="comment">// When perline outputs have been written...</span></span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">std</span>::cout &lt;&lt; std::endl;          <span class="comment">// ...start a new line...</span></span><br><span class="line">      linecount = <span class="number">0</span>;                   <span class="comment">// ...and reset the line counter</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="attr">std</span>::cout &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">分析：</span><br><span class="line">当运行这个程序时，循环会结束的比预期的早。</span><br><span class="line">最后，radius的值显示为<span class="number">2.8</span>，而不是<span class="number">3.0</span>。</span><br><span class="line">这是因为把<span class="number">0.2</span>加到<span class="number">2.8</span>时，结果大于<span class="number">3.0</span>。原因是<span class="number">0.2</span>表示为二进制浮点数时，有一个非常小的错误，不能把<span class="number">0.2</span>准确地表示为二进制浮点数。错误出现在精度的最后一位上，如果编译器对double类型支持<span class="number">15</span>位精度，错误就是<span class="number">10</span>的负十五次幂那一位。</span><br><span class="line"></span><br><span class="line">改进：</span><br><span class="line">在这个例子中，使用radius &lt; <span class="number">3.0</span> + <span class="number">0.001</span>就可以起效果。</span><br><span class="line">并不是必须选<span class="number">0.001</span>，使用比预期的舍入错误大，但是比循环的增量<span class="number">0.2</span>小的任何值都可以。</span><br></pre></td></tr></table></figure>
-
-<p>注意：<br>（1）任何数字，只要其分数部分的分母是奇数，就不能准确的表示为二进制浮点数。<br>（2）比较浮点数很容易产生问题。<br>当使用== 、&lt;= 或 &gt;=直接比较浮点运算的结果时，应该十分小心。<br>舍入错误几乎总是会使浮点数值不能与数学上的精确值完全相等。<br>（3）大部分数学库和所谓的单元测试框架都提供了实用函数，以可靠的方式来帮助比较浮点数。</p>
-<h2 id="更复杂的for循环控制表达式"><a href="#更复杂的for循环控制表达式" class="headerlink" title="更复杂的for循环控制表达式"></a>更复杂的for循环控制表达式</h2><p>在for循环控制表达式中可以定义并初始化多个给定类型的变量。各个变量之间用逗号隔开。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">unsigned int limit&#123;<span class="number">5</span>&#125;;</span><br><span class="line"><span class="keyword">for</span> (unsigned long long n &#123;<span class="number">1</span>&#125;, sum &#123;<span class="number">1</span>&#125;, factorial &#123;<span class="number">1</span>&#125;; n &lt;= limit; </span><br><span class="line">                                ++n, sum += n, factorial *= n)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">std</span>::cout &lt;&lt; std::setw(<span class="number">8</span>) &lt;&lt; n &lt;&lt; std::setw(<span class="number">8</span>) &lt;&lt; sum</span><br><span class="line">              &lt;&lt; std::setw(<span class="number">20</span>) &lt;&lt; factorial &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>注意：<br>if和switch语句的可选初始化语句与for循环的初始化语句完全对应。所以在if和switch语句的初始化中，也可以同时定义多个变量。</p>
-<h2 id="基于范围的for循环"><a href="#基于范围的for循环" class="headerlink" title="基于范围的for循环"></a>基于范围的for循环</h2><p>基于范围的for循环迭代一个值范围中的所有值。</p>
-<p>范围是什么？<br>数组是一个元素范围，字符串是一个字符范围。标准库提供的容器都是范围。</p>
-<p>标准形式：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(range_declaration : range_expression)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//loop statement or block;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">range_declaration 标识了一个变量，它会依次被赋予范围中的每个值，在每次迭代时都会赋予一个新值。</span><br><span class="line">range_expression 标识数据源的范围。</span><br></pre></td></tr></table></figure>
-
-<p>如下示例：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">int values[] &#123; <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>&#125;;</span><br><span class="line">int total &#123;&#125;;</span><br><span class="line"><span class="keyword">for</span>(int x : values) &#123;</span><br><span class="line">    total += x;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">分析：</span><br><span class="line">变量x 在每次迭代中都会被赋予values数组中的一个值。它会依次被赋予<span class="number">1</span>、<span class="number">2</span>、<span class="number">3</span>、<span class="number">4</span>、<span class="number">5</span>、<span class="number">6</span>、<span class="number">7</span>、<span class="number">8</span>、<span class="number">9</span>。</span><br><span class="line">因此，循环会在total中累计values数组中所有元素的和。</span><br><span class="line">变量x是循环的局部变量，在循环外部不存在。</span><br></pre></td></tr></table></figure>
-
-<p>初始化列表本身是有效的范围。</p>
-<p>使用auto关键字会让编译器推断出正确的类型。<br>auto关键字在基于范围的for循环中很常见。这是迭代数组或其他范围中所有元素的一种非常好的方式。<br>不需要知道元素的个数，循环机制会自动确定。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">int values[] &#123; <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>&#125;;</span><br><span class="line">int total &#123;&#125;;</span><br><span class="line"><span class="keyword">for</span> (auto x : values) &#123;</span><br><span class="line">    total += x;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础技能C++</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2013/03/06/for%E5%BE%AA%E7%8E%AF/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-数组" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/05/%E6%95%B0%E7%BB%84/">数组</a>
-    </h1>
-  
-
-        
-        <a href="/2013/03/05/%E6%95%B0%E7%BB%84/" class="archive-article-date">
-  	<time datetime="2013-03-05T14:10:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-03-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>对一系列基础概念的整合。（对大学笔记的一个整理）</p>
-<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>数组可以存储相同类型的多个数据项。<br>实际上，只要有可用的内存，数组就可以存储任何类型的数据。</p>
-<p>数组是表示一系列内存空间的变量，每个内存空间都可以存储相同类型的一个数据项。</p>
-<p>数组的大小必须用常量整数表达式来指定。<br>编译器在编译时能够计算的任何整数表达式都可以用来指定数组的大小，不过最常用的是整数字面量，或是使用字面量初始化的const整型变量。</p>
-<p>使用一个整数可以引用数组元素，把该整数称为数组的索引。<br>数组元素的索引是指该元素与数组中第一个元素的偏移值。<br>要引用元素，可以在数组名后面的方括号中放置其索引。</p>
-<h2 id="示例一"><a href="#示例一" class="headerlink" title="示例一"></a>示例一</h2><p>假如定义一个包含366个温度值的数组</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Define an array of 366 temperatures</span></span><br><span class="line">double temperatures[<span class="number">366</span>]; </span><br><span class="line"></span><br><span class="line">这个语句定义了一个double类型的数组，其名称是temperatures，有<span class="number">366</span>个值。</span><br><span class="line">把数据值称为元素，把在括号中指定的元素个数称为数组的大小。</span><br><span class="line">数组元素没有在这个语句中初始化，所以它们包含垃圾值。</span><br></pre></td></tr></table></figure>
-
-<h2 id="示例二"><a href="#示例二" class="headerlink" title="示例二"></a>示例二</h2><p>要把temperatures数组的第四个元素设置成99.9</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Set the fourth array element to 99.9</span></span><br><span class="line">temperatures[<span class="number">4</span>] = <span class="number">99.9</span>;</span><br></pre></td></tr></table></figure>
-
-<h2 id="示例三"><a href="#示例三" class="headerlink" title="示例三"></a>示例三</h2><p>定义带初始值的数组</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Define &amp; initialize array of 6 heights</span></span><br><span class="line">unsigned int height[<span class="number">6</span>] &#123;<span class="number">26</span>, <span class="number">37</span>, <span class="number">47</span>, <span class="number">55</span>, <span class="number">63</span>, <span class="number">75</span>&#125;;</span><br><span class="line"></span><br><span class="line">初始化列表包含<span class="number">6</span>个逗号相隔开的值。</span><br><span class="line">每个数组元素都按顺序被赋予列表中的一个初始值。</span><br><span class="line">如下所示：</span><br><span class="line">-----------------------------------------------------------------------</span><br><span class="line">height[<span class="number">0</span>] |  height[<span class="number">1</span>] | height[<span class="number">2</span>] | height[<span class="number">3</span>] | height[<span class="number">4</span>] | height[<span class="number">5</span>]</span><br><span class="line">-----------------------------------------------------------------------</span><br><span class="line">    <span class="number">26</span>    |    <span class="number">37</span>      |   <span class="number">47</span>      |     <span class="number">55</span>    |     <span class="number">63</span>    |     <span class="number">75</span></span><br><span class="line">-----------------------------------------------------------------------</span><br></pre></td></tr></table></figure>
-
-<h2 id="示例四"><a href="#示例四" class="headerlink" title="示例四"></a>示例四</h2><p>常用的一些用法</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Element values: 22 33 55 0 0 0</span></span><br><span class="line">unsigned int height[<span class="number">6</span>] &#123;<span class="number">22</span>, <span class="number">33</span>, <span class="number">55</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//All elements 0</span></span><br><span class="line">unsigned int height[<span class="number">6</span>] &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//编译器将阻止修改这6个数组元素中的任何一个（无论是赋值、递增还是其他操作）-</span></span><br><span class="line"><span class="keyword">const</span> unsigned int height[<span class="number">6</span>] &#123;<span class="number">26</span>, <span class="number">37</span>, <span class="number">47</span>, <span class="number">55</span>, <span class="number">63</span>, <span class="number">75</span>&#125;;</span><br></pre></td></tr></table></figure>
-
-<h2 id="示例五"><a href="#示例五" class="headerlink" title="示例五"></a>示例五</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">unsigned int height[<span class="number">6</span>] &#123;<span class="number">22</span>, <span class="number">33</span>, <span class="number">55</span>&#125;;</span><br><span class="line"><span class="comment">//The sum of three elements</span></span><br><span class="line">unsigned int sum&#123;&#125;;</span><br><span class="line">sum = height[<span class="number">0</span>] + height [<span class="number">1</span>] + height[<span class="number">2</span>];</span><br><span class="line"><span class="comment">//Copy 3rd element value to 6th element</span></span><br><span class="line">height[<span class="number">5</span>] = height[<span class="number">2</span>];</span><br><span class="line"></span><br><span class="line">可以在赋值语句中把一个元素赋值给另一个元素。</span><br></pre></td></tr></table></figure>
-
-<h2 id="用初始化列表定义数组的大小"><a href="#用初始化列表定义数组的大小" class="headerlink" title="用初始化列表定义数组的大小"></a>用初始化列表定义数组的大小</h2><p>在数组的定义中提供一个或多个初始值，就可以忽略数组的大小。<br>元素的个数就是初始值的个数。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">int values[] &#123;<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>&#125;;</span><br><span class="line">这条语句定义了一个数组，它包含<span class="number">6</span>个int类型的元素，其初始值分别是<span class="number">2</span>、<span class="number">3</span>、<span class="number">4</span>、<span class="number">5</span>、<span class="number">6</span>、<span class="number">7</span></span><br><span class="line">这等价于：</span><br><span class="line">int values[<span class="number">6</span>] &#123;<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>&#125;;</span><br></pre></td></tr></table></figure>
-<p>忽略数组大小的优点是，数组的大小不会出错，编译器会自动确定它。</p>
-<h2 id="确定数组的大小"><a href="#确定数组的大小" class="headerlink" title="确定数组的大小"></a>确定数组的大小</h2><p>有时候，需要一种确定数组大小的验证方法。</p>
-<h3 id="size-t类型"><a href="#size-t类型" class="headerlink" title="size_t类型"></a>size_t类型</h3><p>size_t并不是内置的基本类型名称，如int，float等；而是标准库定义的一个类型别名。<br>更具体的说，它是某个不带符号的整数类型的别名，并且足够大，能够容纳编译器支持的任何类型（包括数组）。别名在cstddef头文件以及其他一些头文件中定义。<br>但是，在实际应用中，大多数时候不需要使用#include来显式包含这些头文件，就能够使用size_t别名；通过包含其他更加高级的头文件（比如iostream头文件），常常就已经间接定义了这个别名。</p>
-<h3 id="sizeof运算符"><a href="#sizeof运算符" class="headerlink" title="sizeof运算符"></a>sizeof运算符</h3><p>sizeof运算符返回size_t的值，它是不带符号的整数类型，一般用于计算对象占用内存的字节数和数组的元素个数。</p>
-<p>sizeof运算符返回变量占用的字节数，它适用于整个数组和单个数组元素。<br>因此sizeof运算符提供了确定数组中元素个数的方法：<br>只需要用数组的大小除以单个元素的大小即可。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">int values[] &#123; <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>&#125;;</span><br><span class="line"><span class="comment">//使用sizeof运算符可以获得数组的大小为9</span></span><br><span class="line">int size = sizeof(values) / sizeof(values[<span class="number">0</span>]);</span><br><span class="line"></span><br><span class="line">分析：</span><br><span class="line">编译器会通过数组定义的初始值的数量来确定values数组的元素个数。</span><br><span class="line">sizeof(values)表达式会计算出整个数组占用的内存字节数。</span><br><span class="line">sizeof(values[<span class="number">0</span>])表达式则计算出一个元素占用的字节数。</span><br><span class="line">使用哪一个元素都可以，但一般选择第一个元素。</span><br><span class="line">sizeof(values) / sizeof(values[<span class="number">0</span>])表达式将整个数组占用的字节数除以一个元素占用的字节数，得到数组的元素个数。</span><br></pre></td></tr></table></figure>
-
-<h3 id="std-size-函数（c-17中新添加到标准库的）"><a href="#std-size-函数（c-17中新添加到标准库的）" class="headerlink" title="std::size()函数（c++17中新添加到标准库的）"></a>std::size()函数（c++17中新添加到标准库的）</h3><p>如果实现支持，那么最简单也最推荐使用的方法是使用标准库的array头文件中提供的std::size()函数。<br>从技术上讲，std::size()主要是在iterator头文件中定义。但是，这是一个非常常用的函数，所以标准库保证了在包含array头文件（以及其他几个头文件）时，也可以使用std::size()。<br>因为我们主要是对数组使用std::size()，所以认为，记住包含array头文件比记住包含iterator头文件更容易。</p>
-<p>std::size()函数不只用于数组，还可以用来获得标准库定义的任何元素集合的大小，包括std::vector&lt;&gt;和std::array&lt;&gt;容器。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int values[] &#123; <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>&#125;;</span><br><span class="line"><span class="comment">//使用std::size(values)表达式可以获得数组的大小为9</span></span><br><span class="line">int size = std::size(values);</span><br></pre></td></tr></table></figure>
-
-<p>使用std::size()显然比sizeof表达式更容易理解。<br>因此，只要有可能，就应该总是使用std::size()。</p>
-<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>（1）数组的类型决定了存储每个数组元素所需的内存量。<br>数组的所有元素都存储在一个连续的内存块中。<br>（假如unsigned int类型的值在计算机上需要4个字节，上述示例三中的height数组就需要占用24个字节。）</p>
-<p>（2）初始化列表中元素的个数不能超过数组的元素个数，否则编译失败。<br>初始化列表中元素的个数可以小于数组的元素个数，此时没有提供初始值的元素就初始化为0<br>（对于bool元素数组则为false）</p>
-<p>（3）要定义不能修改值的数组，只需要在类型前面加个const关键字。</p>
-<p>（4）不能利用赋值语句把整个数组的所有元素赋值到另一个数组的元素。<br>只能操作数组中的各个元素。<br>因此，要将一个数组的值复制到另一个数组中，就必须一次复制一个值。此时需要使用循环。</p>
-<p>（5）编译器不会检查数组索引值是否有效。<br>程序员需要自己确保引用的元素不会超出数组边界。<br>如果使用超出数组有效范围的索引值来存储数据，那么可能会无意中重写内存中的数据，或导致所谓的段错误（segmentation fault）或非法访问（access violation）。<br>这两个术语的含义是相同的，指操作系统在检测到未授权的内存访问时引发的错误。<br>无论是哪种情况，程序几乎一定会异常结束。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础技能C++</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2013/03/05/%E6%95%B0%E7%BB%84/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-switch-case语句" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/05/switch-case%E8%AF%AD%E5%8F%A5/">switch-case语句</a>
-    </h1>
-  
-
-        
-        <a href="/2013/03/05/switch-case%E8%AF%AD%E5%8F%A5/" class="archive-article-date">
-  	<time datetime="2013-03-05T09:27:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-03-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="switch-case语句"><a href="#switch-case语句" class="headerlink" title="switch-case语句"></a>switch-case语句</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>对switch语句一个整体的记录。</p>
-<h2 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h2><p>switch语句可以从多个选项中选择。<br>选项用一组固定的整数或枚举值标识，根据给定整数或枚举常量的值确定选择哪个选项。</p>
-<p>示例：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">顾客买彩票，中奖号码：<span class="number">147</span>是一等奖，<span class="number">387</span>是二等奖，<span class="number">29</span>，<span class="number">78</span>就是三等奖。可以这么编写</span><br><span class="line"></span><br><span class="line"><span class="comment">//ticket_numer是彩票号码，整型数字</span></span><br><span class="line"><span class="keyword">switch</span> (ticket_number)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">147</span>:</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;You win first prize !&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">387</span>:</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;You win second prize !&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">29</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="number">78</span>:</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;You win third prize !&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Sorry, you lose.&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>只能对整形值（int、long、unsigned short等）、字符值（char等）和枚举类型值使用switch语句。<br>从技术角度看，也允许对布尔值使用switch语句，但是这种情况下，其实应该使用if/else语句。</p>
-<p>每个case值都必须是唯一的，但不必按一定的顺序。<br>任何两个case值都不能相同的原因是，如果输入某个指定值，编译器就无法确定应执行哪些语句。<br>但是case值不同，并不表示必须执行不同的操作。<br>几个case值可以共享相同的操作。</p>
-<p>case值必须是整数常量表达式，即编译器可以在编译时计算的表达式，所以常常是字面量或用字面量初始化的const变量。</p>
-<p>一般情况下，case标签后面可以有许多语句，且不需要把它们括在花括号中。</p>
-<p>default标签标识默认的case。如果选择表达式不对应任何一个case值，就执行默认case后面的语句。<br>对于default标签，并不是必须把它作为最后一个标签。<br>常常把它放在最后，但是原则上，default标签可以放到普通case标签之间的任何位置。<br>并不一定要有default标签，如果没有指定，且没有选中任何case值，switch语句就什么也不做。</p>
-<p>从逻辑上看，每一个case语句后面的break语句是必需的，它在case语句执行后跳出switch语句。<br>如果省略case后面的break语句，就将执行该case后的所有语句。<br>注意在最后一个case后面（通常是default）不需要break语句，因为此时程序将退出switch语句。但是加上break语句是一个很好的编程习惯，因为这可以避免以后由于添加另一个case而导致的问题。</p>
-<p>break语句并不是使控制权移除switch语句的唯一方式。<br>如果case标签后的代码包含return语句，则控制权不仅立即离开switch语句，还将离开包含switch语句的函数。</p>
-<h2 id="贯穿"><a href="#贯穿" class="headerlink" title="贯穿"></a>贯穿</h2><p>很多时候，确实break语句是疏忽大意的表现，说明存在bug。<br>但是，贯穿并不一定总是意味着错误。有时候，故意写一个利用贯穿行为是switch语句会很有用。</p>
-<p>示例如下：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">顾客买彩票，中奖号码：<span class="number">147</span>是一等奖，<span class="number">387</span>是二等奖，<span class="number">29</span>，<span class="number">78</span>,<span class="number">929</span>就是三等奖,而赢得三等奖的特殊号码<span class="number">929</span>可以获得额外的神秘奖励。</span><br><span class="line"></span><br><span class="line"><span class="comment">//ticket_numer是彩票号码，整型数字</span></span><br><span class="line"><span class="keyword">switch</span> (ticket_number)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">147</span>:</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;You win first prize !&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">387</span>:</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;You win second prize !&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">929</span>:</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;You win a special bonus prize !&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">29</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="number">78</span>:</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;You win third prize !&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Sorry, you lose.&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>对于这种代码，令人烦恼的地方是，尽管在这里贯穿并不是错误，但是编译器可能还是会发出贯穿警告。<br>而作为有自尊心的程序员，我们希望编译的程序里没有任何警告。<br>对于这种情况，一种方法是重写代码，加上赢得三等奖的输出语句。但是一般来说，我们应该避免重复代码。<br>那么，还有什么办法呢？<br>C++17中添加了一个新的语言功能，可告诉编译器和阅读的人，我们在某个地方故意使用了贯穿行为：<br>在原本会编写break语句的地方，添加一个[[fallthrough]]语句：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">……</span><br><span class="line"><span class="keyword">case</span> <span class="number">929</span>:</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;You win a special bonus prize !&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    [[fallthrough]];</span><br><span class="line"><span class="keyword">case</span> <span class="number">29</span>:</span><br><span class="line"><span class="keyword">case</span> <span class="number">78</span>:</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;You win third prize !&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">……</span><br></pre></td></tr></table></figure>
-
-<p>对于空的case，例如对应29号的case，也可以使用[[fallthrough]]，但并不是必须这么做。对于这种情况，编译器本来就不会发出警告。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">基础技能C++</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      <!--显示阅读次数-->
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2013/03/05/switch-case%E8%AF%AD%E5%8F%A5/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/11/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span>
+      <a class="extend prev" rel="prev" href="/page/11/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/13/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -1024,6 +1171,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">基础技能C++</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">基础技能</a>
               </li>
              
@@ -1040,7 +1191,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">基础技能C++</a>
+                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1056,7 +1207,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">常用命令windows</a>
+                <a href="javascript:void(0)" class="js-tag color2">常见报错问题</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1064,7 +1215,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">常见报错问题</a>
+                <a href="javascript:void(0)" class="js-tag color4">hexo博客搭建</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1077,10 +1228,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">交叉编译</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">hexo博客搭建</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1116,7 +1263,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">拾光</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">阅读</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">经典案例分析</a>
               </li>
             
             <div class="clearfix"></div>
